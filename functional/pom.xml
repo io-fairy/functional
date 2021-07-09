@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>functional-parent</artifactId>
+        <groupId>com.iofairy</groupId>
+        <version>0.0.1</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>functional</artifactId>
+
+
+    <packaging>jar</packaging>
+    <name>Functional Programming for Java</name>
+    <description>Functional Programming for Java</description>
+    <url>https://github.com/io-fairy/functional</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>io-fairy</name>
+        <url>https://github.com/io-fairy</url>
+    </organization>
+
+</project>
