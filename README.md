@@ -4,7 +4,8 @@
 字符串插值(String Interpolation)；  
 提供元组（tuple）类型支持；  
 **兼容Java 8及Java 9+模块化系统**；  
-旧项目地址：[https://github.com/GG-A/JFunctional](https://github.com/GG-A/JFunctional)   
+💡💡💡  
+**旧项目地址：**[https://github.com/GG-A/JFunctional](https://github.com/GG-A/JFunctional)   
 
 
 ## 🛠️Environment（开发环境）  
@@ -18,13 +19,13 @@
 <dependency>
   <groupId>com.iofairy</groupId>
   <artifactId>functional</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-implementation 'com.iofairy:functional:0.0.1'
+implementation 'com.iofairy:functional:0.0.2'
 ```
 
 

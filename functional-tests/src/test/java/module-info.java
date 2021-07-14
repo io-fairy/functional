@@ -17,7 +17,7 @@
  * @author GG
  */
 module functional.test {
-    requires gg.functional;
+    requires iofairy.functional;
     requires org.junit.jupiter.api;
 
     exports com.iofairy to org.junit.platform.commons;

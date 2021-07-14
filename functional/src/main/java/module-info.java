@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-module gg.functional {
+module iofairy.functional {
     exports com.iofairy.lambda;
     exports com.iofairy.base;
     exports com.iofairy.tuple;
