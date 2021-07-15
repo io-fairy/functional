@@ -19,6 +19,7 @@
 module functional.test {
     requires iofairy.functional;
     requires org.junit.jupiter.api;
+    requires java.sql;
 
     exports com.iofairy to org.junit.platform.commons;
 }

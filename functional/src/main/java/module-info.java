@@ -15,6 +15,8 @@
  */
 
 module iofairy.functional {
+    requires java.logging;
+
     exports com.iofairy.lambda;
     exports com.iofairy.base;
     exports com.iofairy.tuple;
