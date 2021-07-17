@@ -42,7 +42,6 @@ import java.util.logging.Logger;
  *              } catch (Exception e) {
  *                  e.printStackTrace();
  *              }
- *              rs = null;
  *          }
  *          if (st != null) {
  *              try {
