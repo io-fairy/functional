@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.iofairy.util;
+package com.iofairy.tcf;
 
-import com.iofairy.lambda.V1;
-import com.iofairy.lambda.VT1;
+import com.iofairy.lambda.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -83,13 +82,16 @@ public class Close<C> {
 
     private C c;
 
+    private Close() {
+    }
+
     public static <T> Close<T> of(T t) {
         Close<T> close = new Close<>();
         close.c = t;
         return close;
     }
 
-    public void run(VT1<C, Throwable> closeAction) {
+    public void tcf(VT1<C, Throwable> closeAction) {
         if (c != null) {
             try {
                 closeAction.$(c);
@@ -102,25 +104,26 @@ public class Close<C> {
         }
     }
 
-    public void run(VT1<C, Throwable> closeAction, V1<Throwable> throwAction) {
+    public void tcf(VT1<C, Throwable> closeAction, V2<C, Throwable> catchAction) {
         if (c != null) {
             try {
                 closeAction.$(c);
             } catch (Throwable e) {
-                if (throwAction != null) throwAction.$(e);
+                if (catchAction != null) catchAction.$(c, e);
             }
         }
     }
 
-    public void run(VT1<C, Throwable> closeAction, V1<Throwable> throwAction, V1<C> finallyAction) {
+    public void tcf(VT1<C, Throwable> closeAction, V2<C,Throwable> catchAction, V1<C> finallyAction) {
         if (c != null) {
             try {
                 closeAction.$(c);
             } catch (Throwable e) {
-                if (throwAction != null) throwAction.$(e);
+                if (catchAction != null) catchAction.$(c, e);
             } finally {
                 if (finallyAction != null) finallyAction.$(c);
             }
         }
     }
+
 }

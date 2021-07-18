@@ -14,18 +14,9 @@
  * limitations under the License.
  */
 
-module iofairy.functional {
-    requires java.logging;
+/**
+ * tcf: try-catch-finally
+ * @since 0.0.4
+ */
+package com.iofairy.tcf;
 
-    exports com.iofairy.lambda;
-    exports com.iofairy.base;
-    exports com.iofairy.tuple;
-    exports com.iofairy.except;
-    exports com.iofairy.pattern;
-    exports com.iofairy.pattern.type;
-    exports com.iofairy.pattern.mapping;
-    exports com.iofairy.pattern.matcher;
-    exports com.iofairy.si;
-    exports com.iofairy.util;
-    exports com.iofairy.tcf;
-}

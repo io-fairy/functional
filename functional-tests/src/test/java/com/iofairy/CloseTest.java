@@ -1,6 +1,7 @@
 package com.iofairy;
 
-import com.iofairy.util.Close;
+import com.iofairy.tcf.Close;
+import com.iofairy.tcf.Try;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
@@ -8,7 +9,6 @@ import java.sql.*;
 
 /**
  * @author GG
- * @version 1.0
  */
 public class CloseTest {
 
@@ -23,9 +23,9 @@ public class CloseTest {
         } catch (Exception e) {
             System.out.println("testClose: do something when an exception occurs");
         } finally {
-            Close.of(rs).run(ResultSet::close);
-            Close.of(st).run(Statement::close);
-            Close.of(conn).run(Connection::close);
+            Close.of(rs).tcf(ResultSet::close);
+            Close.of(st).tcf(Statement::close);
+            Close.of(conn).tcf(Connection::close);
 
             System.out.println("testClose: Close all resources");
         }
@@ -35,13 +35,34 @@ public class CloseTest {
     public void testCloseAndThrow() {
         InputStream in = null;
         try {
-            in = new FileInputStream("E:/testClose.txt");
+            in = CloseTest.class.getClassLoader().getResourceAsStream("TestClose.txt");
         } catch (Exception e) {
             System.out.println("testCloseAndThrow: do something when an exception occurs");
         } finally {
-            Close.of(in).run(c -> { c.close(); throw new Exception("occur exception when close"); });
+            /*
+             * will print log if an exception occurs during close
+             */
+            Close.of(in).tcf(c -> { c.close(); throw new Exception("occur exception when close"); });
 
+            Try.tcf(() -> Thread.sleep(10));
             System.out.println("testCloseAndThrow: Close all resources");
+        }
+    }
+
+    @Test
+    public void testCloseSilently() {
+        InputStream in = null;
+        try {
+            in = CloseTest.class.getClassLoader().getResourceAsStream("TestClose.txt");
+        } catch (Exception e) {
+            System.out.println("testCloseSilently: do something when an exception occurs");
+        } finally {
+            /*
+             * will be silently(do nothing) if an exception occurs during close
+             */
+            Close.of(in).tcf(c -> { c.close(); throw new Exception("occur exception when close"); }, null);
+
+            System.out.println("testCloseSilently: Close all resources");
         }
     }
 
@@ -56,9 +77,9 @@ public class CloseTest {
         } catch (Exception e) {
             System.out.println("testThrowAction: do something when an exception occurs");
         } finally {
-            Close.of(rs).run(ResultSet::close, e -> e.printStackTrace());
-            Close.of(st).run(Statement::close, e -> e.printStackTrace());
-            Close.of(conn).run(Connection::close, e -> e.printStackTrace());
+            Close.of(rs).tcf(ResultSet::close, (c, e) -> e.printStackTrace());
+            Close.of(st).tcf(Statement::close, (c, e) -> e.printStackTrace());
+            Close.of(conn).tcf(Connection::close, (c, e) -> e.printStackTrace());
 
             System.out.println("testThrowAction: Close all resources");
         }
@@ -75,9 +96,9 @@ public class CloseTest {
         } catch (Exception e) {
             System.out.println("testFinallyAction: do something when an exception occurs");
         } finally {
-            Close.of(rs).run(ResultSet::close, null, f -> System.out.println("finally action"));
-            Close.of(st).run(Statement::close, null, f -> System.out.println("finally action"));
-            Close.of(conn).run(Connection::close, null, f -> System.out.println("finally action"));
+            Close.of(rs).tcf(ResultSet::close, null, f -> System.out.println("finally action"));
+            Close.of(st).tcf(Statement::close, null, f -> System.out.println("finally action"));
+            Close.of(conn).tcf(Connection::close, null, f -> System.out.println("finally action"));
 
             System.out.println("testFinallyAction: Close all resources");
         }
