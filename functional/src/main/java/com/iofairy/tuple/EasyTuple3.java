@@ -15,14 +15,17 @@
  */
 package com.iofairy.tuple;
 
+import java.util.List;
 import java.util.Map;
 
 /**
  * A tuple of 3 same type elements<br>
  * 具有相同类型的3个元素的元组
+ *
+ * @param <T> type of elements.　元素的类型
  * @since 0.0.1
  */
-public class EasyTuple3<T> extends Tuple3<T, T, T> {
+public class EasyTuple3<T> extends Tuple3<T, T, T> implements EasyTuple {
     private static final long serialVersionUID = 10065918013L;
 
     public EasyTuple3(T _1, T _2, T _3) {
@@ -52,6 +55,11 @@ public class EasyTuple3<T> extends Tuple3<T, T, T> {
     }
 
     @Override
+    public EasyTuple3<T> copyAliases(Tuple tuple) {
+        return (EasyTuple3<T>)super.copyAliases(tuple);
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public Map<String, T> toMap() {
         return super.toMap();
@@ -73,6 +81,17 @@ public class EasyTuple3<T> extends Tuple3<T, T, T> {
     @SuppressWarnings("unchecked")
     public Tuple2<String, T> elementWithAlias(int n) {
         return super.elementWithAlias(n);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<T> toList() {
+        return EasyTuple.super.<T>toList();
+    }
+
+    @Override
+    public EasyTuple3<T> copy() {
+        return EasyTuple.of(_1, _2, _3).copyAliases(this);
     }
 
 }

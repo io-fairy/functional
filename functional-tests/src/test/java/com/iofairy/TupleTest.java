@@ -53,7 +53,7 @@ public class TupleTest {
 
         assertEquals("tuple", t3.aliasType());
         System.out.println(t3);
-        t3.copyAliases(t2);     // 类型不匹配，不做任何操作
+        assertThrows(NumberOfAliasesException.class, () -> t3.copyAliases(t2));
         assertEquals("tuple", t3.aliasType());
         System.out.println(t3);
         t22.copyAliases(t2);
@@ -99,10 +99,15 @@ public class TupleTest {
         assertFalse(new Tuple2<>("zs", null).alias(A, B).equals(zs));
         assertTrue(zsWithAlias.equals(zs.copyAliases(zsWithAlias)));
 
-        Tuple4<Integer, Tuple0, Object, Tuple2<String, Object>> tuple1 = new Tuple4<>(1, Tuple0.instance(), null, new Tuple2<>("zs", null));
-        Tuple4<Integer, Tuple0, Object, Tuple2<String, Object>> tuple2 = new Tuple4<>(1, Tuple0.instance(), null, zsWithAlias);
-        Tuple4<Integer, Tuple0, Object, Tuple2<String, Object>> tuple3 = new Tuple4<>(1, Tuple0.instance(), null, new Tuple2<>("zs", null).alias(A, B));
-        Tuple4<Integer, Tuple0, Object, Tuple2<String, Object>> tuple4 = new Tuple4<>(1, Tuple0.instance(), null, new Tuple2<>("zs", null).alias("A", "B"));
+        Tuple4<Integer, Tuple0, Object, Tuple2<String, Object>> tuple1 =
+                new Tuple4<>(1, Tuple0.instance(), null, new Tuple2<>("zs", null));
+        Tuple4<Integer, Tuple0, Object, Tuple2<String, Object>> tuple2 =
+                new Tuple4<>(1, Tuple0.instance(), null, zsWithAlias);
+        Tuple4<Integer, Tuple0, Object, Tuple2<String, Object>> tuple3 =
+                new Tuple4<>(1, Tuple0.instance(), null, new Tuple2<>("zs", null).alias(A, B));
+        Tuple4<Integer, Tuple0, Object, Tuple2<String, Object>> tuple4 =
+                new Tuple4<>(1, Tuple0.instance(), null, new Tuple2<>("zs", null).alias("A", "B"));
+
         assertFalse(tuple1.equals(tuple2));
         assertTrue(tuple2.equals(tuple3));
         assertFalse(tuple3.equals(tuple4));
@@ -112,16 +117,22 @@ public class TupleTest {
     }
 
     @Test
-    public void testClone() {
+    public void testCloneAndCopy() {
         Tuple2<String, Integer> t2 = new Tuple2<>("zs", 20).alias("NAME", "AGE");
         Tuple2<String, Integer> clone1 = (Tuple2<String, Integer>) Tuple.clone(t2);
-        Tuple4<Integer, Tuple0, Object, Tuple2<String, Object>> tuple = new Tuple4<>(1, Tuple0.instance(), null, new Tuple2<>("zs", null).alias(A, B));
-        Tuple4<Integer, Tuple0, Object, Tuple2<String, Object>> clone2 = (Tuple4<Integer, Tuple0, Object, Tuple2<String, Object>>)Tuple.clone(tuple);
+        Tuple4<Integer, Tuple0, Object, Tuple2<String, Object>> tuple =
+                new Tuple4<>(1, Tuple0.instance(), null, new Tuple2<>("zs", null).alias(A, B));
+        Tuple4<Integer, Tuple0, Object, Tuple2<String, Object>> clone2 =
+                (Tuple4<Integer, Tuple0, Object, Tuple2<String, Object>>)Tuple.clone(tuple);
+
+        Tuple4<Integer, Tuple0, Object, Tuple2<String, Object>> copy = tuple.copy();
+
         assertFalse(t2 == clone1);
         assertFalse(tuple == clone2);
         assertEquals("string", clone1.aliasType());
         assertEquals("null", clone2.aliasType());
         assertEquals("(A: \"zs\", B: null)", clone2._4.toString());
+        assertEquals("(1, (), null, (A: \"zs\", B: null))", copy.toString());
     }
 
     @Test
@@ -132,13 +143,6 @@ public class TupleTest {
         t2.alias("NAME", "AGE");
         Map<String, Object> map1 = t2.toMap();
         assertEquals("{NAME=zs, AGE=20}", map1.toString());
-
-        EasyTuple2<String> et2 = new EasyTuple2<>("zs", "ls");
-        Map<String, String> etMap1 = et2.toMap();
-        assertEquals("{_1=zs, _2=ls}", etMap1.toString());
-        et2.alias("name", "nickName");
-        Map<String, String> etMap2 = et2.toMap();
-        assertEquals("{nickName=ls, name=zs}", etMap2.toString());
 
         Tuple4<Integer, String, String, Integer> userInfo = new Tuple4<>(1, "Tom", "nullval", 20);
         userInfo.alias(ID, NAME, null, AGE);

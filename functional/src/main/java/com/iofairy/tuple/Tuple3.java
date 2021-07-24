@@ -71,6 +71,12 @@ public class Tuple3<T1, T2, T3> extends TupleBase {
 
     @Override
     @SuppressWarnings("unchecked")
+    public Tuple3<T1, T2, T3> copyAliases(Tuple tuple) {
+        return (Tuple3<T1, T2, T3>)super.copyAliases(tuple);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public <R> R element(int n) {
         switch (n) {
             case 0:
@@ -82,6 +88,11 @@ public class Tuple3<T1, T2, T3> extends TupleBase {
             default:
                 throw new IndexOutOfBoundsException("Index out of range: " + n + ", Size: " + arity());
         }
+    }
+
+    @Override
+    public Tuple3<T1, T2, T3> copy() {
+        return Tuple.of(_1, _2, _3).copyAliases(this);
     }
 
 }

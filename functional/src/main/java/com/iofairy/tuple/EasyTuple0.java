@@ -15,27 +15,29 @@
  */
 package com.iofairy.tuple;
 
+import java.util.List;
+
 /**
- * A tuple of no element<br>
+ * A EasyTuple of no element<br>
  * 一个没有元素的元组
- * @since 0.0.1
+ *
+ * @since 0.0.5
  */
-public class Tuple0 extends TupleBase {
-    private static final long serialVersionUID = 10065918000L;
+public class EasyTuple0 extends TupleBase implements EasyTuple {
+    private static final long serialVersionUID = 10065918010L;
 
-    private static final Tuple0 INSTANCE = new Tuple0();
+    private static final EasyTuple0 INSTANCE = new EasyTuple0();
+    /**
+     * Constructs a {@code EasyTuple0}.　EasyTuple0构造器。
+     */
+    private EasyTuple0() { }
 
     /**
-     * Constructs a {@code Tuple0}.　Tuple0构造器。
+     * Get the instance of EasyTuple0.<br>
+     * 获取 EasyTuple0 的实例
+     * @return the instance of EasyTuple0
      */
-    private Tuple0() { }
-
-    /**
-     * Get the instance of Tuple0.<br>
-     * 获取 Tuple0 的实例
-     * @return the instance of Tuple0
-     */
-    public static Tuple0 instance() {
+    public static EasyTuple0 instance() {
         return INSTANCE;
     }
 
@@ -45,18 +47,18 @@ public class Tuple0 extends TupleBase {
     }
 
     @Override
-    public Tuple0 alias(TupleAlias... aliases) {
-        return (Tuple0)super.alias(aliases);
+    public EasyTuple0 alias(TupleAlias... aliases) {
+        return (EasyTuple0)super.alias(aliases);
     }
 
     @Override
-    public Tuple0 alias(String... aliases) {
-        return (Tuple0)super.alias(aliases);
+    public EasyTuple0 alias(String... aliases) {
+        return (EasyTuple0)super.alias(aliases);
     }
 
     @Override
-    public Tuple0 copyAliases(Tuple tuple) {
-        return (Tuple0)super.copyAliases(tuple);
+    public EasyTuple0 copyAliases(Tuple tuple) {
+        return (EasyTuple0)super.copyAliases(tuple);
     }
 
     @Override
@@ -65,7 +67,13 @@ public class Tuple0 extends TupleBase {
     }
 
     @Override
-    public Tuple0 copy() {
-        return this;
+    @SuppressWarnings("unchecked")
+    public List<Object> toList() {
+        return EasyTuple.super.toList();
+    }
+
+    @Override
+    public EasyTuple0 copy() {
+        return EasyTuple.empty();
     }
 }

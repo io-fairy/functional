@@ -15,14 +15,17 @@
  */
 package com.iofairy.tuple;
 
+import java.util.List;
 import java.util.Map;
 
 /**
  * A tuple of 7 same type elements<br>
  * 具有相同类型的7个元素的元组
+ *
+ * @param <T> type of elements.　元素的类型
  * @since 0.0.1
  */
-public class EasyTuple7<T> extends Tuple7<T, T, T, T, T, T, T> {
+public class EasyTuple7<T> extends Tuple7<T, T, T, T, T, T, T> implements EasyTuple {
     private static final long serialVersionUID = 10065918017L;
 
     public EasyTuple7(T _1, T _2, T _3, T _4, T _5, T _6, T _7) {
@@ -52,6 +55,11 @@ public class EasyTuple7<T> extends Tuple7<T, T, T, T, T, T, T> {
     }
 
     @Override
+    public EasyTuple7<T> copyAliases(Tuple tuple) {
+        return (EasyTuple7<T>)super.copyAliases(tuple);
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public Map<String, T> toMap() {
         return super.toMap();
@@ -73,6 +81,17 @@ public class EasyTuple7<T> extends Tuple7<T, T, T, T, T, T, T> {
     @SuppressWarnings("unchecked")
     public Tuple2<String, T> elementWithAlias(int n) {
         return super.elementWithAlias(n);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<T> toList() {
+        return EasyTuple.super.<T>toList();
+    }
+
+    @Override
+    public EasyTuple7<T> copy() {
+        return EasyTuple.of(_1, _2, _3, _4, _5, _6, _7).copyAliases(this);
     }
 
 }

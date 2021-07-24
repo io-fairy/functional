@@ -19,17 +19,21 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A tuple of 4 same type elements<br>
- * 具有相同类型的4个元素的元组
+ * A EasyTuple of 1 element<br>
+ * 1个元素的元组
  *
- * @param <T> type of elements.　元素的类型
- * @since 0.0.1
+ * @param <T> type of element.　元素的类型
+ * @since 0.0.5
  */
-public class EasyTuple4<T> extends Tuple4<T, T, T, T> implements EasyTuple {
-    private static final long serialVersionUID = 10065918014L;
-
-    public EasyTuple4(T _1, T _2, T _3, T _4) {
-        super(_1, _2, _3, _4);
+public class EasyTuple1<T> extends Tuple1<T> implements EasyTuple {
+    private static final long serialVersionUID = 10065918011L;
+    /**
+     * Constructs a {@code EasyTuple1}.　EasyTuple1构造器。
+     *
+     * @param _1 The value of 1st element
+     */
+    public EasyTuple1(T _1) {
+        super(_1);
     }
 
     @Override
@@ -45,18 +49,18 @@ public class EasyTuple4<T> extends Tuple4<T, T, T, T> implements EasyTuple {
     }
 
     @Override
-    public EasyTuple4<T> alias(TupleAlias... aliases) {
-        return (EasyTuple4<T>)super.alias(aliases);
+    public EasyTuple1<T> alias(TupleAlias... aliases) {
+        return (EasyTuple1<T>)super.alias(aliases);
     }
 
     @Override
-    public EasyTuple4<T> alias(String... aliases) {
-        return (EasyTuple4<T>)super.alias(aliases);
+    public EasyTuple1<T> alias(String... aliases) {
+        return (EasyTuple1<T>)super.alias(aliases);
     }
 
     @Override
-    public EasyTuple4<T> copyAliases(Tuple tuple) {
-        return (EasyTuple4<T>)super.copyAliases(tuple);
+    public EasyTuple1<T> copyAliases(Tuple tuple) {
+        return (EasyTuple1<T>)super.copyAliases(tuple);
     }
 
     @Override
@@ -90,8 +94,8 @@ public class EasyTuple4<T> extends Tuple4<T, T, T, T> implements EasyTuple {
     }
 
     @Override
-    public EasyTuple4<T> copy() {
-        return EasyTuple.of(_1, _2, _3, _4).copyAliases(this);
+    public EasyTuple1<T> copy() {
+        return EasyTuple.of(_1).copyAliases(this);
     }
 
 }

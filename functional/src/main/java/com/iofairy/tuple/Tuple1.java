@@ -57,14 +57,24 @@ public class Tuple1<T> extends TupleBase {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <R> R element(int n) {
+    public Tuple1<T> copyAliases(Tuple tuple) {
+        return (Tuple1<T>)super.copyAliases(tuple);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public T element(int n) {
         switch (n) {
             case 0:
-                return (R) _1;
+                return _1;
             default:
                 throw new IndexOutOfBoundsException("Index out of range: " + n + ", Size: " + arity());
         }
     }
 
+    @Override
+    public Tuple1<T> copy() {
+        return Tuple.of(_1).copyAliases(this);
+    }
 
 }

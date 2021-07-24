@@ -115,21 +115,23 @@ public abstract class TupleBase implements Tuple {
 
     @Override
     public Tuple copyAliases(Tuple tuple) {
-        if (tuple.arity() != arity()) return this;
-
-        List<TupleAlias> tempTupleAliases = tuple.getTupleAliases();
-        List<String> tempAliases = tuple.getAliases();
-        clearAlias();
-        if (tempTupleAliases.isEmpty()) {
-            if (!tempAliases.isEmpty()) {
-                String[] strAliases = tempAliases.toArray(new String[0]);
-                alias(strAliases);
+        if (tuple.arity() == arity()){
+            List<TupleAlias> tempTupleAliases = tuple.getTupleAliases();
+            List<String> tempAliases = tuple.getAliases();
+            clearAlias();
+            if (tempTupleAliases.isEmpty()) {
+                if (!tempAliases.isEmpty()) {
+                    String[] strAliases = tempAliases.toArray(new String[0]);
+                    alias(strAliases);
+                }
+            }else {
+                TupleAlias[] tupleAliases = tempTupleAliases.toArray(new TupleAlias[0]);
+                alias(tupleAliases);
             }
-        }else {
-            TupleAlias[] tupleAliases = tempTupleAliases.toArray(new TupleAlias[0]);
-            alias(tupleAliases);
+            return this;
         }
-        return this;
+
+        throw new NumberOfAliasesException("`tuple.arity()` is not equals " + arity() + ". 参数tuple的元素数量不等于" + arity() + "。");
     }
 
     @Override

@@ -23,6 +23,7 @@ import com.iofairy.si.SI;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Tuple Interface
@@ -240,6 +241,14 @@ public interface Tuple extends Serializable {
     <R> Tuple2<String, R> elementWithAlias(int n);
 
     /**
+     * clone a tuple by shallow copy. <br>
+     * 通过浅拷贝的方式克隆一个tuple
+     * @return new tuple
+     * @since 0.0.5
+     */
+    Tuple copy();
+
+    /**
      * Create empty tuple<br>
      * 创建一个空元组
      *
@@ -447,36 +456,6 @@ public interface Tuple extends Serializable {
      * @since 0.0.1
      */
     static Tuple clone(Tuple tuple) {
-        switch (tuple.arity()) {
-            case 1:
-                Tuple1 t1 = (Tuple1) tuple;
-                return Tuple.of(t1._1).copyAliases(t1);
-            case 2:
-                Tuple2 t2 = (Tuple2) tuple;
-                return Tuple.of(t2._1, t2._2).copyAliases(t2);
-            case 3:
-                Tuple3 t3 = (Tuple3) tuple;
-                return Tuple.of(t3._1, t3._2, t3._3).copyAliases(t3);
-            case 4:
-                Tuple4 t4 = (Tuple4) tuple;
-                return Tuple.of(t4._1, t4._2, t4._3, t4._4).copyAliases(t4);
-            case 5:
-                Tuple5 t5 = (Tuple5) tuple;
-                return Tuple.of(t5._1, t5._2, t5._3, t5._4, t5._5).copyAliases(t5);
-            case 6:
-                Tuple6 t6 = (Tuple6) tuple;
-                return Tuple.of(t6._1, t6._2, t6._3, t6._4, t6._5, t6._6).copyAliases(t6);
-            case 7:
-                Tuple7 t7 = (Tuple7) tuple;
-                return Tuple.of(t7._1, t7._2, t7._3, t7._4, t7._5, t7._6, t7._7).copyAliases(t7);
-            case 8:
-                Tuple8 t8 = (Tuple8) tuple;
-                return Tuple.of(t8._1, t8._2, t8._3, t8._4, t8._5, t8._6, t8._7, t8._8).copyAliases(t8);
-            case 9:
-                Tuple9 t9 = (Tuple9) tuple;
-                return Tuple.of(t9._1, t9._2, t9._3, t9._4, t9._5, t9._6, t9._7, t9._8, t9._9).copyAliases(t9);
-            default:
-                return Tuple.empty();
-        }
+        return tuple == null ? tuple : tuple.copy();
     }
 }
