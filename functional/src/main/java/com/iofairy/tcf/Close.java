@@ -19,6 +19,7 @@ import com.iofairy.lambda.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 /**
@@ -92,31 +93,49 @@ public class Close<C> {
     }
 
     public void tcf(VT1<C, Throwable> closeAction) {
+        tcf(closeAction, true);
+    }
+
+    public void tcf(VT1<C, Throwable> closeAction, boolean isPrintTrace) {
+        tcf(closeAction, isPrintTrace, 0);
+    }
+
+    public void tcf(VT1<C, Throwable> closeAction, boolean isPrintTrace, long delaySeconds) {
+        tcf(closeAction, isPrintTrace, TimeUnit.SECONDS, delaySeconds);
+    }
+
+    public void tcf(VT1<C, Throwable> closeAction, boolean isPrintTrace, TimeUnit timeUnit, long delay) {
         if (c != null) {
             try {
+                timeUnit.sleep(delay);
                 closeAction.$(c);
             } catch (Throwable e) {
-                StringWriter sw = new StringWriter();
-                PrintWriter pw = new PrintWriter(sw, true);
-                e.printStackTrace(pw);
-                log.severe("Exception in `run` method:\n\n" + sw.getBuffer().toString());
+                if (isPrintTrace) {
+                    StringWriter sw = new StringWriter();
+                    PrintWriter pw = new PrintWriter(sw, true);
+                    e.printStackTrace(pw);
+                    log.severe("Exception in `tcf()` method:\n\n" + sw.getBuffer().toString());
+                }
             }
         }
     }
 
     public void tcf(VT1<C, Throwable> closeAction, V2<C, Throwable> catchAction) {
-        if (c != null) {
-            try {
-                closeAction.$(c);
-            } catch (Throwable e) {
-                if (catchAction != null) catchAction.$(c, e);
-            }
-        }
+        tcf(closeAction, catchAction, null);
     }
 
-    public void tcf(VT1<C, Throwable> closeAction, V2<C,Throwable> catchAction, V1<C> finallyAction) {
+    public void tcf(VT1<C, Throwable> closeAction, V2<C, Throwable> catchAction, V1<C> finallyAction) {
+        tcf(closeAction, catchAction, finallyAction, 0);
+    }
+
+    public void tcf(VT1<C, Throwable> closeAction, V2<C, Throwable> catchAction, V1<C> finallyAction, long delaySeconds) {
+        tcf(closeAction, catchAction, finallyAction, TimeUnit.SECONDS, delaySeconds);
+    }
+
+    public void tcf(VT1<C, Throwable> closeAction, V2<C, Throwable> catchAction, V1<C> finallyAction, TimeUnit timeUnit, long delay) {
         if (c != null) {
             try {
+                timeUnit.sleep(delay);
                 closeAction.$(c);
             } catch (Throwable e) {
                 if (catchAction != null) catchAction.$(c, e);

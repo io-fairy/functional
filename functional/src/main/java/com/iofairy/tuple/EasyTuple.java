@@ -19,7 +19,7 @@ import java.util.*;
 
 /**
  * EasyTuple Interface
- * 
+ *
  * @since 0.0.5
  */
 public interface EasyTuple extends Tuple {

@@ -15,15 +15,11 @@
  */
 package com.iofairy.tuple;
 
-import com.iofairy.except.AliasNotFoundException;
-import com.iofairy.except.AliasNotSetException;
-import com.iofairy.except.NumberOfAliasesException;
+import com.iofairy.except.*;
 import com.iofairy.si.SI;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Tuple Interface

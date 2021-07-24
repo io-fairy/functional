@@ -19,6 +19,7 @@ import com.iofairy.lambda.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 /**
@@ -47,30 +48,69 @@ public class Try {
     }
 
     public static void tcf(VT0<Throwable> tryAction) {
+        tcf(tryAction, true);
+    }
+
+    public static void tcf(VT0<Throwable> tryAction, boolean isPrintTrace) {
+        tcf(tryAction, isPrintTrace, 0);
+    }
+
+    public static void tcf(VT0<Throwable> tryAction, boolean isPrintTrace, long delaySeconds) {
+        tcf(tryAction, isPrintTrace, TimeUnit.SECONDS, delaySeconds);
+    }
+
+    public static void tcf(VT0<Throwable> tryAction, boolean isPrintTrace, TimeUnit timeUnit, long delay) {
         try {
+            timeUnit.sleep(delay);
             tryAction.$();
         } catch (Throwable e) {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw, true);
-            e.printStackTrace(pw);
-            log.severe("Exception in `run` method:\n\n" + sw.getBuffer().toString());
+            if (isPrintTrace) {
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw, true);
+                e.printStackTrace(pw);
+                log.severe("Exception in `tcf()` method:\n\n" + sw.getBuffer().toString());
+            }
         }
     }
 
     public static <R> R tcf(RT0<R, Throwable> tryAction) {
+        return tcf(tryAction, true);
+    }
+
+    public static <R> R tcf(RT0<R, Throwable> tryAction, boolean isPrintTrace) {
+        return tcf(tryAction, isPrintTrace, 0);
+    }
+
+    public static <R> R tcf(RT0<R, Throwable> tryAction, boolean isPrintTrace, long delaySeconds) {
+        return tcf(tryAction, isPrintTrace, TimeUnit.SECONDS, delaySeconds);
+    }
+
+    public static <R> R tcf(RT0<R, Throwable> tryAction, boolean isPrintTrace, TimeUnit timeUnit, long delay) {
         try {
+            timeUnit.sleep(delay);
             return tryAction.$();
         } catch (Throwable e) {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw, true);
-            e.printStackTrace(pw);
-            log.severe("Exception in `run` method:\n\n" + sw.getBuffer().toString());
+            if (isPrintTrace) {
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw, true);
+                e.printStackTrace(pw);
+                log.severe("Exception in `tcf()` method:\n\n" + sw.getBuffer().toString());
+            }
         }
         return null;
     }
 
     public static void tcf(VT0<Throwable> tryAction, V1<Throwable> catchAction) {
+        tcf(tryAction, catchAction, 0);
+    }
+
+    public static void tcf(VT0<Throwable> tryAction, V1<Throwable> catchAction, long delaySeconds) {
+        tcf(tryAction, catchAction, TimeUnit.SECONDS, delaySeconds);
+    }
+
+    public static void tcf(VT0<Throwable> tryAction, V1<Throwable> catchAction, TimeUnit timeUnit, long delay) {
         try {
+            timeUnit.sleep(delay);
             tryAction.$();
         } catch (Throwable e) {
             if (catchAction != null) catchAction.$(e);
@@ -78,7 +118,16 @@ public class Try {
     }
 
     public static <R> R tcf(RT0<R, Throwable> tryAction, V1<Throwable> catchAction) {
+        return tcf(tryAction, catchAction, 0);
+    }
+
+    public static <R> R tcf(RT0<R, Throwable> tryAction, V1<Throwable> catchAction, long delaySeconds) {
+        return tcf(tryAction, catchAction, TimeUnit.SECONDS, delaySeconds);
+    }
+
+    public static <R> R tcf(RT0<R, Throwable> tryAction, V1<Throwable> catchAction, TimeUnit timeUnit, long delay) {
         try {
+            timeUnit.sleep(delay);
             return tryAction.$();
         } catch (Throwable e) {
             if (catchAction != null) catchAction.$(e);

@@ -10,7 +10,6 @@ import java.util.Map;
 
 import static com.iofairy.MyTupleAlias.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author GG
