@@ -77,4 +77,52 @@ public class StringMatcherMapping extends MatcherMapping<String> {
         StringRMatcher<R> stringRMatcher = new StringRMatcher<>(value, false, patternString);
         return stringRMatcher.whenNext(matchValues, action);
     }
+
+    /*
+     * ######################################################
+     * ******************************************************
+     * #####   MatcherMapping with throwing exception   #####
+     * ******************************************************
+     * ######################################################
+     */
+    public <E extends Throwable> StringVMatcher when(String matchValue, VT0<E> action) throws E {
+        StringVMatcher stringVMatcher = new StringVMatcher(value, false, patternString);
+        return stringVMatcher.when(matchValue, action);
+    }
+
+    public <E extends Throwable> StringVMatcher whenNext(String matchValue, VT0<E> action) throws E {
+        StringVMatcher stringVMatcher = new StringVMatcher(value, false, patternString);
+        return stringVMatcher.whenNext(matchValue, action);
+    }
+
+    public <R, E extends Throwable> StringRMatcher<R> when(String matchValue, RT0<R, E> action) throws E {
+        StringRMatcher<R> stringRMatcher = new StringRMatcher<>(value, false, patternString);
+        return stringRMatcher.when(matchValue, action);
+    }
+
+    public <R, E extends Throwable> StringRMatcher<R> whenNext(String matchValue, RT0<R, E> action) throws E {
+        StringRMatcher<R> stringRMatcher = new StringRMatcher<>(value, false, patternString);
+        return stringRMatcher.whenNext(matchValue, action);
+    }
+
+    public <E extends Throwable> StringVMatcher when(PatternIn<String> matchValues, VT0<E> action) throws E {
+        StringVMatcher stringVMatcher = new StringVMatcher(value, false, patternString);
+        return stringVMatcher.when(matchValues, action);
+    }
+
+    public <E extends Throwable> StringVMatcher whenNext(PatternIn<String> matchValues, VT0<E> action) throws E {
+        StringVMatcher stringVMatcher = new StringVMatcher(value, false, patternString);
+        return stringVMatcher.whenNext(matchValues, action);
+    }
+
+    public <R, E extends Throwable> StringRMatcher<R> when(PatternIn<String> matchValues, RT0<R, E> action) throws E {
+        StringRMatcher<R> stringRMatcher = new StringRMatcher<>(value, false, patternString);
+        return stringRMatcher.when(matchValues, action);
+    }
+
+    public <R, E extends Throwable> StringRMatcher<R> whenNext(PatternIn<String> matchValues, RT0<R, E> action) throws E {
+        StringRMatcher<R> stringRMatcher = new StringRMatcher<>(value, false, patternString);
+        return stringRMatcher.whenNext(matchValues, action);
+    }
+
 }

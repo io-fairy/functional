@@ -16,6 +16,7 @@
 package com.iofairy.pattern.matcher;
 
 import com.iofairy.lambda.V1;
+import com.iofairy.lambda.VT0;
 import com.iofairy.pattern.PatternIn;
 import com.iofairy.pattern.type.*;
 import java.util.List;
@@ -162,6 +163,111 @@ public class StringVMatcher extends SimpleVMatcher<String, String, String> {
         return this;
     }
 
+    @Override
+    public <E extends Throwable> StringVMatcher when(String value, VT0<E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            if (value == null || this.value == null) {
+                if (this.value == value) {
+                    isMatch = true;
+                    action.$();
+                }
+                return this;
+            }
+
+            String ucValue = ignoreCase ? value.toUpperCase() : value;
+
+            switch (patternString) {
+                case IGNORECASE:
+                    if (ucValue.equalsIgnoreCase(this.ucValue)) {
+                        isMatch = true;
+                        action.$();
+                    }
+                    break;
+                case CONTAIN:
+                case ICCONTAIN:
+                    if (this.ucValue.contains(ucValue)) {
+                        isMatch = true;
+                        action.$();
+                    }
+                    break;
+                case PREFIX:
+                case ICPREFIX:
+                    if (this.ucValue.startsWith(ucValue)) {
+                        isMatch = true;
+                        action.$();
+                    }
+                    break;
+                case SUFFIX:
+                case ICSUFFIX:
+                    if (this.ucValue.endsWith(ucValue)) {
+                        isMatch = true;
+                        action.$();
+                    }
+                    break;
+                default:
+                    if (this.ucValue.equals(ucValue)) {
+                        isMatch = true;
+                        action.$();
+                    }
+            }
+        }
+
+        return this;
+    }
+
+    @Override
+    public <E extends Throwable> StringVMatcher whenNext(String value, VT0<E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            if (value == null || this.value == null) {
+                if (this.value == value) {
+                    action.$();
+                }
+                return this;
+            }
+
+            String ucValue = ignoreCase ? value.toUpperCase() : value;
+
+            switch (patternString) {
+                case IGNORECASE:
+                    if (ucValue.equalsIgnoreCase(this.ucValue)) {
+                        isMatchForNext = true;
+                        action.$();
+                    }
+                    break;
+                case CONTAIN:
+                case ICCONTAIN:
+                    if (this.ucValue.contains(ucValue)) {
+                        isMatchForNext = true;
+                        action.$();
+                    }
+                    break;
+                case PREFIX:
+                case ICPREFIX:
+                    if (this.ucValue.startsWith(ucValue)) {
+                        isMatchForNext = true;
+                        action.$();
+                    }
+                    break;
+                case SUFFIX:
+                case ICSUFFIX:
+                    if (this.ucValue.endsWith(ucValue)) {
+                        isMatchForNext = true;
+                        action.$();
+                    }
+                    break;
+                default:
+                    if (this.ucValue.equals(ucValue)) {
+                        isMatchForNext = true;
+                        action.$();
+                    }
+            }
+        }
+
+        return this;
+    }
+
     public StringVMatcher when(PatternIn<String> values, V1<String> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
@@ -209,11 +315,67 @@ public class StringVMatcher extends SimpleVMatcher<String, String, String> {
         return this;
     }
 
+    public <E extends Throwable> StringVMatcher when(PatternIn<String> values, VT0<E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            if (this.value == null) {
+                if (values == null || values.getVs().contains(this.value)) {
+                    isMatch = true;
+                    action.$();
+                }
+                return this;
+            }
+
+            if (values != null) {
+                List<String> vs = values.getVs();
+                for (String v : vs) {
+                    if (v != null) {
+                        when(v, action);
+                        if (isMatch) break;
+                    }
+                }
+            }
+        }
+        return this;
+    }
+
+    public <E extends Throwable> StringVMatcher whenNext(PatternIn<String> values, VT0<E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            if (this.value == null) {
+                if (values == null || values.getVs().contains(this.value)) {
+                    action.$();
+                }
+                return this;
+            }else {
+                if (values != null) {
+                    List<String> vs = values.getVs();
+                    for (String v : vs) {
+                        if (v != null) {
+                            whenNext(v, action);
+                            if (isMatchForNext) break;
+                        }
+                    }
+                }
+            }
+        }
+        return this;
+    }
+
     @Override
     public Void orElse(V1<String> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             action.$(this.value);
+        }
+        return returnValue;
+    }
+
+    @Override
+    public <E extends Throwable> Void orElse(VT0<E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            action.$();
         }
         return returnValue;
     }

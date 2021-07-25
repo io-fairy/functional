@@ -16,6 +16,7 @@
 package com.iofairy.pattern.matcher;
 
 import com.iofairy.lambda.R1;
+import com.iofairy.lambda.RT0;
 import com.iofairy.pattern.PatternIn;
 import com.iofairy.pattern.type.*;
 import java.util.List;
@@ -161,6 +162,111 @@ public class StringRMatcher<R> extends SimpleRMatcher<String, String, String, R>
         return this;
     }
 
+    @Override
+    public <E extends Throwable> StringRMatcher<R> when(String value, RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            if (value == null || this.value == null) {
+                if (this.value == value) {
+                    isMatch = true;
+                    returnValue = action.$();
+                }
+                return this;
+            }
+
+            String ucValue = ignoreCase ? value.toUpperCase() : value;
+
+            switch (patternString) {
+                case IGNORECASE:
+                    if (ucValue.equalsIgnoreCase(this.ucValue)) {
+                        isMatch = true;
+                        returnValue = action.$();
+                    }
+                    break;
+                case CONTAIN:
+                case ICCONTAIN:
+                    if (this.ucValue.contains(ucValue)) {
+                        isMatch = true;
+                        returnValue = action.$();
+                    }
+                    break;
+                case PREFIX:
+                case ICPREFIX:
+                    if (this.ucValue.startsWith(ucValue)) {
+                        isMatch = true;
+                        returnValue = action.$();
+                    }
+                    break;
+                case SUFFIX:
+                case ICSUFFIX:
+                    if (this.ucValue.endsWith(ucValue)) {
+                        isMatch = true;
+                        returnValue = action.$();
+                    }
+                    break;
+                default:
+                    if (this.ucValue.equals(ucValue)) {
+                        isMatch = true;
+                        returnValue = action.$();
+                    }
+            }
+        }
+
+        return this;
+    }
+
+    @Override
+    public <E extends Throwable> StringRMatcher<R> whenNext(String value, RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            if (value == null || this.value == null) {
+                if (this.value == value) {
+                    returnValue = action.$();
+                }
+                return this;
+            }
+
+            String ucValue = ignoreCase ? value.toUpperCase() : value;
+
+            switch (patternString) {
+                case IGNORECASE:
+                    if (ucValue.equalsIgnoreCase(this.ucValue)) {
+                        isMatchForNext = true;
+                        returnValue = action.$();
+                    }
+                    break;
+                case CONTAIN:
+                case ICCONTAIN:
+                    if (this.ucValue.contains(ucValue)) {
+                        isMatchForNext = true;
+                        returnValue = action.$();
+                    }
+                    break;
+                case PREFIX:
+                case ICPREFIX:
+                    if (this.ucValue.startsWith(ucValue)) {
+                        isMatchForNext = true;
+                        returnValue = action.$();
+                    }
+                    break;
+                case SUFFIX:
+                case ICSUFFIX:
+                    if (this.ucValue.endsWith(ucValue)) {
+                        isMatchForNext = true;
+                        returnValue = action.$();
+                    }
+                    break;
+                default:
+                    if (this.ucValue.equals(ucValue)) {
+                        isMatchForNext = true;
+                        returnValue = action.$();
+                    }
+            }
+        }
+
+        return this;
+    }
+
     public StringRMatcher<R> when(PatternIn<String> values, R1<String, R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
@@ -208,12 +314,68 @@ public class StringRMatcher<R> extends SimpleRMatcher<String, String, String, R>
         return this;
     }
 
+    public <E extends Throwable> StringRMatcher<R> when(PatternIn<String> values, RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            if (this.value == null) {
+                if (values == null || values.getVs().contains(this.value)) {
+                    isMatch = true;
+                    returnValue = action.$();
+                }
+                return this;
+            }
+
+            if (values != null) {
+                List<String> vs = values.getVs();
+                for (String v : vs) {
+                    if (v != null) {
+                        when(v, action);
+                        if (isMatch) break;
+                    }
+                }
+            }
+        }
+        return this;
+    }
+
+    public <E extends Throwable> StringRMatcher<R> whenNext(PatternIn<String> values, RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            if (this.value == null) {
+                if (values == null || values.getVs().contains(this.value)) {
+                    returnValue = action.$();
+                }
+                return this;
+            }else {
+                if (values != null) {
+                    List<String> vs = values.getVs();
+                    for (String v : vs) {
+                        if (v != null) {
+                            whenNext(v, action);
+                            if (isMatchForNext) break;
+                        }
+                    }
+                }
+            }
+        }
+        return this;
+    }
+
 
     @Override
     public R orElse(R1<String, R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             returnValue = action.$(this.value);
+        }
+        return returnValue;
+    }
+
+    @Override
+    public <E extends Throwable> R orElse(RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            returnValue = action.$();
         }
         return returnValue;
     }

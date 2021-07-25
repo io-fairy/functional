@@ -16,6 +16,7 @@
 package com.iofairy.pattern.matcher;
 
 import com.iofairy.lambda.R1;
+import com.iofairy.lambda.RT0;
 
 import java.util.Objects;
 
@@ -63,10 +64,48 @@ public class BooleanRMatcher<V, R> extends SimpleRMatcher<V, Boolean, V, R> {
     }
 
     @Override
+    public <E extends Throwable> BooleanRMatcher<V, R> when(Boolean value, RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            if (value == null || this.value == null) {
+                if (this.value == null && value == null) {
+                    isMatch = true;
+                    returnValue = action.$();
+                }
+            } else if (value) {
+                isMatch = true;
+                returnValue = action.$();
+            }
+        }
+        return this;
+    }
+
+    @Override
+    public <E extends Throwable> BooleanRMatcher<V, R> whenNext(Boolean value, RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            if (value == null || this.value == null) {
+                if (this.value == null && value == null)
+                    returnValue = action.$();
+            } else if (value) returnValue = action.$();
+        }
+        return this;
+    }
+
+    @Override
     public R orElse(R1<V, R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             returnValue = action.$(this.value);
+        }
+        return returnValue;
+    }
+
+    @Override
+    public <E extends Throwable> R orElse(RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            returnValue = action.$();
         }
         return returnValue;
     }

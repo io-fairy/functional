@@ -39,6 +39,12 @@ public abstract class SimpleVMatcher<V, P, L> extends SimpleMatcher<V, P, L, Voi
 
     public abstract SimpleVMatcher<V, P, L> whenNext(P value, V1<L> action);
 
+    public abstract <E extends Throwable> SimpleVMatcher<V, P, L> when(P value, VT0<E> action) throws E;
+
+    public abstract <E extends Throwable> SimpleVMatcher<V, P, L> whenNext(P value, VT0<E> action) throws E;
+
     public abstract Void orElse(V1<V> action);
+
+    public abstract <E extends Throwable> Void orElse(VT0<E> action) throws E;
 
 }

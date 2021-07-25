@@ -17,6 +17,7 @@ package com.iofairy.pattern.matcher;
 
 import com.iofairy.base.None;
 import com.iofairy.lambda.R1;
+import com.iofairy.lambda.RT0;
 import com.iofairy.pattern.PatternIn;
 
 import java.util.Objects;
@@ -58,6 +59,25 @@ public class ActionNoneRMatcher<P, R> extends SimpleRMatcher<None, P, P, R> {
         return this;
     }
 
+    @Override
+    public <E extends Throwable> ActionNoneRMatcher<P, R> when(P value, RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch && preAction.$(value)) {
+            isMatch = true;
+            returnValue = action.$();
+        }
+        return this;
+    }
+
+    @Override
+    public <E extends Throwable> ActionNoneRMatcher<P, R> whenNext(P value, RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch && preAction.$(value)) {
+            returnValue = action.$();
+        }
+        return this;
+    }
+
     public ActionNoneRMatcher<P, R> when(boolean value, R1<P, R> action) {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
@@ -71,6 +91,23 @@ public class ActionNoneRMatcher<P, R> extends SimpleRMatcher<None, P, P, R> {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             returnValue = action.$(null);
+        }
+        return this;
+    }
+
+    public <E extends Throwable> ActionNoneRMatcher<P, R> when(boolean value, RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            isMatch = true;
+            returnValue = action.$();
+        }
+        return this;
+    }
+
+    public <E extends Throwable> ActionNoneRMatcher<P, R> whenNext(boolean value, RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            returnValue = action.$();
         }
         return this;
     }
@@ -115,11 +152,60 @@ public class ActionNoneRMatcher<P, R> extends SimpleRMatcher<None, P, P, R> {
         return this;
     }
 
+    public <E extends Throwable> ActionNoneRMatcher<P, R> when(PatternIn<P> values, RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            if (values == null) {
+                if (preAction.$(null)) {
+                    isMatch = true;
+                    returnValue = action.$();
+                }
+            } else {
+                for (P v : values.getVs()) {
+                    if (preAction.$(v)) {
+                        isMatch = true;
+                        returnValue = action.$();
+                        break;
+                    }
+                }
+            }
+        }
+        return this;
+    }
+
+    public <E extends Throwable> ActionNoneRMatcher<P, R> whenNext(PatternIn<P> values, RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            if (values == null) {
+                if (preAction.$(null)) {
+                    returnValue = action.$();
+                }
+            } else {
+                for (P v : values.getVs()) {
+                    if (preAction.$(v)) {
+                        returnValue = action.$();
+                        break;
+                    }
+                }
+            }
+        }
+        return this;
+    }
+
     @Override
     public R orElse(R1<None, R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             returnValue = action.$(null);
+        }
+        return returnValue;
+    }
+
+    @Override
+    public <E extends Throwable> R orElse(RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            returnValue = action.$();
         }
         return returnValue;
     }

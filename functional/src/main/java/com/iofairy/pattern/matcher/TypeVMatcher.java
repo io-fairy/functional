@@ -15,7 +15,7 @@
  */
 package com.iofairy.pattern.matcher;
 
-import com.iofairy.lambda.V1;
+import com.iofairy.lambda.*;
 
 import java.util.Objects;
 
@@ -66,10 +66,45 @@ public class TypeVMatcher<V> implements Matcher {
         return this;
     }
 
+    public <C, E extends Throwable> TypeVMatcher<V> when(Class<C> value, VT2<V, C, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            if (value == null || this.value == null) {
+                if (this.value == null && value == null) {
+                    isMatch = true;
+                    action.$(this.value, (C) this.value);
+                }
+            } else if (this.value.getClass() == value) {
+                isMatch = true;
+                action.$(this.value, (C) this.value);
+            }
+        }
+        return this;
+    }
+
+    public <C, E extends Throwable> TypeVMatcher<V> whenNext(Class<C> value, VT2<V, C, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            if (value == null || this.value == null) {
+                if (this.value == null && value == null)
+                    action.$(this.value, (C) this.value);
+            } else if (this.value.getClass() == value) action.$(this.value, (C) this.value);
+        }
+        return this;
+    }
+
     public Void orElse(V1<V> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             action.$(this.value);
+        }
+        return returnValue;
+    }
+
+    public <E extends Throwable> Void orElse(VT0<E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            action.$();
         }
         return returnValue;
     }

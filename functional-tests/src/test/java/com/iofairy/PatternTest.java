@@ -6,14 +6,11 @@ import com.iofairy.tuple.Tuple;
 import com.iofairy.tuple.Tuple2;
 import com.iofairy.util.G;
 import org.junit.jupiter.api.Test;
+
 import java.util.Objects;
 
 import static com.iofairy.pattern.Pattern.*;
 import static org.junit.jupiter.api.Assertions.*;
-
-enum Season {
-    SPRING, SUMMER, AUTUMN, WINTER
-}
 
 
 /**

@@ -15,8 +15,7 @@
  */
 package com.iofairy.pattern.mapping;
 
-import com.iofairy.lambda.R1;
-import com.iofairy.lambda.V1;
+import com.iofairy.lambda.*;
 import com.iofairy.pattern.PatternIn;
 import com.iofairy.pattern.matcher.ActionValueRMatcher;
 import com.iofairy.pattern.matcher.ActionValueVMatcher;
@@ -74,4 +73,50 @@ public class ActionValueMatcherMapping<V, T> extends MatcherMapping<V> {
         return ActionValueRMatcher.whenNext(matchValues, action);
     }
 
+    /*
+     * ######################################################
+     * ******************************************************
+     * #####   MatcherMapping with throwing exception   #####
+     * ******************************************************
+     * ######################################################
+     */
+    public <E extends Throwable> ActionValueVMatcher<V, T> when(T matchValue, VT0<E> action) throws E {
+        ActionValueVMatcher<V, T> ActionValueVMatcher = new ActionValueVMatcher<>(value, preAction);
+        return ActionValueVMatcher.when(matchValue, action);
+    }
+
+    public <E extends Throwable> ActionValueVMatcher<V, T> whenNext(T matchValue, VT0<E> action) throws E {
+        ActionValueVMatcher<V, T> ActionValueVMatcher = new ActionValueVMatcher<>(value, preAction);
+        return ActionValueVMatcher.whenNext(matchValue, action);
+    }
+
+    public <R, E extends Throwable> ActionValueRMatcher<V, T, R> when(T matchValue, RT0<R, E> action) throws E {
+        ActionValueRMatcher<V, T, R> ActionValueRMatcher = new ActionValueRMatcher<>(value, preAction);
+        return ActionValueRMatcher.when(matchValue, action);
+    }
+
+    public <R, E extends Throwable> ActionValueRMatcher<V, T, R> whenNext(T matchValue, RT0<R, E> action) throws E {
+        ActionValueRMatcher<V, T, R> ActionValueRMatcher = new ActionValueRMatcher<>(value, preAction);
+        return ActionValueRMatcher.whenNext(matchValue, action);
+    }
+
+    public <E extends Throwable> ActionValueVMatcher<V, T> when(PatternIn<T> matchValues, VT0<E> action) throws E {
+        ActionValueVMatcher<V, T> ActionValueVMatcher = new ActionValueVMatcher<>(value, preAction);
+        return ActionValueVMatcher.when(matchValues, action);
+    }
+
+    public <E extends Throwable> ActionValueVMatcher<V, T> whenNext(PatternIn<T> matchValues, VT0<E> action) throws E {
+        ActionValueVMatcher<V, T> ActionValueVMatcher = new ActionValueVMatcher<>(value, preAction);
+        return ActionValueVMatcher.whenNext(matchValues, action);
+    }
+
+    public <R, E extends Throwable> ActionValueRMatcher<V, T, R> when(PatternIn<T> matchValues, RT0<R, E> action) throws E {
+        ActionValueRMatcher<V, T, R> ActionValueRMatcher = new ActionValueRMatcher<>(value, preAction);
+        return ActionValueRMatcher.when(matchValues, action);
+    }
+
+    public <R, E extends Throwable> ActionValueRMatcher<V, T, R> whenNext(PatternIn<T> matchValues, RT0<R, E> action) throws E {
+        ActionValueRMatcher<V, T, R> ActionValueRMatcher = new ActionValueRMatcher<>(value, preAction);
+        return ActionValueRMatcher.whenNext(matchValues, action);
+    }
 }

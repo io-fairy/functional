@@ -15,8 +15,7 @@
  */
 package com.iofairy.pattern.mapping;
 
-import com.iofairy.lambda.R1;
-import com.iofairy.lambda.V1;
+import com.iofairy.lambda.*;
 import com.iofairy.pattern.matcher.BooleanRMatcher;
 import com.iofairy.pattern.matcher.BooleanVMatcher;
 
@@ -35,6 +34,7 @@ public class MixMatcherMapping<V> extends ValueMatcherMapping<V> {
         BooleanVMatcher<V> booleanVMatcher = new BooleanVMatcher<V>(value);
         return booleanVMatcher.when(matchValue, action);
     }
+
     public BooleanVMatcher<V> whenNext(Boolean matchValue, V1<V> action) {
         BooleanVMatcher<V> booleanVMatcher = new BooleanVMatcher<V>(value);
         return booleanVMatcher.whenNext(matchValue, action);
@@ -46,6 +46,33 @@ public class MixMatcherMapping<V> extends ValueMatcherMapping<V> {
     }
 
     public <R> BooleanRMatcher<V, R> whenNext(Boolean matchValue, R1<V ,R> action) {
+        BooleanRMatcher<V, R> booleanRMatcher = new BooleanRMatcher<>(value);
+        return booleanRMatcher.whenNext(matchValue, action);
+    }
+
+    /*
+     * ######################################################
+     * ******************************************************
+     * #####   MatcherMapping with throwing exception   #####
+     * ******************************************************
+     * ######################################################
+     */
+    public <E extends Throwable> BooleanVMatcher<V> when(Boolean matchValue, VT0<E> action) throws E {
+        BooleanVMatcher<V> booleanVMatcher = new BooleanVMatcher<V>(value);
+        return booleanVMatcher.when(matchValue, action);
+    }
+
+    public <E extends Throwable> BooleanVMatcher<V> whenNext(Boolean matchValue, VT0<E> action) throws E {
+        BooleanVMatcher<V> booleanVMatcher = new BooleanVMatcher<V>(value);
+        return booleanVMatcher.whenNext(matchValue, action);
+    }
+
+    public <R, E extends Throwable> BooleanRMatcher<V, R> when(Boolean matchValue, RT0<R, E> action) throws E {
+        BooleanRMatcher<V, R> booleanRMatcher = new BooleanRMatcher<>(value);
+        return booleanRMatcher.when(matchValue, action);
+    }
+
+    public <R, E extends Throwable> BooleanRMatcher<V, R> whenNext(Boolean matchValue, RT0<R, E> action) throws E {
         BooleanRMatcher<V, R> booleanRMatcher = new BooleanRMatcher<>(value);
         return booleanRMatcher.whenNext(matchValue, action);
     }

@@ -15,8 +15,7 @@
  */
 package com.iofairy.pattern.mapping;
 
-import com.iofairy.lambda.R1;
-import com.iofairy.lambda.V1;
+import com.iofairy.lambda.*;
 import com.iofairy.pattern.matcher.TypeRMatcher;
 import com.iofairy.pattern.matcher.TypeVMatcher;
 
@@ -45,6 +44,33 @@ public class TypeMatcherMapping<V> extends MatcherMapping<V>  {
     }
 
     public <C, R> TypeRMatcher<V, R> whenNext(Class<C> matchValue, R1<C ,R> action) {
+        TypeRMatcher<V, R> typeRMatcher = new TypeRMatcher<>(value);
+        return typeRMatcher.whenNext(matchValue, action);
+    }
+
+    /*
+     * ######################################################
+     * ******************************************************
+     * #####   MatcherMapping with throwing exception   #####
+     * ******************************************************
+     * ######################################################
+     */
+    public <C, E extends Throwable> TypeVMatcher<V> when(Class<C> matchValue, VT2<V, C, E> action) throws E {
+        TypeVMatcher<V> typeVMatcher = new TypeVMatcher<>(value);
+        return typeVMatcher.when(matchValue, action);
+    }
+
+    public <C, E extends Throwable> TypeVMatcher<V> whenNext(Class<C> matchValue, VT2<V, C, E> action) throws E {
+        TypeVMatcher<V> typeVMatcher = new TypeVMatcher<>(value);
+        return typeVMatcher.whenNext(matchValue, action);
+    }
+
+    public <C, R, E extends Throwable> TypeRMatcher<V, R> when(Class<C> matchValue, RT2<V, C, R, E> action) throws E {
+        TypeRMatcher<V, R> typeRMatcher = new TypeRMatcher<>(value);
+        return typeRMatcher.when(matchValue, action);
+    }
+
+    public <C, R, E extends Throwable> TypeRMatcher<V, R> whenNext(Class<C> matchValue, RT2<V, C, R, E> action) throws E {
         TypeRMatcher<V, R> typeRMatcher = new TypeRMatcher<>(value);
         return typeRMatcher.whenNext(matchValue, action);
     }

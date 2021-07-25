@@ -16,6 +16,7 @@
 package com.iofairy.pattern.matcher;
 
 import com.iofairy.lambda.R1;
+import com.iofairy.lambda.RT0;
 import com.iofairy.pattern.PatternIn;
 
 import java.util.Objects;
@@ -54,6 +55,25 @@ public class ValueRMatcher<V, R> extends SimpleRMatcher<V, V, V, R> {
         return this;
     }
 
+    @Override
+    public <E extends Throwable> ValueRMatcher<V, R> when(V value, RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch && Objects.equals(this.value, value)) {
+            isMatch = true;
+            returnValue = action.$();
+        }
+        return this;
+    }
+
+    @Override
+    public <E extends Throwable> ValueRMatcher<V, R> whenNext(V value, RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch && Objects.equals(this.value, value)) {
+            returnValue = action.$();
+        }
+        return this;
+    }
+
     public ValueRMatcher<V, R> when(PatternIn<V> values, R1<V, R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
@@ -86,11 +106,52 @@ public class ValueRMatcher<V, R> extends SimpleRMatcher<V, V, V, R> {
         return this;
     }
 
+    public <E extends Throwable> ValueRMatcher<V, R> when(PatternIn<V> values, RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            if (this.value == null) {
+                if (values == null || values.getVs().contains(this.value)) {
+                    isMatch = true;
+                    returnValue = action.$();
+                }
+            }else {
+                if (values != null && values.getVs().contains(this.value)) {
+                    isMatch = true;
+                    returnValue = action.$();
+                }
+            }
+        }
+        return this;
+    }
+
+    public <E extends Throwable> ValueRMatcher<V, R> whenNext(PatternIn<V> values, RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            if (this.value == null) {
+                if (values == null || values.getVs().contains(this.value))
+                    returnValue = action.$();
+            }else {
+                if (values != null && values.getVs().contains(this.value))
+                    returnValue = action.$();
+            }
+        }
+        return this;
+    }
+
     @Override
     public R orElse(R1<V, R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             returnValue = action.$(this.value);
+        }
+        return returnValue;
+    }
+
+    @Override
+    public <E extends Throwable> R orElse(RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch) {
+            returnValue = action.$();
         }
         return returnValue;
     }
