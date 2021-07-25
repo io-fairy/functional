@@ -27,7 +27,7 @@ import java.util.Objects;
  * String Matcher with return value
  * @since 0.0.1
  */
-public class StringRMatcher<R> extends SimpleRMatcher<String, String, String, R> {
+public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, R> {
 
     private PatternString patternString;
     private String ucValue;     // Upper Case Value
@@ -267,6 +267,7 @@ public class StringRMatcher<R> extends SimpleRMatcher<String, String, String, R>
         return this;
     }
 
+    @Override
     public StringRMatcher<R> when(PatternIn<String> values, R1<String, R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
@@ -291,6 +292,7 @@ public class StringRMatcher<R> extends SimpleRMatcher<String, String, String, R>
         return this;
     }
 
+    @Override
     public StringRMatcher<R> whenNext(PatternIn<String> values, R1<String, R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
@@ -314,6 +316,7 @@ public class StringRMatcher<R> extends SimpleRMatcher<String, String, String, R>
         return this;
     }
 
+    @Override
     public <E extends Throwable> StringRMatcher<R> when(PatternIn<String> values, RT0<R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
@@ -338,6 +341,7 @@ public class StringRMatcher<R> extends SimpleRMatcher<String, String, String, R>
         return this;
     }
 
+    @Override
     public <E extends Throwable> StringRMatcher<R> whenNext(PatternIn<String> values, RT0<R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {

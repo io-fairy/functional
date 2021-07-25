@@ -26,7 +26,7 @@ import java.util.Objects;
  *
  * @since 0.0.1
  */
-public class ActionValueRMatcher<V, P, R> extends SimpleRMatcher<V, P, V, R> {
+public class ActionValueRMatcher<V, P, R> extends SimpleRInMatcher<V, P, V, R> {
 
     private final R1<P, V> preAction;
 
@@ -77,6 +77,7 @@ public class ActionValueRMatcher<V, P, R> extends SimpleRMatcher<V, P, V, R> {
         return this;
     }
 
+    @Override
     public ActionValueRMatcher<V, P, R> when(PatternIn<P> values, R1<V, R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
@@ -98,6 +99,7 @@ public class ActionValueRMatcher<V, P, R> extends SimpleRMatcher<V, P, V, R> {
         return this;
     }
 
+    @Override
     public ActionValueRMatcher<V, P, R> whenNext(PatternIn<P> values, R1<V, R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
@@ -117,6 +119,7 @@ public class ActionValueRMatcher<V, P, R> extends SimpleRMatcher<V, P, V, R> {
         return this;
     }
 
+    @Override
     public <E extends Throwable> ActionValueRMatcher<V, P, R> when(PatternIn<P> values, RT0<R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
@@ -138,6 +141,7 @@ public class ActionValueRMatcher<V, P, R> extends SimpleRMatcher<V, P, V, R> {
         return this;
     }
 
+    @Override
     public <E extends Throwable> ActionValueRMatcher<V, P, R> whenNext(PatternIn<P> values, RT0<R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {

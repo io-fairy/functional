@@ -26,7 +26,7 @@ import java.util.Objects;
  *
  * @since 0.0.1
  */
-public class ActionNoneVMatcher<P> extends SimpleVMatcher<None, P, P> {
+public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
 
     private final R1<P, Boolean> preAction;
 
@@ -111,6 +111,7 @@ public class ActionNoneVMatcher<P> extends SimpleVMatcher<None, P, P> {
         return this;
     }
 
+    @Override
     public ActionNoneVMatcher<P> when(PatternIn<P> values, V1<P> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
@@ -132,6 +133,7 @@ public class ActionNoneVMatcher<P> extends SimpleVMatcher<None, P, P> {
         return this;
     }
 
+    @Override
     public ActionNoneVMatcher<P> whenNext(PatternIn<P> values, V1<P> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
@@ -151,6 +153,7 @@ public class ActionNoneVMatcher<P> extends SimpleVMatcher<None, P, P> {
         return this;
     }
 
+    @Override
     public <E extends Throwable> ActionNoneVMatcher<P> when(PatternIn<P> values, VT0<E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
@@ -172,6 +175,7 @@ public class ActionNoneVMatcher<P> extends SimpleVMatcher<None, P, P> {
         return this;
     }
 
+    @Override
     public <E extends Throwable> ActionNoneVMatcher<P> whenNext(PatternIn<P> values, VT0<E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {

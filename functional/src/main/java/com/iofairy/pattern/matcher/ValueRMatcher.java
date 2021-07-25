@@ -26,7 +26,7 @@ import java.util.Objects;
  *
  * @since 0.0.1
  */
-public class ValueRMatcher<V, R> extends SimpleRMatcher<V, V, V, R> {
+public class ValueRMatcher<V, R> extends SimpleRInMatcher<V, V, V, R> {
 
     public ValueRMatcher(V value, boolean isMatch) {
         super(value, isMatch);
@@ -74,6 +74,7 @@ public class ValueRMatcher<V, R> extends SimpleRMatcher<V, V, V, R> {
         return this;
     }
 
+    @Override
     public ValueRMatcher<V, R> when(PatternIn<V> values, R1<V, R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
@@ -92,6 +93,7 @@ public class ValueRMatcher<V, R> extends SimpleRMatcher<V, V, V, R> {
         return this;
     }
 
+    @Override
     public ValueRMatcher<V, R> whenNext(PatternIn<V> values, R1<V, R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
@@ -106,6 +108,7 @@ public class ValueRMatcher<V, R> extends SimpleRMatcher<V, V, V, R> {
         return this;
     }
 
+    @Override
     public <E extends Throwable> ValueRMatcher<V, R> when(PatternIn<V> values, RT0<R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
@@ -124,6 +127,7 @@ public class ValueRMatcher<V, R> extends SimpleRMatcher<V, V, V, R> {
         return this;
     }
 
+    @Override
     public <E extends Throwable> ValueRMatcher<V, R> whenNext(PatternIn<V> values, RT0<R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {

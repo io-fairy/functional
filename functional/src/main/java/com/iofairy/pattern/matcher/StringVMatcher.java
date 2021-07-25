@@ -27,7 +27,7 @@ import java.util.Objects;
  * String Matcher with void
  * @since 0.0.1
  */
-public class StringVMatcher extends SimpleVMatcher<String, String, String> {
+public class StringVMatcher extends SimpleVInMatcher<String, String, String> {
 
     private PatternString patternString;
 
@@ -268,6 +268,7 @@ public class StringVMatcher extends SimpleVMatcher<String, String, String> {
         return this;
     }
 
+    @Override
     public StringVMatcher when(PatternIn<String> values, V1<String> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
@@ -292,6 +293,7 @@ public class StringVMatcher extends SimpleVMatcher<String, String, String> {
         return this;
     }
 
+    @Override
     public StringVMatcher whenNext(PatternIn<String> values, V1<String> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
@@ -315,6 +317,7 @@ public class StringVMatcher extends SimpleVMatcher<String, String, String> {
         return this;
     }
 
+    @Override
     public <E extends Throwable> StringVMatcher when(PatternIn<String> values, VT0<E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
@@ -339,6 +342,7 @@ public class StringVMatcher extends SimpleVMatcher<String, String, String> {
         return this;
     }
 
+    @Override
     public <E extends Throwable> StringVMatcher whenNext(PatternIn<String> values, VT0<E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
