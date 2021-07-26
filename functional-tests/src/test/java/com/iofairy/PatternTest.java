@@ -89,14 +89,14 @@ public class PatternTest {
 
         assertEquals("contains null value", strResult3);
 
+        String strResult4 = match(s)
+                .when(s == null, v -> "contains null value")
+                .when("abcd", v -> "is not null")
+//                .when(s.equals("a"), v -> "is equals a")   // 会报错，因为 s.equals("a") 总是会被执行
+                .when("a", v -> s.equals("a") + "")     // 正常执行，不报错
+                .orElse(v -> "other value");
 
-        String nullStr = null;
-        String result = match(nullStr, BOOLEAN)  // specify a BOOLEAN mode
-                .when(null, v -> "match string null")
-                .when("abc".equals(nullStr), v -> "i less than 1")
-                .orElse(v -> "str value: " + nullStr);
-
-        assertEquals("match string null", result);
+        assertEquals("contains null value", strResult4);
 
 
         Tuple2<String, Integer> t2 = null;
@@ -257,14 +257,12 @@ public class PatternTest {
         String s = "abc";
         Object o = new Object();
         String res = match()
-                .when(null, v -> "is null")
                 .when(i == 5, v -> "i == 5")
                 .when(s.equals("abc"), v -> "abc")
                 .when(o == null, v -> "object is null")
                 .orElse(v -> "orElse");
 
         String res1 = match(NONE)
-                .when(null, v -> "is null")
                 .when(i == 10, v -> "i == 10")
                 .when(s.equals("abc"), v -> "abc")
                 .when(o == null, v -> "object is null")
@@ -281,6 +279,7 @@ public class PatternTest {
 
         R1<String, String> preAction = s -> "123" + (s == null ? null : s.toLowerCase());
         String res1 = match(str, preAction, String.class)
+                .when(G.isEmpty(str), v -> "0 -- is empty")
                 .when("123", v -> "1 " + v + "-- 123")
                 .when("123ABC", v -> "2 " + v + "-- 123ABC")
                 .when((PatternIn<String>) null, v -> "3 " + v + "-- null")
@@ -288,6 +287,16 @@ public class PatternTest {
                 .orElse(v -> "orElse " + v);
         System.out.println(res1);
         assertEquals("4 123abc-- ABC", res1);
+
+        String res2 = match(str, preAction, String.class)
+                .when(G.isEmpty(str), v -> "0 -- is empty")
+                .when("123", v -> "1 " + v + "-- 123")
+                .when(str.endsWith("abc"), v -> "2 " + v + "-- end with 'abc'")
+                .when((PatternIn<String>) null, v -> "3 " + v + "-- null")
+                .when("ABC", v -> "4 " + v + "-- ABC")
+                .orElse(v -> "orElse " + v);
+        System.out.println(res2);
+        assertEquals("2 123abc-- end with 'abc'", res2);
 
 
         String ip = "127.0.0.1";
@@ -321,6 +330,7 @@ public class PatternTest {
 
         System.out.println(msg2);
         assertEquals("dbType is null", msg2);
+
 
     }
 
@@ -384,7 +394,7 @@ public class PatternTest {
     @Test
     public void testPatternBoolean() {
         int i = 10;
-        String result = match(i)
+        String result = match()
                 .when(i == 0,
                         v -> "i is zero")
                 .when(i < 5 && i > 0,
@@ -417,12 +427,27 @@ public class PatternTest {
         Tuple2<String, Integer> t2 = Tuple.of("1", 1);
 
         match(t2.getClass())
+                .when(t2._2 == 1,
+                        v -> { System.out.println("match bool value"); })
                 .when(Objects.class,
-                        v -> { System.out.println("match objects"); })
+                        v -> System.out.println("match objects"))
                 .when(String.class,
                         v -> System.out.println("match stringclass"))
                 .when(in(Long.class, Tuple2.class, Integer.class),
                         v -> System.out.println("match tuple class: " + v))
+                .orElse(v -> System.out.println("not match"));
+
+        match(t2.getClass())
+                .when(t2._2 == 2,
+                        v -> { System.out.println("match bool value"); })
+                .when(Objects.class,
+                        v -> System.out.println("match objects"))
+                .when(String.class,
+                        v -> System.out.println("match stringclass"))
+                .when(in(Long.class, Tuple2.class, Integer.class),
+                        v -> System.out.println("match tuple class: " + v))
+                .when(t2._2 == 2,
+                        v -> System.out.println("match bool value"))
                 .orElse(v -> System.out.println("not match"));
     }
 

@@ -28,7 +28,6 @@ import java.util.Objects;
 public class Pattern {
     public static PatternDefault DEFAULT = PatternDefault.DEFAULT;      // DEFAULT can match by value or boolean
     public static PatternValue VALUE = PatternValue.VALUE;              // match by value
-    public static PatternBoolean BOOLEAN = PatternBoolean.BOOLEAN;      // match by boolean
     public static PatternType TYPE = PatternType.TYPE;                  // match by value type(Class)
     public static PatternString STRING = PatternString.STRING;          // match by String value
     public static PatternString IGNORECASE = PatternString.IGNORECASE;  // match by String value ignore case
@@ -60,13 +59,13 @@ public class Pattern {
      * @return MixMatcherMapping
      * @since 0.0.1
      */
-    public static <V> MixMatcherMapping<V> match(V value) {
+    public static <V> ValueMatcherMapping<V> match(V value) {
         return match(value, DEFAULT);
     }
 
-    public static <V> MixMatcherMapping<V> match(V value, PatternDefault patternDefault) {
+    public static <V> ValueMatcherMapping<V> match(V value, PatternDefault patternDefault) {
         Objects.requireNonNull(patternDefault);
-        return new MixMatcherMapping<V>(value);
+        return new ValueMatcherMapping<V>(value);
     }
 
     public static <V> ValueMatcherMapping<V> match(V value, PatternValue patternValue) {
@@ -100,11 +99,6 @@ public class Pattern {
 
     public static BooleanMatcherMapping<None> match(None value) {
         return new BooleanMatcherMapping<>(NONE);
-    }
-
-    public static <V> BooleanMatcherMapping<V> match(V value, PatternBoolean patternBoolean) {
-        Objects.requireNonNull(patternBoolean);
-        return new BooleanMatcherMapping<>(value);
     }
 
     public static <V> TypeMatcherMapping<V> match(V value, PatternType patternType) {

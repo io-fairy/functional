@@ -77,6 +77,7 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
         return this;
     }
 
+    @Override
     public ActionNoneVMatcher<P> when(boolean value, V1<P> action) {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
@@ -86,6 +87,7 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
         return this;
     }
 
+    @Override
     public ActionNoneVMatcher<P> whenNext(boolean value, V1<P> action) {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
@@ -94,6 +96,7 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
         return this;
     }
 
+    @Override
     public <E extends Throwable> ActionNoneVMatcher<P> when(boolean value, VT0<E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
@@ -103,6 +106,7 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
         return this;
     }
 
+    @Override
     public <E extends Throwable> ActionNoneVMatcher<P> whenNext(boolean value, VT0<E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {

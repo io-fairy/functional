@@ -34,8 +34,8 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
     private boolean ignoreCase = false;
     private boolean isMatchForNext = false;
 
-    public StringRMatcher(String value, boolean isMatch, PatternString patternString) {
-        this(value, isMatch);
+    public StringRMatcher(String value, PatternString patternString) {
+        this(value);
         this.patternString = patternString;
 
         ucValue = value;
@@ -264,6 +264,44 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
             }
         }
 
+        return this;
+    }
+
+    @Override
+    public StringRMatcher<R> when(boolean value, R1<String, R> action) {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            isMatch = true;
+            returnValue = action.$(this.value);
+        }
+        return this;
+    }
+
+    @Override
+    public StringRMatcher<R> whenNext(boolean value, R1<String, R> action) {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            returnValue = action.$(this.value);
+        }
+        return this;
+    }
+
+    @Override
+    public <E extends Throwable> StringRMatcher<R> when(boolean value, RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            isMatch = true;
+            returnValue = action.$();
+        }
+        return this;
+    }
+
+    @Override
+    public <E extends Throwable> StringRMatcher<R> whenNext(boolean value, RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            returnValue = action.$();
+        }
         return this;
     }
 

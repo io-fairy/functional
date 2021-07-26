@@ -35,8 +35,8 @@ public class StringVMatcher extends SimpleVInMatcher<String, String, String> {
     private boolean ignoreCase = false;
     private boolean isMatchForNext = false;
 
-    public StringVMatcher(String value, boolean isMatch, PatternString patternString) {
-        this(value, isMatch);
+    public StringVMatcher(String value, PatternString patternString) {
+        this(value);
         this.patternString = patternString;
 
         ucValue = value;
@@ -265,6 +265,44 @@ public class StringVMatcher extends SimpleVInMatcher<String, String, String> {
             }
         }
 
+        return this;
+    }
+
+    @Override
+    public StringVMatcher when(boolean value, V1<String> action) {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            isMatch = true;
+            action.$(this.value);
+        }
+        return this;
+    }
+
+    @Override
+    public StringVMatcher whenNext(boolean value, V1<String> action) {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            action.$(this.value);
+        }
+        return this;
+    }
+
+    @Override
+    public <E extends Throwable> StringVMatcher when(boolean value, VT0<E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            isMatch = true;
+            action.$();
+        }
+        return this;
+    }
+
+    @Override
+    public <E extends Throwable> StringVMatcher whenNext(boolean value, VT0<E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            action.$();
+        }
         return this;
     }
 

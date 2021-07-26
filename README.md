@@ -19,13 +19,13 @@
 <dependency>
   <groupId>com.iofairy</groupId>
   <artifactId>functional</artifactId>
-  <version>0.0.5</version>
+  <version>0.0.6</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-implementation 'com.iofairy:functional:0.0.5'
+implementation 'com.iofairy:functional:0.0.6'
 ```
 
 
@@ -151,15 +151,6 @@ String strResult3 = match(s)
 assertEquals("contains null value", strResult3);
 
 
-String nullStr = null;
-String result = match(nullStr, BOOLEAN)  // specify a BOOLEAN mode
-        .when(null, v -> "match string null")
-        .when("abc".equals(nullStr), v -> "i less than 1")
-        .orElse(v -> "str value: " + nullStr);
-
-assertEquals("match string null", result);
-
-
 Tuple2<String, Integer> t2 = null;
 String classMatch = match(t2, TYPE)
         .when(Integer.class, v -> "integer class")
@@ -248,7 +239,7 @@ assertEquals("fGHIj", matchRes5);
 import static com.iofairy.pattern.Pattern.*;
 
 int i = 10;
-String result = match(i)
+String result = match()
         .when(i == 0,
                 v -> "i is zero")
         .when(i < 5 && i > 0,

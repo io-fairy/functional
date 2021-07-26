@@ -43,6 +43,14 @@ public abstract class SimpleRMatcher<V, P, L, R> extends SimpleMatcher<V, P, L, 
 
     public abstract <E extends Throwable> SimpleRMatcher<V, P, L, R> whenNext(P value, RT0<R, E> action) throws E;
 
+    public abstract SimpleRMatcher<V, P, L, R> when(boolean value, R1<L, R> action);
+
+    public abstract SimpleRMatcher<V, P, L, R> whenNext(boolean value, R1<L, R> action);
+
+    public abstract <E extends Throwable> SimpleRMatcher<V, P, L, R> when(boolean value, RT0<R, E> action) throws E;
+
+    public abstract <E extends Throwable> SimpleRMatcher<V, P, L, R> whenNext(boolean value, RT0<R, E> action) throws E;
+
     public abstract R orElse(R1<V, R> action);
 
     public abstract <E extends Throwable> R orElse(RT0<R, E> action) throws E;

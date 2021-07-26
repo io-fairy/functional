@@ -35,63 +35,63 @@ public class ActionNoneMatcherMapping<T> extends MatcherMapping<None>{
     }
 
     public ActionNoneVMatcher<T> when(T matchValue, V1<T> action) {
-        ActionNoneVMatcher<T> ActionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
-        return ActionNoneVMatcher.when(matchValue, action);
+        ActionNoneVMatcher<T> actionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
+        return actionNoneVMatcher.when(matchValue, action);
     }
 
     public ActionNoneVMatcher<T> whenNext(T matchValue, V1<T> action) {
-        ActionNoneVMatcher<T> ActionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
-        return ActionNoneVMatcher.whenNext(matchValue, action);
+        ActionNoneVMatcher<T> actionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
+        return actionNoneVMatcher.whenNext(matchValue, action);
     }
 
     public <R> ActionNoneRMatcher<T, R> when(T matchValue, R1<T, R> action) {
-        ActionNoneRMatcher<T, R> ActionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
-        return ActionNoneRMatcher.when(matchValue, action);
+        ActionNoneRMatcher<T, R> actionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
+        return actionNoneRMatcher.when(matchValue, action);
     }
 
     public <R> ActionNoneRMatcher<T, R> whenNext(T matchValue, R1<T, R> action) {
-        ActionNoneRMatcher<T, R> ActionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
-        return ActionNoneRMatcher.whenNext(matchValue, action);
+        ActionNoneRMatcher<T, R> actionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
+        return actionNoneRMatcher.whenNext(matchValue, action);
     }
 
     public ActionNoneVMatcher<T> when(PatternIn<T> matchValues, V1<T> action) {
-        ActionNoneVMatcher<T> ActionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
-        return ActionNoneVMatcher.when(matchValues, action);
+        ActionNoneVMatcher<T> actionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
+        return actionNoneVMatcher.when(matchValues, action);
     }
 
     public ActionNoneVMatcher<T> whenNext(PatternIn<T> matchValues, V1<T> action) {
-        ActionNoneVMatcher<T> ActionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
-        return ActionNoneVMatcher.whenNext(matchValues, action);
+        ActionNoneVMatcher<T> actionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
+        return actionNoneVMatcher.whenNext(matchValues, action);
     }
 
     public <R> ActionNoneRMatcher<T, R> when(PatternIn<T> matchValues, R1<T, R> action) {
-        ActionNoneRMatcher<T, R> ActionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
-        return ActionNoneRMatcher.when(matchValues, action);
+        ActionNoneRMatcher<T, R> actionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
+        return actionNoneRMatcher.when(matchValues, action);
     }
 
     public <R> ActionNoneRMatcher<T, R> whenNext(PatternIn<T> matchValues, R1<T, R> action) {
-        ActionNoneRMatcher<T, R> ActionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
-        return ActionNoneRMatcher.whenNext(matchValues, action);
+        ActionNoneRMatcher<T, R> actionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
+        return actionNoneRMatcher.whenNext(matchValues, action);
     }
 
     public ActionNoneVMatcher<T> when(boolean matchValue, V1<T> action) {
-        ActionNoneVMatcher<T> ActionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
-        return ActionNoneVMatcher.when(matchValue, action);
+        ActionNoneVMatcher<T> actionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
+        return actionNoneVMatcher.when(matchValue, action);
     }
 
     public ActionNoneVMatcher<T> whenNext(boolean matchValue, V1<T> action) {
-        ActionNoneVMatcher<T> ActionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
-        return ActionNoneVMatcher.whenNext(matchValue, action);
+        ActionNoneVMatcher<T> actionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
+        return actionNoneVMatcher.whenNext(matchValue, action);
     }
 
     public <R> ActionNoneRMatcher<T, R> when(boolean matchValue, R1<T, R> action) {
-        ActionNoneRMatcher<T, R> ActionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
-        return ActionNoneRMatcher.when(matchValue, action);
+        ActionNoneRMatcher<T, R> actionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
+        return actionNoneRMatcher.when(matchValue, action);
     }
 
     public <R> ActionNoneRMatcher<T, R> whenNext(boolean matchValue, R1<T, R> action) {
-        ActionNoneRMatcher<T, R> ActionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
-        return ActionNoneRMatcher.whenNext(matchValue, action);
+        ActionNoneRMatcher<T, R> actionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
+        return actionNoneRMatcher.whenNext(matchValue, action);
     }
 
     /*
@@ -102,63 +102,63 @@ public class ActionNoneMatcherMapping<T> extends MatcherMapping<None>{
      * ######################################################
      */
     public <E extends Throwable> ActionNoneVMatcher<T> when(T matchValue, VT0<E> action) throws E {
-        ActionNoneVMatcher<T> ActionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
-        return ActionNoneVMatcher.when(matchValue, action);
+        ActionNoneVMatcher<T> actionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
+        return actionNoneVMatcher.when(matchValue, action);
     }
 
     public <E extends Throwable> ActionNoneVMatcher<T> whenNext(T matchValue, VT0<E> action) throws E {
-        ActionNoneVMatcher<T> ActionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
-        return ActionNoneVMatcher.whenNext(matchValue, action);
+        ActionNoneVMatcher<T> actionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
+        return actionNoneVMatcher.whenNext(matchValue, action);
     }
 
     public <R, E extends Throwable> ActionNoneRMatcher<T, R> when(T matchValue, RT0<R, E> action) throws E {
-        ActionNoneRMatcher<T, R> ActionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
-        return ActionNoneRMatcher.when(matchValue, action);
+        ActionNoneRMatcher<T, R> actionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
+        return actionNoneRMatcher.when(matchValue, action);
     }
 
     public <R, E extends Throwable> ActionNoneRMatcher<T, R> whenNext(T matchValue, RT0<R, E> action) throws E {
-        ActionNoneRMatcher<T, R> ActionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
-        return ActionNoneRMatcher.whenNext(matchValue, action);
+        ActionNoneRMatcher<T, R> actionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
+        return actionNoneRMatcher.whenNext(matchValue, action);
     }
 
     public <E extends Throwable> ActionNoneVMatcher<T> when(PatternIn<T> matchValues, VT0<E> action) throws E {
-        ActionNoneVMatcher<T> ActionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
-        return ActionNoneVMatcher.when(matchValues, action);
+        ActionNoneVMatcher<T> actionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
+        return actionNoneVMatcher.when(matchValues, action);
     }
 
     public <E extends Throwable> ActionNoneVMatcher<T> whenNext(PatternIn<T> matchValues, VT0<E> action) throws E {
-        ActionNoneVMatcher<T> ActionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
-        return ActionNoneVMatcher.whenNext(matchValues, action);
+        ActionNoneVMatcher<T> actionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
+        return actionNoneVMatcher.whenNext(matchValues, action);
     }
 
     public <R, E extends Throwable> ActionNoneRMatcher<T, R> when(PatternIn<T> matchValues, RT0<R, E> action) throws E {
-        ActionNoneRMatcher<T, R> ActionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
-        return ActionNoneRMatcher.when(matchValues, action);
+        ActionNoneRMatcher<T, R> actionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
+        return actionNoneRMatcher.when(matchValues, action);
     }
 
     public <R, E extends Throwable> ActionNoneRMatcher<T, R> whenNext(PatternIn<T> matchValues, RT0<R, E> action) throws E {
-        ActionNoneRMatcher<T, R> ActionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
-        return ActionNoneRMatcher.whenNext(matchValues, action);
+        ActionNoneRMatcher<T, R> actionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
+        return actionNoneRMatcher.whenNext(matchValues, action);
     }
 
     public <E extends Throwable> ActionNoneVMatcher<T> when(boolean matchValue, VT0<E> action) throws E {
-        ActionNoneVMatcher<T> ActionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
-        return ActionNoneVMatcher.when(matchValue, action);
+        ActionNoneVMatcher<T> actionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
+        return actionNoneVMatcher.when(matchValue, action);
     }
 
     public <E extends Throwable> ActionNoneVMatcher<T> whenNext(boolean matchValue, VT0<E> action) throws E {
-        ActionNoneVMatcher<T> ActionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
-        return ActionNoneVMatcher.whenNext(matchValue, action);
+        ActionNoneVMatcher<T> actionNoneVMatcher = new ActionNoneVMatcher<>(value, preAction);
+        return actionNoneVMatcher.whenNext(matchValue, action);
     }
 
     public <R, E extends Throwable> ActionNoneRMatcher<T, R> when(boolean matchValue, RT0<R, E> action) throws E {
-        ActionNoneRMatcher<T, R> ActionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
-        return ActionNoneRMatcher.when(matchValue, action);
+        ActionNoneRMatcher<T, R> actionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
+        return actionNoneRMatcher.when(matchValue, action);
     }
 
     public <R, E extends Throwable> ActionNoneRMatcher<T, R> whenNext(boolean matchValue, RT0<R, E> action) throws E {
-        ActionNoneRMatcher<T, R> ActionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
-        return ActionNoneRMatcher.whenNext(matchValue, action);
+        ActionNoneRMatcher<T, R> actionNoneRMatcher = new ActionNoneRMatcher<>(value, preAction);
+        return actionNoneRMatcher.whenNext(matchValue, action);
     }
 
 }

@@ -22,77 +22,57 @@ import java.util.Objects;
 
 /**
  * Boolean Matcher with Return value
+ *
  * @since 0.0.1
  */
-public class BooleanRMatcher<V, R> extends SimpleRMatcher<V, Boolean, V, R> {
+public class BooleanRMatcher<V, R> implements Matcher {
+    protected R returnValue;
+    protected V value;
+    protected boolean isMatch;
 
     public BooleanRMatcher(V value, boolean isMatch) {
-        super(value, isMatch);
+        this.value = value;
+        this.isMatch = isMatch;
     }
 
     public BooleanRMatcher(V value) {
         this(value, false);
     }
 
-    @Override
-    public BooleanRMatcher<V, R> when(Boolean value, R1<V, R> action) {
+    public BooleanRMatcher<V, R> when(boolean value, R1<V, R> action) {
         Objects.requireNonNull(action);
-        if (!isMatch) {
-            if (value == null || this.value == null) {
-                if (this.value == null && value == null) {
-                    isMatch = true;
-                    returnValue = action.$(this.value);
-                }
-            } else if (value) {
-                isMatch = true;
-                returnValue = action.$(this.value);
-            }
+        if (!isMatch && value) {
+            isMatch = true;
+            returnValue = action.$(this.value);
         }
         return this;
     }
 
-    @Override
-    public BooleanRMatcher<V, R> whenNext(Boolean value, R1<V, R> action) {
+    public BooleanRMatcher<V, R> whenNext(boolean value, R1<V, R> action) {
         Objects.requireNonNull(action);
-        if (!isMatch) {
-            if (value == null || this.value == null) {
-                if (this.value == null && value == null)
-                    returnValue = action.$(this.value);
-            } else if (value) returnValue = action.$(this.value);
+        if (!isMatch && value) {
+            returnValue = action.$(this.value);
         }
         return this;
     }
 
-    @Override
-    public <E extends Throwable> BooleanRMatcher<V, R> when(Boolean value, RT0<R, E> action) throws E {
+    public <E extends Throwable> BooleanRMatcher<V, R> when(boolean value, RT0<R, E> action) throws E {
         Objects.requireNonNull(action);
-        if (!isMatch) {
-            if (value == null || this.value == null) {
-                if (this.value == null && value == null) {
-                    isMatch = true;
-                    returnValue = action.$();
-                }
-            } else if (value) {
-                isMatch = true;
-                returnValue = action.$();
-            }
+        if (!isMatch && value) {
+            isMatch = true;
+            returnValue = action.$();
         }
         return this;
     }
 
-    @Override
-    public <E extends Throwable> BooleanRMatcher<V, R> whenNext(Boolean value, RT0<R, E> action) throws E {
+    public <E extends Throwable> BooleanRMatcher<V, R> whenNext(boolean value, RT0<R, E> action) throws E {
         Objects.requireNonNull(action);
-        if (!isMatch) {
-            if (value == null || this.value == null) {
-                if (this.value == null && value == null)
-                    returnValue = action.$();
-            } else if (value) returnValue = action.$();
+        if (!isMatch && value) {
+            returnValue = action.$();
         }
         return this;
     }
 
-    @Override
     public R orElse(R1<V, R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
@@ -101,7 +81,6 @@ public class BooleanRMatcher<V, R> extends SimpleRMatcher<V, Boolean, V, R> {
         return returnValue;
     }
 
-    @Override
     public <E extends Throwable> R orElse(RT0<R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {

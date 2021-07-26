@@ -77,6 +77,44 @@ public class ActionValueVMatcher<V, P> extends SimpleVInMatcher<V, P, V> {
     }
 
     @Override
+    public ActionValueVMatcher<V, P> when(boolean value, V1<V> action) {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            isMatch = true;
+            action.$(this.value);
+        }
+        return this;
+    }
+
+    @Override
+    public ActionValueVMatcher<V, P> whenNext(boolean value, V1<V> action) {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            action.$(this.value);
+        }
+        return this;
+    }
+
+    @Override
+    public <E extends Throwable> ActionValueVMatcher<V, P> when(boolean value, VT0<E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            isMatch = true;
+            action.$();
+        }
+        return this;
+    }
+
+    @Override
+    public <E extends Throwable> ActionValueVMatcher<V, P> whenNext(boolean value, VT0<E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            action.$();
+        }
+        return this;
+    }
+    
+    @Override
     public ActionValueVMatcher<V, P> when(PatternIn<P> values, V1<V> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {

@@ -78,14 +78,18 @@ public class Try {
     }
 
     public static <R> R tcf(RT0<R, Throwable> tryAction, boolean isPrintTrace) {
-        return tcf(tryAction, isPrintTrace, 0);
+        return tcf(tryAction, null, isPrintTrace);
     }
 
-    public static <R> R tcf(RT0<R, Throwable> tryAction, boolean isPrintTrace, long delaySeconds) {
-        return tcf(tryAction, isPrintTrace, TimeUnit.SECONDS, delaySeconds);
+    public static <R> R tcf(RT0<R, Throwable> tryAction, R defaultReturn, boolean isPrintTrace) {
+        return tcf(tryAction, defaultReturn, isPrintTrace, 0);
     }
 
-    public static <R> R tcf(RT0<R, Throwable> tryAction, boolean isPrintTrace, TimeUnit timeUnit, long delay) {
+    public static <R> R tcf(RT0<R, Throwable> tryAction, R defaultReturn, boolean isPrintTrace, long delaySeconds) {
+        return tcf(tryAction, defaultReturn, isPrintTrace, TimeUnit.SECONDS, delaySeconds);
+    }
+
+    public static <R> R tcf(RT0<R, Throwable> tryAction, R defaultReturn, boolean isPrintTrace, TimeUnit timeUnit, long delay) {
         try {
             timeUnit.sleep(delay);
             return tryAction.$();
@@ -97,7 +101,7 @@ public class Try {
                 log.severe("Exception in `tcf()` method:\n\n" + sw.getBuffer().toString());
             }
         }
-        return null;
+        return defaultReturn;
     }
 
     public static void tcf(VT0<Throwable> tryAction, V1<Throwable> catchAction) {
@@ -118,21 +122,25 @@ public class Try {
     }
 
     public static <R> R tcf(RT0<R, Throwable> tryAction, V1<Throwable> catchAction) {
-        return tcf(tryAction, catchAction, 0);
+        return tcf(tryAction, null, catchAction);
     }
 
-    public static <R> R tcf(RT0<R, Throwable> tryAction, V1<Throwable> catchAction, long delaySeconds) {
-        return tcf(tryAction, catchAction, TimeUnit.SECONDS, delaySeconds);
+    public static <R> R tcf(RT0<R, Throwable> tryAction, R defaultReturn, V1<Throwable> catchAction) {
+        return tcf(tryAction, defaultReturn, catchAction, 0);
     }
 
-    public static <R> R tcf(RT0<R, Throwable> tryAction, V1<Throwable> catchAction, TimeUnit timeUnit, long delay) {
+    public static <R> R tcf(RT0<R, Throwable> tryAction, R defaultReturn, V1<Throwable> catchAction, long delaySeconds) {
+        return tcf(tryAction, defaultReturn, catchAction, TimeUnit.SECONDS, delaySeconds);
+    }
+
+    public static <R> R tcf(RT0<R, Throwable> tryAction, R defaultReturn, V1<Throwable> catchAction, TimeUnit timeUnit, long delay) {
         try {
             timeUnit.sleep(delay);
             return tryAction.$();
         } catch (Throwable e) {
             if (catchAction != null) catchAction.$(e);
         }
-        return null;
+        return defaultReturn;
     }
 
 }

@@ -78,6 +78,7 @@ public class ActionNoneRMatcher<P, R> extends SimpleRInMatcher<None, P, P, R> {
         return this;
     }
 
+    @Override
     public ActionNoneRMatcher<P, R> when(boolean value, R1<P, R> action) {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
@@ -87,6 +88,7 @@ public class ActionNoneRMatcher<P, R> extends SimpleRInMatcher<None, P, P, R> {
         return this;
     }
 
+    @Override
     public ActionNoneRMatcher<P, R> whenNext(boolean value, R1<P, R> action) {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
@@ -95,6 +97,7 @@ public class ActionNoneRMatcher<P, R> extends SimpleRInMatcher<None, P, P, R> {
         return this;
     }
 
+    @Override
     public <E extends Throwable> ActionNoneRMatcher<P, R> when(boolean value, RT0<R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
@@ -104,6 +107,7 @@ public class ActionNoneRMatcher<P, R> extends SimpleRInMatcher<None, P, P, R> {
         return this;
     }
 
+    @Override
     public <E extends Throwable> ActionNoneRMatcher<P, R> whenNext(boolean value, RT0<R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {

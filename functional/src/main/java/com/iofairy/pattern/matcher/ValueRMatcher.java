@@ -75,6 +75,44 @@ public class ValueRMatcher<V, R> extends SimpleRInMatcher<V, V, V, R> {
     }
 
     @Override
+    public ValueRMatcher<V, R> when(boolean value, R1<V, R> action) {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            isMatch = true;
+            returnValue = action.$(this.value);
+        }
+        return this;
+    }
+
+    @Override
+    public ValueRMatcher<V, R> whenNext(boolean value, R1<V, R> action) {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            returnValue = action.$(this.value);
+        }
+        return this;
+    }
+
+    @Override
+    public <E extends Throwable> ValueRMatcher<V, R> when(boolean value, RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            isMatch = true;
+            returnValue = action.$();
+        }
+        return this;
+    }
+
+    @Override
+    public <E extends Throwable> ValueRMatcher<V, R> whenNext(boolean value, RT0<R, E> action) throws E {
+        Objects.requireNonNull(action);
+        if (!isMatch && value) {
+            returnValue = action.$();
+        }
+        return this;
+    }
+
+    @Override
     public ValueRMatcher<V, R> when(PatternIn<V> values, R1<V, R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {

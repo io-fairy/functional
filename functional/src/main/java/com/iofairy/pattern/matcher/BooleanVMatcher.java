@@ -25,75 +25,54 @@ import java.util.Objects;
  *
  * @since 0.0.1
  */
-public class BooleanVMatcher<V> extends SimpleVMatcher<V, Boolean, V> {
+public class BooleanVMatcher<V> implements Matcher {
+    protected Void returnValue;
+    protected V value;
+    protected boolean isMatch;
 
     public BooleanVMatcher(V value, boolean isMatch) {
-        super(value, isMatch);
+        this.value = value;
+        this.isMatch = isMatch;
     }
 
     public BooleanVMatcher(V value) {
         this(value, false);
     }
 
-    @Override
-    public BooleanVMatcher<V> when(Boolean value, V1<V> action) {
+    public BooleanVMatcher<V> when(boolean value, V1<V> action) {
         Objects.requireNonNull(action);
-        if (!isMatch) {
-            if (value == null || this.value == null) {
-                if (this.value == null && value == null) {
-                    isMatch = true;
-                    action.$(this.value);
-                }
-            } else if (value) {
-                isMatch = true;
-                action.$(this.value);
-            }
+        if (!isMatch && value) {
+            isMatch = true;
+            action.$(this.value);
         }
         return this;
     }
 
-    @Override
-    public BooleanVMatcher<V> whenNext(Boolean value, V1<V> action) {
+    public BooleanVMatcher<V> whenNext(boolean value, V1<V> action) {
         Objects.requireNonNull(action);
-        if (!isMatch) {
-            if (value == null || this.value == null) {
-                if (this.value == null && value == null)
-                    action.$(this.value);
-            } else if (value) action.$(this.value);
+        if (!isMatch && value) {
+            action.$(this.value);
         }
         return this;
     }
 
-    @Override
-    public <E extends Throwable> BooleanVMatcher<V> when(Boolean value, VT0<E> action) throws E {
+    public <E extends Throwable> BooleanVMatcher<V> when(boolean value, VT0<E> action) throws E {
         Objects.requireNonNull(action);
-        if (!isMatch) {
-            if (value == null || this.value == null) {
-                if (this.value == null && value == null) {
-                    isMatch = true;
-                    action.$();
-                }
-            } else if (value) {
-                isMatch = true;
-                action.$();
-            }
+        if (!isMatch && value) {
+            isMatch = true;
+            action.$();
         }
         return this;
     }
 
-    @Override
-    public <E extends Throwable> BooleanVMatcher<V> whenNext(Boolean value, VT0<E> action) throws E {
+    public <E extends Throwable> BooleanVMatcher<V> whenNext(boolean value, VT0<E> action) throws E {
         Objects.requireNonNull(action);
-        if (!isMatch) {
-            if (value == null || this.value == null) {
-                if (this.value == null && value == null)
-                    action.$();
-            } else if (value) action.$();
+        if (!isMatch && value) {
+            action.$();
         }
         return this;
     }
 
-    @Override
     public Void orElse(V1<V> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
@@ -102,7 +81,6 @@ public class BooleanVMatcher<V> extends SimpleVMatcher<V, Boolean, V> {
         return returnValue;
     }
 
-    @Override
     public <E extends Throwable> Void orElse(VT0<E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
