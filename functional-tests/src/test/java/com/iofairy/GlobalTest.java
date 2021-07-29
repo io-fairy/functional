@@ -3,8 +3,7 @@ package com.iofairy;
 import com.iofairy.util.G;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author GG
@@ -22,6 +21,9 @@ public class GlobalTest {
         Object o2 = null;
         Integer i1 = null;
         String s4 = "";
+        String[] nullSs = null;
+        String[] ss1 = new String[]{};
+        String[] ss2 = new String[]{""};
 
         assertFalse(G.hasNull(i, o1, s1, s2));
         assertTrue(G.hasNull(i, o1, s1, s3));
@@ -32,6 +34,10 @@ public class GlobalTest {
         assertTrue(G.allNull(s3, o2, i1));
         assertFalse(G.allEmpty(s1, s2, s3));
         assertTrue(G.allEmpty(s1, s3, s4));
+        assertTrue(G.isEmpty(nullSs));
+        assertTrue(G.isEmpty(ss1));
+        assertFalse(G.isEmpty(ss2));
+
 
     }
 
@@ -59,6 +65,27 @@ public class GlobalTest {
         assertFalse(G.allBlank(s, s1, s4, s5));
         assertTrue(G.allBlank(nullSs));
         assertTrue(G.allBlank(nullSs1));
+
+    }
+
+    @Test
+    public void testFirstNonNull() {
+        String a = null;
+        String b = "";
+        String c = null;
+        String d = "abc";
+
+        String s = G.firstNonNull(a, b, c);
+        String s1 = G.firstNonNull(a, c);
+        String s2 = G.firstNonNull();
+        String s3 = G.firstNonNull((String[]) null);
+        String s4 = G.firstNonNull(a, d, c);
+
+        assertEquals("", s);
+        assertNull(s1);
+        assertNull(s2);
+        assertNull(s3);
+        assertEquals("abc", s4);
 
     }
 }

@@ -2,8 +2,7 @@ package com.iofairy;
 
 import com.iofairy.lambda.R1;
 import com.iofairy.pattern.PatternIn;
-import com.iofairy.tuple.Tuple;
-import com.iofairy.tuple.Tuple2;
+import com.iofairy.tuple.*;
 import com.iofairy.util.G;
 import org.junit.jupiter.api.Test;
 
@@ -65,6 +64,114 @@ public class PatternTest {
     }
 
     @Test
+    public void testPatternValue2() {
+        int i = 10;
+        Void nullValue = match(i)
+                .when(1,
+                        /*
+                         * if you want to match `when(V matchValue, V1<V> action)` not `when(V matchValue, R1<V, R> action)`,
+                         * you need add `{ }`, see: void-compatible and value-compatible,
+                         */
+                        v -> { System.out.println("match value：" + v); })  // add {} to void-compatible
+                .whenNext(10,
+                        v -> System.out.println("match value：" + v + " whenNext continue..."))
+                .when(20,
+                        v -> System.out.println("match value：" + v))
+                .orElse(
+                        v -> System.out.println("--orElse--"));
+        /*
+         * output:
+         * match value：10 whenNext continue...
+         * --orElse--
+         */
+
+        match(i)
+                .when(1,
+                        v -> { System.out.println("match value：" + v); })  // add {} to void-compatible
+                .whenNext(10,
+                        v -> System.out.println("match value：" + v + " whenNext continue..."))
+                .when(20,
+                        v -> System.out.println("match value：" + v))
+                .orElse(
+                        v -> { });        // Lambda 空执行
+
+    }
+
+
+    @Test
+    public void testPatternValue3() {
+        Tuple2<Integer, String> t2 = Tuple.of(1, "zs").alias("id", "name");
+        Tuple2<Integer, String> t21 = Tuple.of(1, "zs").alias("id", "name");
+
+        Tuple2<Integer, String> t22 = Tuple.of(1, "zs");
+        Tuple1<Integer> t1 = Tuple.of(1);
+
+
+        String res = match(t2)
+                .when(t21, v -> "match Tuple2 with alias")
+                .when(t1.arity() == 2, v -> "tuple arity is 2")
+                .when(t22, v -> "match Tuple2 no alias")
+                .orElse(v -> "not match");
+
+        assertEquals("match Tuple2 with alias", res);
+    }
+
+    @Test
+    public void testPatternValue4() {
+        Tuple2<Integer, String> t2 = Tuple.of(1, "zs").alias("id", "name");
+        Tuple2<Integer, String> t21 = Tuple.of(1, "zs").alias("id", "name");
+
+        Tuple2<Integer, String> t22 = Tuple.of(1, "zs");
+        Tuple1<Integer> t1 = Tuple.of(1);
+
+
+        String res = match(t2)
+                .when(t1.arity() == 2, v -> "tuple arity is 2")
+                .when(t22, v -> "match Tuple2 no alias")
+                .when(t21, v -> "match Tuple2 with alias")
+                .orElse(v -> "not match");
+
+        assertEquals("match Tuple2 with alias", res);
+    }
+
+    @Test
+    public void testPatternValue5() {
+        Tuple2<Integer, String> t2 = Tuple.of(1, "zs").alias("id", "name");
+        Tuple2<Integer, String> t21 = Tuple.of(1, "zs").alias("id", "name");
+
+        Tuple2<Integer, String> t22 = Tuple.of(1, "zs");
+        Tuple1<Integer> t1 = Tuple.of(1);
+
+
+        String res = match(t2)
+                .when(t1.arity() != 2, v -> "t1.arity() != 2")
+                .when(t1.aliasType().equals("string"), v -> "t1.aliasType().equals(\"string\")")
+                .when(t21, v -> "match Tuple2 with alias")
+                .orElse(v -> "not match");
+
+        assertEquals("t1.arity() != 2", res);
+    }
+
+    @Test
+    public void testPatternValue6() {
+        Tuple2<Integer, String> t2 = Tuple.of(1, "zs").alias("id", "name");
+        Tuple2<Integer, String> t21 = Tuple.of(1, "zs").alias("id", "name");
+
+        Tuple2<Integer, String> t22 = Tuple.of(1, "zs");
+        Tuple1<Integer> t1 = Tuple.of(1);
+
+
+        String res = match(t2)
+                .when(t22, v -> "match Tuple2 with alias")
+                .when(t1.arity() == 2, v -> "t1.arity() != 2")
+                .when(t1.aliasType().equals("null"), v -> "t1.aliasType().equals(\"null\")")
+                .orElse(v -> "not match");
+
+        assertEquals("t1.aliasType().equals(\"null\")", res);
+    }
+
+
+    @Test
     public void testPatternNullValue() {
         String s = null;
         String strResult1 = match(s)
@@ -112,40 +219,6 @@ public class PatternTest {
                 .when(null, v -> "null value")
                 .orElse(v -> "other value");
         assertEquals("null value", res);
-    }
-
-    @Test
-    public void testPatternValue2() {
-        int i = 10;
-        Void nullValue = match(i)
-                .when(1,
-                        /*
-                         * if you want to match `when(V matchValue, V1<V> action)` not `when(V matchValue, R1<V, R> action)`,
-                         * you need add `{ }`, see: void-compatible and value-compatible,
-                         */
-                        v -> { System.out.println("match value：" + v); })  // add {} to void-compatible
-                .whenNext(10,
-                        v -> System.out.println("match value：" + v + " whenNext continue..."))
-                .when(20,
-                        v -> System.out.println("match value：" + v))
-                .orElse(
-                        v -> System.out.println("--orElse--"));
-        /*
-         * output:
-         * match value：10 whenNext continue...
-         * --orElse--
-         */
-
-        match(i)
-                .when(1,
-                        v -> { System.out.println("match value：" + v); })  // add {} to void-compatible
-                .whenNext(10,
-                        v -> System.out.println("match value：" + v + " whenNext continue..."))
-                .when(20,
-                        v -> System.out.println("match value：" + v))
-                .orElse(
-                        v -> { });        // Lambda 空执行
-
     }
 
 

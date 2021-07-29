@@ -183,4 +183,19 @@ public class G {
         return arr == null || arr.length == 0;
     }
 
+    /**
+     * Gets the first object that is not {@code null}. <br>
+     * 获取第一个不为 {@code null} 的值
+     * @param rs object array
+     * @param <R> return type
+     * @return first non {@code null} object
+     */
+    public static <R> R firstNonNull(R... rs) {
+        if (isEmpty(rs)) return null;
+        for (R r : rs) {
+            if (r != null) return r;
+        }
+        return null;
+    }
+
 }
