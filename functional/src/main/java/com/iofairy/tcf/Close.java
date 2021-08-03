@@ -69,9 +69,9 @@ import java.util.logging.Logger;
  *      } catch (Exception e) {
  *           ...
  *      } finally {
- *          Close.of(rs).run(ResultSet::close);
- *          Close.of(st).run(Statement::close);
- *          Close.of(conn).run(Connection::close);
+ *          Close.close(rs);
+ *          Close.close(st);
+ *          Close.close(conn);
  *      }
  * </pre>
  * @param <C> object type
@@ -90,6 +90,59 @@ public class Close<C> {
         Close<T> close = new Close<>();
         close.c = t;
         return close;
+    }
+
+    public static <T extends AutoCloseable> void close(final T autoCloseable) {
+        close(autoCloseable, true);
+    }
+
+    public static <T extends AutoCloseable> void close(final T autoCloseable, boolean isPrintTrace) {
+        close(autoCloseable, isPrintTrace, 0);
+    }
+
+    public static <T extends AutoCloseable> void close(final T autoCloseable, boolean isPrintTrace, long delaySeconds) {
+        close(autoCloseable, isPrintTrace, TimeUnit.SECONDS, delaySeconds);
+    }
+
+    public static <T extends AutoCloseable> void close(final T autoCloseable, boolean isPrintTrace, TimeUnit timeUnit, long delay) {
+        if (autoCloseable != null) {
+            try {
+                timeUnit.sleep(delay);
+                autoCloseable.close();
+            } catch (Throwable e) {
+                if (isPrintTrace) {
+                    StringWriter sw = new StringWriter();
+                    PrintWriter pw = new PrintWriter(sw, true);
+                    e.printStackTrace(pw);
+                    log.severe("Exception in `close()` method:\n\n" + sw.getBuffer().toString());
+                }
+            }
+        }
+    }
+
+    public static <T extends AutoCloseable> void close(final T autoCloseable, V2<T, Throwable> catchAction) {
+        close(autoCloseable, catchAction, null);
+    }
+
+    public static <T extends AutoCloseable> void close(final T autoCloseable, V2<T, Throwable> catchAction, V1<T> finallyAction) {
+        close(autoCloseable, catchAction, finallyAction, 0);
+    }
+
+    public static <T extends AutoCloseable> void close(final T autoCloseable, V2<T, Throwable> catchAction, V1<T> finallyAction, long delaySeconds) {
+        close(autoCloseable, catchAction, finallyAction, TimeUnit.SECONDS, delaySeconds);
+    }
+
+    public static <T extends AutoCloseable> void close(final T autoCloseable, V2<T, Throwable> catchAction, V1<T> finallyAction, TimeUnit timeUnit, long delay) {
+        if (autoCloseable != null) {
+            try {
+                timeUnit.sleep(delay);
+                autoCloseable.close();
+            } catch (Throwable e) {
+                if (catchAction != null) catchAction.$(autoCloseable, e);
+            } finally {
+                if (finallyAction != null) finallyAction.$(autoCloseable);
+            }
+        }
     }
 
     public void tcf(VT1<C, Throwable> closeAction) {
