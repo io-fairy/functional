@@ -3,7 +3,7 @@ package com.iofairy;
 import com.iofairy.lambda.R1;
 import com.iofairy.pattern.PatternIn;
 import com.iofairy.tuple.*;
-import com.iofairy.util.G;
+import com.iofairy.top.G;
 import org.junit.jupiter.api.Test;
 
 import java.util.Objects;

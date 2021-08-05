@@ -1,6 +1,6 @@
 package com.iofairy;
 
-import com.iofairy.util.G;
+import com.iofairy.top.G;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

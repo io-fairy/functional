@@ -16,9 +16,8 @@
 package com.iofairy.tcf;
 
 import com.iofairy.lambda.*;
+import com.iofairy.top.G;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -111,10 +110,7 @@ public class Close<C> {
                 autoCloseable.close();
             } catch (Throwable e) {
                 if (isPrintTrace) {
-                    StringWriter sw = new StringWriter();
-                    PrintWriter pw = new PrintWriter(sw, true);
-                    e.printStackTrace(pw);
-                    log.severe("Exception in `close()` method:\n\n" + sw.getBuffer().toString());
+                    log.severe("Exception in `close()` method:\n" + G.stackTrace(e));
                 }
             }
         }
@@ -164,10 +160,7 @@ public class Close<C> {
                 closeAction.$(c);
             } catch (Throwable e) {
                 if (isPrintTrace) {
-                    StringWriter sw = new StringWriter();
-                    PrintWriter pw = new PrintWriter(sw, true);
-                    e.printStackTrace(pw);
-                    log.severe("Exception in `tcf()` method:\n\n" + sw.getBuffer().toString());
+                    log.severe("Exception in `tcf()` method:\n" + G.stackTrace(e));
                 }
             }
         }

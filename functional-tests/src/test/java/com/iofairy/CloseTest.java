@@ -17,6 +17,7 @@ public class CloseTest {
 
     @Test
     public void testCloseMethod() {
+        System.out.println(">>>>>testCloseMethod<<<<<");
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -36,6 +37,7 @@ public class CloseTest {
 
     @Test
     public void testCloseMethod1() {
+        System.out.println(">>>>>testCloseMethod1<<<<<");
         InputStream in = null;
         try {
             in = CloseTest.class.getClassLoader().getResourceAsStream("TestClose.txt");
@@ -52,6 +54,7 @@ public class CloseTest {
 
     @Test
     public void testClose() {
+        System.out.println(">>>>>testClose<<<<<");
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -71,6 +74,7 @@ public class CloseTest {
 
     @Test
     public void testCloseAndThrow() {
+        System.out.println(">>>>>testCloseAndThrow<<<<<");
         InputStream in = null;
         try {
             in = CloseTest.class.getClassLoader().getResourceAsStream("TestClose.txt");
@@ -89,6 +93,7 @@ public class CloseTest {
 
     @Test
     public void testCloseSilently() {
+        System.out.println(">>>>>testCloseSilently<<<<<");
         InputStream in = null;
         try {
             in = CloseTest.class.getClassLoader().getResourceAsStream("TestClose.txt");
@@ -106,6 +111,7 @@ public class CloseTest {
 
     @Test
     public void testCloseDelay1() {
+        System.out.println(">>>>>testCloseDelay1<<<<<");
         InputStream in = null;
         try {
             in = CloseTest.class.getClassLoader().getResourceAsStream("TestClose.txt");
@@ -128,6 +134,7 @@ public class CloseTest {
 
     @Test
     public void testCloseDelay2() {
+        System.out.println(">>>>>testCloseDelay2<<<<<");
         InputStream in = null;
         try {
             in = CloseTest.class.getClassLoader().getResourceAsStream("TestClose.txt");
@@ -149,6 +156,7 @@ public class CloseTest {
 
     @Test
     public void testCloseMethodThrowAction() {
+        System.out.println(">>>>>testCloseMethodThrowAction<<<<<");
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -168,6 +176,7 @@ public class CloseTest {
 
     @Test
     public void testThrowAction() {
+        System.out.println(">>>>>testThrowAction<<<<<");
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -187,6 +196,7 @@ public class CloseTest {
 
     @Test
     public void testCloseMethodFinallyAction() {
+        System.out.println(">>>>>testCloseMethodFinallyAction<<<<<");
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -206,6 +216,7 @@ public class CloseTest {
 
     @Test
     public void testFinallyAction() {
+        System.out.println(">>>>>testFinallyAction<<<<<");
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -225,6 +236,7 @@ public class CloseTest {
 
     @Test
     public void testCloseMethodDelay() {
+        System.out.println(">>>>>testCloseMethodDelay<<<<<");
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -244,6 +256,7 @@ public class CloseTest {
 
     @Test
     public void testDelay() {
+        System.out.println(">>>>>testDelay<<<<<");
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;

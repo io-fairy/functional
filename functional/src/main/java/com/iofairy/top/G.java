@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.iofairy.util;
+package com.iofairy.top;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Objects;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.*;
 
 /**
  * Global Variables And Methods. <br>
- * 常用的变量与函数
+ * 常用的变量与函数<br>
+ * 采用简单类名 <b>G</b> 模拟类似Kotlin的 <b>Top-level function</b> （顶级函数、全局函数））
  *
  * @since 0.0.1
  */
@@ -171,14 +171,39 @@ public class G {
         return Character.isWhitespace(c) || Character.isSpaceChar(c);
     }
 
+    /**
+     * Return {@code true} when collection is {@code null} or collection is empty. <br>
+     * 如果集合为{@code null}或集合中没有一个元素，则返回{@code true}
+     * @param collection collection
+     * @param <T> type of elements in collection
+     * @return {@code true} or {@code false}
+     * @since 0.0.1
+     */
     public static <T> boolean isEmpty(Collection<T> collection) {
         return collection == null || collection.isEmpty();
     }
 
+    /**
+     * Return {@code true} when map is {@code null} or map is empty. <br>
+     * 如果map为{@code null}或map中没有一个元素，则返回{@code true}
+     * @param map map object
+     * @param <K> type of key
+     * @param <V> type of value
+     * @return {@code true} or {@code false}
+     * @since 0.0.1
+     */
     public static <K, V> boolean isEmpty(Map<K, V> map) {
         return map == null || map.isEmpty();
     }
 
+    /**
+     * Return {@code true} when array is {@code null} or array is empty. <br>
+     * 如果数组为{@code null}或数组中没有一个元素，则返回{@code true}
+     * @param arr array
+     * @param <T> type of elements in array
+     * @return {@code true} or {@code false}
+     * @since 0.0.1
+     */
     public static <T> boolean isEmpty(T[] arr) {
         return arr == null || arr.length == 0;
     }
@@ -189,6 +214,7 @@ public class G {
      * @param rs object array
      * @param <R> return type
      * @return first non {@code null} object
+     * @since 0.0.7
      */
     public static <R> R firstNonNull(R... rs) {
         if (isEmpty(rs)) return null;
@@ -196,6 +222,20 @@ public class G {
             if (r != null) return r;
         }
         return null;
+    }
+
+    /**
+     * Gets the full exception stack trace from {@link Throwable} object. <br>
+     * 从 {@link Throwable} 对象中获取完整的异常堆栈信息
+     * @param e Throwable object
+     * @return full exception stack trace
+     * @since 0.0.8
+     */
+    public static String stackTrace(Throwable e) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw, true);
+        e.printStackTrace(pw);
+        return sw.getBuffer().toString();
     }
 
 }

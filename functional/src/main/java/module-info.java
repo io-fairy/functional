@@ -26,6 +26,6 @@ module iofairy.functional {
     exports com.iofairy.pattern.mapping;
     exports com.iofairy.pattern.matcher;
     exports com.iofairy.si;
-    exports com.iofairy.util;
+    exports com.iofairy.top;
     exports com.iofairy.tcf;
 }
