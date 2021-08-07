@@ -22,7 +22,8 @@ import java.util.*;
 /**
  * Global Variables And Methods. <br>
  * 常用的变量与函数。<br>
- * 采用简单类名 <b>G</b> 模拟类似Kotlin的 <b>Top-level function</b>（顶级函数、全局函数）
+ * &gt;&gt;&gt;&gt;&gt;&gt; <br>
+ * 采用简单类名 <b>G (Global)</b> 模拟类似 Kotlin 的 <b>Top-level function</b>（顶级函数、全局函数）
  *
  * @since 0.0.1
  */

@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.sql.*;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,7 +44,8 @@ public class CloseTest {
             System.out.println("testCloseMethod1: do something when an exception occurs");
         } finally {
             long startTime = System.currentTimeMillis();
-            Close.close(in, true, 1);
+            Try.sleep(1000);
+            Close.close(in, true);
             assertTrue(System.currentTimeMillis() - startTime > 900);
 
             System.out.println("testCloseMethod1: Close all resources");
@@ -86,7 +86,7 @@ public class CloseTest {
              */
             Close.of(in).tcf(c -> { c.close(); throw new Exception("occur exception when close"); });
 
-            Try.tcf(() -> Thread.sleep(10));
+            Try.sleep(10);
             System.out.println("testCloseAndThrow: Close all resources");
         }
     }
@@ -122,7 +122,8 @@ public class CloseTest {
             /*
              * delay 1 second before close
              */
-            Close.of(in).tcf(c -> { c.close(); throw new Exception("occur exception when close"); }, false, 1);
+            Try.sleep(1000);
+            Close.of(in).tcf(c -> { c.close(); throw new Exception("occur exception when close"); }, false);
 
             System.out.println("cost time: " + (System.currentTimeMillis() - startTime));
 
@@ -145,7 +146,8 @@ public class CloseTest {
             /*
              * delay 1 second before close
              */
-            Close.of(in).tcf(c -> { c.close(); throw new Exception("occur exception when close"); }, null, null, TimeUnit.MILLISECONDS, 1000);
+            Try.sleep(1000);
+            Close.of(in).tcf(c -> { c.close(); throw new Exception("occur exception when close"); }, null, null);
             System.out.println("cost time: " + (System.currentTimeMillis() - startTime));
 
             assertTrue((System.currentTimeMillis() - startTime) > 900);
@@ -231,46 +233,6 @@ public class CloseTest {
             Close.of(conn).tcf(Connection::close, null, f -> System.out.println("finally action"));
 
             System.out.println("testFinallyAction: Close all resources");
-        }
-    }
-
-    @Test
-    public void testCloseMethodDelay() {
-        System.out.println(">>>>>testCloseMethodDelay<<<<<");
-        Connection conn = null;
-        PreparedStatement st = null;
-        ResultSet rs = null;
-        try {
-            System.out.println("testCloseMethodDelay: do something");
-            throw new Exception();
-        } catch (Exception e) {
-            System.out.println("testCloseMethodDelay: do something when an exception occurs");
-        } finally {
-            Close.close(rs, null, null, TimeUnit.MILLISECONDS, 1000);
-            Close.close(st, null, f -> System.out.println("finally action"));
-            Close.close(conn, null, f -> System.out.println("finally action"));
-
-            System.out.println("testCloseMethodDelay: Close all resources");
-        }
-    }
-
-    @Test
-    public void testDelay() {
-        System.out.println(">>>>>testDelay<<<<<");
-        Connection conn = null;
-        PreparedStatement st = null;
-        ResultSet rs = null;
-        try {
-            System.out.println("testDelay: do something");
-            throw new Exception();
-        } catch (Exception e) {
-            System.out.println("testDelay: do something when an exception occurs");
-        } finally {
-            Close.of(rs).tcf(ResultSet::close, null, null, TimeUnit.MILLISECONDS, 1000);
-            Close.of(st).tcf(Statement::close, null, f -> System.out.println("finally action"));
-            Close.of(conn).tcf(Connection::close, null, f -> System.out.println("finally action"));
-
-            System.out.println("testDelay: Close all resources");
         }
     }
 

@@ -19,13 +19,13 @@
 <dependency>
   <groupId>com.iofairy</groupId>
   <artifactId>functional</artifactId>
-  <version>0.0.8</version>
+  <version>0.1.0</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-implementation 'com.iofairy:functional:0.0.8'
+implementation 'com.iofairy:functional:0.1.0'
 ```
 
 

@@ -18,7 +18,6 @@ package com.iofairy.tcf;
 import com.iofairy.lambda.*;
 import com.iofairy.top.G;
 
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 /**
@@ -91,22 +90,27 @@ public class Close<C> {
         return close;
     }
 
+    /**
+     * Closing resources. <br>
+     * 用于简化关闭资源的操作
+     * @param autoCloseable resources that {@code implements} {@link AutoCloseable}
+     * @param <T> type of resources
+     * @see #close(AutoCloseable, boolean)
+     */
     public static <T extends AutoCloseable> void close(final T autoCloseable) {
         close(autoCloseable, true);
     }
 
+    /**
+     * Closing resources. <br>
+     * 用于简化关闭资源的操作
+     * @param autoCloseable resources that {@code implements} {@link AutoCloseable}
+     * @param isPrintTrace isPrintTrace
+     * @param <T> type of resources
+     */
     public static <T extends AutoCloseable> void close(final T autoCloseable, boolean isPrintTrace) {
-        close(autoCloseable, isPrintTrace, 0);
-    }
-
-    public static <T extends AutoCloseable> void close(final T autoCloseable, boolean isPrintTrace, long delaySeconds) {
-        close(autoCloseable, isPrintTrace, TimeUnit.SECONDS, delaySeconds);
-    }
-
-    public static <T extends AutoCloseable> void close(final T autoCloseable, boolean isPrintTrace, TimeUnit timeUnit, long delay) {
         if (autoCloseable != null) {
             try {
-                timeUnit.sleep(delay);
                 autoCloseable.close();
             } catch (Throwable e) {
                 if (isPrintTrace) {
@@ -116,22 +120,29 @@ public class Close<C> {
         }
     }
 
+    /**
+     * Simplify {@code try-catch-finally} block when closing resources. <br>
+     * 用于简化关闭资源的操作
+     * @param autoCloseable resources that {@code implements} {@link AutoCloseable}
+     * @param catchAction catchAction
+     * @param <T> type of resources
+     * @see #close(AutoCloseable, V2, V1)
+     */
     public static <T extends AutoCloseable> void close(final T autoCloseable, V2<T, Throwable> catchAction) {
         close(autoCloseable, catchAction, null);
     }
 
+    /**
+     * Simplify {@code try-catch-finally} block when closing resources. <br>
+     * 用于简化关闭资源的操作
+     * @param autoCloseable resources that {@code implements} {@link AutoCloseable}
+     * @param catchAction catchAction
+     * @param finallyAction finallyAction
+     * @param <T> type of resources
+     */
     public static <T extends AutoCloseable> void close(final T autoCloseable, V2<T, Throwable> catchAction, V1<T> finallyAction) {
-        close(autoCloseable, catchAction, finallyAction, 0);
-    }
-
-    public static <T extends AutoCloseable> void close(final T autoCloseable, V2<T, Throwable> catchAction, V1<T> finallyAction, long delaySeconds) {
-        close(autoCloseable, catchAction, finallyAction, TimeUnit.SECONDS, delaySeconds);
-    }
-
-    public static <T extends AutoCloseable> void close(final T autoCloseable, V2<T, Throwable> catchAction, V1<T> finallyAction, TimeUnit timeUnit, long delay) {
         if (autoCloseable != null) {
             try {
-                timeUnit.sleep(delay);
                 autoCloseable.close();
             } catch (Throwable e) {
                 if (catchAction != null) catchAction.$(autoCloseable, e);
@@ -141,22 +152,25 @@ public class Close<C> {
         }
     }
 
+    /**
+     * Closing resources that not {@code implements} {@link AutoCloseable}. <br>
+     * 用于简化关闭资源的操作，且这些资源未实现 {@link AutoCloseable} 接口
+     * @param closeAction closeAction
+     * @see #tcf(VT1, boolean)
+     */
     public void tcf(VT1<C, Throwable> closeAction) {
         tcf(closeAction, true);
     }
 
+    /**
+     * Closing resources that not {@code implements} {@link AutoCloseable}. <br>
+     * 用于简化关闭资源的操作，且这些资源未实现 {@link AutoCloseable} 接口
+     * @param closeAction closeAction
+     * @param isPrintTrace isPrintTrace
+     */
     public void tcf(VT1<C, Throwable> closeAction, boolean isPrintTrace) {
-        tcf(closeAction, isPrintTrace, 0);
-    }
-
-    public void tcf(VT1<C, Throwable> closeAction, boolean isPrintTrace, long delaySeconds) {
-        tcf(closeAction, isPrintTrace, TimeUnit.SECONDS, delaySeconds);
-    }
-
-    public void tcf(VT1<C, Throwable> closeAction, boolean isPrintTrace, TimeUnit timeUnit, long delay) {
         if (c != null) {
             try {
-                timeUnit.sleep(delay);
                 closeAction.$(c);
             } catch (Throwable e) {
                 if (isPrintTrace) {
@@ -166,22 +180,27 @@ public class Close<C> {
         }
     }
 
+    /**
+     * Simplify {@code try-catch-finally} block when closing resources that not {@code implements} {@link AutoCloseable}. <br>
+     * 用于简化关闭资源的操作，且这些资源未实现 {@link AutoCloseable} 接口
+     * @param closeAction closeAction
+     * @param catchAction catchAction
+     * @see #tcf(VT1, V2, V1)
+     */
     public void tcf(VT1<C, Throwable> closeAction, V2<C, Throwable> catchAction) {
         tcf(closeAction, catchAction, null);
     }
 
+    /**
+     * Simplify {@code try-catch-finally} block when closing resources that not {@code implements} {@link AutoCloseable}. <br>
+     * 用于简化关闭资源的操作，且这些资源未实现 {@link AutoCloseable} 接口
+     * @param closeAction closeAction
+     * @param catchAction catchAction
+     * @param finallyAction finallyAction
+     */
     public void tcf(VT1<C, Throwable> closeAction, V2<C, Throwable> catchAction, V1<C> finallyAction) {
-        tcf(closeAction, catchAction, finallyAction, 0);
-    }
-
-    public void tcf(VT1<C, Throwable> closeAction, V2<C, Throwable> catchAction, V1<C> finallyAction, long delaySeconds) {
-        tcf(closeAction, catchAction, finallyAction, TimeUnit.SECONDS, delaySeconds);
-    }
-
-    public void tcf(VT1<C, Throwable> closeAction, V2<C, Throwable> catchAction, V1<C> finallyAction, TimeUnit timeUnit, long delay) {
         if (c != null) {
             try {
-                timeUnit.sleep(delay);
                 closeAction.$(c);
             } catch (Throwable e) {
                 if (catchAction != null) catchAction.$(c, e);

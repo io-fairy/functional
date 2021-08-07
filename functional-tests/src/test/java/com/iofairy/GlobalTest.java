@@ -88,4 +88,13 @@ public class GlobalTest {
         assertEquals("abc", s4);
 
     }
+
+    @Test
+    public void testStackTrace() {
+        try {
+            int i = 1 / 0;
+        } catch (Exception e) {
+            System.out.println(G.stackTrace(e));
+        }
+    }
 }

@@ -28,14 +28,22 @@ import java.util.logging.Logger;
  * non-use of <b>{@code Try}</b>: <br>
  * <pre>
  *      try {
- *          Thread.sleep(500);
+ *          Thread.sleep(2000);
  *      } catch (InterruptedException e) {
  *          e.printStackTrace();
  *      }
  * </pre>
  * use <b>{@code Try}</b>: <br>
  * <pre>
- *      Try.tcf(() -&gt; Thread.sleep(500));
+ *      Try.sleep(2000);
+ * </pre>
+ * or
+ * <pre>
+ *      Try.sleep(TimeUnit.SECONDS, 2);
+ * </pre>
+ * or
+ * <pre>
+ *      Try.tcf(() -&gt; Thread.sleep(2000));
  * </pre>
  * @since 0.0.4
  */
@@ -46,21 +54,24 @@ public class Try {
     private Try() {
     }
 
+    /**
+     * Simplify {@code try-catch} block. <br>
+     * 简化冗长的 {@code try-catch} 块
+     * @param tryAction action that maybe throw exception
+     * @see #tcf(VT0, boolean)
+     */
     public static void tcf(VT0<Throwable> tryAction) {
         tcf(tryAction, true);
     }
 
+    /**
+     * Simplify {@code try-catch} block. <br>
+     * 简化冗长的 {@code try-catch} 块
+     * @param tryAction action that maybe throw exception
+     * @param isPrintTrace isPrintTrace
+     */
     public static void tcf(VT0<Throwable> tryAction, boolean isPrintTrace) {
-        tcf(tryAction, isPrintTrace, 0);
-    }
-
-    public static void tcf(VT0<Throwable> tryAction, boolean isPrintTrace, long delaySeconds) {
-        tcf(tryAction, isPrintTrace, TimeUnit.SECONDS, delaySeconds);
-    }
-
-    public static void tcf(VT0<Throwable> tryAction, boolean isPrintTrace, TimeUnit timeUnit, long delay) {
         try {
-            timeUnit.sleep(delay);
             tryAction.$();
         } catch (Throwable e) {
             if (isPrintTrace) {
@@ -69,25 +80,42 @@ public class Try {
         }
     }
 
+    /**
+     * Simplify {@code try-catch} block. <br>
+     * 简化冗长的 {@code try-catch} 块
+     * @param tryAction action that maybe throw exception
+     * @param <R> return value type
+     * @return R object
+     * @see #tcf(RT0, boolean)
+     */
     public static <R> R tcf(RT0<R, Throwable> tryAction) {
         return tcf(tryAction, true);
     }
 
+    /**
+     * Simplify {@code try-catch} block. <br>
+     * 简化冗长的 {@code try-catch} 块
+     * @param tryAction action that maybe throw exception
+     * @param isPrintTrace isPrintTrace
+     * @param <R> return value type
+     * @return R object
+     * @see #tcf(RT0, Object, boolean)
+     */
     public static <R> R tcf(RT0<R, Throwable> tryAction, boolean isPrintTrace) {
         return tcf(tryAction, null, isPrintTrace);
     }
 
+    /**
+     * Simplify {@code try-catch} block. <br>
+     * 简化冗长的 {@code try-catch} 块
+     * @param tryAction action that maybe throw exception
+     * @param defaultReturn default return value when occur exception
+     * @param isPrintTrace isPrintTrace
+     * @param <R> return value type
+     * @return R object
+     */
     public static <R> R tcf(RT0<R, Throwable> tryAction, R defaultReturn, boolean isPrintTrace) {
-        return tcf(tryAction, defaultReturn, isPrintTrace, 0);
-    }
-
-    public static <R> R tcf(RT0<R, Throwable> tryAction, R defaultReturn, boolean isPrintTrace, long delaySeconds) {
-        return tcf(tryAction, defaultReturn, isPrintTrace, TimeUnit.SECONDS, delaySeconds);
-    }
-
-    public static <R> R tcf(RT0<R, Throwable> tryAction, R defaultReturn, boolean isPrintTrace, TimeUnit timeUnit, long delay) {
         try {
-            timeUnit.sleep(delay);
             return tryAction.$();
         } catch (Throwable e) {
             if (isPrintTrace) {
@@ -97,43 +125,95 @@ public class Try {
         return defaultReturn;
     }
 
+    /**
+     * Simplify {@code try-catch} block. <br>
+     * 简化冗长的 {@code try-catch} 块
+     * @param tryAction action that maybe throw exception
+     * @param catchAction catchAction
+     */
     public static void tcf(VT0<Throwable> tryAction, V1<Throwable> catchAction) {
-        tcf(tryAction, catchAction, 0);
-    }
-
-    public static void tcf(VT0<Throwable> tryAction, V1<Throwable> catchAction, long delaySeconds) {
-        tcf(tryAction, catchAction, TimeUnit.SECONDS, delaySeconds);
-    }
-
-    public static void tcf(VT0<Throwable> tryAction, V1<Throwable> catchAction, TimeUnit timeUnit, long delay) {
         try {
-            timeUnit.sleep(delay);
             tryAction.$();
         } catch (Throwable e) {
             if (catchAction != null) catchAction.$(e);
         }
     }
 
+    /**
+     * Simplify {@code try-catch} block. <br>
+     * 简化冗长的 {@code try-catch} 块
+     * @param tryAction action that maybe throw exception
+     * @param catchAction catchAction
+     * @param <R> return value type
+     * @return R object
+     * @see #tcf(RT0, Object, V1)
+     */
     public static <R> R tcf(RT0<R, Throwable> tryAction, V1<Throwable> catchAction) {
         return tcf(tryAction, null, catchAction);
     }
 
+    /**
+     * Simplify {@code try-catch} block. <br>
+     * 简化冗长的 {@code try-catch} 块
+     * @param tryAction action that maybe throw exception
+     * @param defaultReturn default return value when occur exception
+     * @param catchAction catchAction
+     * @param <R> return value type
+     * @return R object
+     */
     public static <R> R tcf(RT0<R, Throwable> tryAction, R defaultReturn, V1<Throwable> catchAction) {
-        return tcf(tryAction, defaultReturn, catchAction, 0);
-    }
-
-    public static <R> R tcf(RT0<R, Throwable> tryAction, R defaultReturn, V1<Throwable> catchAction, long delaySeconds) {
-        return tcf(tryAction, defaultReturn, catchAction, TimeUnit.SECONDS, delaySeconds);
-    }
-
-    public static <R> R tcf(RT0<R, Throwable> tryAction, R defaultReturn, V1<Throwable> catchAction, TimeUnit timeUnit, long delay) {
         try {
-            timeUnit.sleep(delay);
             return tryAction.$();
         } catch (Throwable e) {
             if (catchAction != null) catchAction.$(e);
         }
         return defaultReturn;
+    }
+
+    /**
+     * Performs a {@link #sleep(long, boolean)}
+     * @param milliSeconds the length of time to sleep in millisecond
+     * @since 0.1.0
+     */
+    public static void sleep(long milliSeconds) {
+        sleep(milliSeconds, true);
+    }
+
+    /**
+     * Performs a {@link #sleep(TimeUnit, long, boolean)}
+     * @param milliSeconds the length of time to sleep in millisecond
+     * @param isPrintTrace isPrintTrace
+     * @since 0.1.0
+     */
+    public static void sleep(long milliSeconds, boolean isPrintTrace) {
+        sleep(TimeUnit.MILLISECONDS, milliSeconds, isPrintTrace);
+    }
+
+    /**
+     * Performs a {@link #sleep(TimeUnit, long, boolean)}
+     * @param timeUnit timeUnit
+     * @param timeout the minimum time to sleep. If less than or equal to zero, do not sleep at all.
+     * @since 0.1.0
+     */
+    public static void sleep(TimeUnit timeUnit, long timeout) {
+        sleep(timeUnit, timeout, true);
+    }
+
+    /**
+     * Performs a {@link TimeUnit#sleep(long)} using this time unit
+     * @param timeUnit timeUnit
+     * @param timeout the minimum time to sleep. If less than or equal to zero, do not sleep at all.
+     * @param isPrintTrace isPrintTrace
+     * @since 0.1.0
+     */
+    public static void sleep(TimeUnit timeUnit, long timeout, boolean isPrintTrace) {
+        try {
+            timeUnit.sleep(timeout);
+        } catch (Throwable e) {
+            if (isPrintTrace) {
+                log.severe("Exception in `sleep()` method:\n" + G.stackTrace(e));
+            }
+        }
     }
 
 }
