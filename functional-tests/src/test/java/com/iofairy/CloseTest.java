@@ -37,18 +37,51 @@ public class CloseTest {
     @Test
     public void testCloseMethod1() {
         System.out.println(">>>>>testCloseMethod1<<<<<");
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            System.out.println("testCloseMethod1: do something");
+            throw new Exception();
+        } catch (Exception e) {
+            System.out.println("testCloseMethod1: do something when an exception occurs");
+        } finally {
+            Close.closeAll(rs, st, conn);
+
+            System.out.println("testCloseMethod1: Close all resources");
+        }
+    }
+
+    @Test
+    public void testCloseMethod2() {
+        System.out.println(">>>>>testCloseMethod2<<<<<");
         InputStream in = null;
         try {
             in = CloseTest.class.getClassLoader().getResourceAsStream("TestClose.txt");
         } catch (Exception e) {
-            System.out.println("testCloseMethod1: do something when an exception occurs");
+            System.out.println("testCloseMethod2: do something when an exception occurs");
         } finally {
             long startTime = System.currentTimeMillis();
             Try.sleep(1000);
             Close.close(in, true);
             assertTrue(System.currentTimeMillis() - startTime > 900);
 
-            System.out.println("testCloseMethod1: Close all resources");
+            System.out.println("testCloseMethod2: Close all resources");
+        }
+    }
+
+    @Test
+    public void testCloseMethod3() {
+        System.out.println(">>>>>testCloseMethod3<<<<<");
+        InputStream in = null;
+        try {
+            in = CloseTest.class.getClassLoader().getResourceAsStream("TestClose.txt");
+        } catch (Exception e) {
+            System.out.println("testCloseMethod3: do something when an exception occurs");
+        } finally {
+            Close.closeAll();
+            Close.closeAll(null);
+            Close.closeAll(in);
         }
     }
 
