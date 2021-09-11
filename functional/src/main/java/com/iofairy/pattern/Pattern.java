@@ -101,11 +101,87 @@ public class Pattern {
         return new BooleanMatcherMapping<>(NONE);
     }
 
+    /**
+     * Use Type Matcher instead of {@code instanceof}. <br>
+     * 此 {@code match()} 函数可替代 {@code instanceof} 类型检测与类型转换功能。<br>
+     * <b>Examples:</b>
+     * <pre>
+     * Object o = Tuple.of("zs", 20);
+     *
+     * Integer result = match(o, TYPE)
+     *         .when(Integer.class, v -&gt; v + 10)
+     *         .when(Tuple2.class,  v -&gt; v.arity())
+     *         .when(String.class,  v -&gt; v.contains("abc") ? 20 : 30)
+     *         .orElse(v -&gt; 40);
+     * </pre>
+     * <b>It is equivalent to the code below: </b>
+     * <pre>
+     * Integer ifResult;
+     * if (o instanceof Integer) {
+     *     ifResult = (Integer) o + 10;
+     * } else if (o instanceof Tuple2) {
+     *     ifResult = ((Tuple2) o).arity();
+     * } else if (o instanceof String) {
+     *     ifResult = ((String) o).contains("abc") ? 20 : 30;
+     * } else {
+     *     ifResult = 40;
+     * }
+     * </pre>
+     *
+     * @param value value
+     * @param patternType {@link PatternType}
+     * @param <V> value type
+     * @return TypeMatcherMapping
+     * @since 0.0.1
+     */
     public static <V> TypeMatcherMapping<V> match(V value, PatternType patternType) {
         Objects.requireNonNull(patternType);
         return new TypeMatcherMapping<>(value);
     }
 
+    /**
+     * Pattern matching for String. <br>
+     * 为字符串提供强大的模式匹配。<br>
+     * <b>Examples:</b>
+     * <pre>
+     * String str = "aBcdE123.$fGHIj";
+     *
+     * // ignore case match
+     * String res1 = match(str, IGNORECASE)
+     *         .when((String) null,     v -&gt; "match null")
+     *         .when("abcd",            v -&gt; "match abcd")
+     *         .when("abcde123.$fGHIj", v -&gt; "ignore case match")
+     *         .orElse(v -&gt; "no match");
+     *
+     * // CONTAIN match
+     * String res2 = match(str, CONTAIN)
+     *         .when("abcd", v -&gt; "abcd")
+     *         .when("E123", v -&gt; "E123")
+     *         .orElse(v -&gt; "no match");
+     *
+     * // ignore case for contain
+     * String res3 = match(str, ICCONTAIN)
+     *         .when("abcd1",   v -&gt; "abcd1")
+     *         .when(in(null, "aaa", ".$fghi", "123"), v -&gt; ".$fghi")
+     *         .orElse(v -&gt; "no match");
+     *
+     * // PREFIX
+     * String res4 = match(str, PREFIX)
+     *         .when("abcd",    v -&gt; "abcd")
+     *         .when("aBcd",    v -&gt; "aBcd")
+     *         .orElse(v -&gt; "no match");
+     *
+     * // ignore case for suffix
+     * String res5 = match(str, ICSUFFIX)
+     *         .when("fghij",   v -&gt; "fGHIj")
+     *         .when("aBcd",    v -&gt; "aBcd")
+     *         .orElse(v -&gt; "no match");
+     * </pre>
+     * @param value value
+     * @param patternString {@link PatternString}
+     * @return StringMatcherMapping
+     * @since 0.0.1
+     */
     public static StringMatcherMapping match(String value, PatternString patternString) {
         Objects.requireNonNull(patternString);
         return new StringMatcherMapping(value, patternString);

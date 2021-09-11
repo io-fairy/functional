@@ -226,7 +226,8 @@ public class PatternTest {
     public void testPatternType() {
         Object o = Tuple.of("zs", 20);
 
-        Integer result = match(o, TYPE)  // add `TYPE` to match Class<?>
+        // add `TYPE` to match Class<?>
+        Integer result = match(o, TYPE)
                 .when(Integer.class, v -> v + 10)
                 .when(Tuple2.class,  v -> v.arity())
                 .when(String.class,  v -> v.contains("abc") ? 20 : 30)

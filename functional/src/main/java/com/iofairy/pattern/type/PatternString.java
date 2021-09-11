@@ -20,12 +20,44 @@ package com.iofairy.pattern.type;
  * @since 0.0.1
  */
 public enum PatternString implements PatternTypes {
+    /**
+     * String equality<br>
+     * 按值匹配
+     */
     STRING,
+    /**
+     * ignore case<br>
+     * 忽略大小写的值匹配
+     */
     IGNORECASE,
+    /**
+     * contain<br>
+     * 是否包含指定字符串的匹配
+     */
     CONTAIN,
+    /**
+     * prefix<br>
+     * 字符串前缀匹配
+     */
     PREFIX,
+    /**
+     * suffix<br>
+     * 字符串后缀匹配
+     */
     SUFFIX,
-    ICCONTAIN,  // ignore case for contain
-    ICPREFIX,   // ignore case for prefix
-    ICSUFFIX    // ignore case for suffix
+    /**
+     * ignore case for contain<br>
+     * 忽略大小写的包含匹配
+     */
+    ICCONTAIN,
+    /**
+     * ignore case for prefix<br>
+     * 忽略大小写的前缀匹配
+     */
+    ICPREFIX,
+    /**
+     * ignore case for suffix<br>
+     * 忽略大小写的后缀匹配
+     */
+    ICSUFFIX
 }
