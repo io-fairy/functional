@@ -150,30 +150,30 @@ public class Pattern {
      * String res1 = match(str, IGNORECASE)
      *         .when((String) null,     v -&gt; "match null")
      *         .when("abcd",            v -&gt; "match abcd")
-     *         .when("abcde123.$fGHIj", v -&gt; "ignore case match")
+     *         .when("abcde123.$fGHIj", v -&gt; "ignore case match")        // match this
      *         .orElse(v -&gt; "no match");
      *
      * // CONTAIN match
      * String res2 = match(str, CONTAIN)
      *         .when("abcd", v -&gt; "abcd")
-     *         .when("E123", v -&gt; "E123")
+     *         .when("E123", v -&gt; "E123")        // match this
      *         .orElse(v -&gt; "no match");
      *
      * // ignore case for contain
      * String res3 = match(str, ICCONTAIN)
      *         .when("abcd1",   v -&gt; "abcd1")
-     *         .when(in(null, "aaa", ".$fghi", "123"), v -&gt; ".$fghi")
+     *         .when(in(null, "aaa", ".$fghi", "123"), v -&gt; ".$fghi")    // match this
      *         .orElse(v -&gt; "no match");
      *
      * // PREFIX
      * String res4 = match(str, PREFIX)
      *         .when("abcd",    v -&gt; "abcd")
-     *         .when("aBcd",    v -&gt; "aBcd")
+     *         .when("aBcd",    v -&gt; "aBcd")         // match this
      *         .orElse(v -&gt; "no match");
      *
      * // ignore case for suffix
      * String res5 = match(str, ICSUFFIX)
-     *         .when("fghij",   v -&gt; "fGHIj")
+     *         .when("fghij",   v -&gt; "fGHIj")        // match this
      *         .when("aBcd",    v -&gt; "aBcd")
      *         .orElse(v -&gt; "no match");
      * </pre>
