@@ -16,7 +16,7 @@
 package com.iofairy.pattern.matcher;
 
 import com.iofairy.lambda.R1;
-import com.iofairy.lambda.RT0;
+import com.iofairy.lambda.RT1;
 import com.iofairy.pattern.PatternIn;
 
 /**
@@ -37,8 +37,8 @@ public abstract class SimpleRInMatcher<V, P, L, R> extends SimpleRMatcher<V, P, 
 
     public abstract SimpleRInMatcher<V, P, L, R> whenNext(PatternIn<P> values, R1<L, R> action);
 
-    public abstract <E extends Throwable> SimpleRInMatcher<V, P, L, R> when(PatternIn<P> values, RT0<R, E> action) throws E;
+    public abstract <E extends Throwable> SimpleRInMatcher<V, P, L, R> with(PatternIn<P> values, RT1<L, R, E> action) throws E;
 
-    public abstract <E extends Throwable> SimpleRInMatcher<V, P, L, R> whenNext(PatternIn<P> values, RT0<R, E> action) throws E;
+    public abstract <E extends Throwable> SimpleRInMatcher<V, P, L, R> withNext(PatternIn<P> values, RT1<L, R, E> action) throws E;
 
 }

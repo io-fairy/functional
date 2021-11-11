@@ -16,7 +16,7 @@
 package com.iofairy.pattern.matcher;
 
 import com.iofairy.lambda.V1;
-import com.iofairy.lambda.VT0;
+import com.iofairy.lambda.VT1;
 import com.iofairy.pattern.PatternIn;
 
 /**
@@ -37,8 +37,8 @@ public abstract class SimpleVInMatcher<V, P, L> extends SimpleVMatcher<V, P, L> 
 
     public abstract SimpleVInMatcher<V, P, L> whenNext(PatternIn<P> values, V1<L> action);
 
-    public abstract <E extends Throwable> SimpleVInMatcher<V, P, L> when(PatternIn<P> values, VT0<E> action) throws E;
+    public abstract <E extends Throwable> SimpleVInMatcher<V, P, L> with(PatternIn<P> values, VT1<L, E> action) throws E;
 
-    public abstract <E extends Throwable> SimpleVInMatcher<V, P, L> whenNext(PatternIn<P> values, VT0<E> action) throws E;
+    public abstract <E extends Throwable> SimpleVInMatcher<V, P, L> withNext(PatternIn<P> values, VT1<L, E> action) throws E;
 
 }

@@ -16,7 +16,7 @@
 package com.iofairy.pattern.matcher;
 
 import com.iofairy.lambda.V1;
-import com.iofairy.lambda.VT0;
+import com.iofairy.lambda.VT1;
 
 import java.util.Objects;
 
@@ -56,19 +56,19 @@ public class BooleanVMatcher<V> implements Matcher {
         return this;
     }
 
-    public <E extends Throwable> BooleanVMatcher<V> when(boolean value, VT0<E> action) throws E {
+    public <E extends Throwable> BooleanVMatcher<V> with(boolean value, VT1<V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             isMatch = true;
-            action.$();
+            action.$(this.value);
         }
         return this;
     }
 
-    public <E extends Throwable> BooleanVMatcher<V> whenNext(boolean value, VT0<E> action) throws E {
+    public <E extends Throwable> BooleanVMatcher<V> withNext(boolean value, VT1<V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
-            action.$();
+            action.$(this.value);
         }
         return this;
     }
@@ -81,10 +81,10 @@ public class BooleanVMatcher<V> implements Matcher {
         return returnValue;
     }
 
-    public <E extends Throwable> Void orElse(VT0<E> action) throws E {
+    public <E extends Throwable> Void orWith(VT1<V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
-            action.$();
+            action.$(this.value);
         }
         return returnValue;
     }

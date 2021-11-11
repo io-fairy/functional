@@ -16,7 +16,7 @@
 package com.iofairy.pattern.matcher;
 
 import com.iofairy.lambda.R1;
-import com.iofairy.lambda.RT0;
+import com.iofairy.lambda.RT1;
 import com.iofairy.pattern.PatternIn;
 
 import java.util.Objects;
@@ -59,20 +59,20 @@ public class ActionValueRMatcher<V, P, R> extends SimpleRInMatcher<V, P, V, R> {
     }
 
     @Override
-    public <E extends Throwable> ActionValueRMatcher<V, P, R> when(P value, RT0<R, E> action) throws E {
+    public <E extends Throwable> ActionValueRMatcher<V, P, R> with(P value, RT1<V, R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && Objects.equals(preAction.$(value), this.value)) {
             isMatch = true;
-            returnValue = action.$();
+            returnValue = action.$(this.value);
         }
         return this;
     }
 
     @Override
-    public <E extends Throwable> ActionValueRMatcher<V, P, R> whenNext(P value, RT0<R, E> action) throws E {
+    public <E extends Throwable> ActionValueRMatcher<V, P, R> withNext(P value, RT1<V, R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && Objects.equals(preAction.$(value), this.value)) {
-            returnValue = action.$();
+            returnValue = action.$(this.value);
         }
         return this;
     }
@@ -97,20 +97,20 @@ public class ActionValueRMatcher<V, P, R> extends SimpleRInMatcher<V, P, V, R> {
     }
 
     @Override
-    public <E extends Throwable> ActionValueRMatcher<V, P, R> when(boolean value, RT0<R, E> action) throws E {
+    public <E extends Throwable> ActionValueRMatcher<V, P, R> with(boolean value, RT1<V, R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             isMatch = true;
-            returnValue = action.$();
+            returnValue = action.$(this.value);
         }
         return this;
     }
 
     @Override
-    public <E extends Throwable> ActionValueRMatcher<V, P, R> whenNext(boolean value, RT0<R, E> action) throws E {
+    public <E extends Throwable> ActionValueRMatcher<V, P, R> withNext(boolean value, RT1<V, R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
-            returnValue = action.$();
+            returnValue = action.$(this.value);
         }
         return this;
     }
@@ -158,19 +158,19 @@ public class ActionValueRMatcher<V, P, R> extends SimpleRInMatcher<V, P, V, R> {
     }
 
     @Override
-    public <E extends Throwable> ActionValueRMatcher<V, P, R> when(PatternIn<P> values, RT0<R, E> action) throws E {
+    public <E extends Throwable> ActionValueRMatcher<V, P, R> with(PatternIn<P> values, RT1<V, R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (values == null) {
                 if (Objects.equals(this.value, preAction.$(null))) {
                     isMatch = true;
-                    returnValue = action.$();
+                    returnValue = action.$(this.value);
                 }
             } else {
                 for (P v : values.getVs()) {
                     if (Objects.equals(this.value, preAction.$(v))) {
                         isMatch = true;
-                        returnValue = action.$();
+                        returnValue = action.$(this.value);
                         break;
                     }
                 }
@@ -180,17 +180,17 @@ public class ActionValueRMatcher<V, P, R> extends SimpleRInMatcher<V, P, V, R> {
     }
 
     @Override
-    public <E extends Throwable> ActionValueRMatcher<V, P, R> whenNext(PatternIn<P> values, RT0<R, E> action) throws E {
+    public <E extends Throwable> ActionValueRMatcher<V, P, R> withNext(PatternIn<P> values, RT1<V, R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (values == null) {
                 if (Objects.equals(this.value, preAction.$(null))) {
-                    returnValue = action.$();
+                    returnValue = action.$(this.value);
                 }
             } else {
                 for (P v : values.getVs()) {
                     if (Objects.equals(this.value, preAction.$(v))) {
-                        returnValue = action.$();
+                        returnValue = action.$(this.value);
                         break;
                     }
                 }
@@ -209,10 +209,10 @@ public class ActionValueRMatcher<V, P, R> extends SimpleRInMatcher<V, P, V, R> {
     }
 
     @Override
-    public <E extends Throwable> R orElse(RT0<R, E> action) throws E {
+    public <E extends Throwable> R orWith(RT1<V, R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
-            returnValue = action.$();
+            returnValue = action.$(this.value);
         }
         return returnValue;
     }

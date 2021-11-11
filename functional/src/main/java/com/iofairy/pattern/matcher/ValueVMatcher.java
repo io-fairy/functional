@@ -16,7 +16,7 @@
 package com.iofairy.pattern.matcher;
 
 import com.iofairy.lambda.V1;
-import com.iofairy.lambda.VT0;
+import com.iofairy.lambda.VT1;
 import com.iofairy.pattern.PatternIn;
 import java.util.Objects;
 
@@ -55,20 +55,20 @@ public class ValueVMatcher<V> extends SimpleVInMatcher<V, V, V> {
     }
 
     @Override
-    public <E extends Throwable> ValueVMatcher<V> when(V value, VT0<E> action) throws E {
+    public <E extends Throwable> ValueVMatcher<V> with(V value, VT1<V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && Objects.equals(this.value, value)) {
             isMatch = true;
-            action.$();
+            action.$(this.value);
         }
         return this;
     }
 
     @Override
-    public <E extends Throwable> ValueVMatcher<V> whenNext(V value, VT0<E> action) throws E {
+    public <E extends Throwable> ValueVMatcher<V> withNext(V value, VT1<V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && Objects.equals(this.value, value)) {
-            action.$();
+            action.$(this.value);
         }
         return this;
     }
@@ -93,20 +93,20 @@ public class ValueVMatcher<V> extends SimpleVInMatcher<V, V, V> {
     }
 
     @Override
-    public <E extends Throwable> ValueVMatcher<V> when(boolean value, VT0<E> action) throws E {
+    public <E extends Throwable> ValueVMatcher<V> with(boolean value, VT1<V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             isMatch = true;
-            action.$();
+            action.$(this.value);
         }
         return this;
     }
 
     @Override
-    public <E extends Throwable> ValueVMatcher<V> whenNext(boolean value, VT0<E> action) throws E {
+    public <E extends Throwable> ValueVMatcher<V> withNext(boolean value, VT1<V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
-            action.$();
+            action.$(this.value);
         }
         return this;
     }
@@ -144,18 +144,18 @@ public class ValueVMatcher<V> extends SimpleVInMatcher<V, V, V> {
     }
 
     @Override
-    public <E extends Throwable> ValueVMatcher<V> when(PatternIn<V> values, VT0<E> action) throws E {
+    public <E extends Throwable> ValueVMatcher<V> with(PatternIn<V> values, VT1<V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (this.value == null) {
                 if (values == null || values.getVs().contains(this.value)) {
                     isMatch = true;
-                    action.$();
+                    action.$(this.value);
                 }
             }else {
                 if (values != null && values.getVs().contains(this.value)) {
                     isMatch = true;
-                    action.$();
+                    action.$(this.value);
                 }
             }
         }
@@ -163,13 +163,13 @@ public class ValueVMatcher<V> extends SimpleVInMatcher<V, V, V> {
     }
 
     @Override
-    public <E extends Throwable> ValueVMatcher<V> whenNext(PatternIn<V> values, VT0<E> action) throws E {
+    public <E extends Throwable> ValueVMatcher<V> withNext(PatternIn<V> values, VT1<V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (this.value == null) {
-                if (values == null || values.getVs().contains(this.value)) action.$();
+                if (values == null || values.getVs().contains(this.value)) action.$(this.value);
             }else {
-                if (values != null && values.getVs().contains(this.value)) action.$();
+                if (values != null && values.getVs().contains(this.value)) action.$(this.value);
             }
         }
         return this;
@@ -185,10 +185,10 @@ public class ValueVMatcher<V> extends SimpleVInMatcher<V, V, V> {
     }
 
     @Override
-    public <E extends Throwable> Void orElse(VT0<E> action) throws E {
+    public <E extends Throwable> Void orWith(VT1<V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
-            action.$();
+            action.$(this.value);
         }
         return returnValue;
     }

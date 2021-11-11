@@ -58,20 +58,20 @@ public class ActionValueVMatcher<V, P> extends SimpleVInMatcher<V, P, V> {
     }
 
     @Override
-    public <E extends Throwable> ActionValueVMatcher<V, P> when(P value, VT0<E> action) throws E {
+    public <E extends Throwable> ActionValueVMatcher<V, P> with(P value, VT1<V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && Objects.equals(preAction.$(value), this.value)) {
             isMatch = true;
-            action.$();
+            action.$(this.value);
         }
         return this;
     }
 
     @Override
-    public <E extends Throwable> ActionValueVMatcher<V, P> whenNext(P value, VT0<E> action) throws E {
+    public <E extends Throwable> ActionValueVMatcher<V, P> withNext(P value, VT1<V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && Objects.equals(preAction.$(value), this.value)) {
-            action.$();
+            action.$(this.value);
         }
         return this;
     }
@@ -96,20 +96,20 @@ public class ActionValueVMatcher<V, P> extends SimpleVInMatcher<V, P, V> {
     }
 
     @Override
-    public <E extends Throwable> ActionValueVMatcher<V, P> when(boolean value, VT0<E> action) throws E {
+    public <E extends Throwable> ActionValueVMatcher<V, P> with(boolean value, VT1<V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             isMatch = true;
-            action.$();
+            action.$(this.value);
         }
         return this;
     }
 
     @Override
-    public <E extends Throwable> ActionValueVMatcher<V, P> whenNext(boolean value, VT0<E> action) throws E {
+    public <E extends Throwable> ActionValueVMatcher<V, P> withNext(boolean value, VT1<V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
-            action.$();
+            action.$(this.value);
         }
         return this;
     }
@@ -157,19 +157,19 @@ public class ActionValueVMatcher<V, P> extends SimpleVInMatcher<V, P, V> {
     }
 
     @Override
-    public <E extends Throwable> ActionValueVMatcher<V, P> when(PatternIn<P> values, VT0<E> action) throws E {
+    public <E extends Throwable> ActionValueVMatcher<V, P> with(PatternIn<P> values, VT1<V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (values == null) {
                 if (Objects.equals(this.value, preAction.$(null))) {
                     isMatch = true;
-                    action.$();
+                    action.$(this.value);
                 }
             } else {
                 for (P v : values.getVs()) {
                     if (Objects.equals(this.value, preAction.$(v))) {
                         isMatch = true;
-                        action.$();
+                        action.$(this.value);
                         break;
                     }
                 }
@@ -179,17 +179,17 @@ public class ActionValueVMatcher<V, P> extends SimpleVInMatcher<V, P, V> {
     }
 
     @Override
-    public <E extends Throwable> ActionValueVMatcher<V, P> whenNext(PatternIn<P> values, VT0<E> action) throws E {
+    public <E extends Throwable> ActionValueVMatcher<V, P> withNext(PatternIn<P> values, VT1<V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (values == null) {
                 if (Objects.equals(this.value, preAction.$(null))) {
-                    action.$();
+                    action.$(this.value);
                 }
             } else {
                 for (P v : values.getVs()) {
                     if (Objects.equals(this.value, preAction.$(v))) {
-                        action.$();
+                        action.$(this.value);
                         break;
                     }
                 }
@@ -208,10 +208,10 @@ public class ActionValueVMatcher<V, P> extends SimpleVInMatcher<V, P, V> {
     }
 
     @Override
-    public <E extends Throwable> Void orElse(VT0<E> action) throws E {
+    public <E extends Throwable> Void orWith(VT1<V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
-            action.$();
+            action.$(this.value);
         }
         return returnValue;
     }

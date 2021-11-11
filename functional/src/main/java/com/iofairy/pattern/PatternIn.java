@@ -50,6 +50,7 @@ public class PatternIn<V> {
      * @return PatternIn
      * @since 0.0.1
      */
+    @SafeVarargs
     public static <T> PatternIn<T> in(T... values) {
         PatternIn<T> patternIn = new PatternIn<>();
         if (values == null) {

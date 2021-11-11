@@ -74,18 +74,21 @@ public class GlobalTest {
         String b = "";
         String c = null;
         String d = "abc";
+        Object o = new Object();
 
         String s = G.firstNonNull(a, b, c);
         String s1 = G.firstNonNull(a, c);
         String s2 = G.firstNonNull();
         String s3 = G.firstNonNull((String[]) null);
         String s4 = G.firstNonNull(a, d, c);
+        Object o1 = G.firstNonNull(a, d, c, o);
 
         assertEquals("", s);
         assertNull(s1);
         assertNull(s2);
         assertNull(s3);
         assertEquals("abc", s4);
+        assertEquals("abc", o1);
 
     }
 

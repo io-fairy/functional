@@ -15,7 +15,8 @@
  */
 package com.iofairy.pattern.matcher;
 
-import com.iofairy.lambda.*;
+import com.iofairy.lambda.V1;
+import com.iofairy.lambda.VT1;
 
 import java.util.Objects;
 
@@ -66,29 +67,29 @@ public class TypeVMatcher<V> implements Matcher {
         return this;
     }
 
-    public <C, E extends Throwable> TypeVMatcher<V> when(Class<C> value, VT2<V, C, E> action) throws E {
+    public <C, E extends Throwable> TypeVMatcher<V> with(Class<C> value, VT1<C, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (value == null || this.value == null) {
                 if (this.value == null && value == null) {
                     isMatch = true;
-                    action.$(this.value, (C) this.value);
+                    action.$((C) this.value);
                 }
             } else if (this.value.getClass() == value) {
                 isMatch = true;
-                action.$(this.value, (C) this.value);
+                action.$((C) this.value);
             }
         }
         return this;
     }
 
-    public <C, E extends Throwable> TypeVMatcher<V> whenNext(Class<C> value, VT2<V, C, E> action) throws E {
+    public <C, E extends Throwable> TypeVMatcher<V> withNext(Class<C> value, VT1<C, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (value == null || this.value == null) {
                 if (this.value == null && value == null)
-                    action.$(this.value, (C) this.value);
-            } else if (this.value.getClass() == value) action.$(this.value, (C) this.value);
+                    action.$((C) this.value);
+            } else if (this.value.getClass() == value) action.$((C) this.value);
         }
         return this;
     }
@@ -101,10 +102,10 @@ public class TypeVMatcher<V> implements Matcher {
         return returnValue;
     }
 
-    public <E extends Throwable> Void orElse(VT0<E> action) throws E {
+    public <E extends Throwable> Void orWith(VT1<V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
-            action.$();
+            action.$(this.value);
         }
         return returnValue;
     }

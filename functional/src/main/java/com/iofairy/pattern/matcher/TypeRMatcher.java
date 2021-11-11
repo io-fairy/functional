@@ -15,7 +15,8 @@
  */
 package com.iofairy.pattern.matcher;
 
-import com.iofairy.lambda.*;
+import com.iofairy.lambda.R1;
+import com.iofairy.lambda.RT1;
 
 import java.util.Objects;
 
@@ -66,29 +67,29 @@ public class TypeRMatcher<V, R> implements Matcher {
         return this;
     }
 
-    public <C, E extends Throwable> TypeRMatcher<V, R> when(Class<C> value, RT2<V, C, R, E> action) throws E {
+    public <C, E extends Throwable> TypeRMatcher<V, R> with(Class<C> value, RT1<C, R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (value == null || this.value == null) {
                 if (this.value == null && value == null) {
                     isMatch = true;
-                    returnValue = action.$(this.value, (C) this.value);
+                    returnValue = action.$((C) this.value);
                 }
             } else if (this.value.getClass() == value) {
                 isMatch = true;
-                returnValue = action.$(this.value, (C) this.value);
+                returnValue = action.$((C) this.value);
             }
         }
         return this;
     }
 
-    public <C, E extends Throwable> TypeRMatcher<V, R> whenNext(Class<C> value, RT2<V, C, R, E> action) throws E {
+    public <C, E extends Throwable> TypeRMatcher<V, R> withNext(Class<C> value, RT1<C, R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (value == null || this.value == null) {
                 if (this.value == null && value == null)
-                    returnValue = action.$(this.value, (C) this.value);
-            } else if (this.value.getClass() == value) returnValue = action.$(this.value, (C) this.value);
+                    returnValue = action.$((C) this.value);
+            } else if (this.value.getClass() == value) returnValue = action.$((C) this.value);
         }
         return this;
     }
@@ -101,10 +102,10 @@ public class TypeRMatcher<V, R> implements Matcher {
         return returnValue;
     }
 
-    public <E extends Throwable> R orElse(RT0<R, E> action) throws E {
+    public <E extends Throwable> R orWith(RT1<V, R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
-            returnValue = action.$();
+            returnValue = action.$(this.value);
         }
         return returnValue;
     }

@@ -21,9 +21,10 @@ import com.iofairy.pattern.matcher.TypeVMatcher;
 
 /**
  * Type Matcher Mapping
+ *
  * @since 0.0.1
  */
-public class TypeMatcherMapping<V> extends MatcherMapping<V>  {
+public class TypeMatcherMapping<V> extends MatcherMapping<V> {
     public TypeMatcherMapping(V value) {
         super(value);
     }
@@ -38,12 +39,12 @@ public class TypeMatcherMapping<V> extends MatcherMapping<V>  {
         return typeVMatcher.whenNext(matchValue, action);
     }
 
-    public <C, R> TypeRMatcher<V, R> when(Class<C> matchValue, R1<C ,R> action) {
+    public <C, R> TypeRMatcher<V, R> when(Class<C> matchValue, R1<C, R> action) {
         TypeRMatcher<V, R> typeRMatcher = new TypeRMatcher<>(value);
         return typeRMatcher.when(matchValue, action);
     }
 
-    public <C, R> TypeRMatcher<V, R> whenNext(Class<C> matchValue, R1<C ,R> action) {
+    public <C, R> TypeRMatcher<V, R> whenNext(Class<C> matchValue, R1<C, R> action) {
         TypeRMatcher<V, R> typeRMatcher = new TypeRMatcher<>(value);
         return typeRMatcher.whenNext(matchValue, action);
     }
@@ -55,24 +56,24 @@ public class TypeMatcherMapping<V> extends MatcherMapping<V>  {
      * ******************************************************
      * ######################################################
      */
-    public <C, E extends Throwable> TypeVMatcher<V> when(Class<C> matchValue, VT2<V, C, E> action) throws E {
+    public <C, E extends Throwable> TypeVMatcher<V> with(Class<C> matchValue, VT1<C, E> action) throws E {
         TypeVMatcher<V> typeVMatcher = new TypeVMatcher<>(value);
-        return typeVMatcher.when(matchValue, action);
+        return typeVMatcher.with(matchValue, action);
     }
 
-    public <C, E extends Throwable> TypeVMatcher<V> whenNext(Class<C> matchValue, VT2<V, C, E> action) throws E {
+    public <C, E extends Throwable> TypeVMatcher<V> withNext(Class<C> matchValue, VT1<C, E> action) throws E {
         TypeVMatcher<V> typeVMatcher = new TypeVMatcher<>(value);
-        return typeVMatcher.whenNext(matchValue, action);
+        return typeVMatcher.withNext(matchValue, action);
     }
 
-    public <C, R, E extends Throwable> TypeRMatcher<V, R> when(Class<C> matchValue, RT2<V, C, R, E> action) throws E {
+    public <C, R, E extends Throwable> TypeRMatcher<V, R> with(Class<C> matchValue, RT1<C, R, E> action) throws E {
         TypeRMatcher<V, R> typeRMatcher = new TypeRMatcher<>(value);
-        return typeRMatcher.when(matchValue, action);
+        return typeRMatcher.with(matchValue, action);
     }
 
-    public <C, R, E extends Throwable> TypeRMatcher<V, R> whenNext(Class<C> matchValue, RT2<V, C, R, E> action) throws E {
+    public <C, R, E extends Throwable> TypeRMatcher<V, R> withNext(Class<C> matchValue, RT1<C, R, E> action) throws E {
         TypeRMatcher<V, R> typeRMatcher = new TypeRMatcher<>(value);
-        return typeRMatcher.whenNext(matchValue, action);
+        return typeRMatcher.withNext(matchValue, action);
     }
 
 }

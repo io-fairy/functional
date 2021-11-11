@@ -55,24 +55,24 @@ public class BooleanMatcherMapping<V> extends MatcherMapping<V> {
      * ******************************************************
      * ######################################################
      */
-    public <E extends Throwable> BooleanVMatcher<V> when(boolean matchValue, VT0<E> action) throws E {
+    public <E extends Throwable> BooleanVMatcher<V> with(boolean matchValue, VT1<V, E> action) throws E {
         BooleanVMatcher<V> booleanVMatcher = new BooleanVMatcher<V>(value);
-        return booleanVMatcher.when(matchValue, action);
+        return booleanVMatcher.with(matchValue, action);
     }
 
-    public <E extends Throwable> BooleanVMatcher<V> whenNext(boolean matchValue, VT0<E> action) throws E {
+    public <E extends Throwable> BooleanVMatcher<V> withNext(boolean matchValue, VT1<V, E> action) throws E {
         BooleanVMatcher<V> booleanVMatcher = new BooleanVMatcher<V>(value);
-        return booleanVMatcher.whenNext(matchValue, action);
+        return booleanVMatcher.withNext(matchValue, action);
     }
 
-    public <R, E extends Throwable> BooleanRMatcher<V, R> when(boolean matchValue, RT0<R, E> action) throws E {
+    public <R, E extends Throwable> BooleanRMatcher<V, R> with(boolean matchValue, RT1<V, R, E> action) throws E {
         BooleanRMatcher<V, R> booleanRMatcher = new BooleanRMatcher<>(value);
-        return booleanRMatcher.when(matchValue, action);
+        return booleanRMatcher.with(matchValue, action);
     }
 
-    public <R, E extends Throwable> BooleanRMatcher<V, R> whenNext(boolean matchValue, RT0<R, E> action) throws E {
+    public <R, E extends Throwable> BooleanRMatcher<V, R> withNext(boolean matchValue, RT1<V, R, E> action) throws E {
         BooleanRMatcher<V, R> booleanRMatcher = new BooleanRMatcher<>(value);
-        return booleanRMatcher.whenNext(matchValue, action);
+        return booleanRMatcher.withNext(matchValue, action);
     }
 
 }

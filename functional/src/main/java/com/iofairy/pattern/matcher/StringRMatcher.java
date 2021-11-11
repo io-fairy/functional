@@ -16,7 +16,7 @@
 package com.iofairy.pattern.matcher;
 
 import com.iofairy.lambda.R1;
-import com.iofairy.lambda.RT0;
+import com.iofairy.lambda.RT1;
 import com.iofairy.pattern.PatternIn;
 import com.iofairy.pattern.type.*;
 import java.util.List;
@@ -163,13 +163,13 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
     }
 
     @Override
-    public <E extends Throwable> StringRMatcher<R> when(String value, RT0<R, E> action) throws E {
+    public <E extends Throwable> StringRMatcher<R> with(String value, RT1<String, R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (value == null || this.value == null) {
                 if (this.value == value) {
                     isMatch = true;
-                    returnValue = action.$();
+                    returnValue = action.$(this.value);
                 }
                 return this;
             }
@@ -180,34 +180,34 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
                 case IGNORECASE:
                     if (ucValue.equalsIgnoreCase(this.ucValue)) {
                         isMatch = true;
-                        returnValue = action.$();
+                        returnValue = action.$(this.value);
                     }
                     break;
                 case CONTAIN:
                 case ICCONTAIN:
                     if (this.ucValue.contains(ucValue)) {
                         isMatch = true;
-                        returnValue = action.$();
+                        returnValue = action.$(this.value);
                     }
                     break;
                 case PREFIX:
                 case ICPREFIX:
                     if (this.ucValue.startsWith(ucValue)) {
                         isMatch = true;
-                        returnValue = action.$();
+                        returnValue = action.$(this.value);
                     }
                     break;
                 case SUFFIX:
                 case ICSUFFIX:
                     if (this.ucValue.endsWith(ucValue)) {
                         isMatch = true;
-                        returnValue = action.$();
+                        returnValue = action.$(this.value);
                     }
                     break;
                 default:
                     if (this.ucValue.equals(ucValue)) {
                         isMatch = true;
-                        returnValue = action.$();
+                        returnValue = action.$(this.value);
                     }
             }
         }
@@ -216,12 +216,12 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
     }
 
     @Override
-    public <E extends Throwable> StringRMatcher<R> whenNext(String value, RT0<R, E> action) throws E {
+    public <E extends Throwable> StringRMatcher<R> withNext(String value, RT1<String, R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (value == null || this.value == null) {
                 if (this.value == value) {
-                    returnValue = action.$();
+                    returnValue = action.$(this.value);
                 }
                 return this;
             }
@@ -232,34 +232,34 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
                 case IGNORECASE:
                     if (ucValue.equalsIgnoreCase(this.ucValue)) {
                         isMatchForNext = true;
-                        returnValue = action.$();
+                        returnValue = action.$(this.value);
                     }
                     break;
                 case CONTAIN:
                 case ICCONTAIN:
                     if (this.ucValue.contains(ucValue)) {
                         isMatchForNext = true;
-                        returnValue = action.$();
+                        returnValue = action.$(this.value);
                     }
                     break;
                 case PREFIX:
                 case ICPREFIX:
                     if (this.ucValue.startsWith(ucValue)) {
                         isMatchForNext = true;
-                        returnValue = action.$();
+                        returnValue = action.$(this.value);
                     }
                     break;
                 case SUFFIX:
                 case ICSUFFIX:
                     if (this.ucValue.endsWith(ucValue)) {
                         isMatchForNext = true;
-                        returnValue = action.$();
+                        returnValue = action.$(this.value);
                     }
                     break;
                 default:
                     if (this.ucValue.equals(ucValue)) {
                         isMatchForNext = true;
-                        returnValue = action.$();
+                        returnValue = action.$(this.value);
                     }
             }
         }
@@ -287,20 +287,20 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
     }
 
     @Override
-    public <E extends Throwable> StringRMatcher<R> when(boolean value, RT0<R, E> action) throws E {
+    public <E extends Throwable> StringRMatcher<R> with(boolean value, RT1<String, R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             isMatch = true;
-            returnValue = action.$();
+            returnValue = action.$(this.value);
         }
         return this;
     }
 
     @Override
-    public <E extends Throwable> StringRMatcher<R> whenNext(boolean value, RT0<R, E> action) throws E {
+    public <E extends Throwable> StringRMatcher<R> withNext(boolean value, RT1<String, R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
-            returnValue = action.$();
+            returnValue = action.$(this.value);
         }
         return this;
     }
@@ -355,13 +355,13 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
     }
 
     @Override
-    public <E extends Throwable> StringRMatcher<R> when(PatternIn<String> values, RT0<R, E> action) throws E {
+    public <E extends Throwable> StringRMatcher<R> with(PatternIn<String> values, RT1<String, R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (this.value == null) {
                 if (values == null || values.getVs().contains(this.value)) {
                     isMatch = true;
-                    returnValue = action.$();
+                    returnValue = action.$(this.value);
                 }
                 return this;
             }
@@ -370,7 +370,7 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
                 List<String> vs = values.getVs();
                 for (String v : vs) {
                     if (v != null) {
-                        when(v, action);
+                        with(v, action);
                         if (isMatch) break;
                     }
                 }
@@ -380,12 +380,12 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
     }
 
     @Override
-    public <E extends Throwable> StringRMatcher<R> whenNext(PatternIn<String> values, RT0<R, E> action) throws E {
+    public <E extends Throwable> StringRMatcher<R> withNext(PatternIn<String> values, RT1<String, R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (this.value == null) {
                 if (values == null || values.getVs().contains(this.value)) {
-                    returnValue = action.$();
+                    returnValue = action.$(this.value);
                 }
                 return this;
             }else {
@@ -393,7 +393,7 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
                     List<String> vs = values.getVs();
                     for (String v : vs) {
                         if (v != null) {
-                            whenNext(v, action);
+                            withNext(v, action);
                             if (isMatchForNext) break;
                         }
                     }
@@ -414,10 +414,10 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
     }
 
     @Override
-    public <E extends Throwable> R orElse(RT0<R, E> action) throws E {
+    public <E extends Throwable> R orWith(RT1<String, R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
-            returnValue = action.$();
+            returnValue = action.$(this.value);
         }
         return returnValue;
     }

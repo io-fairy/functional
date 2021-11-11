@@ -16,7 +16,7 @@
 package com.iofairy.pattern.matcher;
 
 import com.iofairy.lambda.V1;
-import com.iofairy.lambda.VT0;
+import com.iofairy.lambda.VT1;
 import com.iofairy.pattern.PatternIn;
 import com.iofairy.pattern.type.*;
 import java.util.List;
@@ -164,13 +164,13 @@ public class StringVMatcher extends SimpleVInMatcher<String, String, String> {
     }
 
     @Override
-    public <E extends Throwable> StringVMatcher when(String value, VT0<E> action) throws E {
+    public <E extends Throwable> StringVMatcher with(String value, VT1<String, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (value == null || this.value == null) {
                 if (this.value == value) {
                     isMatch = true;
-                    action.$();
+                    action.$(this.value);
                 }
                 return this;
             }
@@ -181,34 +181,34 @@ public class StringVMatcher extends SimpleVInMatcher<String, String, String> {
                 case IGNORECASE:
                     if (ucValue.equalsIgnoreCase(this.ucValue)) {
                         isMatch = true;
-                        action.$();
+                        action.$(this.value);
                     }
                     break;
                 case CONTAIN:
                 case ICCONTAIN:
                     if (this.ucValue.contains(ucValue)) {
                         isMatch = true;
-                        action.$();
+                        action.$(this.value);
                     }
                     break;
                 case PREFIX:
                 case ICPREFIX:
                     if (this.ucValue.startsWith(ucValue)) {
                         isMatch = true;
-                        action.$();
+                        action.$(this.value);
                     }
                     break;
                 case SUFFIX:
                 case ICSUFFIX:
                     if (this.ucValue.endsWith(ucValue)) {
                         isMatch = true;
-                        action.$();
+                        action.$(this.value);
                     }
                     break;
                 default:
                     if (this.ucValue.equals(ucValue)) {
                         isMatch = true;
-                        action.$();
+                        action.$(this.value);
                     }
             }
         }
@@ -217,12 +217,12 @@ public class StringVMatcher extends SimpleVInMatcher<String, String, String> {
     }
 
     @Override
-    public <E extends Throwable> StringVMatcher whenNext(String value, VT0<E> action) throws E {
+    public <E extends Throwable> StringVMatcher withNext(String value, VT1<String, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (value == null || this.value == null) {
                 if (this.value == value) {
-                    action.$();
+                    action.$(this.value);
                 }
                 return this;
             }
@@ -233,34 +233,34 @@ public class StringVMatcher extends SimpleVInMatcher<String, String, String> {
                 case IGNORECASE:
                     if (ucValue.equalsIgnoreCase(this.ucValue)) {
                         isMatchForNext = true;
-                        action.$();
+                        action.$(this.value);
                     }
                     break;
                 case CONTAIN:
                 case ICCONTAIN:
                     if (this.ucValue.contains(ucValue)) {
                         isMatchForNext = true;
-                        action.$();
+                        action.$(this.value);
                     }
                     break;
                 case PREFIX:
                 case ICPREFIX:
                     if (this.ucValue.startsWith(ucValue)) {
                         isMatchForNext = true;
-                        action.$();
+                        action.$(this.value);
                     }
                     break;
                 case SUFFIX:
                 case ICSUFFIX:
                     if (this.ucValue.endsWith(ucValue)) {
                         isMatchForNext = true;
-                        action.$();
+                        action.$(this.value);
                     }
                     break;
                 default:
                     if (this.ucValue.equals(ucValue)) {
                         isMatchForNext = true;
-                        action.$();
+                        action.$(this.value);
                     }
             }
         }
@@ -288,20 +288,20 @@ public class StringVMatcher extends SimpleVInMatcher<String, String, String> {
     }
 
     @Override
-    public <E extends Throwable> StringVMatcher when(boolean value, VT0<E> action) throws E {
+    public <E extends Throwable> StringVMatcher with(boolean value, VT1<String, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             isMatch = true;
-            action.$();
+            action.$(this.value);
         }
         return this;
     }
 
     @Override
-    public <E extends Throwable> StringVMatcher whenNext(boolean value, VT0<E> action) throws E {
+    public <E extends Throwable> StringVMatcher withNext(boolean value, VT1<String, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
-            action.$();
+            action.$(this.value);
         }
         return this;
     }
@@ -356,13 +356,13 @@ public class StringVMatcher extends SimpleVInMatcher<String, String, String> {
     }
 
     @Override
-    public <E extends Throwable> StringVMatcher when(PatternIn<String> values, VT0<E> action) throws E {
+    public <E extends Throwable> StringVMatcher with(PatternIn<String> values, VT1<String, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (this.value == null) {
                 if (values == null || values.getVs().contains(this.value)) {
                     isMatch = true;
-                    action.$();
+                    action.$(this.value);
                 }
                 return this;
             }
@@ -371,7 +371,7 @@ public class StringVMatcher extends SimpleVInMatcher<String, String, String> {
                 List<String> vs = values.getVs();
                 for (String v : vs) {
                     if (v != null) {
-                        when(v, action);
+                        with(v, action);
                         if (isMatch) break;
                     }
                 }
@@ -381,12 +381,12 @@ public class StringVMatcher extends SimpleVInMatcher<String, String, String> {
     }
 
     @Override
-    public <E extends Throwable> StringVMatcher whenNext(PatternIn<String> values, VT0<E> action) throws E {
+    public <E extends Throwable> StringVMatcher withNext(PatternIn<String> values, VT1<String, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (this.value == null) {
                 if (values == null || values.getVs().contains(this.value)) {
-                    action.$();
+                    action.$(this.value);
                 }
                 return this;
             }else {
@@ -394,7 +394,7 @@ public class StringVMatcher extends SimpleVInMatcher<String, String, String> {
                     List<String> vs = values.getVs();
                     for (String v : vs) {
                         if (v != null) {
-                            whenNext(v, action);
+                            withNext(v, action);
                             if (isMatchForNext) break;
                         }
                     }
@@ -414,10 +414,10 @@ public class StringVMatcher extends SimpleVInMatcher<String, String, String> {
     }
 
     @Override
-    public <E extends Throwable> Void orElse(VT0<E> action) throws E {
+    public <E extends Throwable> Void orWith(VT1<String, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
-            action.$();
+            action.$(this.value);
         }
         return returnValue;
     }

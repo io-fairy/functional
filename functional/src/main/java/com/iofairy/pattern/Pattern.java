@@ -94,11 +94,11 @@ public class Pattern {
      * @since 0.0.1
      */
     public static BooleanMatcherMapping<None> match() {
-        return new BooleanMatcherMapping<>(NONE);
+        return match(NONE);
     }
 
     public static BooleanMatcherMapping<None> match(None value) {
-        return new BooleanMatcherMapping<>(NONE);
+        return new BooleanMatcherMapping<>(value);
     }
 
     /**
@@ -237,6 +237,7 @@ public class Pattern {
      ************************************************************************************
      ###################################################################################*/
 
+    @SafeVarargs
     public static <T> PatternIn<T> in(T... values) {
         return PatternIn.in(values);
     }

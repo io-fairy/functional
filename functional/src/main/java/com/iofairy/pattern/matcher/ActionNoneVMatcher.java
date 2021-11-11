@@ -59,20 +59,20 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
     }
 
     @Override
-    public <E extends Throwable> ActionNoneVMatcher<P> when(P value, VT0<E> action) throws E {
+    public <E extends Throwable> ActionNoneVMatcher<P> with(P value, VT1<P, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && preAction.$(value)) {
             isMatch = true;
-            action.$();
+            action.$(value);
         }
         return this;
     }
 
     @Override
-    public <E extends Throwable> ActionNoneVMatcher<P> whenNext(P value, VT0<E> action) throws E {
+    public <E extends Throwable> ActionNoneVMatcher<P> withNext(P value, VT1<P, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && preAction.$(value)) {
-            action.$();
+            action.$(value);
         }
         return this;
     }
@@ -97,20 +97,20 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
     }
 
     @Override
-    public <E extends Throwable> ActionNoneVMatcher<P> when(boolean value, VT0<E> action) throws E {
+    public <E extends Throwable> ActionNoneVMatcher<P> with(boolean value, VT1<P, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             isMatch = true;
-            action.$();
+            action.$(null);
         }
         return this;
     }
 
     @Override
-    public <E extends Throwable> ActionNoneVMatcher<P> whenNext(boolean value, VT0<E> action) throws E {
+    public <E extends Throwable> ActionNoneVMatcher<P> withNext(boolean value, VT1<P, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
-            action.$();
+            action.$(null);
         }
         return this;
     }
@@ -158,19 +158,19 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
     }
 
     @Override
-    public <E extends Throwable> ActionNoneVMatcher<P> when(PatternIn<P> values, VT0<E> action) throws E {
+    public <E extends Throwable> ActionNoneVMatcher<P> with(PatternIn<P> values, VT1<P, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (values == null) {
                 if (preAction.$(null)) {
                     isMatch = true;
-                    action.$();
+                    action.$(null);
                 }
             } else {
                 for (P v : values.getVs()) {
                     if (preAction.$(v)) {
                         isMatch = true;
-                        action.$();
+                        action.$(v);
                         break;
                     }
                 }
@@ -180,17 +180,17 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
     }
 
     @Override
-    public <E extends Throwable> ActionNoneVMatcher<P> whenNext(PatternIn<P> values, VT0<E> action) throws E {
+    public <E extends Throwable> ActionNoneVMatcher<P> withNext(PatternIn<P> values, VT1<P, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (values == null) {
                 if (preAction.$(null)) {
-                    action.$();
+                    action.$(null);
                 }
             } else {
                 for (P v : values.getVs()) {
                     if (preAction.$(v)) {
-                        action.$();
+                        action.$(v);
                         break;
                     }
                 }
@@ -209,10 +209,10 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
     }
 
     @Override
-    public <E extends Throwable> Void orElse(VT0<E> action) throws E {
+    public <E extends Throwable> Void orWith(VT1<None, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
-            action.$();
+            action.$(null);
         }
         return returnValue;
     }

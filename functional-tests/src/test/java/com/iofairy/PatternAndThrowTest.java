@@ -22,23 +22,16 @@ public class PatternAndThrowTest {
         // ignore case match
         try {
             String matchRes1 = match(str, IGNORECASE)
-                    .when((String) null,
-                            () -> { if (isThrow) throw new NullPointerException("NullPointerException..."); return "match null"; })
-                    .when("abcd",
-                            v -> "match abcd")
-                    .when("abcdefg",
-                            () -> { if (isThrow) throw new XMLStreamException("XMLStreamException..."); return "match abcdefg"; })
-                    .when("abcd1",
-                            () -> { if (isThrow) throw new StringConcatException("StringConcatException..."); return "match abcd1"; })
-                    .when("abcd123",
-                            () -> { if (isThrow) throw new IOException("IOException..."); return "match abcd123"; })
-                    .when(str.contains("H"),
-                            () -> { if (isThrow) throw new IOException("IOException..."); return "str.contains(\"H\")"; })
-                    .when("abcde123.$fGHIj",
-                            v -> "ignore case match")
-                    .orElse(v -> "no match");
+                    .with((String) null,        v -> isThrow ? nullException(isThrow) : "match null")
+                    .when("abcd",               v -> "match abcd")
+                    .with("abcdefg",            v -> isThrow ? xmlException(isThrow) : "match abcdefg")
+                    .with("abcd1",              v -> isThrow ? concatException(isThrow) : "match abcd1")
+                    .with("abcd123",            v -> isThrow ? ioException(isThrow, "IOException...") : "match abcd123")
+                    .with(str.contains("H"),    v -> isThrow ? ioException(isThrow, "IOException...") : "str.contains(\"H\")")
+                    .when("abcde123.$fGHIj",    v -> "ignore case match")
+                    .orElse(                    v -> "no match");
             assertEquals("str.contains(\"H\")", matchRes1);
-        } catch (IOException | StringConcatException | XMLStreamException e) {
+        } catch (StringConcatException | XMLStreamException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -50,18 +43,18 @@ public class PatternAndThrowTest {
         // ignore case match
         try {
             String matchRes1 = match(str, IGNORECASE)
-                    .when((String) null,
-                            () -> { if (isThrow) throw new NullPointerException("NullPointerException..."); return "match null"; })
+                    .with((String) null,
+                            v -> isThrow ? nullException(isThrow) : "match null")
                     .when("abcd",
                             v -> "match abcd")
-                    .when("abcdefg",
-                            () -> { if (isThrow) throw new XMLStreamException("XMLStreamException..."); return "match abcdefg"; })
-                    .when("abcd1",
-                            () -> { if (isThrow) throw new StringConcatException("StringConcatException..."); return "match abcd1"; })
-                    .when("abcd123",
-                            () -> { if (isThrow) throw new IOException("IOException..."); return "match abcd123"; })
-                    .when(str.contains("X"),
-                            () -> { if (isThrow) throw new IOException("IOException..."); return "str.contains(\"H\")"; })
+                    .with("abcdefg",
+                            v -> isThrow ? xmlException(isThrow) : "match abcdefg")
+                    .with("abcd1",
+                            v -> isThrow ? concatException(isThrow) : "match abcd1")
+                    .with("abcd123",
+                            v -> isThrow ? ioException(isThrow, "IOException...") : "match abcd123")
+                    .with(str.contains("X"),
+                            v -> isThrow ? ioException(isThrow, "IOException...") : "str.contains(\"H\")")
                     .when("abcde123.$fGHIj",
                             v -> "ignore case match")
                     .orElse(v -> "no match");
@@ -79,16 +72,16 @@ public class PatternAndThrowTest {
         String matchRes1 = null;
         try {
             matchRes1 = match(str, IGNORECASE)
-                    .when((String) null,
-                            () -> { if (isThrow) throw new StringConcatException("StringConcatException..."); return "match null"; })
-                    .when("abcd",
+                    .with((String) null,
+                            v -> isThrow ? concatException(isThrow) : "match null")
+                    .with("abcd",
                             v -> "match abcd")
-                    .when("abcd1",
-                            () -> { if (isThrow) throw new StringConcatException("StringConcatException..."); return "match abcd1"; })
-                    .when("abcd123",
-                            () -> { if (isThrow) throw new IOException("IOException..."); return "match abcd123"; })
-                    .when("abcde123.$fGHIj",
-                            () -> { if (isThrow) throw new IOException("IOException..."); return "ignore case match"; })
+                    .with("abcd1",
+                            v -> isThrow ? concatException(isThrow) : "match abcd1")
+                    .with("abcd123",
+                            v -> isThrow ? ioException(isThrow, "IOException...") : "match abcd123")
+                    .with("abcde123.$fGHIj",
+                            v -> isThrow ? ioException(isThrow, "IOException...") : "ignore case match")
                     .orElse(v -> "no match");
         } catch (IOException | StringConcatException e) {
             e.printStackTrace();
@@ -103,19 +96,19 @@ public class PatternAndThrowTest {
         boolean isThrow = false;
         // ignore case match
         String matchRes1 = Try.tcf(() ->
-                            match(str, IGNORECASE)
-                                .when((String) null,
-                                        () -> { if (isThrow) throw new StringConcatException("StringConcatException..."); return "match null"; })
-                                .when("abcd",
-                                        v -> "match abcd")
-                                .when("abcd1",
-                                        () -> { if (isThrow) throw new StringConcatException("StringConcatException..."); return "match abcd1"; })
-                                .when("abcd123",
-                                        () -> { if (isThrow) throw new IOException("IOException..."); return "match abcd123"; })
-                                .when("abcde123.$fGHIj",
-                                        () -> { if (isThrow) throw new IOException("IOException..."); return "ignore case match"; })
-                                .orElse(v -> "no match")
-                            );
+                match(str, IGNORECASE)
+                        .with((String) null,
+                                v -> isThrow ? concatException(isThrow) : "match null")
+                        .with("abcd",
+                                v -> "match abcd")
+                        .with("abcd1",
+                                v -> isThrow ? concatException(isThrow) : "match abcd1")
+                        .with("abcd123",
+                                v -> isThrow ? ioException(isThrow, "IOException...") : "match abcd123")
+                        .with("abcde123.$fGHIj",
+                                v -> isThrow ? ioException(isThrow, "IOException...") : "ignore case match")
+                        .orElse(v -> "no match")
+        );
 
         assertEquals("ignore case match", matchRes1);
     }
@@ -127,19 +120,19 @@ public class PatternAndThrowTest {
         boolean isMatch = true;
         // ignore case match
         String matchRes1 = Try.tcf(() ->
-                            match(str, IGNORECASE)
-                                .when((String) null,
-                                        () -> { if (isThrow) throw new StringConcatException("StringConcatException..."); return "match null"; })
-                                .when("abcd",
-                                        v -> "match abcd")
-                                .when("abcd1",
-                                        () -> { if (isThrow) throw new StringConcatException("StringConcatException..."); return "match abcd1"; })
-                                .when("abcd123",
-                                        () -> { if (isThrow) throw new IOException("IOException..."); return "match abcd123"; })
-                                .when("abcde123.$fGHIj",
-                                        () -> { if (isMatch) throw new IOException("IOException..."); return "ignore case match"; })
-                                .orElse(v -> "no match")
-                            );
+                match(str, IGNORECASE)
+                        .with((String) null,
+                                v -> isThrow ? concatException(isThrow) : "match null")
+                        .when("abcd",
+                                v -> "match abcd")
+                        .with("abcd1",
+                                v -> isThrow ? concatException(isThrow) : "match abcd1")
+                        .with("abcd123",
+                                v -> isThrow ? ioException(isThrow, "IOException...") : "match abcd123")
+                        .with("abcde123.$fGHIj",
+                                v -> !isThrow ? ioException(isMatch, "IOException...") : "ignore case match")
+                        .orElse(v -> "no match")
+        );
 
         assertNull(matchRes1);
     }
@@ -151,19 +144,19 @@ public class PatternAndThrowTest {
         boolean isMatch = true;
         // ignore case match
         String matchRes1 = Try.tcf(() ->
-                            match(str, IGNORECASE)
-                                .when((String) null,
-                                        () -> { if (isThrow) throw new StringConcatException("StringConcatException..."); return "match null"; })
-                                .when("abcd",
-                                        v -> "match abcd")
-                                .when("abcd1",
-                                        () -> { if (isThrow) throw new StringConcatException("StringConcatException..."); return "match abcd1"; })
-                                .when("abcd123",
-                                        () -> { if (isThrow) throw new IOException("IOException..."); return "match abcd123"; })
-                                .when("abcde123.$fGHIj",
-                                        () -> { if (isMatch) throw new IOException("IOException...match: abcde123.$fGHIj"); return "ignore case match"; })
-                                .orElse(v -> "no match")
-                            );
+                match(str, IGNORECASE)
+                        .with((String) null,
+                                v -> isThrow ? concatException(isThrow) : "match null")
+                        .when("abcd",
+                                v -> "match abcd")
+                        .with("abcd1",
+                                v -> isThrow ? concatException(isThrow) : "match abcd1")
+                        .with("abcd123",
+                                v -> isThrow ? ioException(isThrow, "IOException...") : "match abcd123")
+                        .with("abcde123.$fGHIj",
+                                v -> !isThrow ? ioException(isMatch, "IOException...match: abcde123.$fGHIj") : "ignore case match")
+                        .orElse(v -> "no match")
+        );
 
         assertNull(matchRes1);
     }
@@ -177,16 +170,16 @@ public class PatternAndThrowTest {
         String matchRes1 = null;
         try {
             matchRes1 = match(str, IGNORECASE)
-                    .when((String) null,
-                            () -> { if (isThrow) throw new StringConcatException("StringConcatException..."); return "match null"; })
+                    .with((String) null,
+                            v -> isThrow ? concatException(isThrow) : "match null")
                     .when("abcd",
                             v -> "match abcd")
-                    .when("abcd1",
-                            () -> { if (isThrow) throw new StringConcatException("StringConcatException..."); return "match abcd1"; })
-                    .when("abcd123",
-                            () -> { if (isThrow) throw new IOException("IOException..."); return "match abcd123"; })
-                    .when(str.contains("H"),
-                            () -> { if (isMatch) throw new IOException("IOException...str.contains(\"H\")"); return "str.contains(\"H\")"; })
+                    .with("abcd1",
+                            v -> isThrow ? concatException(isThrow) : "match abcd1")
+                    .with("abcd123",
+                            v -> isThrow ? ioException(isThrow, "IOException...") : "match abcd123")
+                    .with(str.contains("H"),
+                            v -> !isThrow ? ioException(isMatch, "IOException...str.contains(\"H\")") : "str.contains(\"H\")")
                     .orElse(v -> "no match");
         } catch (IOException | StringConcatException e) {
             e.printStackTrace();
@@ -204,18 +197,18 @@ public class PatternAndThrowTest {
         String matchRes1 = null;
         try {
             matchRes1 = match(str, IGNORECASE)
-                    .when((String) null,
-                            () -> { if (isThrow) throw new StringConcatException("StringConcatException..."); return "match null"; })
+                    .with((String) null,
+                            v -> isThrow ? concatException(isThrow) : "match null")
                     .when("abcd",
                             v -> "match abcd")
-                    .when("abcd1",
-                            () -> { if (isThrow) throw new StringConcatException("StringConcatException..."); return "match abcd1"; })
-                    .when("abcd123",
-                            () -> { if (isThrow) throw new IOException("IOException..."); return "match abcd123"; })
-                    .when("abcde123.$f",
-                            () -> { if (isMatch) throw new IOException("IOException..."); return "ignore case match"; })
-                    .orElse(
-                            () -> { if (isThrow) throw new IOException("IOException..."); return "no match"; });
+                    .with("abcd1",
+                            v -> isThrow ? concatException(isThrow) : "match abcd1")
+                    .with("abcd123",
+                            v -> isThrow ? ioException(isThrow, "IOException...") : "match abcd123")
+                    .with("abcde123.$f",
+                            v -> isThrow ? ioException(isMatch, "IOException...") : "ignore case match")
+                    .orWith(
+                            v -> isThrow ? ioException(isThrow, "IOException...") : "no match");
 
         } catch (IOException | StringConcatException e) {
             e.printStackTrace();
@@ -224,4 +217,24 @@ public class PatternAndThrowTest {
         assertEquals("no match", matchRes1);
     }
 
+
+    private String ioException(boolean isThrow, String s) throws IOException {
+        if (isThrow) throw new IOException(s);
+        else return null;
+    }
+
+    private String concatException(boolean isThrow) throws StringConcatException {
+        if (isThrow) throw new StringConcatException("StringConcatException...");
+        else return null;
+    }
+
+    private String xmlException(boolean isThrow) throws XMLStreamException {
+        if (isThrow) throw new XMLStreamException("XMLStreamException...");
+        else return null;
+    }
+
+    private String nullException(boolean isThrow) {
+        if (isThrow) throw new NullPointerException("NullPointerException...");
+        else return null;
+    }
 }
