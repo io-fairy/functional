@@ -15,6 +15,9 @@
  */
 package com.iofairy.si;
 
+import com.iofairy.top.G;
+import com.iofairy.tuple.Tuple2;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -31,8 +34,11 @@ public class StringExtractor {
      * ${} will parse to $ (String literal). <br>
      * 遇到 ${} 则解析成字符 $
      */
-    private final static String $ = "${}";
-    private final static String DEFAULT_VALUE_DELIMITER = ": ";
+    public final static String $ = "${}";
+    public final static String DEFAULT_VALUE_DELIMITER = ": ";
+    // DEFAULT_VALUE_DELIMITER (DVD) LENGTH
+    public final static int DVD_LENGTH = DEFAULT_VALUE_DELIMITER.length();
+
 
     /**
      * Regex for extracting expression from ${}, but { or } can't be included in ${}
@@ -64,19 +70,9 @@ public class StringExtractor {
                     sts.add(new StringToken(StringType.STRING, value, value));
                 }
 
-                String strInBrace = matchStr.substring(2, matchStr.length() - 1);
-                int index = strInBrace.indexOf(DEFAULT_VALUE_DELIMITER);
-                if (index > -1) {
-                    String defaultValue = "";
-                    if (index + DEFAULT_VALUE_DELIMITER.length() < strInBrace.length()) {
-                        defaultValue = strInBrace.substring(index + DEFAULT_VALUE_DELIMITER.length());
-
-                        String value = strInBrace.substring(0, index);
-                        sts.add(new StringToken(StringType.VALUE, value, defaultValue));
-                    }
-                }else {
-                    sts.add(new StringToken(StringType.VALUE, strInBrace, matchStr));
-                }
+                String strInBrace = matchStr.substring(2, matchStr.length() - 1);   // 获取${}中的内容
+                Tuple2<String, String> keyDefault = G.splitOnce(strInBrace, DEFAULT_VALUE_DELIMITER);
+                sts.add(new StringToken(StringType.VALUE, keyDefault._1, keyDefault._2 == null ? matchStr : keyDefault._2));
             }
             startIndex = end;
         }

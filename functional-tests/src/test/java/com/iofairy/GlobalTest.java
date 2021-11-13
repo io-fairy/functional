@@ -1,9 +1,11 @@
 package com.iofairy;
 
 import com.iofairy.top.G;
+import com.iofairy.tuple.Tuple2;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author GG
@@ -99,5 +101,35 @@ public class GlobalTest {
         } catch (Exception e) {
             System.out.println(G.stackTrace(e));
         }
+    }
+
+    @Test
+    public void testSplitOnce() {
+        Tuple2<String, String> t00 = G.splitOnce(":", ": ");
+        Tuple2<String, String> t01 = G.splitOnce(null, ": ");
+        Tuple2<String, String> t02 = G.splitOnce(": ", null);
+        Tuple2<String, String> t03 = G.splitOnce(": ", ": ");
+        Tuple2<String, String> t04 = G.splitOnce(": 1", ": ");
+        Tuple2<String, String> t05 = G.splitOnce("a: ", ": ");
+        Tuple2<String, String> t06 = G.splitOnce("a: 1", ": ");
+        Tuple2<String, String> t07 = G.splitOnce(" :  ", ": ");
+        Tuple2<String, String> t08 = G.splitOnce(" : : ", ": ");
+        Tuple2<String, String> t09 = G.splitOnce(" :abc ", ": ");
+        Tuple2<String, String> t10 = G.splitOnce("", "");
+        Tuple2<String, String> t11 = G.splitOnce(null, null);
+
+        assertEquals(t00._1 + "||" + t00._2, ":||null");
+        assertEquals(t01._1 + "||" + t01._2, "null||null");
+        assertEquals(t02._1 + "||" + t02._2, ": ||null");
+        assertEquals(t03._1 + "||" + t03._2, "||");
+        assertEquals(t04._1 + "||" + t04._2, "||1");
+        assertEquals(t05._1 + "||" + t05._2, "a||");
+        assertEquals(t06._1 + "||" + t06._2, "a||1");
+        assertEquals(t07._1 + "||" + t07._2, " || ");
+        assertEquals(t08._1 + "||" + t08._2, " ||: ");
+        assertEquals(t09._1 + "||" + t09._2, " :abc ||null");
+        assertEquals(t10._1 + "||" + t10._2, "||null");
+        assertEquals(t11._1 + "||" + t11._2, "null||null");
+
     }
 }

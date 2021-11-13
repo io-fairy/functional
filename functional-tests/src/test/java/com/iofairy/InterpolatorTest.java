@@ -39,6 +39,15 @@ public class InterpolatorTest {
     }
 
     @Test
+    public void testInterpolator2() {
+        SI si = Tuple.of("zs", 20, "tom", 190.5, 123456).alias("name", "age", "nickName", "height", "id").toSI();
+
+        String parse = si.$("--${name}--${age}--${nickName}--${id}--${height}--");
+
+        assertEquals("--zs--20--tom--123456--190.5--", parse);
+    }
+
+    @Test
     public void testDefaultValue() {
         // use ": " set default value
         String source = "${NAME}--${NAME: tom}--${age: 20}--${ID1:}" +
@@ -50,6 +59,45 @@ public class InterpolatorTest {
         System.out.println(parse);
 
         assertEquals("zs--zs--20--${ID1:}--${ ID1 }----${id1}--${age::20}--null-- --null", parse);
+
+    }
+
+    @Test
+    public void testDefaultValue1() {
+        // use ": " set default value
+        String source = "ID1: ${ID1: }--${ID1: : }--${ID: : }--${ID: }--${: }--${ID1: }";
+        SI si = Tuple.of("123456", "emptyKey").alias("ID1", "").toSI();
+        String parse = si.$(source);
+        System.out.println(parse);
+
+        assertEquals("ID1: 123456--123456--: ----emptyKey--123456", parse);
+
+    }
+
+    @Test
+    public void testDefaultValue2() {
+        // use ": " set default value
+        String source = "--ID1: ${ID1: }--${ID1: : }--${ID: : }--${: empty}--${ID: }--";
+        SI si = Tuple.of("123456").alias("ID1").toSI();
+        String parse = si.$(source);
+        System.out.println(parse);
+
+        assertEquals("--ID1: 123456--123456--: --empty----", parse);
+
+    }
+
+    @Test
+    public void testDefaultValue3() {
+        // use ": " set default value
+        String source = "${NAME}--${NAME: tom}--${age: 20}--${ID1:}" +
+                "--${ ID1 }--ID1: ${ID1: }--${ID2: }--${id1}--${age::20}--${ID}" +
+                "--${ ID1:  }--${ID: 123456}";
+        Tuple t1 = Tuple.of("zs", null, "id1-123456").alias("NAME", "ID", "ID1");
+        SI si = SI.of(t1, null, Tuple.empty());
+        String parse = si.$(source);
+        System.out.println(parse);
+
+        assertEquals("zs--zs--20--${ID1:}--${ ID1 }--ID1: id1-123456----${id1}--${age::20}--null-- --null", parse);
 
     }
 

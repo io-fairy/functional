@@ -15,6 +15,9 @@
  */
 package com.iofairy.top;
 
+import com.iofairy.tuple.Tuple;
+import com.iofairy.tuple.Tuple2;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.*;
@@ -223,6 +226,24 @@ public class G {
             if (r != null) return r;
         }
         return null;
+    }
+
+    /**
+     * Split by the place where the delimiter first appears, only split once. <br>
+     * 在分隔符第一次出现的地方切分字符串，将一个字符串分隔成两个字符串
+     * @param source will be split
+     * @param delimiter delimiter
+     * @return Tuple2&lt;String, String&gt; -- first substring and second substring
+     * @since 0.2.0
+     */
+    public static Tuple2<String, String> splitOnce(String source, String delimiter) {
+        if (G.hasEmpty(source, delimiter)) return Tuple.of(source, null);
+        int index = source.indexOf(delimiter);
+        if (index > -1) {
+            return Tuple.of(source.substring(0, index), source.substring(index + delimiter.length()));
+        }else {
+            return Tuple.of(source, null);
+        }
     }
 
     /**
