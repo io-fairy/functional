@@ -26,19 +26,32 @@ import java.util.Objects;
  * @since 0.0.1
  */
 public class Pattern {
-    public static PatternDefault DEFAULT = PatternDefault.DEFAULT;      // DEFAULT can match by value or boolean
-    public static PatternValue VALUE = PatternValue.VALUE;              // match by value
-    public static PatternType TYPE = PatternType.TYPE;                  // match by value type(Class)
-    public static PatternString STRING = PatternString.STRING;          // match by String value
-    public static PatternString IGNORECASE = PatternString.IGNORECASE;  // match by String value ignore case
-    public static PatternString CONTAIN = PatternString.CONTAIN;        // match by String value using String.contains
-    public static PatternString PREFIX = PatternString.PREFIX;          // match by String value using String.startsWith
-    public static PatternString SUFFIX = PatternString.SUFFIX;          // match by String value using String.endsWith
-    public static PatternString ICCONTAIN = PatternString.ICCONTAIN;    // ignore case for contain
-    public static PatternString ICPREFIX = PatternString.ICPREFIX;      // ignore case for prefix
-    public static PatternString ICSUFFIX = PatternString.ICSUFFIX;      // ignore case for suffix
+    public static final PatternDefault DEFAULT = PatternDefault.DEFAULT;      // DEFAULT can match by value or boolean
+    public static final PatternValue VALUE = PatternValue.VALUE;              // match by value
+    public static final PatternType TYPE = PatternType.TYPE;                  // match by value type(Class)
+    public static final PatternString STRING = PatternString.STRING;          // match by String value
+    public static final PatternString IGNORECASE = PatternString.IGNORECASE;  // match by String value ignore case
+    public static final PatternString CONTAIN = PatternString.CONTAIN;        // match by String value using String.contains
+    public static final PatternString PREFIX = PatternString.PREFIX;          // match by String value using String.startsWith
+    public static final PatternString SUFFIX = PatternString.SUFFIX;          // match by String value using String.endsWith
+    public static final PatternString ICCONTAIN = PatternString.ICCONTAIN;    // ignore case for contain
+    public static final PatternString ICPREFIX = PatternString.ICPREFIX;      // ignore case for prefix
+    public static final PatternString ICSUFFIX = PatternString.ICSUFFIX;      // ignore case for suffix
 
     public static None NONE = None.NONE;
+    /*
+     * Value for null pattern
+     */
+    public static final PatternNull1 VALUE1 = PatternNull1.VALUE1;
+    public static final PatternNull2 VALUE2 = PatternNull2.VALUE2;
+    public static final PatternNull3 VALUE3 = PatternNull3.VALUE3;
+    public static final PatternNull4 VALUE4 = PatternNull4.VALUE4;
+    public static final PatternNull5 VALUE5 = PatternNull5.VALUE5;
+    public static final PatternNull6 VALUE6 = PatternNull6.VALUE6;
+    public static final PatternNull7 VALUE7 = PatternNull7.VALUE7;
+    public static final PatternNull8 VALUE8 = PatternNull8.VALUE8;
+
+
 
     /**
      * {@code match} can instead of {@code switch} statement or {@code if} statement. <br>
@@ -227,6 +240,70 @@ public class Pattern {
         return new ActionNoneMatcherMapping<>(NONE, preAction);
     }
 
+    /**
+     * 适用于判断多个值是否为null值（或其他终止条件），只要其中一个值满足终止条件，则立即 {@code return} 方法，终止后续语句运算。<br><br>
+     * <b>Examples:</b><br><br>
+     * <pre>
+     * public String patternCheckNull() {
+     *     Account account = new Account("12345", "", "aaaabbbb");
+     *     Order order = new Order("order_123456", 10.5, new User("zs", 10, account));
+     *
+     *     Tuple7&lt;User, Account, String, Double, String, Integer, String&gt; values = matchNull()
+     *             .whenV(order,   v -&gt; v.buyer,     "order is null or order.buyer is null!")
+     *             .whenW(VALUE1,  v -&gt; v.account,   v -&gt; "user " + v._1.name + "'s account is null!")
+     *             .whenV(order,   v -&gt; v.orderId,   G::isBlank, "order.orderId is blank!")
+     *             .whenV(order,   v -&gt; v.price,     v -&gt; v &lt; 0, "order.price &lt; 0!")
+     *             .whenW(VALUE2,  v -&gt; v.userName,  G::isEmpty, "order.buyer.account.userName is empty!")
+     *             .whenW(VALUE1,  v -&gt; v.age,       v -&gt; v &lt; 0, "order.buyer.age &lt; 0!")
+     *             .orElse(null);
+     *
+     *     User user = values._1;
+     *     Account account1 = values._2;
+     *     String orderId = values._3;
+     *     Double price = values._4;
+     *     String userName = values._5;
+     *     Integer age = values._6;
+     *     String msg = values._7;
+     *
+     *     return msg;
+     * }
+     * </pre>
+     * <b>It is equivalent to the code below: </b><br><br>
+     * <pre>
+     * public String commonCheckNull() {
+     *     Account account = new Account("12345", "", "aaaabbbb");
+     *     Order order = new Order("order_123456", 10.5, new User("zs", 10, account));
+     *
+     *     String msg = null;
+     *     if (order == null || order.buyer == null) {
+     *         return "order is null or order.buyer is null!";
+     *     }
+     *     User user = order.buyer;
+     *     if (user.account == null) {
+     *         return "user " + user.name + "'s account is null!";
+     *     }
+     *     if (G.isBlank(order.orderId)) {
+     *         return "order.orderId is blank!";
+     *     }
+     *     if (order.price &lt; 0) {
+     *         return "order.price &lt; 0!";
+     *     }
+     *     if (G.isEmpty(user.account.userName)) {
+     *         return "order.buyer.account.userName is empty!";
+     *     }
+     *     if (user.age &lt; 0) {
+     *         return "order.buyer.age &lt; 0!";
+     *     }
+     *
+     *     return null;
+     * }
+     * </pre>
+     *
+     * @return NullMatcherMapping
+     */
+    public static NullMatcherMapping<None> matchNull() {
+        return new NullMatcherMapping<>(None.NONE);
+    }
 
     /*###################################################################################
      ************************************************************************************
