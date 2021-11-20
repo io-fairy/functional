@@ -1,4 +1,4 @@
-package com.iofairy;
+package com.iofairy.test;
 
 import com.iofairy.lambda.*;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.iofairy;
+package com.iofairy.test;
 
 import com.iofairy.except.AliasDuplicateException;
 import com.iofairy.except.NumberOfAliasesException;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
 
-import static com.iofairy.MyTupleAlias.*;
+import static com.iofairy.test.MyTupleAlias.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**

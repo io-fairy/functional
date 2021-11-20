@@ -1,4 +1,4 @@
-package com.iofairy;
+package com.iofairy.test;
 
 import com.iofairy.tcf.Close;
 import com.iofairy.tcf.Try;

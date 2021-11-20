@@ -1,4 +1,4 @@
-package com.iofairy;
+package com.iofairy.test;
 
 /**
  * @author GG

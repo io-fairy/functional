@@ -1,4 +1,4 @@
-package com.iofairy;
+package com.iofairy.test;
 
 import com.iofairy.top.G;
 import com.iofairy.tuple.Tuple2;

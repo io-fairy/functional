@@ -1,4 +1,4 @@
-package com.iofairy;
+package com.iofairy.test;
 
 import com.iofairy.except.UnexpectedParameterException;
 import com.iofairy.si.SI;
