@@ -40,7 +40,7 @@ public class TypeVMatcher<V> implements Matcher {
         this(value, false);
     }
 
-    public <C> TypeVMatcher<V> when(Class<C> value, V1<C> action) {
+    public <C> TypeVMatcher<V> when(Class<C> value, V1<? super C> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (value == null || this.value == null) {
@@ -56,7 +56,7 @@ public class TypeVMatcher<V> implements Matcher {
         return this;
     }
 
-    public <C> TypeVMatcher<V> whenNext(Class<C> value, V1<C> action) {
+    public <C> TypeVMatcher<V> whenNext(Class<C> value, V1<? super C> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (value == null || this.value == null) {
@@ -67,7 +67,7 @@ public class TypeVMatcher<V> implements Matcher {
         return this;
     }
 
-    public <C, E extends Throwable> TypeVMatcher<V> with(Class<C> value, VT1<C, E> action) throws E {
+    public <C, E extends Throwable> TypeVMatcher<V> with(Class<C> value, VT1<? super C, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (value == null || this.value == null) {
@@ -83,7 +83,7 @@ public class TypeVMatcher<V> implements Matcher {
         return this;
     }
 
-    public <C, E extends Throwable> TypeVMatcher<V> withNext(Class<C> value, VT1<C, E> action) throws E {
+    public <C, E extends Throwable> TypeVMatcher<V> withNext(Class<C> value, VT1<? super C, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (value == null || this.value == null) {
@@ -94,7 +94,7 @@ public class TypeVMatcher<V> implements Matcher {
         return this;
     }
 
-    public Void orElse(V1<V> action) {
+    public Void orElse(V1<? super V> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             action.$(this.value);
@@ -102,7 +102,7 @@ public class TypeVMatcher<V> implements Matcher {
         return returnValue;
     }
 
-    public <E extends Throwable> Void orWith(VT1<V, E> action) throws E {
+    public <E extends Throwable> Void orWith(VT1<? super V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             action.$(this.value);

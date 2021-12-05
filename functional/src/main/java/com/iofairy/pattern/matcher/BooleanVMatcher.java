@@ -39,7 +39,7 @@ public class BooleanVMatcher<V> implements Matcher {
         this(value, false);
     }
 
-    public BooleanVMatcher<V> when(boolean value, V1<V> action) {
+    public BooleanVMatcher<V> when(boolean value, V1<? super V> action) {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             isMatch = true;
@@ -48,7 +48,7 @@ public class BooleanVMatcher<V> implements Matcher {
         return this;
     }
 
-    public BooleanVMatcher<V> whenNext(boolean value, V1<V> action) {
+    public BooleanVMatcher<V> whenNext(boolean value, V1<? super V> action) {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             action.$(this.value);
@@ -56,7 +56,7 @@ public class BooleanVMatcher<V> implements Matcher {
         return this;
     }
 
-    public <E extends Throwable> BooleanVMatcher<V> with(boolean value, VT1<V, E> action) throws E {
+    public <E extends Throwable> BooleanVMatcher<V> with(boolean value, VT1<? super V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             isMatch = true;
@@ -65,7 +65,7 @@ public class BooleanVMatcher<V> implements Matcher {
         return this;
     }
 
-    public <E extends Throwable> BooleanVMatcher<V> withNext(boolean value, VT1<V, E> action) throws E {
+    public <E extends Throwable> BooleanVMatcher<V> withNext(boolean value, VT1<? super V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             action.$(this.value);
@@ -73,7 +73,7 @@ public class BooleanVMatcher<V> implements Matcher {
         return this;
     }
 
-    public Void orElse(V1<V> action) {
+    public Void orElse(V1<? super V> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             action.$(this.value);
@@ -81,7 +81,7 @@ public class BooleanVMatcher<V> implements Matcher {
         return returnValue;
     }
 
-    public <E extends Throwable> Void orWith(VT1<V, E> action) throws E {
+    public <E extends Throwable> Void orWith(VT1<? super V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             action.$(this.value);

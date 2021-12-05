@@ -39,7 +39,7 @@ public class Null2Matcher<T1, R> implements Matcher {
     }
 
 
-    public <V, NV> Null3Matcher<T1, NV, R> whenV(V matchValue, R1<V, NV> computeValue, R1<NV, Boolean> action, R1<Tuple1<T1>, R> msgAction) {
+    public <V, NV> Null3Matcher<T1, NV, R> whenV(V matchValue, R1<? super V, ? extends NV> computeValue, R1<? super NV, Boolean> action, R1<Tuple1<T1>, ? extends R> msgAction) {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(msgAction);
         if (!isMatch) {
@@ -56,11 +56,11 @@ public class Null2Matcher<T1, R> implements Matcher {
         return new Null3Matcher<>(true, value1, null, this.msg);
     }
 
-    public <V, NV> Null3Matcher<T1, NV, R> whenV(V matchValue, R1<V, NV> computeValue, R1<Tuple1<T1>, R> msgAction) {
+    public <V, NV> Null3Matcher<T1, NV, R> whenV(V matchValue, R1<? super V, ? extends NV> computeValue, R1<Tuple1<T1>, ? extends R> msgAction) {
         return whenV(matchValue, computeValue, null, msgAction);
     }
 
-    public <V, NV> Null3Matcher<T1, NV, R> whenV(V matchValue, R1<V, NV> computeValue, R1<NV, Boolean> action, R msg) {
+    public <V, NV> Null3Matcher<T1, NV, R> whenV(V matchValue, R1<? super V, ? extends NV> computeValue, R1<? super NV, Boolean> action, R msg) {
         Objects.requireNonNull(computeValue);
         if (!isMatch) {
             if (matchValue == null) {
@@ -75,11 +75,11 @@ public class Null2Matcher<T1, R> implements Matcher {
         return new Null3Matcher<>(true, value1, null, this.msg);
     }
 
-    public <V, NV> Null3Matcher<T1, NV, R> whenV(V matchValue, R1<V, NV> computeValue, R msg) {
+    public <V, NV> Null3Matcher<T1, NV, R> whenV(V matchValue, R1<? super V, ? extends NV> computeValue, R msg) {
         return whenV(matchValue, computeValue, null, msg);
     }
 
-    public <NV> Null3Matcher<T1, NV, R> whenW(PatternNull1 patternNull, R1<T1, NV> computeValue, R1<NV, Boolean> action, R1<Tuple1<T1>, R> msgAction) {
+    public <NV> Null3Matcher<T1, NV, R> whenW(PatternNull1 patternNull, R1<? super T1, ? extends NV> computeValue, R1<? super NV, Boolean> action, R1<Tuple1<T1>, ? extends R> msgAction) {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         Objects.requireNonNull(msgAction);
@@ -93,11 +93,11 @@ public class Null2Matcher<T1, R> implements Matcher {
         return new Null3Matcher<>(true, value1, null, this.msg);
     }
 
-    public <NV> Null3Matcher<T1, NV, R> whenW(PatternNull1 patternNull, R1<T1, NV> computeValue, R1<Tuple1<T1>, R> msgAction) {
+    public <NV> Null3Matcher<T1, NV, R> whenW(PatternNull1 patternNull, R1<? super T1, ? extends NV> computeValue, R1<Tuple1<T1>, ? extends R> msgAction) {
         return whenW(patternNull, computeValue, null, msgAction);
     }
 
-    public <NV> Null3Matcher<T1, NV, R> whenW(PatternNull1 patternNull, R1<T1, NV> computeValue, R1<NV, Boolean> action, R msg) {
+    public <NV> Null3Matcher<T1, NV, R> whenW(PatternNull1 patternNull, R1<? super T1, ? extends NV> computeValue, R1<? super NV, Boolean> action, R msg) {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         if (!isMatch) {
@@ -109,7 +109,7 @@ public class Null2Matcher<T1, R> implements Matcher {
         return new Null3Matcher<>(true, value1, null, this.msg);
     }
 
-    public <NV> Null3Matcher<T1, NV, R> whenW(PatternNull1 patternNull, R1<T1, NV> computeValue, R msg) {
+    public <NV> Null3Matcher<T1, NV, R> whenW(PatternNull1 patternNull, R1<? super T1, ? extends NV> computeValue, R msg) {
         return whenW(patternNull, computeValue, null, msg);
     }
 
@@ -122,7 +122,7 @@ public class Null2Matcher<T1, R> implements Matcher {
      * ########################################################################
      */
 
-    public <V, NV, E extends Throwable> Null3Matcher<T1, NV, R> withV(V matchValue, RT1<V, NV, E> computeValue, RT1<NV, Boolean, E> action, RT1<Tuple1<T1>, R, E> msgAction) throws E {
+    public <V, NV, E extends Throwable> Null3Matcher<T1, NV, R> withV(V matchValue, RT1<? super V, ? extends NV, E> computeValue, RT1<? super NV, Boolean, E> action, RT1<Tuple1<T1>, ? extends R, E> msgAction) throws E {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(msgAction);
         if (!isMatch) {
@@ -139,11 +139,11 @@ public class Null2Matcher<T1, R> implements Matcher {
         return new Null3Matcher<>(true, value1, null, this.msg);
     }
 
-    public <V, NV, E extends Throwable> Null3Matcher<T1, NV, R> withV(V matchValue, RT1<V, NV, E> computeValue, RT1<Tuple1<T1>, R, E> msgAction) throws E {
+    public <V, NV, E extends Throwable> Null3Matcher<T1, NV, R> withV(V matchValue, RT1<? super V, ? extends NV, E> computeValue, RT1<Tuple1<T1>, ? extends R, E> msgAction) throws E {
         return withV(matchValue, computeValue, null, msgAction);
     }
 
-    public <V, NV, E extends Throwable> Null3Matcher<T1, NV, R> withV(V matchValue, RT1<V, NV, E> computeValue, RT1<NV, Boolean, E> action, R msg) throws E {
+    public <V, NV, E extends Throwable> Null3Matcher<T1, NV, R> withV(V matchValue, RT1<? super V, ? extends NV, E> computeValue, RT1<? super NV, Boolean, E> action, R msg) throws E {
         Objects.requireNonNull(computeValue);
         if (!isMatch) {
             if (matchValue == null) {
@@ -158,11 +158,11 @@ public class Null2Matcher<T1, R> implements Matcher {
         return new Null3Matcher<>(true, value1, null, this.msg);
     }
 
-    public <V, NV, E extends Throwable> Null3Matcher<T1, NV, R> withV(V matchValue, RT1<V, NV, E> computeValue, R msg) throws E {
+    public <V, NV, E extends Throwable> Null3Matcher<T1, NV, R> withV(V matchValue, RT1<? super V, ? extends NV, E> computeValue, R msg) throws E {
         return withV(matchValue, computeValue, null, msg);
     }
 
-    public <NV, E extends Throwable> Null3Matcher<T1, NV, R> withW(PatternNull1 patternNull, RT1<T1, NV, E> computeValue, RT1<NV, Boolean, E> action, RT1<Tuple1<T1>, R, E> msgAction) throws E {
+    public <NV, E extends Throwable> Null3Matcher<T1, NV, R> withW(PatternNull1 patternNull, RT1<? super T1, ? extends NV, E> computeValue, RT1<? super NV, Boolean, E> action, RT1<Tuple1<T1>, ? extends R, E> msgAction) throws E {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         Objects.requireNonNull(msgAction);
@@ -176,11 +176,11 @@ public class Null2Matcher<T1, R> implements Matcher {
         return new Null3Matcher<>(true, value1, null, this.msg);
     }
 
-    public <NV, E extends Throwable> Null3Matcher<T1, NV, R> withW(PatternNull1 patternNull, RT1<T1, NV, E> computeValue, RT1<Tuple1<T1>, R, E> msgAction) throws E {
+    public <NV, E extends Throwable> Null3Matcher<T1, NV, R> withW(PatternNull1 patternNull, RT1<? super T1, ? extends NV, E> computeValue, RT1<Tuple1<T1>, ? extends R, E> msgAction) throws E {
         return withW(patternNull, computeValue, null, msgAction);
     }
 
-    public <NV, E extends Throwable> Null3Matcher<T1, NV, R> withW(PatternNull1 patternNull, RT1<T1, NV, E> computeValue, RT1<NV, Boolean, E> action, R msg) throws E {
+    public <NV, E extends Throwable> Null3Matcher<T1, NV, R> withW(PatternNull1 patternNull, RT1<? super T1, ? extends NV, E> computeValue, RT1<? super NV, Boolean, E> action, R msg) throws E {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         if (!isMatch) {
@@ -192,7 +192,7 @@ public class Null2Matcher<T1, R> implements Matcher {
         return new Null3Matcher<>(true, value1, null, this.msg);
     }
 
-    public <NV, E extends Throwable> Null3Matcher<T1, NV, R> withW(PatternNull1 patternNull, RT1<T1, NV, E> computeValue, R msg) throws E {
+    public <NV, E extends Throwable> Null3Matcher<T1, NV, R> withW(PatternNull1 patternNull, RT1<? super T1, ? extends NV, E> computeValue, R msg) throws E {
         return withW(patternNull, computeValue, null, msg);
     }
 

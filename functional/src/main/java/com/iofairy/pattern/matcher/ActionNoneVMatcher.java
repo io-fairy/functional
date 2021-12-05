@@ -28,19 +28,19 @@ import java.util.Objects;
  */
 public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
 
-    private final R1<P, Boolean> preAction;
+    private final R1<? super P, Boolean> preAction;
 
-    public ActionNoneVMatcher(None value, boolean isMatch, R1<P, Boolean> preAction) {
+    public ActionNoneVMatcher(None value, boolean isMatch, R1<? super P, Boolean> preAction) {
         super(value, isMatch);
         this.preAction = preAction;
     }
 
-    public ActionNoneVMatcher(None value, R1<P, Boolean> preAction) {
+    public ActionNoneVMatcher(None value, R1<? super P, Boolean> preAction) {
         this(value, false, preAction);
     }
 
     @Override
-    public ActionNoneVMatcher<P> when(P value, V1<P> action) {
+    public ActionNoneVMatcher<P> when(P value, V1<? super P> action) {
         Objects.requireNonNull(action);
         if (!isMatch && preAction.$(value)) {
             isMatch = true;
@@ -50,7 +50,7 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
     }
 
     @Override
-    public ActionNoneVMatcher<P> whenNext(P value, V1<P> action) {
+    public ActionNoneVMatcher<P> whenNext(P value, V1<? super P> action) {
         Objects.requireNonNull(action);
         if (!isMatch && preAction.$(value)) {
             action.$(value);
@@ -59,7 +59,7 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
     }
 
     @Override
-    public <E extends Throwable> ActionNoneVMatcher<P> with(P value, VT1<P, E> action) throws E {
+    public <E extends Throwable> ActionNoneVMatcher<P> with(P value, VT1<? super P, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && preAction.$(value)) {
             isMatch = true;
@@ -69,7 +69,7 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
     }
 
     @Override
-    public <E extends Throwable> ActionNoneVMatcher<P> withNext(P value, VT1<P, E> action) throws E {
+    public <E extends Throwable> ActionNoneVMatcher<P> withNext(P value, VT1<? super P, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && preAction.$(value)) {
             action.$(value);
@@ -78,7 +78,7 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
     }
 
     @Override
-    public ActionNoneVMatcher<P> when(boolean value, V1<P> action) {
+    public ActionNoneVMatcher<P> when(boolean value, V1<? super P> action) {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             isMatch = true;
@@ -88,7 +88,7 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
     }
 
     @Override
-    public ActionNoneVMatcher<P> whenNext(boolean value, V1<P> action) {
+    public ActionNoneVMatcher<P> whenNext(boolean value, V1<? super P> action) {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             action.$(null);
@@ -97,7 +97,7 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
     }
 
     @Override
-    public <E extends Throwable> ActionNoneVMatcher<P> with(boolean value, VT1<P, E> action) throws E {
+    public <E extends Throwable> ActionNoneVMatcher<P> with(boolean value, VT1<? super P, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             isMatch = true;
@@ -107,7 +107,7 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
     }
 
     @Override
-    public <E extends Throwable> ActionNoneVMatcher<P> withNext(boolean value, VT1<P, E> action) throws E {
+    public <E extends Throwable> ActionNoneVMatcher<P> withNext(boolean value, VT1<? super P, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             action.$(null);
@@ -116,7 +116,7 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
     }
 
     @Override
-    public ActionNoneVMatcher<P> when(PatternIn<P> values, V1<P> action) {
+    public ActionNoneVMatcher<P> when(PatternIn<P> values, V1<? super P> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (values == null) {
@@ -138,7 +138,7 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
     }
 
     @Override
-    public ActionNoneVMatcher<P> whenNext(PatternIn<P> values, V1<P> action) {
+    public ActionNoneVMatcher<P> whenNext(PatternIn<P> values, V1<? super P> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (values == null) {
@@ -158,7 +158,7 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
     }
 
     @Override
-    public <E extends Throwable> ActionNoneVMatcher<P> with(PatternIn<P> values, VT1<P, E> action) throws E {
+    public <E extends Throwable> ActionNoneVMatcher<P> with(PatternIn<P> values, VT1<? super P, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (values == null) {
@@ -180,7 +180,7 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
     }
 
     @Override
-    public <E extends Throwable> ActionNoneVMatcher<P> withNext(PatternIn<P> values, VT1<P, E> action) throws E {
+    public <E extends Throwable> ActionNoneVMatcher<P> withNext(PatternIn<P> values, VT1<? super P, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (values == null) {
@@ -200,7 +200,7 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
     }
 
     @Override
-    public Void orElse(V1<None> action) {
+    public Void orElse(V1<? super None> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             action.$(null);
@@ -209,7 +209,7 @@ public class ActionNoneVMatcher<P> extends SimpleVInMatcher<None, P, P> {
     }
 
     @Override
-    public <E extends Throwable> Void orWith(VT1<None, E> action) throws E {
+    public <E extends Throwable> Void orWith(VT1<? super None, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             action.$(null);

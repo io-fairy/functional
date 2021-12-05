@@ -58,7 +58,7 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
     }
 
     @Override
-    public StringRMatcher<R> when(String value, R1<String, R> action) {
+    public StringRMatcher<R> when(String value, R1<? super String, ? extends R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (value == null || this.value == null) {
@@ -111,7 +111,7 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
     }
 
     @Override
-    public StringRMatcher<R> whenNext(String value, R1<String, R> action) {
+    public StringRMatcher<R> whenNext(String value, R1<? super String, ? extends R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (value == null || this.value == null) {
@@ -163,7 +163,7 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
     }
 
     @Override
-    public <E extends Throwable> StringRMatcher<R> with(String value, RT1<String, R, E> action) throws E {
+    public <E extends Throwable> StringRMatcher<R> with(String value, RT1<? super String, ? extends R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (value == null || this.value == null) {
@@ -216,7 +216,7 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
     }
 
     @Override
-    public <E extends Throwable> StringRMatcher<R> withNext(String value, RT1<String, R, E> action) throws E {
+    public <E extends Throwable> StringRMatcher<R> withNext(String value, RT1<? super String, ? extends R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (value == null || this.value == null) {
@@ -268,7 +268,7 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
     }
 
     @Override
-    public StringRMatcher<R> when(boolean value, R1<String, R> action) {
+    public StringRMatcher<R> when(boolean value, R1<? super String, ? extends R> action) {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             isMatch = true;
@@ -278,7 +278,7 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
     }
 
     @Override
-    public StringRMatcher<R> whenNext(boolean value, R1<String, R> action) {
+    public StringRMatcher<R> whenNext(boolean value, R1<? super String, ? extends R> action) {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             returnValue = action.$(this.value);
@@ -287,7 +287,7 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
     }
 
     @Override
-    public <E extends Throwable> StringRMatcher<R> with(boolean value, RT1<String, R, E> action) throws E {
+    public <E extends Throwable> StringRMatcher<R> with(boolean value, RT1<? super String, ? extends R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             isMatch = true;
@@ -297,7 +297,7 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
     }
 
     @Override
-    public <E extends Throwable> StringRMatcher<R> withNext(boolean value, RT1<String, R, E> action) throws E {
+    public <E extends Throwable> StringRMatcher<R> withNext(boolean value, RT1<? super String, ? extends R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             returnValue = action.$(this.value);
@@ -306,7 +306,7 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
     }
 
     @Override
-    public StringRMatcher<R> when(PatternIn<String> values, R1<String, R> action) {
+    public StringRMatcher<R> when(PatternIn<String> values, R1<? super String, ? extends R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (this.value == null) {
@@ -331,7 +331,7 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
     }
 
     @Override
-    public StringRMatcher<R> whenNext(PatternIn<String> values, R1<String, R> action) {
+    public StringRMatcher<R> whenNext(PatternIn<String> values, R1<? super String, ? extends R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (this.value == null) {
@@ -355,7 +355,7 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
     }
 
     @Override
-    public <E extends Throwable> StringRMatcher<R> with(PatternIn<String> values, RT1<String, R, E> action) throws E {
+    public <E extends Throwable> StringRMatcher<R> with(PatternIn<String> values, RT1<? super String, ? extends R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (this.value == null) {
@@ -380,7 +380,7 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
     }
 
     @Override
-    public <E extends Throwable> StringRMatcher<R> withNext(PatternIn<String> values, RT1<String, R, E> action) throws E {
+    public <E extends Throwable> StringRMatcher<R> withNext(PatternIn<String> values, RT1<? super String, ? extends R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (this.value == null) {
@@ -405,7 +405,7 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
 
 
     @Override
-    public R orElse(R1<String, R> action) {
+    public R orElse(R1<? super String, ? extends R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             returnValue = action.$(this.value);
@@ -414,7 +414,7 @@ public class StringRMatcher<R> extends SimpleRInMatcher<String, String, String, 
     }
 
     @Override
-    public <E extends Throwable> R orWith(RT1<String, R, E> action) throws E {
+    public <E extends Throwable> R orWith(RT1<? super String, ? extends R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             returnValue = action.$(this.value);

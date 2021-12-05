@@ -1,5 +1,6 @@
 package com.iofairy.test.nullpattern;
 
+import com.iofairy.lambda.R1;
 import com.iofairy.top.G;
 import com.iofairy.tuple.*;
 import org.junit.jupiter.api.Test;
@@ -149,6 +150,39 @@ public class PatternNullTest {
         System.out.println("order.buyer.age: " + values._6);
         System.out.println("order.buyer.account.id: " + values._7);
         System.out.println("order.buyer.account.userName: " + values._8);
+
+    }
+
+    @Test
+    public void testNullPatternCovariance() {
+        Account account = null;
+        Order order = new Order("order_123456", 10.5, new User("zs", 10, account));
+
+        R1<Object, Account> oaR1 = v -> ((User)v).account;
+
+        Tuple7<User, Account, String, Double, String, Integer, String> values = matchNull()
+                .whenV(order,   v -> v.buyer,   "order is null or order.buyer is null!")
+                .whenW(VALUE1,  oaR1,           v -> "user " + v._1.name + "'s account is null!")
+                .whenV(order,   v -> v.orderId, G::isBlank, "order.orderId is blank!")
+                .whenV(order,   v -> v.price,   v -> v < 0, "order.price < 0!")
+                .whenW(VALUE1,  v -> v.name,    G::isEmpty, "order.buyer.name is empty!")
+                .whenW(VALUE1,  v -> v.age,     v -> v < 0, "order.buyer.age < 0!")
+                .orElse(null);
+
+        String msg = values._7;
+        assertEquals("user zs's account is null!", msg);
+
+        System.out.println("msg: " + msg);      // user zs's account is null!
+        if (msg != null) {
+            return;
+        }
+
+        System.out.println("order.buyer: " + values._1);
+        System.out.println("order.buyer.account: " + values._2);
+        System.out.println("order.orderId: " + values._3);
+        System.out.println("order.price: " + values._4);
+        System.out.println("order.buyer.name: " + values._5);
+        System.out.println("order.buyer.age: " + values._6);
 
     }
 

@@ -1,5 +1,6 @@
 package com.iofairy.test;
 
+import com.iofairy.lambda.RT1;
 import com.iofairy.tcf.Try;
 import org.junit.jupiter.api.Test;
 
@@ -31,6 +32,28 @@ public class PatternAndThrowTest {
                     .when("abcde123.$fGHIj",    v -> "ignore case match")
                     .orElse(                    v -> "no match");
             assertEquals("str.contains(\"H\")", matchRes1);
+        } catch (StringConcatException | XMLStreamException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testCovarianceAndThrow() {
+        String str = "aBcdE123.$fGHIj";
+        boolean isThrow = false;
+
+        try {
+            RT1<Object, String, StringConcatException> ossRT1 = v -> isThrow ? concatException(isThrow) : "str.contains(\"f\")";
+            // ignore case match
+            String matchRes1 = match(str, IGNORECASE)
+                    .with((String) null,        v -> isThrow ? nullException(isThrow) : "match null")
+                    .when("abcd",               v -> "match abcd")
+                    .with("abcdefg",            v -> isThrow ? xmlException(isThrow) : "match abcdefg")
+                    .with(str.contains("f"),    ossRT1)
+                    .with(str.contains("H"),    v -> isThrow ? ioException(isThrow, "IOException...") : "str.contains(\"H\")")
+                    .when("abcde123.$fGHIj",    v -> "ignore case match")
+                    .orElse(                    v -> "no match");
+            assertEquals("str.contains(\"f\")", matchRes1);
         } catch (StringConcatException | XMLStreamException | IOException e) {
             e.printStackTrace();
         }

@@ -30,11 +30,11 @@ public class NullMatcherMapping<N> extends MatcherMapping<N> {
     }
 
 
-    public <V, NV, R> Null2Matcher<NV, R> whenV(V matchValue, R1<V, NV> computeValue, R1<NV, Boolean> action, R msg) {
+    public <V, NV, R> Null2Matcher<NV, R> whenV(V matchValue, R1<? super V, ? extends NV> computeValue, R1<? super NV, Boolean> action, R msg) {
         return new Null1Matcher<R>().whenV(matchValue, computeValue, action, msg);
     }
 
-    public <V, NV, R> Null2Matcher<NV, R> whenV(V matchValue, R1<V, NV> computeValue, R msg) {
+    public <V, NV, R> Null2Matcher<NV, R> whenV(V matchValue, R1<? super V, ? extends NV> computeValue, R msg) {
         return whenV(matchValue, computeValue, null, msg);
     }
 
@@ -45,11 +45,11 @@ public class NullMatcherMapping<N> extends MatcherMapping<N> {
      * ***************************************************************
      * ###############################################################
      */
-    public <V, NV, R, E extends Throwable> Null2Matcher<NV, R> withV(V matchValue, RT1<V, NV, E> computeValue, RT1<NV, Boolean, E> action, R msg) throws E {
+    public <V, NV, R, E extends Throwable> Null2Matcher<NV, R> withV(V matchValue, RT1<? super V, ? extends NV, E> computeValue, RT1<? super NV, Boolean, E> action, R msg) throws E {
         return new Null1Matcher<R>().withV(matchValue, computeValue, action, msg);
     }
 
-    public <V, NV, R, E extends Throwable> Null2Matcher<NV, R> withV(V matchValue, RT1<V, NV, E> computeValue, R msg) throws E {
+    public <V, NV, R, E extends Throwable> Null2Matcher<NV, R> withV(V matchValue, RT1<? super V, ? extends NV, E> computeValue, R msg) throws E {
         return withV(matchValue, computeValue, null, msg);
     }
 

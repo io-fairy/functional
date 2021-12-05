@@ -33,12 +33,12 @@ public abstract class SimpleVInMatcher<V, P, L> extends SimpleVMatcher<V, P, L> 
         super(value);
     }
 
-    public abstract SimpleVInMatcher<V, P, L> when(PatternIn<P> values, V1<L> action);
+    public abstract SimpleVInMatcher<V, P, L> when(PatternIn<P> values, V1<? super L> action);
 
-    public abstract SimpleVInMatcher<V, P, L> whenNext(PatternIn<P> values, V1<L> action);
+    public abstract SimpleVInMatcher<V, P, L> whenNext(PatternIn<P> values, V1<? super L> action);
 
-    public abstract <E extends Throwable> SimpleVInMatcher<V, P, L> with(PatternIn<P> values, VT1<L, E> action) throws E;
+    public abstract <E extends Throwable> SimpleVInMatcher<V, P, L> with(PatternIn<P> values, VT1<? super L, E> action) throws E;
 
-    public abstract <E extends Throwable> SimpleVInMatcher<V, P, L> withNext(PatternIn<P> values, VT1<L, E> action) throws E;
+    public abstract <E extends Throwable> SimpleVInMatcher<V, P, L> withNext(PatternIn<P> values, VT1<? super L, E> action) throws E;
 
 }

@@ -36,7 +36,7 @@ public class ValueVMatcher<V> extends SimpleVInMatcher<V, V, V> {
     }
 
     @Override
-    public ValueVMatcher<V> when(V value, V1<V> action) {
+    public ValueVMatcher<V> when(V value, V1<? super V> action) {
         Objects.requireNonNull(action);
         if (!isMatch && Objects.equals(this.value, value)) {
             isMatch = true;
@@ -46,7 +46,7 @@ public class ValueVMatcher<V> extends SimpleVInMatcher<V, V, V> {
     }
 
     @Override
-    public ValueVMatcher<V> whenNext(V value, V1<V> action) {
+    public ValueVMatcher<V> whenNext(V value, V1<? super V> action) {
         Objects.requireNonNull(action);
         if (!isMatch && Objects.equals(this.value, value)) {
             action.$(this.value);
@@ -55,7 +55,7 @@ public class ValueVMatcher<V> extends SimpleVInMatcher<V, V, V> {
     }
 
     @Override
-    public <E extends Throwable> ValueVMatcher<V> with(V value, VT1<V, E> action) throws E {
+    public <E extends Throwable> ValueVMatcher<V> with(V value, VT1<? super V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && Objects.equals(this.value, value)) {
             isMatch = true;
@@ -65,7 +65,7 @@ public class ValueVMatcher<V> extends SimpleVInMatcher<V, V, V> {
     }
 
     @Override
-    public <E extends Throwable> ValueVMatcher<V> withNext(V value, VT1<V, E> action) throws E {
+    public <E extends Throwable> ValueVMatcher<V> withNext(V value, VT1<? super V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && Objects.equals(this.value, value)) {
             action.$(this.value);
@@ -74,7 +74,7 @@ public class ValueVMatcher<V> extends SimpleVInMatcher<V, V, V> {
     }
 
     @Override
-    public ValueVMatcher<V> when(boolean value, V1<V> action) {
+    public ValueVMatcher<V> when(boolean value, V1<? super V> action) {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             isMatch = true;
@@ -84,7 +84,7 @@ public class ValueVMatcher<V> extends SimpleVInMatcher<V, V, V> {
     }
 
     @Override
-    public ValueVMatcher<V> whenNext(boolean value, V1<V> action) {
+    public ValueVMatcher<V> whenNext(boolean value, V1<? super V> action) {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             action.$(this.value);
@@ -93,7 +93,7 @@ public class ValueVMatcher<V> extends SimpleVInMatcher<V, V, V> {
     }
 
     @Override
-    public <E extends Throwable> ValueVMatcher<V> with(boolean value, VT1<V, E> action) throws E {
+    public <E extends Throwable> ValueVMatcher<V> with(boolean value, VT1<? super V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             isMatch = true;
@@ -103,7 +103,7 @@ public class ValueVMatcher<V> extends SimpleVInMatcher<V, V, V> {
     }
 
     @Override
-    public <E extends Throwable> ValueVMatcher<V> withNext(boolean value, VT1<V, E> action) throws E {
+    public <E extends Throwable> ValueVMatcher<V> withNext(boolean value, VT1<? super V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             action.$(this.value);
@@ -112,7 +112,7 @@ public class ValueVMatcher<V> extends SimpleVInMatcher<V, V, V> {
     }
 
     @Override
-    public ValueVMatcher<V> when(PatternIn<V> values, V1<V> action) {
+    public ValueVMatcher<V> when(PatternIn<V> values, V1<? super V> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (this.value == null) {
@@ -131,7 +131,7 @@ public class ValueVMatcher<V> extends SimpleVInMatcher<V, V, V> {
     }
 
     @Override
-    public ValueVMatcher<V> whenNext(PatternIn<V> values, V1<V> action) {
+    public ValueVMatcher<V> whenNext(PatternIn<V> values, V1<? super V> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (this.value == null) {
@@ -144,7 +144,7 @@ public class ValueVMatcher<V> extends SimpleVInMatcher<V, V, V> {
     }
 
     @Override
-    public <E extends Throwable> ValueVMatcher<V> with(PatternIn<V> values, VT1<V, E> action) throws E {
+    public <E extends Throwable> ValueVMatcher<V> with(PatternIn<V> values, VT1<? super V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (this.value == null) {
@@ -163,7 +163,7 @@ public class ValueVMatcher<V> extends SimpleVInMatcher<V, V, V> {
     }
 
     @Override
-    public <E extends Throwable> ValueVMatcher<V> withNext(PatternIn<V> values, VT1<V, E> action) throws E {
+    public <E extends Throwable> ValueVMatcher<V> withNext(PatternIn<V> values, VT1<? super V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (this.value == null) {
@@ -176,7 +176,7 @@ public class ValueVMatcher<V> extends SimpleVInMatcher<V, V, V> {
     }
 
     @Override
-    public Void orElse(V1<V> action) {
+    public Void orElse(V1<? super V> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             action.$(this.value);
@@ -185,7 +185,7 @@ public class ValueVMatcher<V> extends SimpleVInMatcher<V, V, V> {
     }
 
     @Override
-    public <E extends Throwable> Void orWith(VT1<V, E> action) throws E {
+    public <E extends Throwable> Void orWith(VT1<? super V, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             action.$(this.value);

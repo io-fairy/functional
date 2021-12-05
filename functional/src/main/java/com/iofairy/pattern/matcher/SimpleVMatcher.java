@@ -35,24 +35,24 @@ public abstract class SimpleVMatcher<V, P, L> extends SimpleMatcher<V, P, L, Voi
         this(value, false);
     }
 
-    public abstract SimpleVMatcher<V, P, L> when(P value, V1<L> action);
+    public abstract SimpleVMatcher<V, P, L> when(P value, V1<? super L> action);
 
-    public abstract SimpleVMatcher<V, P, L> whenNext(P value, V1<L> action);
+    public abstract SimpleVMatcher<V, P, L> whenNext(P value, V1<? super L> action);
 
-    public abstract <E extends Throwable> SimpleVMatcher<V, P, L> with(P value, VT1<L, E> action) throws E;
+    public abstract <E extends Throwable> SimpleVMatcher<V, P, L> with(P value, VT1<? super L, E> action) throws E;
 
-    public abstract <E extends Throwable> SimpleVMatcher<V, P, L> withNext(P value, VT1<L, E> action) throws E;
+    public abstract <E extends Throwable> SimpleVMatcher<V, P, L> withNext(P value, VT1<? super L, E> action) throws E;
 
-    public abstract SimpleVMatcher<V, P, L> when(boolean value, V1<L> action);
+    public abstract SimpleVMatcher<V, P, L> when(boolean value, V1<? super L> action);
 
-    public abstract SimpleVMatcher<V, P, L> whenNext(boolean value, V1<L> action);
+    public abstract SimpleVMatcher<V, P, L> whenNext(boolean value, V1<? super L> action);
 
-    public abstract <E extends Throwable> SimpleVMatcher<V, P, L> with(boolean value, VT1<L, E> action) throws E;
+    public abstract <E extends Throwable> SimpleVMatcher<V, P, L> with(boolean value, VT1<? super L, E> action) throws E;
 
-    public abstract <E extends Throwable> SimpleVMatcher<V, P, L> withNext(boolean value, VT1<L, E> action) throws E;
+    public abstract <E extends Throwable> SimpleVMatcher<V, P, L> withNext(boolean value, VT1<? super L, E> action) throws E;
 
-    public abstract Void orElse(V1<V> action);
+    public abstract Void orElse(V1<? super V> action);
 
-    public abstract <E extends Throwable> Void orWith(VT1<V, E> action) throws E;
+    public abstract <E extends Throwable> Void orWith(VT1<? super V, E> action) throws E;
 
 }

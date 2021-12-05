@@ -9,7 +9,7 @@
 
 
 ## 🛠️Environment（开发环境）  
-+ JDK 9.0.4
++ JDK 9.0.4（兼容Java 8及Java 9+）
 + Apache maven 3.6.1
 
 
@@ -19,13 +19,13 @@
 <dependency>
   <groupId>com.iofairy</groupId>
   <artifactId>functional</artifactId>
-  <version>0.2.0</version>
+  <version>0.2.1</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-implementation 'com.iofairy:functional:0.2.0'
+implementation 'com.iofairy:functional:0.2.1'
 ```
 
 

@@ -28,7 +28,7 @@ import java.util.Objects;
  */
 public class Null1Matcher<R> implements Matcher {
 
-    public <V, NV> Null2Matcher<NV, R> whenV(V matchValue, R1<V, NV> computeValue, R1<NV, Boolean> action, R msg) {
+    public <V, NV> Null2Matcher<NV, R> whenV(V matchValue, R1<? super V, ? extends NV> computeValue, R1<? super NV, Boolean> action, R msg) {
         Objects.requireNonNull(computeValue);
         if (matchValue == null) {
             return new Null2Matcher<>(true, null, msg);
@@ -40,7 +40,7 @@ public class Null1Matcher<R> implements Matcher {
         return new Null2Matcher<>(doBreak, newValue, localMsg);
     }
 
-    public <V, NV> Null2Matcher<NV, R> whenV(V matchValue, R1<V, NV> computeValue, R msg) {
+    public <V, NV> Null2Matcher<NV, R> whenV(V matchValue, R1<? super V, ? extends NV> computeValue, R msg) {
         return whenV(matchValue, computeValue, null, msg);
     }
 
@@ -52,7 +52,7 @@ public class Null1Matcher<R> implements Matcher {
      * ################################################################
      */
 
-    public <V, NV, E extends Throwable> Null2Matcher<NV, R> withV(V matchValue, RT1<V, NV, E> computeValue, RT1<NV, Boolean, E> action, R msg) throws E {
+    public <V, NV, E extends Throwable> Null2Matcher<NV, R> withV(V matchValue, RT1<? super V, ? extends NV, E> computeValue, RT1<? super NV, Boolean, E> action, R msg) throws E {
         Objects.requireNonNull(computeValue);
         if (matchValue == null) {
             return new Null2Matcher<>(true, null, msg);
@@ -64,7 +64,7 @@ public class Null1Matcher<R> implements Matcher {
         return new Null2Matcher<>(doBreak, newValue, localMsg);
     }
 
-    public <V, NV, E extends Throwable> Null2Matcher<NV, R> withV(V matchValue, RT1<V, NV, E> computeValue, R msg) throws E {
+    public <V, NV, E extends Throwable> Null2Matcher<NV, R> withV(V matchValue, RT1<? super V, ? extends NV, E> computeValue, R msg) throws E {
         return withV(matchValue, computeValue, null, msg);
     }
 

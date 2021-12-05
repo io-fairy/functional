@@ -29,22 +29,22 @@ public class TypeMatcherMapping<V> extends MatcherMapping<V> {
         super(value);
     }
 
-    public <C> TypeVMatcher<V> when(Class<C> matchValue, V1<C> action) {
+    public <C> TypeVMatcher<V> when(Class<C> matchValue, V1<? super C> action) {
         TypeVMatcher<V> typeVMatcher = new TypeVMatcher<>(value);
         return typeVMatcher.when(matchValue, action);
     }
 
-    public <C> TypeVMatcher<V> whenNext(Class<C> matchValue, V1<C> action) {
+    public <C> TypeVMatcher<V> whenNext(Class<C> matchValue, V1<? super C> action) {
         TypeVMatcher<V> typeVMatcher = new TypeVMatcher<>(value);
         return typeVMatcher.whenNext(matchValue, action);
     }
 
-    public <C, R> TypeRMatcher<V, R> when(Class<C> matchValue, R1<C, R> action) {
+    public <C, R> TypeRMatcher<V, R> when(Class<C> matchValue, R1<? super C, ? extends R> action) {
         TypeRMatcher<V, R> typeRMatcher = new TypeRMatcher<>(value);
         return typeRMatcher.when(matchValue, action);
     }
 
-    public <C, R> TypeRMatcher<V, R> whenNext(Class<C> matchValue, R1<C, R> action) {
+    public <C, R> TypeRMatcher<V, R> whenNext(Class<C> matchValue, R1<? super C, ? extends R> action) {
         TypeRMatcher<V, R> typeRMatcher = new TypeRMatcher<>(value);
         return typeRMatcher.whenNext(matchValue, action);
     }
@@ -56,22 +56,22 @@ public class TypeMatcherMapping<V> extends MatcherMapping<V> {
      * ******************************************************
      * ######################################################
      */
-    public <C, E extends Throwable> TypeVMatcher<V> with(Class<C> matchValue, VT1<C, E> action) throws E {
+    public <C, E extends Throwable> TypeVMatcher<V> with(Class<C> matchValue, VT1<? super C, E> action) throws E {
         TypeVMatcher<V> typeVMatcher = new TypeVMatcher<>(value);
         return typeVMatcher.with(matchValue, action);
     }
 
-    public <C, E extends Throwable> TypeVMatcher<V> withNext(Class<C> matchValue, VT1<C, E> action) throws E {
+    public <C, E extends Throwable> TypeVMatcher<V> withNext(Class<C> matchValue, VT1<? super C, E> action) throws E {
         TypeVMatcher<V> typeVMatcher = new TypeVMatcher<>(value);
         return typeVMatcher.withNext(matchValue, action);
     }
 
-    public <C, R, E extends Throwable> TypeRMatcher<V, R> with(Class<C> matchValue, RT1<C, R, E> action) throws E {
+    public <C, R, E extends Throwable> TypeRMatcher<V, R> with(Class<C> matchValue, RT1<? super C, ? extends R, E> action) throws E {
         TypeRMatcher<V, R> typeRMatcher = new TypeRMatcher<>(value);
         return typeRMatcher.with(matchValue, action);
     }
 
-    public <C, R, E extends Throwable> TypeRMatcher<V, R> withNext(Class<C> matchValue, RT1<C, R, E> action) throws E {
+    public <C, R, E extends Throwable> TypeRMatcher<V, R> withNext(Class<C> matchValue, RT1<? super C, ? extends R, E> action) throws E {
         TypeRMatcher<V, R> typeRMatcher = new TypeRMatcher<>(value);
         return typeRMatcher.withNext(matchValue, action);
     }

@@ -225,17 +225,17 @@ public class Pattern {
      * @return ActionValueMatcherMapping
      * @since 0.0.1
      */
-    public static <V> ActionValueMatcherMapping<V, V> match(V value, R1<V, V> preAction) {
+    public static <V> ActionValueMatcherMapping<V, V> match(V value, R1<? super V, V> preAction) {
         Objects.requireNonNull(preAction);
         return new ActionValueMatcherMapping<>(value, preAction);
     }
 
-    public static <V, T> ActionValueMatcherMapping<V, T> match(V value, R1<T, V> preAction, Class<T> clazz) {
+    public static <V, T> ActionValueMatcherMapping<V, T> match(V value, R1<? super T, V> preAction, Class<T> clazz) {
         Objects.requireNonNull(preAction);
         return new ActionValueMatcherMapping<>(value, preAction);
     }
 
-    public static <T> ActionNoneMatcherMapping<T> match(R1<T, Boolean> preAction, Class<T> clazz) {
+    public static <T> ActionNoneMatcherMapping<T> match(R1<? super T, Boolean> preAction, Class<T> clazz) {
         Objects.requireNonNull(preAction);
         return new ActionNoneMatcherMapping<>(NONE, preAction);
     }

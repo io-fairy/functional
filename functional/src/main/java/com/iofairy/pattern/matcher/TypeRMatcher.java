@@ -40,7 +40,7 @@ public class TypeRMatcher<V, R> implements Matcher {
         this(value, false);
     }
 
-    public <C> TypeRMatcher<V, R> when(Class<C> value, R1<C, R> action) {
+    public <C> TypeRMatcher<V, R> when(Class<C> value, R1<? super C, ? extends R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (value == null || this.value == null) {
@@ -56,7 +56,7 @@ public class TypeRMatcher<V, R> implements Matcher {
         return this;
     }
 
-    public <C> TypeRMatcher<V, R> whenNext(Class<C> value, R1<C, R> action) {
+    public <C> TypeRMatcher<V, R> whenNext(Class<C> value, R1<? super C, ? extends R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (value == null || this.value == null) {
@@ -67,7 +67,7 @@ public class TypeRMatcher<V, R> implements Matcher {
         return this;
     }
 
-    public <C, E extends Throwable> TypeRMatcher<V, R> with(Class<C> value, RT1<C, R, E> action) throws E {
+    public <C, E extends Throwable> TypeRMatcher<V, R> with(Class<C> value, RT1<? super C, ? extends R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (value == null || this.value == null) {
@@ -83,7 +83,7 @@ public class TypeRMatcher<V, R> implements Matcher {
         return this;
     }
 
-    public <C, E extends Throwable> TypeRMatcher<V, R> withNext(Class<C> value, RT1<C, R, E> action) throws E {
+    public <C, E extends Throwable> TypeRMatcher<V, R> withNext(Class<C> value, RT1<? super C, ? extends R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             if (value == null || this.value == null) {
@@ -94,7 +94,7 @@ public class TypeRMatcher<V, R> implements Matcher {
         return this;
     }
 
-    public R orElse(R1<V, R> action) {
+    public R orElse(R1<? super V, ? extends R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             returnValue = action.$(this.value);
@@ -102,7 +102,7 @@ public class TypeRMatcher<V, R> implements Matcher {
         return returnValue;
     }
 
-    public <E extends Throwable> R orWith(RT1<V, R, E> action) throws E {
+    public <E extends Throwable> R orWith(RT1<? super V, ? extends R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             returnValue = action.$(this.value);

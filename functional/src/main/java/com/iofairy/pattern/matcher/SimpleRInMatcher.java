@@ -33,12 +33,12 @@ public abstract class SimpleRInMatcher<V, P, L, R> extends SimpleRMatcher<V, P, 
         super(value);
     }
 
-    public abstract SimpleRInMatcher<V, P, L, R> when(PatternIn<P> values, R1<L, R> action);
+    public abstract SimpleRInMatcher<V, P, L, R> when(PatternIn<P> values, R1<? super L, ? extends R> action);
 
-    public abstract SimpleRInMatcher<V, P, L, R> whenNext(PatternIn<P> values, R1<L, R> action);
+    public abstract SimpleRInMatcher<V, P, L, R> whenNext(PatternIn<P> values, R1<? super L, ? extends R> action);
 
-    public abstract <E extends Throwable> SimpleRInMatcher<V, P, L, R> with(PatternIn<P> values, RT1<L, R, E> action) throws E;
+    public abstract <E extends Throwable> SimpleRInMatcher<V, P, L, R> with(PatternIn<P> values, RT1<? super L, ? extends R, E> action) throws E;
 
-    public abstract <E extends Throwable> SimpleRInMatcher<V, P, L, R> withNext(PatternIn<P> values, RT1<L, R, E> action) throws E;
+    public abstract <E extends Throwable> SimpleRInMatcher<V, P, L, R> withNext(PatternIn<P> values, RT1<? super L, ? extends R, E> action) throws E;
 
 }

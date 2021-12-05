@@ -29,62 +29,62 @@ public class ValueMatcherMapping<V> extends MatcherMapping<V>{
         super(value);
     }
 
-    public ValueVMatcher<V> when(V matchValue, V1<V> action) {
+    public ValueVMatcher<V> when(V matchValue, V1<? super V> action) {
         ValueVMatcher<V> valueVMatcher = new ValueVMatcher<>(value);
         return valueVMatcher.when(matchValue, action);
     }
 
-    public ValueVMatcher<V> whenNext(V matchValue, V1<V> action) {
+    public ValueVMatcher<V> whenNext(V matchValue, V1<? super V> action) {
         ValueVMatcher<V> valueVMatcher = new ValueVMatcher<>(value);
         return valueVMatcher.whenNext(matchValue, action);
     }
 
-    public <R> ValueRMatcher<V, R> when(V matchValue, R1<V, R> action) {
+    public <R> ValueRMatcher<V, R> when(V matchValue, R1<? super V, ? extends R> action) {
         ValueRMatcher<V, R> valueRMatcher = new ValueRMatcher<>(value);
         return valueRMatcher.when(matchValue, action);
     }
 
-    public <R> ValueRMatcher<V, R> whenNext(V matchValue, R1<V, R> action) {
+    public <R> ValueRMatcher<V, R> whenNext(V matchValue, R1<? super V, ? extends R> action) {
         ValueRMatcher<V, R> valueRMatcher = new ValueRMatcher<>(value);
         return valueRMatcher.whenNext(matchValue, action);
     }
 
-    public ValueVMatcher<V> when(PatternIn<V> matchValues, V1<V> action) {
+    public ValueVMatcher<V> when(PatternIn<V> matchValues, V1<? super V> action) {
         ValueVMatcher<V> valueVMatcher = new ValueVMatcher<>(value);
         return valueVMatcher.when(matchValues, action);
     }
 
-    public ValueVMatcher<V> whenNext(PatternIn<V> matchValues, V1<V> action) {
+    public ValueVMatcher<V> whenNext(PatternIn<V> matchValues, V1<? super V> action) {
         ValueVMatcher<V> valueVMatcher = new ValueVMatcher<>(value);
         return valueVMatcher.whenNext(matchValues, action);
     }
 
-    public <R> ValueRMatcher<V, R> when(PatternIn<V> matchValues, R1<V, R> action) {
+    public <R> ValueRMatcher<V, R> when(PatternIn<V> matchValues, R1<? super V, ? extends R> action) {
         ValueRMatcher<V, R> valueRMatcher = new ValueRMatcher<>(value);
         return valueRMatcher.when(matchValues, action);
     }
 
-    public <R> ValueRMatcher<V, R> whenNext(PatternIn<V> matchValues, R1<V, R> action) {
+    public <R> ValueRMatcher<V, R> whenNext(PatternIn<V> matchValues, R1<? super V, ? extends R> action) {
         ValueRMatcher<V, R> valueRMatcher = new ValueRMatcher<>(value);
         return valueRMatcher.whenNext(matchValues, action);
     }
 
-    public ValueVMatcher<V> when(boolean matchValue, V1<V> action) {
+    public ValueVMatcher<V> when(boolean matchValue, V1<? super V> action) {
         ValueVMatcher<V> valueVMatcher = new ValueVMatcher<>(value);
         return valueVMatcher.when(matchValue, action);
     }
 
-    public ValueVMatcher<V> whenNext(boolean matchValue, V1<V> action) {
+    public ValueVMatcher<V> whenNext(boolean matchValue, V1<? super V> action) {
         ValueVMatcher<V> valueVMatcher = new ValueVMatcher<>(value);
         return valueVMatcher.whenNext(matchValue, action);
     }
 
-    public <R> ValueRMatcher<V, R> when(boolean matchValue, R1<V, R> action) {
+    public <R> ValueRMatcher<V, R> when(boolean matchValue, R1<? super V, ? extends R> action) {
         ValueRMatcher<V, R> valueRMatcher = new ValueRMatcher<>(value);
         return valueRMatcher.when(matchValue, action);
     }
 
-    public <R> ValueRMatcher<V, R> whenNext(boolean matchValue, R1<V, R> action) {
+    public <R> ValueRMatcher<V, R> whenNext(boolean matchValue, R1<? super V, ? extends R> action) {
         ValueRMatcher<V, R> valueRMatcher = new ValueRMatcher<>(value);
         return valueRMatcher.whenNext(matchValue, action);
     }
@@ -96,62 +96,62 @@ public class ValueMatcherMapping<V> extends MatcherMapping<V>{
      * ******************************************************
      * ######################################################
      */
-    public <E extends Throwable> ValueVMatcher<V> with(V matchValue, VT1<V, E> action) throws E {
+    public <E extends Throwable> ValueVMatcher<V> with(V matchValue, VT1<? super V, E> action) throws E {
         ValueVMatcher<V> valueVMatcher = new ValueVMatcher<>(value);
         return valueVMatcher.with(matchValue, action);
     }
 
-    public <E extends Throwable> ValueVMatcher<V> withNext(V matchValue, VT1<V, E> action) throws E {
+    public <E extends Throwable> ValueVMatcher<V> withNext(V matchValue, VT1<? super V, E> action) throws E {
         ValueVMatcher<V> valueVMatcher = new ValueVMatcher<>(value);
         return valueVMatcher.withNext(matchValue, action);
     }
 
-    public <R, E extends Throwable> ValueRMatcher<V, R> with(V matchValue, RT1<V, R, E> action) throws E {
+    public <R, E extends Throwable> ValueRMatcher<V, R> with(V matchValue, RT1<? super V, ? extends R, E> action) throws E {
         ValueRMatcher<V, R> valueRMatcher = new ValueRMatcher<>(value);
         return valueRMatcher.with(matchValue, action);
     }
 
-    public <R, E extends Throwable> ValueRMatcher<V, R> withNext(V matchValue, RT1<V, R, E> action) throws E {
+    public <R, E extends Throwable> ValueRMatcher<V, R> withNext(V matchValue, RT1<? super V, ? extends R, E> action) throws E {
         ValueRMatcher<V, R> valueRMatcher = new ValueRMatcher<>(value);
         return valueRMatcher.withNext(matchValue, action);
     }
 
-    public <E extends Throwable> ValueVMatcher<V> with(PatternIn<V> matchValues, VT1<V, E> action) throws E {
+    public <E extends Throwable> ValueVMatcher<V> with(PatternIn<V> matchValues, VT1<? super V, E> action) throws E {
         ValueVMatcher<V> valueVMatcher = new ValueVMatcher<>(value);
         return valueVMatcher.with(matchValues, action);
     }
 
-    public <E extends Throwable> ValueVMatcher<V> withNext(PatternIn<V> matchValues, VT1<V, E> action) throws E {
+    public <E extends Throwable> ValueVMatcher<V> withNext(PatternIn<V> matchValues, VT1<? super V, E> action) throws E {
         ValueVMatcher<V>valueVMatcher = new ValueVMatcher<>(value);
         return valueVMatcher.withNext(matchValues, action);
     }
 
-    public <R, E extends Throwable> ValueRMatcher<V, R> with(PatternIn<V> matchValues, RT1<V, R, E> action) throws E {
+    public <R, E extends Throwable> ValueRMatcher<V, R> with(PatternIn<V> matchValues, RT1<? super V, ? extends R, E> action) throws E {
         ValueRMatcher<V, R> valueRMatcher = new ValueRMatcher<>(value);
         return valueRMatcher.with(matchValues, action);
     }
 
-    public <R, E extends Throwable> ValueRMatcher<V, R> withNext(PatternIn<V> matchValues, RT1<V, R, E> action) throws E {
+    public <R, E extends Throwable> ValueRMatcher<V, R> withNext(PatternIn<V> matchValues, RT1<? super V, ? extends R, E> action) throws E {
         ValueRMatcher<V, R> valueRMatcher = new ValueRMatcher<>(value);
         return valueRMatcher.withNext(matchValues, action);
     }
 
-    public <E extends Throwable> ValueVMatcher<V> with(boolean matchValue, VT1<V, E> action) throws E {
+    public <E extends Throwable> ValueVMatcher<V> with(boolean matchValue, VT1<? super V, E> action) throws E {
         ValueVMatcher<V> valueVMatcher = new ValueVMatcher<>(value);
         return valueVMatcher.with(matchValue, action);
     }
 
-    public <E extends Throwable> ValueVMatcher<V> withNext(boolean matchValue, VT1<V, E> action) throws E {
+    public <E extends Throwable> ValueVMatcher<V> withNext(boolean matchValue, VT1<? super V, E> action) throws E {
         ValueVMatcher<V> valueVMatcher = new ValueVMatcher<>(value);
         return valueVMatcher.withNext(matchValue, action);
     }
 
-    public <R, E extends Throwable> ValueRMatcher<V, R> with(boolean matchValue, RT1<V, R, E> action) throws E {
+    public <R, E extends Throwable> ValueRMatcher<V, R> with(boolean matchValue, RT1<? super V, ? extends R, E> action) throws E {
         ValueRMatcher<V, R> valueRMatcher = new ValueRMatcher<>(value);
         return valueRMatcher.with(matchValue, action);
     }
 
-    public <R, E extends Throwable> ValueRMatcher<V, R> withNext(boolean matchValue, RT1<V, R, E> action) throws E {
+    public <R, E extends Throwable> ValueRMatcher<V, R> withNext(boolean matchValue, RT1<? super V, ? extends R, E> action) throws E {
         ValueRMatcher<V, R> valueRMatcher = new ValueRMatcher<>(value);
         return valueRMatcher.withNext(matchValue, action);
     }

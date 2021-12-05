@@ -49,7 +49,7 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
     }
 
 
-    public <V, NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenV(V matchValue, R1<V, NV> computeValue, R1<NV, Boolean> action, R1<Tuple6<T1, T2, T3, T4, T5, T6>, R> msgAction) {
+    public <V, NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenV(V matchValue, R1<? super V, ? extends NV> computeValue, R1<? super NV, Boolean> action, R1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R> msgAction) {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(msgAction);
         if (!isMatch) {
@@ -66,11 +66,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <V, NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenV(V matchValue, R1<V, NV> computeValue, R1<Tuple6<T1, T2, T3, T4, T5, T6>, R> msgAction) {
+    public <V, NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenV(V matchValue, R1<? super V, ? extends NV> computeValue, R1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R> msgAction) {
         return whenV(matchValue, computeValue, null, msgAction);
     }
 
-    public <V, NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenV(V matchValue, R1<V, NV> computeValue, R1<NV, Boolean> action, R msg) {
+    public <V, NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenV(V matchValue, R1<? super V, ? extends NV> computeValue, R1<? super NV, Boolean> action, R msg) {
         Objects.requireNonNull(computeValue);
         if (!isMatch) {
             if (matchValue == null) {
@@ -85,11 +85,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <V, NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenV(V matchValue, R1<V, NV> computeValue, R msg) {
+    public <V, NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenV(V matchValue, R1<? super V, ? extends NV> computeValue, R msg) {
         return whenV(matchValue, computeValue, null, msg);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull1 patternNull, R1<T1, NV> computeValue, R1<NV, Boolean> action, R1<Tuple6<T1, T2, T3, T4, T5, T6>, R> msgAction) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull1 patternNull, R1<? super T1, ? extends NV> computeValue, R1<? super NV, Boolean> action, R1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R> msgAction) {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         Objects.requireNonNull(msgAction);
@@ -103,11 +103,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull1 patternNull, R1<T1, NV> computeValue, R1<Tuple6<T1, T2, T3, T4, T5, T6>, R> msgAction) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull1 patternNull, R1<? super T1, ? extends NV> computeValue, R1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R> msgAction) {
         return whenW(patternNull, computeValue, null, msgAction);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull1 patternNull, R1<T1, NV> computeValue, R1<NV, Boolean> action, R msg) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull1 patternNull, R1<? super T1, ? extends NV> computeValue, R1<? super NV, Boolean> action, R msg) {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         if (!isMatch) {
@@ -119,11 +119,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull1 patternNull, R1<T1, NV> computeValue, R msg) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull1 patternNull, R1<? super T1, ? extends NV> computeValue, R msg) {
         return whenW(patternNull, computeValue, null, msg);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull2 patternNull, R1<T2, NV> computeValue, R1<NV, Boolean> action, R1<Tuple6<T1, T2, T3, T4, T5, T6>, R> msgAction) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull2 patternNull, R1<? super T2, ? extends NV> computeValue, R1<? super NV, Boolean> action, R1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R> msgAction) {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         Objects.requireNonNull(msgAction);
@@ -137,11 +137,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull2 patternNull, R1<T2, NV> computeValue, R1<Tuple6<T1, T2, T3, T4, T5, T6>, R> msgAction) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull2 patternNull, R1<? super T2, ? extends NV> computeValue, R1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R> msgAction) {
         return whenW(patternNull, computeValue, null, msgAction);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull2 patternNull, R1<T2, NV> computeValue, R1<NV, Boolean> action, R msg) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull2 patternNull, R1<? super T2, ? extends NV> computeValue, R1<? super NV, Boolean> action, R msg) {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         if (!isMatch) {
@@ -153,11 +153,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull2 patternNull, R1<T2, NV> computeValue, R msg) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull2 patternNull, R1<? super T2, ? extends NV> computeValue, R msg) {
         return whenW(patternNull, computeValue, null, msg);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull3 patternNull, R1<T3, NV> computeValue, R1<NV, Boolean> action, R1<Tuple6<T1, T2, T3, T4, T5, T6>, R> msgAction) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull3 patternNull, R1<? super T3, ? extends NV> computeValue, R1<? super NV, Boolean> action, R1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R> msgAction) {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         Objects.requireNonNull(msgAction);
@@ -171,11 +171,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull3 patternNull, R1<T3, NV> computeValue, R1<Tuple6<T1, T2, T3, T4, T5, T6>, R> msgAction) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull3 patternNull, R1<? super T3, ? extends NV> computeValue, R1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R> msgAction) {
         return whenW(patternNull, computeValue, null, msgAction);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull3 patternNull, R1<T3, NV> computeValue, R1<NV, Boolean> action, R msg) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull3 patternNull, R1<? super T3, ? extends NV> computeValue, R1<? super NV, Boolean> action, R msg) {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         if (!isMatch) {
@@ -187,11 +187,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull3 patternNull, R1<T3, NV> computeValue, R msg) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull3 patternNull, R1<? super T3, ? extends NV> computeValue, R msg) {
         return whenW(patternNull, computeValue, null, msg);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull4 patternNull, R1<T4, NV> computeValue, R1<NV, Boolean> action, R1<Tuple6<T1, T2, T3, T4, T5, T6>, R> msgAction) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull4 patternNull, R1<? super T4, ? extends NV> computeValue, R1<? super NV, Boolean> action, R1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R> msgAction) {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         Objects.requireNonNull(msgAction);
@@ -205,11 +205,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull4 patternNull, R1<T4, NV> computeValue, R1<Tuple6<T1, T2, T3, T4, T5, T6>, R> msgAction) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull4 patternNull, R1<? super T4, ? extends NV> computeValue, R1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R> msgAction) {
         return whenW(patternNull, computeValue, null, msgAction);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull4 patternNull, R1<T4, NV> computeValue, R1<NV, Boolean> action, R msg) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull4 patternNull, R1<? super T4, ? extends NV> computeValue, R1<? super NV, Boolean> action, R msg) {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         if (!isMatch) {
@@ -221,11 +221,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull4 patternNull, R1<T4, NV> computeValue, R msg) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull4 patternNull, R1<? super T4, ? extends NV> computeValue, R msg) {
         return whenW(patternNull, computeValue, null, msg);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull5 patternNull, R1<T5, NV> computeValue, R1<NV, Boolean> action, R1<Tuple6<T1, T2, T3, T4, T5, T6>, R> msgAction) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull5 patternNull, R1<? super T5, ? extends NV> computeValue, R1<? super NV, Boolean> action, R1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R> msgAction) {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         Objects.requireNonNull(msgAction);
@@ -239,11 +239,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull5 patternNull, R1<T5, NV> computeValue, R1<Tuple6<T1, T2, T3, T4, T5, T6>, R> msgAction) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull5 patternNull, R1<? super T5, ? extends NV> computeValue, R1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R> msgAction) {
         return whenW(patternNull, computeValue, null, msgAction);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull5 patternNull, R1<T5, NV> computeValue, R1<NV, Boolean> action, R msg) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull5 patternNull, R1<? super T5, ? extends NV> computeValue, R1<? super NV, Boolean> action, R msg) {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         if (!isMatch) {
@@ -255,11 +255,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull5 patternNull, R1<T5, NV> computeValue, R msg) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull5 patternNull, R1<? super T5, ? extends NV> computeValue, R msg) {
         return whenW(patternNull, computeValue, null, msg);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull6 patternNull, R1<T6, NV> computeValue, R1<NV, Boolean> action, R1<Tuple6<T1, T2, T3, T4, T5, T6>, R> msgAction) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull6 patternNull, R1<? super T6, ? extends NV> computeValue, R1<? super NV, Boolean> action, R1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R> msgAction) {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         Objects.requireNonNull(msgAction);
@@ -273,11 +273,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull6 patternNull, R1<T6, NV> computeValue, R1<Tuple6<T1, T2, T3, T4, T5, T6>, R> msgAction) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull6 patternNull, R1<? super T6, ? extends NV> computeValue, R1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R> msgAction) {
         return whenW(patternNull, computeValue, null, msgAction);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull6 patternNull, R1<T6, NV> computeValue, R1<NV, Boolean> action, R msg) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull6 patternNull, R1<? super T6, ? extends NV> computeValue, R1<? super NV, Boolean> action, R msg) {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         if (!isMatch) {
@@ -289,7 +289,7 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull6 patternNull, R1<T6, NV> computeValue, R msg) {
+    public <NV> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> whenW(PatternNull6 patternNull, R1<? super T6, ? extends NV> computeValue, R msg) {
         return whenW(patternNull, computeValue, null, msg);
     }
 
@@ -301,7 +301,7 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
      * ########################################################################
      */
 
-    public <V, NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withV(V matchValue, RT1<V, NV, E> computeValue, RT1<NV, Boolean, E> action, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, R, E> msgAction) throws E {
+    public <V, NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withV(V matchValue, RT1<? super V, ? extends NV, E> computeValue, RT1<? super NV, Boolean, E> action, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R, E> msgAction) throws E {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(msgAction);
         if (!isMatch) {
@@ -318,11 +318,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <V, NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withV(V matchValue, RT1<V, NV, E> computeValue, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, R, E> msgAction) throws E {
+    public <V, NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withV(V matchValue, RT1<? super V, ? extends NV, E> computeValue, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R, E> msgAction) throws E {
         return withV(matchValue, computeValue, null, msgAction);
     }
 
-    public <V, NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withV(V matchValue, RT1<V, NV, E> computeValue, RT1<NV, Boolean, E> action, R msg) throws E {
+    public <V, NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withV(V matchValue, RT1<? super V, ? extends NV, E> computeValue, RT1<? super NV, Boolean, E> action, R msg) throws E {
         Objects.requireNonNull(computeValue);
         if (!isMatch) {
             if (matchValue == null) {
@@ -337,11 +337,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <V, NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withV(V matchValue, RT1<V, NV, E> computeValue, R msg) throws E {
+    public <V, NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withV(V matchValue, RT1<? super V, ? extends NV, E> computeValue, R msg) throws E {
         return withV(matchValue, computeValue, null, msg);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull1 patternNull, RT1<T1, NV, E> computeValue, RT1<NV, Boolean, E> action, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, R, E> msgAction) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull1 patternNull, RT1<? super T1, ? extends NV, E> computeValue, RT1<? super NV, Boolean, E> action, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R, E> msgAction) throws E {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         Objects.requireNonNull(msgAction);
@@ -355,11 +355,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull1 patternNull, RT1<T1, NV, E> computeValue, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, R, E> msgAction) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull1 patternNull, RT1<? super T1, ? extends NV, E> computeValue, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R, E> msgAction) throws E {
         return withW(patternNull, computeValue, null, msgAction);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull1 patternNull, RT1<T1, NV, E> computeValue, RT1<NV, Boolean, E> action, R msg) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull1 patternNull, RT1<? super T1, ? extends NV, E> computeValue, RT1<? super NV, Boolean, E> action, R msg) throws E {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         if (!isMatch) {
@@ -371,11 +371,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull1 patternNull, RT1<T1, NV, E> computeValue, R msg) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull1 patternNull, RT1<? super T1, ? extends NV, E> computeValue, R msg) throws E {
         return withW(patternNull, computeValue, null, msg);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull2 patternNull, RT1<T2, NV, E> computeValue, RT1<NV, Boolean, E> action, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, R, E> msgAction) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull2 patternNull, RT1<? super T2, ? extends NV, E> computeValue, RT1<? super NV, Boolean, E> action, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R, E> msgAction) throws E {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         Objects.requireNonNull(msgAction);
@@ -389,11 +389,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull2 patternNull, RT1<T2, NV, E> computeValue, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, R, E> msgAction) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull2 patternNull, RT1<? super T2, ? extends NV, E> computeValue, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R, E> msgAction) throws E {
         return withW(patternNull, computeValue, null, msgAction);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull2 patternNull, RT1<T2, NV, E> computeValue, RT1<NV, Boolean, E> action, R msg) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull2 patternNull, RT1<? super T2, ? extends NV, E> computeValue, RT1<? super NV, Boolean, E> action, R msg) throws E {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         if (!isMatch) {
@@ -405,11 +405,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull2 patternNull, RT1<T2, NV, E> computeValue, R msg) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull2 patternNull, RT1<? super T2, ? extends NV, E> computeValue, R msg) throws E {
         return withW(patternNull, computeValue, null, msg);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull3 patternNull, RT1<T3, NV, E> computeValue, RT1<NV, Boolean, E> action, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, R, E> msgAction) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull3 patternNull, RT1<? super T3, ? extends NV, E> computeValue, RT1<? super NV, Boolean, E> action, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R, E> msgAction) throws E {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         Objects.requireNonNull(msgAction);
@@ -423,11 +423,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull3 patternNull, RT1<T3, NV, E> computeValue, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, R, E> msgAction) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull3 patternNull, RT1<? super T3, ? extends NV, E> computeValue, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R, E> msgAction) throws E {
         return withW(patternNull, computeValue, null, msgAction);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull3 patternNull, RT1<T3, NV, E> computeValue, RT1<NV, Boolean, E> action, R msg) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull3 patternNull, RT1<? super T3, ? extends NV, E> computeValue, RT1<? super NV, Boolean, E> action, R msg) throws E {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         if (!isMatch) {
@@ -439,11 +439,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull3 patternNull, RT1<T3, NV, E> computeValue, R msg) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull3 patternNull, RT1<? super T3, ? extends NV, E> computeValue, R msg) throws E {
         return withW(patternNull, computeValue, null, msg);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull4 patternNull, RT1<T4, NV, E> computeValue, RT1<NV, Boolean, E> action, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, R, E> msgAction) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull4 patternNull, RT1<? super T4, ? extends NV, E> computeValue, RT1<? super NV, Boolean, E> action, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R, E> msgAction) throws E {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         Objects.requireNonNull(msgAction);
@@ -457,11 +457,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull4 patternNull, RT1<T4, NV, E> computeValue, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, R, E> msgAction) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull4 patternNull, RT1<? super T4, ? extends NV, E> computeValue, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R, E> msgAction) throws E {
         return withW(patternNull, computeValue, null, msgAction);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull4 patternNull, RT1<T4, NV, E> computeValue, RT1<NV, Boolean, E> action, R msg) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull4 patternNull, RT1<? super T4, ? extends NV, E> computeValue, RT1<? super NV, Boolean, E> action, R msg) throws E {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         if (!isMatch) {
@@ -473,11 +473,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull4 patternNull, RT1<T4, NV, E> computeValue, R msg) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull4 patternNull, RT1<? super T4, ? extends NV, E> computeValue, R msg) throws E {
         return withW(patternNull, computeValue, null, msg);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull5 patternNull, RT1<T5, NV, E> computeValue, RT1<NV, Boolean, E> action, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, R, E> msgAction) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull5 patternNull, RT1<? super T5, ? extends NV, E> computeValue, RT1<? super NV, Boolean, E> action, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R, E> msgAction) throws E {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         Objects.requireNonNull(msgAction);
@@ -491,11 +491,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull5 patternNull, RT1<T5, NV, E> computeValue, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, R, E> msgAction) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull5 patternNull, RT1<? super T5, ? extends NV, E> computeValue, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R, E> msgAction) throws E {
         return withW(patternNull, computeValue, null, msgAction);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull5 patternNull, RT1<T5, NV, E> computeValue, RT1<NV, Boolean, E> action, R msg) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull5 patternNull, RT1<? super T5, ? extends NV, E> computeValue, RT1<? super NV, Boolean, E> action, R msg) throws E {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         if (!isMatch) {
@@ -507,11 +507,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull5 patternNull, RT1<T5, NV, E> computeValue, R msg) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull5 patternNull, RT1<? super T5, ? extends NV, E> computeValue, R msg) throws E {
         return withW(patternNull, computeValue, null, msg);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull6 patternNull, RT1<T6, NV, E> computeValue, RT1<NV, Boolean, E> action, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, R, E> msgAction) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull6 patternNull, RT1<? super T6, ? extends NV, E> computeValue, RT1<? super NV, Boolean, E> action, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R, E> msgAction) throws E {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         Objects.requireNonNull(msgAction);
@@ -525,11 +525,11 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull6 patternNull, RT1<T6, NV, E> computeValue, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, R, E> msgAction) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull6 patternNull, RT1<? super T6, ? extends NV, E> computeValue, RT1<Tuple6<T1, T2, T3, T4, T5, T6>, ? extends R, E> msgAction) throws E {
         return withW(patternNull, computeValue, null, msgAction);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull6 patternNull, RT1<T6, NV, E> computeValue, RT1<NV, Boolean, E> action, R msg) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull6 patternNull, RT1<? super T6, ? extends NV, E> computeValue, RT1<? super NV, Boolean, E> action, R msg) throws E {
         Objects.requireNonNull(computeValue);
         Objects.requireNonNull(patternNull);
         if (!isMatch) {
@@ -541,7 +541,7 @@ public class Null7Matcher<T1, T2, T3, T4, T5, T6, R> implements Matcher {
         return new Null8Matcher<>(true, value1, value2, value3, value4, value5, value6, null, this.msg);
     }
 
-    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull6 patternNull, RT1<T6, NV, E> computeValue, R msg) throws E {
+    public <NV, E extends Throwable> Null8Matcher<T1, T2, T3, T4, T5, T6, NV, R> withW(PatternNull6 patternNull, RT1<? super T6, ? extends NV, E> computeValue, R msg) throws E {
         return withW(patternNull, computeValue, null, msg);
     }
 

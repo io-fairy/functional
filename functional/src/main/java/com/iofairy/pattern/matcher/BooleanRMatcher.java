@@ -39,7 +39,7 @@ public class BooleanRMatcher<V, R> implements Matcher {
         this(value, false);
     }
 
-    public BooleanRMatcher<V, R> when(boolean value, R1<V, R> action) {
+    public BooleanRMatcher<V, R> when(boolean value, R1<? super V, ? extends R> action) {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             isMatch = true;
@@ -48,7 +48,7 @@ public class BooleanRMatcher<V, R> implements Matcher {
         return this;
     }
 
-    public BooleanRMatcher<V, R> whenNext(boolean value, R1<V, R> action) {
+    public BooleanRMatcher<V, R> whenNext(boolean value, R1<? super V, ? extends R> action) {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             returnValue = action.$(this.value);
@@ -56,7 +56,7 @@ public class BooleanRMatcher<V, R> implements Matcher {
         return this;
     }
 
-    public <E extends Throwable> BooleanRMatcher<V, R> with(boolean value, RT1<V, R, E> action) throws E {
+    public <E extends Throwable> BooleanRMatcher<V, R> with(boolean value, RT1<? super V, ? extends R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             isMatch = true;
@@ -65,7 +65,7 @@ public class BooleanRMatcher<V, R> implements Matcher {
         return this;
     }
 
-    public <E extends Throwable> BooleanRMatcher<V, R> withNext(boolean value, RT1<V, R, E> action) throws E {
+    public <E extends Throwable> BooleanRMatcher<V, R> withNext(boolean value, RT1<? super V, ? extends R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch && value) {
             returnValue = action.$(this.value);
@@ -73,7 +73,7 @@ public class BooleanRMatcher<V, R> implements Matcher {
         return this;
     }
 
-    public R orElse(R1<V, R> action) {
+    public R orElse(R1<? super V, ? extends R> action) {
         Objects.requireNonNull(action);
         if (!isMatch) {
             returnValue = action.$(this.value);
@@ -81,7 +81,7 @@ public class BooleanRMatcher<V, R> implements Matcher {
         return returnValue;
     }
 
-    public <E extends Throwable> R orWith(RT1<V, R, E> action) throws E {
+    public <E extends Throwable> R orWith(RT1<? super V, ? extends R, E> action) throws E {
         Objects.requireNonNull(action);
         if (!isMatch) {
             returnValue = action.$(this.value);

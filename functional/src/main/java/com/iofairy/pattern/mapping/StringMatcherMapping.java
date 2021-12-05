@@ -38,62 +38,62 @@ public class StringMatcherMapping extends MatcherMapping<String> {
         super(value);
     }
 
-    public StringVMatcher when(String matchValue, V1<String> action) {
+    public StringVMatcher when(String matchValue, V1<? super String> action) {
         StringVMatcher stringVMatcher = new StringVMatcher(value, patternString);
         return stringVMatcher.when(matchValue, action);
     }
 
-    public StringVMatcher whenNext(String matchValue, V1<String> action) {
+    public StringVMatcher whenNext(String matchValue, V1<? super String> action) {
         StringVMatcher stringVMatcher = new StringVMatcher(value, patternString);
         return stringVMatcher.whenNext(matchValue, action);
     }
 
-    public <R> StringRMatcher<R> when(String matchValue, R1<String, R> action) {
+    public <R> StringRMatcher<R> when(String matchValue, R1<? super String, ? extends R> action) {
         StringRMatcher<R> stringRMatcher = new StringRMatcher<>(value, patternString);
         return stringRMatcher.when(matchValue, action);
     }
 
-    public <R> StringRMatcher<R> whenNext(String matchValue, R1<String, R> action) {
+    public <R> StringRMatcher<R> whenNext(String matchValue, R1<? super String, ? extends R> action) {
         StringRMatcher<R> stringRMatcher = new StringRMatcher<>(value, patternString);
         return stringRMatcher.whenNext(matchValue, action);
     }
 
-    public StringVMatcher when(PatternIn<String> matchValues, V1<String> action) {
+    public StringVMatcher when(PatternIn<String> matchValues, V1<? super String> action) {
         StringVMatcher stringVMatcher = new StringVMatcher(value, patternString);
         return stringVMatcher.when(matchValues, action);
     }
 
-    public StringVMatcher whenNext(PatternIn<String> matchValues, V1<String> action) {
+    public StringVMatcher whenNext(PatternIn<String> matchValues, V1<? super String> action) {
         StringVMatcher stringVMatcher = new StringVMatcher(value, patternString);
         return stringVMatcher.whenNext(matchValues, action);
     }
 
-    public <R> StringRMatcher<R> when(PatternIn<String> matchValues, R1<String, R> action) {
+    public <R> StringRMatcher<R> when(PatternIn<String> matchValues, R1<? super String, ? extends R> action) {
         StringRMatcher<R> stringRMatcher = new StringRMatcher<>(value, patternString);
         return stringRMatcher.when(matchValues, action);
     }
 
-    public <R> StringRMatcher<R> whenNext(PatternIn<String> matchValues, R1<String, R> action) {
+    public <R> StringRMatcher<R> whenNext(PatternIn<String> matchValues, R1<? super String, ? extends R> action) {
         StringRMatcher<R> stringRMatcher = new StringRMatcher<>(value, patternString);
         return stringRMatcher.whenNext(matchValues, action);
     }
 
-    public StringVMatcher when(boolean matchValue, V1<String> action) {
+    public StringVMatcher when(boolean matchValue, V1<? super String> action) {
         StringVMatcher stringVMatcher = new StringVMatcher(value, patternString);
         return stringVMatcher.when(matchValue, action);
     }
 
-    public StringVMatcher whenNext(boolean matchValue, V1<String> action) {
+    public StringVMatcher whenNext(boolean matchValue, V1<? super String> action) {
         StringVMatcher stringVMatcher = new StringVMatcher(value, patternString);
         return stringVMatcher.whenNext(matchValue, action);
     }
 
-    public <R> StringRMatcher<R> when(boolean matchValue, R1<String, R> action) {
+    public <R> StringRMatcher<R> when(boolean matchValue, R1<? super String, ? extends R> action) {
         StringRMatcher<R> stringRMatcher = new StringRMatcher<>(value, patternString);
         return stringRMatcher.when(matchValue, action);
     }
 
-    public <R> StringRMatcher<R> whenNext(boolean matchValue, R1<String, R> action) {
+    public <R> StringRMatcher<R> whenNext(boolean matchValue, R1<? super String, ? extends R> action) {
         StringRMatcher<R> stringRMatcher = new StringRMatcher<>(value, patternString);
         return stringRMatcher.whenNext(matchValue, action);
     }
@@ -105,62 +105,62 @@ public class StringMatcherMapping extends MatcherMapping<String> {
      * ******************************************************
      * ######################################################
      */
-    public <E extends Throwable> StringVMatcher with(String matchValue, VT1<String, E> action) throws E {
+    public <E extends Throwable> StringVMatcher with(String matchValue, VT1<? super String, E> action) throws E {
         StringVMatcher stringVMatcher = new StringVMatcher(value, patternString);
         return stringVMatcher.with(matchValue, action);
     }
 
-    public <E extends Throwable> StringVMatcher withNext(String matchValue, VT1<String, E> action) throws E {
+    public <E extends Throwable> StringVMatcher withNext(String matchValue, VT1<? super String, E> action) throws E {
         StringVMatcher stringVMatcher = new StringVMatcher(value, patternString);
         return stringVMatcher.withNext(matchValue, action);
     }
 
-    public <R, E extends Throwable> StringRMatcher<R> with(String matchValue, RT1<String, R, E> action) throws E {
+    public <R, E extends Throwable> StringRMatcher<R> with(String matchValue, RT1<? super String, ? extends R, E> action) throws E {
         StringRMatcher<R> stringRMatcher = new StringRMatcher<>(value, patternString);
         return stringRMatcher.with(matchValue, action);
     }
 
-    public <R, E extends Throwable> StringRMatcher<R> withNext(String matchValue, RT1<String, R, E> action) throws E {
+    public <R, E extends Throwable> StringRMatcher<R> withNext(String matchValue, RT1<? super String, ? extends R, E> action) throws E {
         StringRMatcher<R> stringRMatcher = new StringRMatcher<>(value, patternString);
         return stringRMatcher.withNext(matchValue, action);
     }
 
-    public <E extends Throwable> StringVMatcher with(PatternIn<String> matchValues, VT1<String, E> action) throws E {
+    public <E extends Throwable> StringVMatcher with(PatternIn<String> matchValues, VT1<? super String, E> action) throws E {
         StringVMatcher stringVMatcher = new StringVMatcher(value, patternString);
         return stringVMatcher.with(matchValues, action);
     }
 
-    public <E extends Throwable> StringVMatcher withNext(PatternIn<String> matchValues, VT1<String, E> action) throws E {
+    public <E extends Throwable> StringVMatcher withNext(PatternIn<String> matchValues, VT1<? super String, E> action) throws E {
         StringVMatcher stringVMatcher = new StringVMatcher(value, patternString);
         return stringVMatcher.withNext(matchValues, action);
     }
 
-    public <R, E extends Throwable> StringRMatcher<R> with(PatternIn<String> matchValues, RT1<String, R, E> action) throws E {
+    public <R, E extends Throwable> StringRMatcher<R> with(PatternIn<String> matchValues, RT1<? super String, ? extends R, E> action) throws E {
         StringRMatcher<R> stringRMatcher = new StringRMatcher<>(value, patternString);
         return stringRMatcher.with(matchValues, action);
     }
 
-    public <R, E extends Throwable> StringRMatcher<R> withNext(PatternIn<String> matchValues, RT1<String, R, E> action) throws E {
+    public <R, E extends Throwable> StringRMatcher<R> withNext(PatternIn<String> matchValues, RT1<? super String, ? extends R, E> action) throws E {
         StringRMatcher<R> stringRMatcher = new StringRMatcher<>(value, patternString);
         return stringRMatcher.withNext(matchValues, action);
     }
 
-    public <E extends Throwable> StringVMatcher with(boolean matchValue, VT1<String, E> action) throws E {
+    public <E extends Throwable> StringVMatcher with(boolean matchValue, VT1<? super String, E> action) throws E {
         StringVMatcher stringVMatcher = new StringVMatcher(value, patternString);
         return stringVMatcher.with(matchValue, action);
     }
 
-    public <E extends Throwable> StringVMatcher withNext(boolean matchValue, VT1<String, E> action) throws E {
+    public <E extends Throwable> StringVMatcher withNext(boolean matchValue, VT1<? super String, E> action) throws E {
         StringVMatcher stringVMatcher = new StringVMatcher(value, patternString);
         return stringVMatcher.withNext(matchValue, action);
     }
 
-    public <R, E extends Throwable> StringRMatcher<R> with(boolean matchValue, RT1<String, R, E> action) throws E {
+    public <R, E extends Throwable> StringRMatcher<R> with(boolean matchValue, RT1<? super String, ? extends R, E> action) throws E {
         StringRMatcher<R> stringRMatcher = new StringRMatcher<>(value, patternString);
         return stringRMatcher.with(matchValue, action);
     }
 
-    public <R, E extends Throwable> StringRMatcher<R> withNext(boolean matchValue, RT1<String, R, E> action) throws E {
+    public <R, E extends Throwable> StringRMatcher<R> withNext(boolean matchValue, RT1<? super String, ? extends R, E> action) throws E {
         StringRMatcher<R> stringRMatcher = new StringRMatcher<>(value, patternString);
         return stringRMatcher.withNext(matchValue, action);
     }
