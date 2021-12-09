@@ -244,17 +244,34 @@ public class GlobalTest {
         assertEquals("\"1\"=(this Entry)", G.toString(entry));
         System.out.println(G.toString(entry));
 
+        // ----------------------------------------------
         Map<String, Object> map = Map.ofEntries(entry);
         String mapToString = G.toString(map);
         assertEquals("{\"1\"=\"1\"=(this Entry)}", mapToString);
         System.out.println(mapToString);
 
+        // ----------------------------------------------
         Map<Object, Object> map1 = new HashMap<>();
         // map1.put(entry, "1");     // entry循环引用，作为key时，会导致堆栈溢出
         map1.put("1", entry);
         String mapToString1 = G.toString(map1);
         assertEquals("{\"1\"=\"1\"=(this Entry)}", mapToString1);
         System.out.println(mapToString1);
+
+        // ----------------------------------------------
+        HashMap<Object, Object> map2 = new HashMap<>();
+        map2.put("a", 1);
+        map2.put("b", 2);
+        Set<Map.Entry<Object, Object>> entries = map2.entrySet();
+        // 模拟循环引用
+        for (Map.Entry<Object, Object> ooEntry : entries) {
+            ooEntry.setValue(ooEntry);
+            break;
+        }
+        String mapToString2 = G.toString(map2);
+        assertEquals("{\"a\"=(this Entry), \"b\"=2}", mapToString2);
+        System.out.println(mapToString2);
+        // System.out.println(map2);   // entry循环引用，toString时，会导致堆栈溢出
     }
 
     @Test
