@@ -4,6 +4,10 @@ import com.iofairy.top.G;
 import com.iofairy.tuple.Tuple2;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -26,6 +30,9 @@ public class GlobalTest {
         String[] nullSs = null;
         String[] ss1 = new String[]{};
         String[] ss2 = new String[]{""};
+        char[] cArr = {};
+        List<String> list = Arrays.asList("a", "b");
+        Map<Object, Object> map = Map.of();
 
         assertFalse(G.hasNull(i, o1, s1, s2));
         assertTrue(G.hasNull(i, o1, s1, s3));
@@ -39,7 +46,9 @@ public class GlobalTest {
         assertTrue(G.isEmpty(nullSs));
         assertTrue(G.isEmpty(ss1));
         assertFalse(G.isEmpty(ss2));
-
+        assertTrue(G.isEmpty(cArr));
+        assertFalse(G.isEmpty(list));
+        assertTrue(G.isEmpty(map));
 
     }
 
@@ -132,4 +141,252 @@ public class GlobalTest {
         assertEquals(t11._1 + "||" + t11._2, "null||null");
 
     }
+
+    @Test
+    public void testToString() {
+        Object[] os = null;
+        char ch = 'a';
+        String s = "abc";
+        char[] a = {'a', 'b', 'c'};
+        char[] a1 = {};
+        Character[] c1 = {'a', 'b', null, 'c'};
+        Character[] c2 = {};
+        CharSequence[] cs = {"a", "b", "", "c", null};
+        CharSequence[] cs1 = {};
+        String[] ss = {"a", "b", null, "", "c"};
+        String[] ss1 = {};
+        Integer[] is = {};
+        boolean[] bs = {true, false};
+
+        AbstractMap.SimpleEntry<char[], String> entry1 = new AbstractMap.SimpleEntry<>(new char[]{'a', 'b'}, "abc");
+        AbstractMap.SimpleEntry<AbstractMap.SimpleEntry<char[], String>, String> entry2 = new AbstractMap.SimpleEntry<>(entry1, "123");
+
+        List<Serializable> arraysArrayList = Arrays.asList("abc", "123", a);    // java.util.Arrays$ArrayList
+        List<Serializable> subList = arraysArrayList.subList(0, 2);             // java.util.AbstractList$RandomAccessSubList
+        List<String> sList = new ArrayList<>();
+        sList.add("a1");
+        sList.add("a2");
+        sList.add("a3");
+        List<String> subList1 = sList.subList(0, 2);            // java.util.ArrayList$SubList
+
+        Map<Integer, Integer> map1 = Map.of(1, 2);                      // java.util.ImmutableCollections$Map1
+        Map<? extends Serializable, Integer> mapN = Map.of('1', 2, "3", 4);     // java.util.ImmutableCollections$MapN
+        Map<Object, Object> singletonMap = Collections.singletonMap("a", subList);        // java.util.Collections$SingletonMap
+        TreeMap<Object, Object> treeMap = new TreeMap<>();
+        treeMap.put('1', 1);
+        treeMap.put('2', subList1);
+        treeMap.put('3', 3);
+        NavigableMap<Object, Object> subMap1 = treeMap.subMap('1', true, '3', true);    // java.util.TreeMap$AscendingSubMap
+        NavigableMap<Object, Object> subMap2 = treeMap.descendingMap();             // java.util.TreeMap$DescendingSubMap
+
+        List<Object> csList = new ArrayList<>();
+        csList.add("a");
+        csList.add("");
+        csList.add(null);
+        csList.add(entry2);
+        csList.add(arraysArrayList);
+        csList.add(subMap1);
+        csList.add(1);
+
+        // --------------------------------------------------------
+
+        Map<Object, Object> hashMap = new HashMap<>();
+        hashMap.put(c1, ss);
+        hashMap.put(ss1, bs);
+        hashMap.put(mapN, subMap2);
+        hashMap.put(null, os);
+        hashMap.put(singletonMap, csList);
+        hashMap.put(subList1, cs);
+        hashMap.put(map1, map1);
+
+        String mapToString = G.toString(hashMap);
+        /*
+         * mapToString的值：
+         * {null=null, ['a', 'b', null, 'c']=["a", "b", null, "", "c"], ["a1", "a2"]=["a", "b", "", "c", null], {1=2}={1=2}, []=[true, false],
+         * {"3"=4, '1'=2}={'3'=3, '2'=["a1", "a2"], '1'=1}, {"a"=["abc", "123"]}=["a", "", null, ['a', 'b']="abc"="123", ["abc", "123", ['a', 'b', 'c']],
+         * {'1'=1, '2'=["a1", "a2"], '3'=3}, 1]}
+         */
+        // assertEquals("", mapToString);       // map 每次运行打印的kv顺序可能不一样
+        System.out.println("G.toString(hashMap): \n" + mapToString);
+        System.out.println("-----------------------");
+        System.out.println("hashMap: \n" + hashMap);
+
+    }
+
+    @Test
+    public void testToString1() {
+        Object o = new Object();
+        Object[] os = null;
+        char ch = 'a';
+        String s = "abc";
+        Character[] c2 = {};
+        CharSequence[] cs1 = {};
+        Integer[] is = {};
+        IOException ioException = new IOException("this is IOException!");
+
+        Map<Object, Object> map = new HashMap<>();
+        map.put(o, os);
+        map.put(ch, s);
+        map.put(map, map);
+        map.put(c2, ioException);
+        map.put(is, cs1);
+        System.out.println("map: \n" + map);
+        System.out.println("---------------------------");
+        System.out.println("G.toString(map): \n" + G.toString(map));
+        System.out.println("---------------------------");
+        System.out.println("G.toString((Object) map): \n" + G.toString((Object) map));
+    }
+
+    @Test
+    public void testToString2() {
+        AbstractMap.SimpleEntry<String, Object> entry = new AbstractMap.SimpleEntry<>("1", 1);
+        entry.setValue(entry);
+        assertEquals("\"1\"=(this Entry)", G.toString(entry));
+        System.out.println(G.toString(entry));
+
+        Map<String, Object> map = Map.ofEntries(entry);
+        String mapToString = G.toString(map);
+        assertEquals("{\"1\"=\"1\"=(this Entry)}", mapToString);
+        System.out.println(mapToString);
+
+        Map<Object, Object> map1 = new HashMap<>();
+        // map1.put(entry, "1");     // entry循环引用，作为key时，会导致堆栈溢出
+        map1.put("1", entry);
+        String mapToString1 = G.toString(map1);
+        assertEquals("{\"1\"=\"1\"=(this Entry)}", mapToString1);
+        System.out.println(mapToString1);
+    }
+
+    @Test
+    public void testToString3() {
+        Object o = new Object();
+        Object[] os = null;
+        char[] a = {'a', 'b', 'c'};
+        char[] a1 = {};
+        Character[] c1 = {'a', 'b', null, 'c'};
+        Character[] c2 = {};
+        CharSequence[] cs = {"a", "b", "", "c", null};
+        CharSequence[] cs1 = {};
+        String[] ss = {"a", "b", null, "", "c"};
+        String[] ss1 = {};
+        Integer[] is = {};
+        boolean[] bs = {true, false};
+        IOException ioException = new IOException("this is IOException!");
+        String s = "abc";
+        char ch = 'a';
+
+        List<CharSequence> csList = new ArrayList<>();
+        csList.add("a");
+        csList.add("");
+        csList.add(null);
+        csList.add("b");
+        csList.add("c");
+
+        String s01 = G.toString(o);
+        String s02 = G.toString(os);
+        assertEquals("null", s02);
+        String s03 = G.toString(a);
+        assertEquals("['a', 'b', 'c']", s03);
+        String s04 = G.toString(a1);
+        assertEquals("[]", s04);
+        String s05 = G.toString(c1);
+        assertEquals("['a', 'b', null, 'c']", s05);
+        String s06 = G.toString(c2);
+        assertEquals("[]", s06);
+        String s07 = G.toString(cs);
+        assertEquals("[\"a\", \"b\", \"\", \"c\", null]", s07);
+        String s08 = G.toString(cs1);
+        assertEquals("[]", s08);
+        String s09 = G.toString(ss);
+        assertEquals("[\"a\", \"b\", null, \"\", \"c\"]", s09);
+        String s10 = G.toString(ss1);
+        assertEquals("[]", s10);
+        String s11 = G.toString(is);
+        assertEquals("[]", s11);
+        String s12 = G.toString(bs);
+        assertEquals("[true, false]", s12);
+        String s13 = G.toString(ioException);
+        String s14 = G.toString(s);
+        assertEquals("\"abc\"", s14);
+        String s15 = G.toString(ch);
+        assertEquals("'a'", s15);
+        String s16 = G.toString(csList);
+        assertEquals("[\"a\", \"\", null, \"b\", \"c\"]", s16);
+
+        System.out.println(s01);
+        System.out.println(s10);
+        System.out.println(s11);
+        System.out.println(s12);
+        System.out.println(s13);
+        System.out.println(s14);
+        System.out.println(s15);
+        System.out.println(s16);
+    }
+
+    @Test
+    public void testToString4() {
+        Object o = new Object();
+        Object[] os = null;
+        char[] a = {'a', 'b', 'c'};
+        char[] a1 = {};
+        Character[] c = {'a', 'b', null, 'c'};
+        Character[] c1 = {};
+        CharSequence[] cs = {"a", "b", "", "c", null};
+        CharSequence[] cs1 = {};
+        String[] ss = {"a", "b", null, "", "c"};
+        String[] ss1 = {};
+        Integer[] is = {};
+        boolean[] bs = {true, false};
+        IOException ioException = new IOException("this is IOException!");
+        String s = "abc";
+        char ch = 'a';
+
+        List<CharSequence> csList = new ArrayList<>();
+        csList.add("a");
+        csList.add("");
+        csList.add(null);
+        csList.add("b");
+        csList.add("c");
+
+        String s01 = G.toString(o);
+        String s02 = G.toString((Object) os);
+        assertEquals("null", s02);
+        String s03 = G.toString((Object) a);
+        assertEquals("['a', 'b', 'c']", s03);
+        String s04 = G.toString((Object) a1);
+        assertEquals("[]", s04);
+        String s05 = G.toString((Object) c);
+        assertEquals("['a', 'b', null, 'c']", s05);
+        String s06 = G.toString((Object) c1);
+        assertEquals("[]", s06);
+        String s07 = G.toString((Object) cs);
+        assertEquals("[\"a\", \"b\", \"\", \"c\", null]", s07);
+        String s08 = G.toString((Object) cs1);
+        assertEquals("[]", s08);
+        String s09 = G.toString((Object) ss);
+        assertEquals("[\"a\", \"b\", null, \"\", \"c\"]", s09);
+        String s10 = G.toString((Object) ss1);
+        assertEquals("[]", s10);
+        String s11 = G.toString((Object) is);
+        assertEquals("[]", s11);
+        String s12 = G.toString((Object) bs);
+        assertEquals("[true, false]", s12);
+        String s13 = G.toString((Object) ioException);
+        String s14 = G.toString(s);
+        assertEquals("\"abc\"", s14);
+        String s15 = G.toString(ch);
+        assertEquals("'a'", s15);
+        String s16 = G.toString((Object) csList);
+        assertEquals("[\"a\", \"\", null, \"b\", \"c\"]", s16);
+
+        System.out.println(s01);
+        System.out.println(s10);
+        System.out.println(s11);
+        System.out.println(s12);
+        System.out.println(s13);
+        System.out.println(s14);
+        System.out.println(s15);
+        System.out.println(s16);
+    }
+
 }

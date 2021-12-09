@@ -5,7 +5,8 @@ import com.iofairy.except.NumberOfAliasesException;
 import com.iofairy.tuple.*;
 import org.junit.jupiter.api.Test;
 
-import java.util.Map;
+import java.io.Serializable;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static com.iofairy.test.MyTupleAlias.*;
@@ -153,4 +154,75 @@ public class TupleTest {
 
     }
 
+    @Test
+    public void testTupleToString() {
+        Object[] os = null;
+        char ch = 'a';
+        String s = "abc";
+        char[] a = {'a', 'b', 'c'};
+        char[] a1 = {};
+        Character[] c1 = {'a', 'b', null, 'c'};
+        Character[] c2 = {};
+        CharSequence[] cs = {"a", "b", "", "c", null};
+        CharSequence[] cs1 = {};
+        String[] ss = {"a", "b", null, "", "c"};
+        String[] ss1 = {};
+        Integer[] is = {};
+        boolean[] bs = {true, false};
+        double[] ds = {1.123456, 2.20987, 3.36543};
+
+        AbstractMap.SimpleEntry<char[], String> entry1 = new AbstractMap.SimpleEntry<>(new char[]{'a', 'b'}, "abc");
+        AbstractMap.SimpleEntry<AbstractMap.SimpleEntry<char[], String>, String> entry2 = new AbstractMap.SimpleEntry<>(entry1, "123");
+
+        List<Serializable> arraysArrayList = Arrays.asList("abc", "123", a);    // java.util.Arrays$ArrayList
+        List<Serializable> subList = arraysArrayList.subList(0, 2);             // java.util.AbstractList$RandomAccessSubList
+        List<String> sList = new ArrayList<>();
+        sList.add("a1");
+        sList.add("a2");
+        sList.add("a3");
+        List<String> subList1 = sList.subList(0, 2);            // java.util.ArrayList$SubList
+
+        Map<Integer, Integer> map1 = Map.of(1, 2);                      // java.util.ImmutableCollections$Map1
+        Map<? extends Serializable, Integer> mapN = Map.of('1', 2, "3", 4);     // java.util.ImmutableCollections$MapN
+        Map<Object, Object> singletonMap = Collections.singletonMap("a", subList);        // java.util.Collections$SingletonMap
+        TreeMap<Object, Object> treeMap = new TreeMap<>();
+        treeMap.put('1', 1);
+        treeMap.put('2', subList1);
+        treeMap.put('3', 3);
+        NavigableMap<Object, Object> subMap1 = treeMap.subMap('1', true, '3', true);    // java.util.TreeMap$AscendingSubMap
+        NavigableMap<Object, Object> subMap2 = treeMap.descendingMap();             // java.util.TreeMap$DescendingSubMap
+
+        List<Object> csList = new ArrayList<>();
+        csList.add("a");
+        csList.add("");
+        csList.add(null);
+        csList.add(entry2);
+        csList.add(arraysArrayList);
+        csList.add(subMap1);
+        csList.add(1);
+
+        // --------------------------------------------------------
+
+        Map<Object, Object> hashMap = new HashMap<>();
+        hashMap.put(c1, ss);
+        hashMap.put(ss1, bs);
+        hashMap.put(mapN, subMap2);
+        hashMap.put(null, os);
+        hashMap.put(singletonMap, csList);
+        hashMap.put(subList1, cs);
+        hashMap.put(map1, map1);
+
+        Tuple9<Object[], Object, char[], char[], ? extends Map<?, Integer>, Character, Map<Object, Object>, double[], CharSequence[]> tuple = Tuple.of(os, null, a, a1, mapN, ch, hashMap, ds, cs1);
+        /*
+         * tupleString的值：
+         * (null, null, ['a', 'b', 'c'], [], {"3"=4, '1'=2}, 'a', {null=null, ['a', 'b', null, 'c']=["a", "b", null, "", "c"],
+         * ["a1", "a2"]=["a", "b", "", "c", null], {1=2}={1=2}, {"3"=4, '1'=2}={'3'=3, '2'=["a1", "a2"], '1'=1}, []=[true, false],
+         * {"a"=["abc", "123"]}=["a", "", null, ['a', 'b']="abc"="123", ["abc", "123", ['a', 'b', 'c']], {'1'=1, '2'=["a1", "a2"], '3'=3}, 1]},
+         * [1.123456, 2.20987, 3.36543], [])
+         */
+        String tupleString = tuple.toString();
+        // assertEquals("", tupleString);    // 由于包含map，每次运行 tupleString 中的 map kv对的顺序有细微差别
+        System.out.println("testTupleToString: \n" + tuple);
+
+    }
 }

@@ -17,6 +17,7 @@ package com.iofairy.tuple;
 
 import com.iofairy.except.*;
 import com.iofairy.si.SI;
+import com.iofairy.top.G;
 
 import java.util.*;
 
@@ -251,7 +252,7 @@ public abstract class TupleBase implements Tuple {
         }else {
             List<String> strList = new ArrayList<>();
             for (int i = 0; i < arity(); i++) {
-                strList.add(_nStr(element(i)));
+                strList.add(G.toString((Object) element(i)));
             }
             return alias_index.isEmpty() ? "(" + String.join(", ", strList) + ")" : "(" + concatElement(strList) + ")";
         }
@@ -267,21 +268,14 @@ public abstract class TupleBase implements Tuple {
         return String.join(", ", tempStrList);
     }
 
-    private <R> String _nStr(R _n) {
-        String nstr = _n == null ? "null" : _n.toString();
-        // 如果 _n == null，那么无论 R 是什么类型，`_n instanceof Object` 都为 false
-        if (_n instanceof String){
-            nstr = "\"" + nstr + "\"";
-        }
-        return nstr;
-    }
-
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Tuple){
+        if (obj instanceof Tuple) {
             Tuple tuple = (Tuple) obj;
             if (aliasesEquals(tuple)) {
-                for (int i = 0; i < arity(); i++)  if (!Objects.equals(element(i), tuple.element(i))) return false;
+                for (int i = 0; i < arity(); i++) {
+                    if (!Objects.equals(element(i), tuple.element(i))) return false;
+                }
                 return true;
             }
         }

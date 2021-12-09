@@ -31,6 +31,26 @@ import java.util.*;
  * @since 0.0.1
  */
 public class G {
+    /*
+     * Collection
+     */
+    public final static String ARRAYS$ARRAYLIST = "java.util.Arrays$ArrayList";
+    public final static String ARRAYLIST$SUBLIST = "java.util.ArrayList$SubList";
+    public final static String SUBLIST = "java.util.SubList";
+    public final static String RANDOMACCESSSUBLIST = "java.util.RandomAccessSubList";
+    // JDK 9+
+    public final static String ABSTRACTLIST$SUBLIST = "java.util.AbstractList$SubList";
+    public final static String ABSTRACTLIST$RANDOMACCESSSUBLIST = "java.util.AbstractList$RandomAccessSubList";
+    /*
+     * Map
+     */
+    public final static String COLLECTIONS$SINGLETONMAP = "java.util.Collections$SingletonMap";
+    public final static String TREEMAP$ASCENDINGSUBMAP = "java.util.TreeMap$AscendingSubMap";
+    public final static String TREEMAP$DESCENDINGSUBMAP = "java.util.TreeMap$DescendingSubMap";
+    // JDK 9+
+    public final static String IMMUTABLECOLLECTIONS$MAP1 = "java.util.ImmutableCollections$Map1";
+    public final static String IMMUTABLECOLLECTIONS$MAPN = "java.util.ImmutableCollections$MapN";
+
 
     /**
      * Whether object array contains {@code null} value or object array is {@code null}. <br>
@@ -104,10 +124,6 @@ public class G {
         return Arrays.stream(css).allMatch(G::isEmpty);
     }
 
-    public static boolean isEmpty(CharSequence cs) {
-        return cs == null || cs.length() == 0;
-    }
-
     /**
      * Whether CharSequence array contains {@code null} or empty {@code ""} or blank
      * or CharSequence array is {@code null}. <br>
@@ -175,15 +191,18 @@ public class G {
         return Character.isWhitespace(c) || Character.isSpaceChar(c);
     }
 
+    public static boolean isEmpty(CharSequence cs) {
+        return cs == null || cs.length() == 0;
+    }
+
     /**
      * Return {@code true} when collection is {@code null} or collection is empty. <br>
      * 如果集合为{@code null}或集合中没有一个元素，则返回{@code true}
      * @param collection collection
-     * @param <T> type of elements in collection
      * @return {@code true} or {@code false}
      * @since 0.0.1
      */
-    public static <T> boolean isEmpty(Collection<T> collection) {
+    public static boolean isEmpty(Collection<?> collection) {
         return collection == null || collection.isEmpty();
     }
 
@@ -191,25 +210,33 @@ public class G {
      * Return {@code true} when map is {@code null} or map is empty. <br>
      * 如果map为{@code null}或map中没有一个元素，则返回{@code true}
      * @param map map object
-     * @param <K> type of key
-     * @param <V> type of value
      * @return {@code true} or {@code false}
      * @since 0.0.1
      */
-    public static <K, V> boolean isEmpty(Map<K, V> map) {
+    public static boolean isEmpty(Map<?, ?> map) {
         return map == null || map.isEmpty();
     }
 
     /**
-     * Return {@code true} when array is {@code null} or array is empty. <br>
-     * 如果数组为{@code null}或数组中没有一个元素，则返回{@code true}
-     * @param arr array
-     * @param <T> type of elements in array
+     * Return {@code true} when object is {@code null}, or object is a array and this array is empty. <br>
+     * 如果 object 为{@code null}或object是一个数组且数组中没有一个元素，则返回{@code true}
+     * @param o object
      * @return {@code true} or {@code false}
-     * @since 0.0.1
+     * @since 0.2.2
      */
-    public static <T> boolean isEmpty(T[] arr) {
-        return arr == null || arr.length == 0;
+    public static boolean isEmpty(Object o) {
+        if (o == null)                  return true;
+        if (o instanceof Object[])      return ((Object[]) o).length == 0;
+        if (o instanceof int[])         return ((int[]) o).length == 0;
+        if (o instanceof long[])        return ((long[]) o).length == 0;
+        if (o instanceof float[])       return ((float[]) o).length == 0;
+        if (o instanceof double[])      return ((double[]) o).length == 0;
+        if (o instanceof char[])        return ((char[]) o).length == 0;
+        if (o instanceof byte[])        return ((byte[]) o).length == 0;
+        if (o instanceof short[])       return ((short[]) o).length == 0;
+        if (o instanceof boolean[])     return ((boolean[]) o).length == 0;
+
+        return false;
     }
 
     /**
@@ -220,6 +247,7 @@ public class G {
      * @return first non {@code null} object
      * @since 0.0.7
      */
+    @SafeVarargs
     public static <R> R firstNonNull(R... rs) {
         if (isEmpty(rs)) return null;
         for (R r : rs) {
@@ -258,6 +286,199 @@ public class G {
         PrintWriter pw = new PrintWriter(sw, true);
         e.printStackTrace(pw);
         return sw.getBuffer().toString();
+    }
+
+    /**
+     * To string for any object <br>
+     * <b>NOTE:</b><br>
+     * When <b>{@code object instanceof Character}</b>, result will be enclosed in <b>single quotes({@code ''});</b><br>
+     * When <b>{@code object instanceof CharSequence}</b>, result will be enclosed in <b>double quotes({@code ""}).</b><br>
+     *
+     * @param o object
+     * @return string
+     * @since 0.2.2
+     */
+    public static String toString(Object o) {
+        // 如果 o == null，那么无论 o 是什么类型，`o instanceof Object` 都为 false
+        if (o == null)                      return "null";
+        if (o instanceof Character)         return "'" + o + "'";
+        if (o instanceof CharSequence)      return '"' + o.toString() + '"';
+        if (o instanceof Map.Entry)         return toString((Map.Entry<?, ?>) o);
+        if (o instanceof Collection)        return toString((Collection<?>) o);
+        if (o instanceof Map)               return toString((Map<?, ?>) o);
+        if (o instanceof Character[])       return toString((Character[]) o);
+        if (o instanceof CharSequence[])    return toString((CharSequence[]) o);
+        if (o instanceof Object[])          return Arrays.toString((Object[]) o);
+        if (o instanceof int[])             return Arrays.toString((int[]) o);
+        if (o instanceof long[])            return Arrays.toString((long[]) o);
+        if (o instanceof float[])           return Arrays.toString((float[]) o);
+        if (o instanceof double[])          return Arrays.toString((double[]) o);
+        if (o instanceof char[])            return toString((char[]) o);
+        if (o instanceof byte[])            return Arrays.toString((byte[]) o);
+        if (o instanceof short[])           return Arrays.toString((short[]) o);
+        if (o instanceof boolean[])         return Arrays.toString((boolean[]) o);
+        if (o instanceof Throwable)         return stackTrace((Throwable) o);
+
+        return o.toString();
+    }
+
+    /**
+     * To string for char array
+     *
+     * @param cs char array
+     * @return string
+     * @since 0.2.2
+     */
+    public static String toString(char[] cs) {
+        if (cs == null) return "null";
+        int maxIndex = cs.length - 1;
+        if (maxIndex == -1) return "[]";
+
+        StringBuilder b = new StringBuilder("[");
+        for (int i = 0; ; i++) {
+            b.append("'").append(cs[i]).append("'");
+            if (i == maxIndex)
+                return b.append("]").toString();
+            b.append(", ");
+        }
+    }
+
+    /**
+     * To string for Character array
+     *
+     * @param cs Character array
+     * @return string
+     * @since 0.2.2
+     */
+    public static String toString(Character[] cs) {
+        if (cs == null) return "null";
+        int maxIndex = cs.length - 1;
+        if (maxIndex == -1) return "[]";
+
+        StringBuilder b = new StringBuilder("[");
+        for (int i = 0; ; i++) {
+            Character c = cs[i];
+            b.append(c == null ? c : "'" + c + "'");
+            if (i == maxIndex)
+                return b.append("]").toString();
+            b.append(", ");
+        }
+    }
+
+    /**
+     * To string for CharSequence array
+     *
+     * @param ss CharSequence array
+     * @return string
+     * @since 0.2.2
+     */
+    public static String toString(CharSequence[] ss) {
+        if (ss == null) return "null";
+        int maxIndex = ss.length - 1;
+        if (maxIndex == -1) return "[]";
+
+        StringBuilder b = new StringBuilder("[");
+        for (int i = 0; ; i++) {
+            CharSequence s = ss[i];
+            b.append(s == null ? s : '"' + s.toString() + '"');
+            if (i == maxIndex)
+                return b.append("]").toString();
+            b.append(", ");
+        }
+    }
+
+    /**
+     * To string for Collection
+     *
+     * @param collection Collection
+     * @return string
+     * @since 0.2.2
+     */
+    public static String toString(Collection<?> collection) {
+        if (collection == null) return "null";
+
+        String className = collection.getClass().getName();
+
+        if (collection instanceof ArrayList
+                || collection instanceof LinkedList
+                || collection instanceof HashSet
+                || collection instanceof TreeSet
+                || className.equals(ARRAYS$ARRAYLIST)
+                || className.equals(ARRAYLIST$SUBLIST)
+                || className.equals(SUBLIST)
+                || className.equals(RANDOMACCESSSUBLIST)
+                || className.equals(ABSTRACTLIST$SUBLIST)
+                || className.equals(ABSTRACTLIST$RANDOMACCESSSUBLIST)
+        ) {
+            Iterator<?> it = collection.iterator();
+            if (!it.hasNext()) return "[]";
+
+            StringBuilder b = new StringBuilder("[");
+            for (; ; ) {
+                Object o = it.next();
+                b.append(o == collection ? "(this Collection)" : toString(o));
+                if (!it.hasNext())
+                    return b.append(']').toString();
+                b.append(", ");
+            }
+        }
+
+        return collection.toString();
+    }
+
+    /**
+     * To string for Entry
+     *
+     * @param entry Map.Entry
+     * @return string
+     * @since 0.2.2
+     */
+    public static String toString(Map.Entry<?, ?> entry) {
+        if (entry == null) return "null";
+        Object key = entry.getKey();
+        Object value = entry.getValue();
+        return (key == entry ? "(this Entry)" : toString(key)) + "=" + (value == entry ? "(this Entry)" : toString(value));
+    }
+
+    /**
+     * To string for Map
+     *
+     * @param map Map
+     * @return string
+     * @since 0.2.2
+     */
+    public static String toString(Map<?, ?> map) {
+        if (map == null) return "null";
+
+        String className = map.getClass().getName();
+
+        if (map instanceof HashMap
+                || map instanceof WeakHashMap
+                || map instanceof TreeMap
+                || className.equals(COLLECTIONS$SINGLETONMAP)
+                || className.equals(TREEMAP$ASCENDINGSUBMAP)
+                || className.equals(TREEMAP$DESCENDINGSUBMAP)
+                || className.equals(IMMUTABLECOLLECTIONS$MAP1)
+                || className.equals(IMMUTABLECOLLECTIONS$MAPN)
+        ) {
+            Iterator<? extends Map.Entry<?, ?>> it = map.entrySet().iterator();
+            if (!it.hasNext()) return "{}";
+
+            StringBuilder b = new StringBuilder("{");
+            for (; ; ) {
+                Map.Entry<?, ?> entry = it.next();
+                Object key = entry.getKey();
+                Object value = entry.getValue();
+                b.append(key == entry ? "(this Entry)" : (key == map ? "(this Map)" : toString(key)));
+                b.append('=');
+                b.append(value == entry ? "(this Entry)" : (value == map ? "(this Map)" : toString(value)));
+                if (!it.hasNext())
+                    return b.append('}').toString();
+                b.append(", ");
+            }
+        }
+
+        return map.toString();
     }
 
 }
