@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 /**
  * @author GG
  * @version 1.0
@@ -30,26 +31,49 @@ public class GlobalTest {
         String[] nullSs = null;
         String[] ss1 = new String[]{};
         String[] ss2 = new String[]{""};
+        Object[] os = {};
+        Object[] os1 = {'a', "1"};
         char[] cArr = {};
         List<String> list = Arrays.asList("a", "b");
         Map<Object, Object> map = Map.of();
 
+        assertFalse(G.hasNull());
+        assertTrue(G.hasEmpty());
+        assertFalse(G.allNull());
+        assertTrue(G.allEmpty());
         assertFalse(G.hasNull(i, o1, s1, s2));
         assertTrue(G.hasNull(i, o1, s1, s3));
         assertFalse(G.hasEmpty(s2, s5));
         assertTrue(G.hasEmpty(s2, s5, s3));
         assertTrue(G.hasEmpty(s2, s5, s1));
+        assertTrue(G.hasEmpty(ss1));
+        assertTrue(G.hasEmpty(ss2));
         assertFalse(G.allNull(i, s1, s3, i1));
         assertTrue(G.allNull(s3, o2, i1));
+        assertFalse(G.allNull(os));
+        assertFalse(G.allNull(os1));
         assertFalse(G.allEmpty(s1, s2, s3));
         assertTrue(G.allEmpty(s1, s3, s4));
+        assertTrue(G.isEmpty(s1));
+        assertFalse(G.isEmpty(s2));
         assertTrue(G.isEmpty(nullSs));
         assertTrue(G.isEmpty(ss1));
         assertFalse(G.isEmpty(ss2));
         assertTrue(G.isEmpty(cArr));
         assertFalse(G.isEmpty(list));
         assertTrue(G.isEmpty(map));
+        // ----------------------
+        assertTrue(isEmptyForVarargs());
+        assertTrue(isEmptyForVarargs(null));
+        assertTrue(isEmptyForVarargs((Object[]) null));
+        assertTrue(isEmptyForVarargs(new Object[]{}));
+        assertFalse(isEmptyForVarargs((Object) null));
+        assertFalse(isEmptyForVarargs(null, null));
 
+    }
+
+    private boolean isEmptyForVarargs(Object... objects) {
+        return G.isEmpty(objects);
     }
 
     @Test
