@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -223,12 +224,17 @@ public class GlobalTest {
         CharSequence[] cs1 = {};
         Integer[] is = {};
         IOException ioException = new IOException("this is IOException!");
+        ConcurrentHashMap<Object, Object> concurrentHashMap = new ConcurrentHashMap<>();
+        concurrentHashMap.put("a", 'a');
+        concurrentHashMap.put("1", '1');
+        concurrentHashMap.put('2', '2');
 
         Map<Object, Object> map = new HashMap<>();
         map.put(o, os);
         map.put(ch, s);
         map.put(map, map);
         map.put(c2, ioException);
+        map.put("concurrentHashMap", concurrentHashMap);
         map.put(is, cs1);
         System.out.println("map: \n" + map);
         System.out.println("---------------------------");
@@ -404,6 +410,67 @@ public class GlobalTest {
         System.out.println(s14);
         System.out.println(s15);
         System.out.println(s16);
+    }
+
+    @Test
+    public void testToString5() {
+        char[][][] chars = {{{'a', 'b'}, null}, {{'1', '2'}}, null, {}};
+        Object[][][] objects = {{{'a', "b", null}, null}, {{'1', 2, 1.205}}, null, {}};
+        Object[][][] objects1 = null;
+        assertEquals("[[['a', 'b'], null], [['1', '2']], null, []]", G.toString(chars));
+        assertEquals("[[['a', \"b\", null], null], [['1', 2, 1.205]], null, []]", G.toString(objects));
+        assertNull(null, G.toString(objects1));
+        System.out.println(G.toString(chars));
+        System.out.println(G.toString(objects));
+        System.out.println(G.toString(objects1));
+    }
+
+    @Test
+    public void testArrayEmpty() {
+        CharSequence[] cs1 = G.array0(CharSequence[].class);
+        CharSequence[] cs2 = G.arrayO(CharSequence.class);
+        List<String> strings = new ArrayList<>();
+        CharSequence[] sArray1 = strings.toArray(cs1);
+        CharSequence[] sArray2 = strings.toArray(cs2);
+        System.out.println(G.toString(sArray1) + "---" + sArray1.getClass().getName());
+        System.out.println(G.toString(sArray2) + "---" + sArray2.getClass().getName());
+        assertEquals("[]", G.toString(sArray1));
+        assertEquals("[]", G.toString(sArray2));
+        strings.add("a");
+        strings.add("bc");
+        strings.add("def");
+        CharSequence[] sArray3 = strings.toArray(cs1);
+        CharSequence[] sArray4 = strings.toArray(cs2);
+        System.out.println(G.toString(sArray3) + "    sArray3 type：" + sArray3.getClass().getName() + "    sArray3.length：" + sArray3.length);
+        System.out.println(G.toString(sArray4) + "    sArray4 type：" + sArray4.getClass().getName() + "    sArray4.length：" + sArray4.length);
+        assertEquals("[\"a\", \"bc\", \"def\"]", G.toString(sArray3));
+        assertEquals("[\"a\", \"bc\", \"def\"]", G.toString(sArray4));
+        assertEquals("[Ljava.lang.CharSequence;", sArray3.getClass().getName());
+        assertEquals("[Ljava.lang.CharSequence;", sArray4.getClass().getName());
+
+        System.out.println(sArray3[0].getClass().getName());        // java.lang.String
+        System.out.println(sArray4[0].getClass().getName());        // java.lang.String
+        assertEquals(1, sArray3[0].length());
+        assertEquals(2, sArray4[1].length());
+
+    }
+
+    @Test
+    public void testArrayEmpty1() {
+        char[][] cs = G.arrayO(char[].class);
+        List<char[]> charsList = new ArrayList<>();
+        charsList.add(new char[]{'a'});
+        charsList.add(null);
+        charsList.add(new char[]{'a', 'b', 'c'});
+
+        char[][] charss = charsList.toArray(cs);
+        assertEquals("[['a'], null, ['a', 'b', 'c']]", G.toString(charss));
+        assertEquals("['a', 'b', 'c']", G.toString(charss[2]));
+        assertEquals('b', charss[2][1]);
+        System.out.println(G.toString(charss));                 // [['a'], null, ['a', 'b', 'c']]
+        System.out.println(G.toString(charss[2]));              // ['a', 'b', 'c']
+        System.out.println(charss[2].getClass().getName());     // [C
+        System.out.println(Objects.equals(charss[2][1], 'b'));  // true
     }
 
 }

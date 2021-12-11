@@ -212,17 +212,39 @@ public class TupleTest {
         hashMap.put(subList1, cs);
         hashMap.put(map1, map1);
 
-        Tuple9<Object[], Object, char[], char[], ? extends Map<?, Integer>, Character, Map<Object, Object>, double[], CharSequence[]> tuple = Tuple.of(os, null, a, a1, mapN, ch, hashMap, ds, cs1);
+        Tuple9<Object[], Object, char[], char[], ? extends Map<?, Integer>, Character, Map<Object, Object>, double[], CharSequence[]> tuple =
+                Tuple.of(os, null, a, a1, mapN, ch, hashMap, ds, cs1).alias("1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th");
+
         /*
-         * tupleString的值：
+         * >>> tupleString的值
+         * 未使用别名：
          * (null, null, ['a', 'b', 'c'], [], {"3"=4, '1'=2}, 'a', {null=null, ['a', 'b', null, 'c']=["a", "b", null, "", "c"],
          * ["a1", "a2"]=["a", "b", "", "c", null], {1=2}={1=2}, {"3"=4, '1'=2}={'3'=3, '2'=["a1", "a2"], '1'=1}, []=[true, false],
          * {"a"=["abc", "123"]}=["a", "", null, ['a', 'b']="abc"="123", ["abc", "123", ['a', 'b', 'c']], {'1'=1, '2'=["a1", "a2"], '3'=3}, 1]},
          * [1.123456, 2.20987, 3.36543], [])
+         * 使用别名：
+         * (1st: null, 2nd: null, 3rd: ['a', 'b', 'c'], 4th: [], 5th: {'1'=2, "3"=4}, 6th: 'a',
+         * 7th: {null=null, []=[true, false], ["a1", "a2"]=["a", "b", "", "c", null], {1=2}={1=2}, {'1'=2, "3"=4}={'3'=3, '2'=["a1", "a2"], '1'=1},
+         * ['a', 'b', null, 'c']=["a", "b", null, "", "c"], {"a"=["abc", "123"]}=["a", "", null, ['a', 'b']="abc"="123", ["abc", "123", ['a', 'b', 'c']],
+         * {'1'=1, '2'=["a1", "a2"], '3'=3}, 1]},
+         * 8th: [1.123456, 2.20987, 3.36543], 9th: [])
+         *
          */
         String tupleString = tuple.toString();
         // assertEquals("", tupleString);    // 由于包含map，每次运行 tupleString 中的 map kv对的顺序有细微差别
         System.out.println("testTupleToString: \n" + tuple);
 
+    }
+
+    @Test
+    public void testTupleToString1() {
+        char[][][] chars = {{{'a', 'b'}, null}, {{'1', '2'}}, null, {}};
+        Object[][][] objects = {{{'a', "b", null}, null}, {{'1', 2, 1.205}}, null, {}};
+        Object[][][] objects1 = null;
+
+        Tuple3<char[][][], Object[][][], Object[][][]> tuple = Tuple.of(chars, objects, objects1).alias("3DCharArr", "3DObjectArr", "3DObjectArr1");
+        assertEquals("(3DCharArr: [[['a', 'b'], null], [['1', '2']], null, []], " +
+                "3DObjectArr: [[['a', \"b\", null], null], [['1', 2, 1.205]], null, []], 3DObjectArr1: null)", tuple.toString());
+        System.out.println("testTupleToString1: \n" + tuple);
     }
 }

@@ -20,6 +20,7 @@ import com.iofairy.tuple.Tuple2;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -30,7 +31,7 @@ import java.util.*;
  *
  * @since 0.0.1
  */
-public class G {
+public final class G {
     /*
      * Collection
      */
@@ -308,7 +309,7 @@ public class G {
         if (o instanceof Map)               return toString((Map<?, ?>) o);
         if (o instanceof Character[])       return toString((Character[]) o);
         if (o instanceof CharSequence[])    return toString((CharSequence[]) o);
-        if (o instanceof Object[])          return Arrays.toString((Object[]) o);
+        if (o instanceof Object[])          return toString((Object[]) o);
         if (o instanceof int[])             return Arrays.toString((int[]) o);
         if (o instanceof long[])            return Arrays.toString((long[]) o);
         if (o instanceof float[])           return Arrays.toString((float[]) o);
@@ -320,6 +321,27 @@ public class G {
         if (o instanceof Throwable)         return stackTrace((Throwable) o);
 
         return o.toString();
+    }
+
+    /**
+     * To string for Object array
+     *
+     * @param os Object array
+     * @return string
+     * @since 0.2.2
+     */
+    public static String toString(Object[] os) {
+        if (os == null) return "null";
+        int maxIndex = os.length - 1;
+        if (maxIndex == -1) return "[]";
+
+        StringBuilder b = new StringBuilder("[");
+        for (int i = 0; ; i++) {
+            b.append(toString(os[i]));
+            if (i == maxIndex)
+                return b.append("]").toString();
+            b.append(", ");
+        }
     }
 
     /**
@@ -479,6 +501,34 @@ public class G {
         }
 
         return map.toString();
+    }
+
+    /**
+     * Creates a new <b>empty array</b> with the specified array class type. <br>
+     * 根据传入的数组类型，创建一个该类型的<b>空数组</b>。
+     *
+     * @param tsClass array type
+     * @param <T>     array type
+     * @return empty array
+     */
+    public static <T> T[] array0(Class<T[]> tsClass) {
+        @SuppressWarnings("unchecked")
+        T[] ts = (T[]) Array.newInstance(tsClass.getComponentType(), 0);
+        return ts;
+    }
+
+    /**
+     * Creates a new <b>empty array</b> with the specified class type. <br>
+     * 根据传入的类型，创建一个该类型的<b>空数组</b>。
+     *
+     * @param tClass array type
+     * @param <T>    array type
+     * @return empty array
+     */
+    public static <T> T[] arrayO(Class<T> tClass) {
+        @SuppressWarnings("unchecked")
+        T[] ts = (T[]) Array.newInstance(tClass, 0);
+        return ts;
     }
 
 }
