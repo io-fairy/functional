@@ -496,4 +496,48 @@ public class GlobalTest {
         System.out.println(Objects.equals(charss[2][1], 'b'));  // true
     }
 
+    @Test
+    public void testSwapNullEmptyBlank() {
+        String s0 = null;
+        String s1 = "";
+        String s2 = "　 \r\t\n  ";
+        String s3 = "abcdefg";
+
+        String nullToEmpty0 = G.nullToEmpty(s0);
+        String nullToEmpty1 = G.nullToEmpty(s1);
+        String nullToEmpty2 = G.nullToEmpty(s2);
+        String nullToEmpty3 = G.nullToEmpty(s3);
+        assertEquals("", nullToEmpty0);
+        assertEquals("", nullToEmpty1);
+        assertEquals(s2, nullToEmpty2);
+        assertEquals(s3, nullToEmpty3);
+
+        String emptyToNull0 = G.emptyToNull(s0);
+        String emptyToNull1 = G.emptyToNull(s1);
+        String emptyToNull2 = G.emptyToNull(s2);
+        String emptyToNull3 = G.emptyToNull(s3);
+        assertNull(emptyToNull0);
+        assertNull(emptyToNull1);
+        assertEquals(s2, emptyToNull2);
+        assertEquals(s3, emptyToNull3);
+
+        String blankToNull0 = G.blankToNull(s0);
+        String blankToNull1 = G.blankToNull(s1);
+        String blankToNull2 = G.blankToNull(s2);
+        String blankToNull3 = G.blankToNull(s3);
+        assertNull(blankToNull0);
+        assertNull(blankToNull1);
+        assertNull(blankToNull2);
+        assertEquals(s3, blankToNull3);
+
+        String blankToEmpty0 = G.blankToEmpty(s0);
+        String blankToEmpty1 = G.blankToEmpty(s1);
+        String blankToEmpty2 = G.blankToEmpty(s2);
+        String blankToEmpty3 = G.blankToEmpty(s3);
+        assertEquals("", blankToEmpty0);
+        assertEquals("", blankToEmpty1);
+        assertEquals("", blankToEmpty2);
+        assertEquals(s3, blankToEmpty3);
+
+    }
 }

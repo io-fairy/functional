@@ -241,6 +241,46 @@ public final class G {
     }
 
     /**
+     * Returns itself if string is non-null; otherwise, returns empty({@code ""}).
+     *
+     * @param s string
+     * @return itself or empty({@code ""})
+     */
+    public static String nullToEmpty(String s) {
+        return isEmpty(s) ? "" : s;
+    }
+
+    /**
+     * Returns itself if string is non-empty; otherwise, returns {@code null}.
+     *
+     * @param s string
+     * @return itself or {@code null}
+     */
+    public static String emptyToNull(String s) {
+        return isEmpty(s) ? null : s;
+    }
+
+    /**
+     * Returns itself if string is non-blank; otherwise, returns {@code null}.
+     *
+     * @param s string
+     * @return itself or {@code null}
+     */
+    public static String blankToNull(String s) {
+        return isBlank(s) ? null : s;
+    }
+
+    /**
+     * Returns itself if string is non-blank; otherwise, returns empty({@code ""}).
+     *
+     * @param s string
+     * @return itself or empty({@code ""}).
+     */
+    public static String blankToEmpty(String s) {
+        return isBlank(s) ? "" : s;
+    }
+
+    /**
      * Gets the first object that is not {@code null}. <br>
      * 获取第一个不为 {@code null} 的值
      * @param rs object array
