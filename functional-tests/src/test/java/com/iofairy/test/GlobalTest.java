@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.time.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -446,6 +447,163 @@ public class GlobalTest {
         System.out.println(G.toString(chars));
         System.out.println(G.toString(objects));
         System.out.println(G.toString(objects1));
+    }
+
+    @Test
+    public void testDTToString1() {
+        ZonedDateTime zonedDateTime = ZonedDateTime.of(2022, 1, 1, 10, 5, 5, 987654789, ZoneId.systemDefault());
+        OffsetDateTime offsetDateTime = zonedDateTime.toOffsetDateTime();
+        Instant instant = zonedDateTime.toInstant();
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        String dtSimple0 = G.dtSimple(zonedDateTime);
+        String toString0 = G.toString(zonedDateTime);
+        String dtDetail0 = G.dtDetail(zonedDateTime);
+        String dtSimple1 = G.dtSimple(offsetDateTime);
+        String toString1 = G.toString(offsetDateTime);
+        String dtDetail1 = G.dtDetail(offsetDateTime);
+        String dtSimple2 = G.dtSimple(localDateTime);
+        String toString2 = G.toString(localDateTime);
+        String dtDetail2 = G.dtDetail(localDateTime);
+        String dtSimple3 = G.dtSimple(instant);
+        String toString3 = G.toString(instant);
+        String dtDetail3 = G.dtDetail(instant);
+        String dtSimple4 = G.dtSimple(date);
+        String toString4 = G.toString(date);
+        String dtDetail4 = G.dtDetail(date);
+        String dtSimple5 = G.dtSimple(calendar);
+        String toString5 = G.toString(calendar);
+        String dtDetail5 = G.dtDetail(calendar);
+        // zonedDateTime
+        assertEquals("2022-01-01 10:05:05.987", dtSimple0);
+        assertEquals("2022-01-01 10:05:05.987", toString0);
+        assertEquals("2022-01-01 10:05:05.987654789 [Asia/Shanghai +08:00 GMT+8 周六]", dtDetail0);
+        // offsetDateTime
+        assertEquals("2022-01-01 10:05:05.987", dtSimple1);
+        assertEquals("2022-01-01 10:05:05.987", toString1);
+        assertEquals("2022-01-01 10:05:05.987654789 [+08:00 GMT+8 周六]", dtDetail1);
+        // localDateTime
+        assertEquals("2022-01-01 10:05:05.987", dtSimple2);
+        assertEquals("2022-01-01 10:05:05.987", toString2);
+        assertEquals("2022-01-01 10:05:05.987654789 [Asia/Shanghai +08:00 GMT+8 周六]", dtDetail2);
+        // instant
+        assertEquals("2022-01-01 10:05:05.987", dtSimple3);
+        assertEquals("2022-01-01 10:05:05.987", toString3);
+        assertEquals("2022-01-01 10:05:05.987654789 [Asia/Shanghai +08:00 GMT+8 周六]", dtDetail3);
+        // date
+        assertEquals("2022-01-01 10:05:05.987", dtSimple4);
+        assertEquals("2022-01-01 10:05:05.987", toString4);
+        assertEquals("2022-01-01 10:05:05.987000000 [Asia/Shanghai +08:00 GMT+8 周六]", dtDetail4);
+        // calendar
+        assertEquals("2022-01-01 10:05:05.987", dtSimple5);
+        assertEquals("2022-01-01 10:05:05.987", toString5);
+        assertEquals("2022-01-01 10:05:05.987000000 [Asia/Shanghai +08:00 GMT+8 周六]", dtDetail5);
+        // System.out.println("=========zonedDateTime=========");
+        // System.out.println(dtSimple0);
+        // System.out.println(toString0);
+        // System.out.println(dtDetail0);
+        // System.out.println("=========offsetDateTime=========");
+        // System.out.println(dtSimple1);
+        // System.out.println(toString1);
+        // System.out.println(dtDetail1);
+        // System.out.println("=========localDateTime=========");
+        // System.out.println(dtSimple2);
+        // System.out.println(toString2);
+        // System.out.println(dtDetail2);
+        // System.out.println("=========instant=========");
+        // System.out.println(dtSimple3);
+        // System.out.println(toString3);
+        // System.out.println(dtDetail3);
+        // System.out.println("=========date=========");
+        // System.out.println(dtSimple4);
+        // System.out.println(toString4);
+        // System.out.println(dtDetail4);
+        // System.out.println("=========calendar=========");
+        // System.out.println(dtSimple5);
+        // System.out.println(toString5);
+        // System.out.println(dtDetail5);
+    }
+
+    @Test
+    public void testDTToString2() {
+        ZonedDateTime zonedDateTime = ZonedDateTime.of(2022, 1, 1, 10, 5, 5, 987654789, ZoneId.of("America/New_York"));
+        OffsetDateTime offsetDateTime = zonedDateTime.toOffsetDateTime();
+        Instant instant = zonedDateTime.toInstant();
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.setTimeZone(TimeZone.getTimeZone(ZoneId.of("America/New_York")));
+
+        String dtSimple0 = G.dtSimple(zonedDateTime);
+        String toString0 = G.toString(zonedDateTime);
+        String dtDetail0 = G.dtDetail(zonedDateTime);
+        String dtSimple1 = G.dtSimple(offsetDateTime);
+        String toString1 = G.toString(offsetDateTime);
+        String dtDetail1 = G.dtDetail(offsetDateTime);
+        String dtSimple2 = G.dtSimple(localDateTime);
+        String toString2 = G.toString(localDateTime);
+        String dtDetail2 = G.dtDetail(localDateTime);
+        String dtSimple3 = G.dtSimple(instant);
+        String toString3 = G.toString(instant);
+        String dtDetail3 = G.dtDetail(instant);
+        String dtSimple4 = G.dtSimple(date);
+        String toString4 = G.toString(date);
+        String dtDetail4 = G.dtDetail(date);
+        String dtSimple5 = G.dtSimple(calendar);
+        String toString5 = G.toString(calendar);
+        String dtDetail5 = G.dtDetail(calendar);
+        // zonedDateTime
+        assertEquals("2022-01-01 10:05:05.987 [America/New_York -05:00]", dtSimple0);
+        assertEquals("2022-01-01 10:05:05.987 [America/New_York -05:00]", toString0);
+        assertEquals("2022-01-01 10:05:05.987654789 [America/New_York -05:00 GMT-5 周六]", dtDetail0);
+        // offsetDateTime
+        assertEquals("2022-01-01 10:05:05.987 [-05:00]", dtSimple1);
+        assertEquals("2022-01-01 10:05:05.987 [-05:00]", toString1);
+        assertEquals("2022-01-01 10:05:05.987654789 [-05:00 GMT-5 周六]", dtDetail1);
+        // localDateTime
+        assertEquals("2022-01-01 23:05:05.987", dtSimple2);
+        assertEquals("2022-01-01 23:05:05.987", toString2);
+        assertEquals("2022-01-01 23:05:05.987654789 [Asia/Shanghai +08:00 GMT+8 周六]", dtDetail2);
+        // instant
+        assertEquals("2022-01-01 23:05:05.987", dtSimple3);
+        assertEquals("2022-01-01 23:05:05.987", toString3);
+        assertEquals("2022-01-01 23:05:05.987654789 [Asia/Shanghai +08:00 GMT+8 周六]", dtDetail3);
+        // date
+        assertEquals("2022-01-01 23:05:05.987", dtSimple4);
+        assertEquals("2022-01-01 23:05:05.987", toString4);
+        assertEquals("2022-01-01 23:05:05.987000000 [Asia/Shanghai +08:00 GMT+8 周六]", dtDetail4);
+        // calendar
+        assertEquals("2022-01-01 10:05:05.987 [America/New_York -05:00]", dtSimple5);
+        assertEquals("2022-01-01 10:05:05.987 [America/New_York -05:00]", toString5);
+        assertEquals("2022-01-01 10:05:05.987000000 [America/New_York -05:00 GMT-5 周六]", dtDetail5);
+        // System.out.println("=========zonedDateTime=========");
+        // System.out.println(dtSimple0);
+        // System.out.println(toString0);
+        // System.out.println(dtDetail0);
+        // System.out.println("=========offsetDateTime=========");
+        // System.out.println(dtSimple1);
+        // System.out.println(toString1);
+        // System.out.println(dtDetail1);
+        // System.out.println("=========localDateTime=========");
+        // System.out.println(dtSimple2);
+        // System.out.println(toString2);
+        // System.out.println(dtDetail2);
+        // System.out.println("=========instant=========");
+        // System.out.println(dtSimple3);
+        // System.out.println(toString3);
+        // System.out.println(dtDetail3);
+        // System.out.println("=========date=========");
+        // System.out.println(dtSimple4);
+        // System.out.println(toString4);
+        // System.out.println(dtDetail4);
+        // System.out.println("=========calendar=========");
+        // System.out.println(dtSimple5);
+        // System.out.println(toString5);
+        // System.out.println(dtDetail5);
     }
 
     @Test

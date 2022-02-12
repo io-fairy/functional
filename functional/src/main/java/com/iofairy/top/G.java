@@ -15,12 +15,16 @@
  */
 package com.iofairy.top;
 
+import com.iofairy.tcf.Try;
 import com.iofairy.tuple.Tuple;
 import com.iofairy.tuple.Tuple2;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Array;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.Temporal;
 import java.util.*;
 
 /**
@@ -32,26 +36,68 @@ import java.util.*;
  * @since 0.0.1
  */
 public final class G {
-    /*
-     * Collection
+    /**
+     * Collection Class Name
+     *
+     * @since 0.2.3
      */
-    public final static String ARRAYS$ARRAYLIST = "java.util.Arrays$ArrayList";
-    public final static String ARRAYLIST$SUBLIST = "java.util.ArrayList$SubList";
-    public final static String SUBLIST = "java.util.SubList";
-    public final static String RANDOMACCESSSUBLIST = "java.util.RandomAccessSubList";
-    // JDK 9+
-    public final static String ABSTRACTLIST$SUBLIST = "java.util.AbstractList$SubList";
-    public final static String ABSTRACTLIST$RANDOMACCESSSUBLIST = "java.util.AbstractList$RandomAccessSubList";
-    /*
-     * Map
-     */
-    public final static String COLLECTIONS$SINGLETONMAP = "java.util.Collections$SingletonMap";
-    public final static String TREEMAP$ASCENDINGSUBMAP = "java.util.TreeMap$AscendingSubMap";
-    public final static String TREEMAP$DESCENDINGSUBMAP = "java.util.TreeMap$DescendingSubMap";
-    // JDK 9+
-    public final static String IMMUTABLECOLLECTIONS$MAP1 = "java.util.ImmutableCollections$Map1";
-    public final static String IMMUTABLECOLLECTIONS$MAPN = "java.util.ImmutableCollections$MapN";
+    private static class CollectionCN {
+        /*
+         * Collection
+         */
+        public final static String ARRAYS$ARRAYLIST = "java.util.Arrays$ArrayList";
+        public final static String ARRAYLIST$SUBLIST = "java.util.ArrayList$SubList";
+        public final static String SUBLIST = "java.util.SubList";
+        public final static String RANDOMACCESSSUBLIST = "java.util.RandomAccessSubList";
+        // JDK 9+
+        public final static String ABSTRACTLIST$SUBLIST = "java.util.AbstractList$SubList";
+        public final static String ABSTRACTLIST$RANDOMACCESSSUBLIST = "java.util.AbstractList$RandomAccessSubList";
+    }
 
+    /**
+     * Map Class Name
+     *
+     * @since 0.2.3
+     */
+    private static class MapCN {
+        /*
+         * Map
+         */
+        public final static String COLLECTIONS$SINGLETONMAP = "java.util.Collections$SingletonMap";
+        public final static String TREEMAP$ASCENDINGSUBMAP = "java.util.TreeMap$AscendingSubMap";
+        public final static String TREEMAP$DESCENDINGSUBMAP = "java.util.TreeMap$DescendingSubMap";
+        // JDK 9+
+        public final static String IMMUTABLECOLLECTIONS$MAP1 = "java.util.ImmutableCollections$Map1";
+        public final static String IMMUTABLECOLLECTIONS$MAPN = "java.util.ImmutableCollections$MapN";
+    }
+
+    /**
+     * DateTime Formatters
+     *
+     * @since 0.2.3
+     */
+    private static class DTFormatters {
+        public final static ZoneId DEFAULT_ZONE = Try.tcf(ZoneId::systemDefault, false);
+        public final static String DEFAULT_ZONE_ID = Try.tcf(DEFAULT_ZONE::getId, false);
+        public final static Integer OFFSET_SECONDS = Try.tcf(() -> OffsetDateTime.now().getOffset().getTotalSeconds(), false);
+        /*############################################
+         ************* DateTime Formatter ************
+         ############################################*/
+        public final static DateTimeFormatter SIMPLE_DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+        public final static DateTimeFormatter CONCISE_DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS '['VV xxx']'");
+        public final static DateTimeFormatter CONCISE_OFFSET_DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS '['xxx']'");
+        public final static DateTimeFormatter DETAILED_DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSSSS '['VV xxx O E']'");
+        public final static DateTimeFormatter DETAILED_OFFSET_DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSSSS '['xxx O E']'");
+    }
+
+    /*###################################################################################
+     ************************************************************************************
+     ------------------------------------------------------------------------------------
+     ********************************   Global methods   ********************************
+     *******************************        全局方法        ******************************
+     ------------------------------------------------------------------------------------
+     ************************************************************************************
+     ###################################################################################*/
 
     /**
      * Whether object array contains {@code null} value or object array is {@code null}. <br>
@@ -323,10 +369,122 @@ public final class G {
      * @since 0.0.8
      */
     public static String stackTrace(Throwable e) {
+        if (e == null) return "null";
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw, true);
         e.printStackTrace(pw);
         return sw.getBuffer().toString();
+    }
+
+    /**
+     * Formatting DateTime use simple pattern (<b>{@code yyyy-MM-dd HH:mm:ss.SSS}</b>).
+     *
+     * @param date date
+     * @return Time formatting String
+     * @since 0.2.3
+     */
+    public static String dtSimple(Date date) {
+        if (date == null) return "null";
+        return dtSimple(date.toInstant());
+    }
+
+    /**
+     * Formatting DateTime use simple pattern (<b>{@code yyyy-MM-dd HH:mm:ss.SSS}</b>).
+     *
+     * @param calendar calendar
+     * @return Time formatting String
+     * @since 0.2.3
+     */
+    public static String dtSimple(Calendar calendar) {
+        if (calendar == null) return "null";
+        return dtSimple(ZonedDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()));
+    }
+
+    /**
+     * Formatting DateTime (only {@link LocalDateTime}, {@link Instant}, {@link OffsetDateTime}, {@link ZonedDateTime})
+     * use simple pattern (<b>{@code yyyy-MM-dd HH:mm:ss.SSS}</b>).
+     *
+     * @param temporal temporal
+     * @return Time formatting String
+     * @since 0.2.3
+     */
+    public static String dtSimple(Temporal temporal) {
+        if (temporal == null) return "null";
+
+        if (temporal instanceof OffsetDateTime) {
+            OffsetDateTime offsetDT = (OffsetDateTime) temporal;
+            int totalSeconds = offsetDT.getOffset().getTotalSeconds();
+            return Objects.equals(totalSeconds, DTFormatters.OFFSET_SECONDS)
+                    ? offsetDT.format(DTFormatters.SIMPLE_DTF)
+                    : offsetDT.format(DTFormatters.CONCISE_OFFSET_DTF);
+        }
+
+        ZonedDateTime zonedDT = temporalToZonedDT(temporal);
+        if (zonedDT != null) {
+            String zoneId = zonedDT.getZone().getId();
+            return zoneId.equals(DTFormatters.DEFAULT_ZONE_ID)
+                    ? zonedDT.format(DTFormatters.SIMPLE_DTF)
+                    : zonedDT.format(DTFormatters.CONCISE_DTF);
+        }
+
+        return temporal.toString();
+    }
+
+    /**
+     * Formatting DateTime use detailed pattern (<b>{@code yyyy-MM-dd HH:mm:ss.SSSSSSSSS '['VV xxx O E']'}</b>).
+     *
+     * @param date date
+     * @return Time formatting String
+     * @since 0.2.3
+     */
+    public static String dtDetail(Date date) {
+        if (date == null) return "null";
+        return dtDetail(date.toInstant());
+    }
+
+    /**
+     * Formatting DateTime use detailed pattern (<b>{@code yyyy-MM-dd HH:mm:ss.SSSSSSSSS '['VV xxx O E']'}</b>).
+     *
+     * @param calendar calendar
+     * @return Time formatting String
+     * @since 0.2.3
+     */
+    public static String dtDetail(Calendar calendar) {
+        if (calendar == null) return "null";
+        return dtDetail(ZonedDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()));
+    }
+
+    /**
+     * Formatting DateTime (only {@link LocalDateTime}, {@link Instant}, {@link OffsetDateTime}, {@link ZonedDateTime})
+     * use detailed pattern (<b>{@code yyyy-MM-dd HH:mm:ss.SSSSSSSSS '['VV xxx O E']'}</b>).
+     *
+     * @param temporal temporal
+     * @return Time formatting String
+     * @since 0.2.3
+     */
+    public static String dtDetail(Temporal temporal) {
+        if (temporal == null) return "null";
+        ZonedDateTime zonedDT = temporalToZonedDT(temporal);
+        return temporal instanceof OffsetDateTime
+                ? ((OffsetDateTime) temporal).format(DTFormatters.DETAILED_OFFSET_DTF)
+                : (zonedDT != null ? zonedDT.format(DTFormatters.DETAILED_DTF) : temporal.toString());
+    }
+
+    /**
+     * Convert temporal to ZonedDateTime if temporal <b>{@code instanceof}</b> LocalDateTime or
+     * <b>{@code instanceof}</b> Instant or <b>{@code instanceof}</b> ZonedDateTime, otherwise,
+     * return <b>{@code null}</b>.
+     *
+     * @param temporal temporal
+     * @return ZonedDateTime or null
+     * @since 0.2.3
+     */
+    private static ZonedDateTime temporalToZonedDT(Temporal temporal) {
+        return temporal instanceof LocalDateTime
+                ? ZonedDateTime.of((LocalDateTime) temporal, DTFormatters.DEFAULT_ZONE)
+                : (temporal instanceof Instant
+                ? ZonedDateTime.ofInstant((Instant) temporal, DTFormatters.DEFAULT_ZONE)
+                : (temporal instanceof ZonedDateTime ? (ZonedDateTime) temporal : null));
     }
 
     /**
@@ -358,6 +516,9 @@ public final class G {
         if (o instanceof byte[])            return Arrays.toString((byte[]) o);
         if (o instanceof short[])           return Arrays.toString((short[]) o);
         if (o instanceof boolean[])         return Arrays.toString((boolean[]) o);
+        if (o instanceof Date)              return dtSimple((Date) o);
+        if (o instanceof Calendar)          return dtSimple((Calendar) o);
+        if (o instanceof Temporal)          return dtSimple((Temporal) o);
         if (o instanceof Throwable)         return stackTrace((Throwable) o);
 
         return o.toString();
@@ -465,12 +626,12 @@ public final class G {
                 || collection instanceof LinkedList
                 || collection instanceof HashSet
                 || collection instanceof TreeSet
-                || className.equals(ARRAYS$ARRAYLIST)
-                || className.equals(ARRAYLIST$SUBLIST)
-                || className.equals(SUBLIST)
-                || className.equals(RANDOMACCESSSUBLIST)
-                || className.equals(ABSTRACTLIST$SUBLIST)
-                || className.equals(ABSTRACTLIST$RANDOMACCESSSUBLIST)
+                || className.equals(CollectionCN.ARRAYS$ARRAYLIST)
+                || className.equals(CollectionCN.ARRAYLIST$SUBLIST)
+                || className.equals(CollectionCN.SUBLIST)
+                || className.equals(CollectionCN.RANDOMACCESSSUBLIST)
+                || className.equals(CollectionCN.ABSTRACTLIST$SUBLIST)
+                || className.equals(CollectionCN.ABSTRACTLIST$RANDOMACCESSSUBLIST)
         ) {
             Iterator<?> it = collection.iterator();
             if (!it.hasNext()) return "[]";
@@ -517,11 +678,11 @@ public final class G {
         if (map instanceof HashMap
                 || map instanceof WeakHashMap
                 || map instanceof TreeMap
-                || className.equals(COLLECTIONS$SINGLETONMAP)
-                || className.equals(TREEMAP$ASCENDINGSUBMAP)
-                || className.equals(TREEMAP$DESCENDINGSUBMAP)
-                || className.equals(IMMUTABLECOLLECTIONS$MAP1)
-                || className.equals(IMMUTABLECOLLECTIONS$MAPN)
+                || className.equals(MapCN.COLLECTIONS$SINGLETONMAP)
+                || className.equals(MapCN.TREEMAP$ASCENDINGSUBMAP)
+                || className.equals(MapCN.TREEMAP$DESCENDINGSUBMAP)
+                || className.equals(MapCN.IMMUTABLECOLLECTIONS$MAP1)
+                || className.equals(MapCN.IMMUTABLECOLLECTIONS$MAPN)
         ) {
             Iterator<? extends Map.Entry<?, ?>> it = map.entrySet().iterator();
             if (!it.hasNext()) return "{}";
