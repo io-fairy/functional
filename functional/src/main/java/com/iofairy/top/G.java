@@ -77,9 +77,9 @@ public final class G {
      * @since 0.2.3
      */
     private static class DTFormatters {
-        public final static ZoneId DEFAULT_ZONE = Try.tcf(ZoneId::systemDefault, false);
-        public final static String DEFAULT_ZONE_ID = Try.tcf(DEFAULT_ZONE::getId, false);
-        public final static Integer OFFSET_SECONDS = Try.tcf(() -> OffsetDateTime.now().getOffset().getTotalSeconds(), false);
+        public final static ZoneId DEFAULT_ZONE     = Try.tcf(() -> ZoneId.systemDefault(), false);
+        public final static String DEFAULT_ZONE_ID  = Try.tcf(() -> DEFAULT_ZONE.getId(), false);
+        public final static Integer OFFSET_SECONDS  = Try.tcf(() -> OffsetDateTime.now().getOffset().getTotalSeconds(), false);
         /*############################################
          ************* DateTime Formatter ************
          ############################################*/
@@ -422,7 +422,7 @@ public final class G {
         ZonedDateTime zonedDT = temporalToZonedDT(temporal);
         if (zonedDT != null) {
             String zoneId = zonedDT.getZone().getId();
-            return zoneId.equals(DTFormatters.DEFAULT_ZONE_ID)
+            return Objects.equals(zoneId, DTFormatters.DEFAULT_ZONE_ID)
                     ? zonedDT.format(DTFormatters.SIMPLE_DTF)
                     : zonedDT.format(DTFormatters.CONCISE_DTF);
         }
