@@ -78,8 +78,6 @@ public final class G {
      */
     private static class DTFormatters {
         public final static ZoneId DEFAULT_ZONE     = Try.tcf(() -> ZoneId.systemDefault(), false);
-        public final static String DEFAULT_ZONE_ID  = Try.tcf(() -> DEFAULT_ZONE.getId(), false);
-        public final static Integer OFFSET_SECONDS  = Try.tcf(() -> OffsetDateTime.now().getOffset().getTotalSeconds(), false);
         /*############################################
          ************* DateTime Formatter ************
          ############################################*/
@@ -412,17 +410,17 @@ public final class G {
         if (temporal == null) return "null";
 
         if (temporal instanceof OffsetDateTime) {
+            Integer defaultOffsetSeconds = Try.tcf(() -> OffsetDateTime.now().getOffset().getTotalSeconds(), false);
             OffsetDateTime offsetDT = (OffsetDateTime) temporal;
             int totalSeconds = offsetDT.getOffset().getTotalSeconds();
-            return Objects.equals(totalSeconds, DTFormatters.OFFSET_SECONDS)
+            return Objects.equals(totalSeconds, defaultOffsetSeconds)
                     ? offsetDT.format(DTFormatters.SIMPLE_DTF)
                     : offsetDT.format(DTFormatters.CONCISE_OFFSET_DTF);
         }
 
         ZonedDateTime zonedDT = temporalToZonedDT(temporal);
         if (zonedDT != null) {
-            String zoneId = zonedDT.getZone().getId();
-            return Objects.equals(zoneId, DTFormatters.DEFAULT_ZONE_ID)
+            return Objects.equals(zonedDT.getZone(), DTFormatters.DEFAULT_ZONE)
                     ? zonedDT.format(DTFormatters.SIMPLE_DTF)
                     : zonedDT.format(DTFormatters.CONCISE_DTF);
         }
