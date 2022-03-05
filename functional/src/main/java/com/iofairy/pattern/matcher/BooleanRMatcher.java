@@ -25,7 +25,7 @@ import java.util.Objects;
  *
  * @since 0.0.1
  */
-public class BooleanRMatcher<V, R> implements Matcher {
+public class BooleanRMatcher<V, R> implements PatternMatcher {
     protected R returnValue;
     protected V value;
     protected boolean isMatch;

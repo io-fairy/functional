@@ -28,7 +28,7 @@ import java.util.Objects;
  *
  * @since 0.2.0
  */
-public class Null3Matcher<T1, T2, R> implements Matcher {
+public class Null3Matcher<T1, T2, R> implements NullMatcher {
     private final R msg;
     private final T1 value1;
     private final T2 value2;

@@ -17,7 +17,6 @@ package com.iofairy.pattern.matcher;
 
 import com.iofairy.lambda.R1;
 import com.iofairy.lambda.RT1;
-import com.iofairy.pattern.matcher.Matcher;
 
 import java.util.Objects;
 
@@ -26,7 +25,7 @@ import java.util.Objects;
  *
  * @since 0.2.0
  */
-public class Null1Matcher<R> implements Matcher {
+public class Null1Matcher<R> implements NullMatcher {
 
     public <V, NV> Null2Matcher<NV, R> whenV(V matchValue, R1<? super V, ? extends NV> computeValue, R1<? super NV, Boolean> action, R msg) {
         Objects.requireNonNull(computeValue);

@@ -23,6 +23,6 @@ package com.iofairy.pattern.matcher;
  * @param <R> 返回值类型
  * @since 0.0.1
  */
-public abstract class SimpleMatcher<V, P, L, R> implements Matcher {
+public abstract class SimpleMatcher<V, P, L, R> implements PatternMatcher {
 
 }

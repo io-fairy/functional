@@ -13,16 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.iofairy.base;
+package com.iofairy.pattern.matcher;
 
 /**
- * None
- *
- * @since 0.0.1
+ * Matcher interface for all <b>null matcher</b>.
  */
-public final class None {
-    public static final None NONE = new None();
+public interface NullMatcher extends Matcher {
 
-    private None() {
-    }
 }

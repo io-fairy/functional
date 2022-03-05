@@ -23,7 +23,7 @@ import com.iofairy.tuple.Tuple9;
  *
  * @since 0.2.0
  */
-public class Null9Matcher<T1, T2, T3, T4, T5, T6, T7, T8, R> implements Matcher {
+public class Null9Matcher<T1, T2, T3, T4, T5, T6, T7, T8, R> implements NullMatcher {
     private final R msg;
     private final T1 value1;
     private final T2 value2;

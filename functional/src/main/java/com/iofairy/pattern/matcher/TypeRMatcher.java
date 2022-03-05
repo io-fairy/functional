@@ -25,7 +25,7 @@ import java.util.Objects;
  *
  * @since 0.0.1
  */
-public class TypeRMatcher<V, R> implements Matcher {
+public class TypeRMatcher<V, R> implements PatternMatcher {
 
     protected R returnValue;
     protected V value;

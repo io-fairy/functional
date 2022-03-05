@@ -27,7 +27,7 @@ import java.util.Objects;
  *
  * @since 0.2.0
  */
-public class Null2Matcher<T1, R> implements Matcher {
+public class Null2Matcher<T1, R> implements NullMatcher {
     private final R msg;
     private final T1 value1;
     private final boolean isMatch;
