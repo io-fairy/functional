@@ -17,7 +17,7 @@ package com.iofairy.pattern.mapping;
 
 
 /**
- * Matcher Mapping
+ * Pattern Matcher Mapping
  *
  * @since 0.2.5
  */
