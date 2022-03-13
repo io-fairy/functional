@@ -24,7 +24,7 @@ import com.iofairy.pattern.matcher.ActionValueVMatcher;
  * ActionValue Matcher Mapping
  * @since 0.0.1
  */
-public class ActionValueMatcherMapping<V, T> extends MatcherMapping<V> {
+public class ActionValueMatcherMapping<V, T> extends PatternMatcherMapping<V> {
 
     protected final R1<? super T, V> preAction;
 

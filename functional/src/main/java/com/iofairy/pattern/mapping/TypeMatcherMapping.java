@@ -24,7 +24,7 @@ import com.iofairy.pattern.matcher.TypeVMatcher;
  *
  * @since 0.0.1
  */
-public class TypeMatcherMapping<V> extends MatcherMapping<V> {
+public class TypeMatcherMapping<V> extends PatternMatcherMapping<V> {
     public TypeMatcherMapping(V value) {
         super(value);
     }

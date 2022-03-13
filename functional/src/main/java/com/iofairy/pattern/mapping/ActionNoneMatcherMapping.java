@@ -25,7 +25,7 @@ import com.iofairy.pattern.matcher.ActionNoneVMatcher;
  * ActionNone Matcher Mapping
  * @since 0.0.1
  */
-public class ActionNoneMatcherMapping<T> extends MatcherMapping<None>{
+public class ActionNoneMatcherMapping<T> extends PatternMatcherMapping<None> {
 
     protected final R1<? super T, Boolean> preAction;
 

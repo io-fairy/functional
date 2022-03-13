@@ -24,7 +24,7 @@ import com.iofairy.pattern.matcher.ValueVMatcher;
  * Value Matcher Mapping
  * @since 0.0.1
  */
-public class ValueMatcherMapping<V> extends MatcherMapping<V>{
+public class ValueMatcherMapping<V> extends PatternMatcherMapping<V> {
     public ValueMatcherMapping(V value) {
         super(value);
     }

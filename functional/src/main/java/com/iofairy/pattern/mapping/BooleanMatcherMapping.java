@@ -23,7 +23,7 @@ import com.iofairy.pattern.matcher.BooleanVMatcher;
  * Boolean Matcher Mapping
  * @since 0.0.1
  */
-public class BooleanMatcherMapping<V> extends MatcherMapping<V> {
+public class BooleanMatcherMapping<V> extends PatternMatcherMapping<V> {
     public BooleanMatcherMapping(V value) {
         super(value);
     }

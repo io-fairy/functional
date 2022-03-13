@@ -17,6 +17,8 @@ package com.iofairy.pattern.matcher;
 
 /**
  * Matcher interface for all <b>pattern matcher</b>.
+ *
+ * @since 0.2.5
  */
 public interface PatternMatcher extends Matcher {
 

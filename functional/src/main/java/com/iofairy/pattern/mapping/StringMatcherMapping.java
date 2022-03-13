@@ -25,7 +25,7 @@ import com.iofairy.pattern.type.PatternString;
  * String Matcher Mapping
  * @since 0.0.1
  */
-public class StringMatcherMapping extends MatcherMapping<String> {
+public class StringMatcherMapping extends PatternMatcherMapping<String> {
 
     private PatternString patternString;
 

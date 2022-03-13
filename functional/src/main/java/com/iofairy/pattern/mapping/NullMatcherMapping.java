@@ -22,13 +22,15 @@ import com.iofairy.pattern.matcher.Null2Matcher;
 
 /**
  * Null Matcher Mapping
+ *
  * @since 0.2.0
  */
-public class NullMatcherMapping<N> extends MatcherMapping<N> {
-    public NullMatcherMapping(N value) {
-        super(value);
-    }
+public class NullMatcherMapping<N> implements MatcherMapping {
+    protected final N value;
 
+    public NullMatcherMapping(N value) {
+        this.value = value;
+    }
 
     public <V, NV, R> Null2Matcher<NV, R> whenV(V matchValue, R1<? super V, ? extends NV> computeValue, R1<? super NV, Boolean> action, R msg) {
         return new Null1Matcher<R>().whenV(matchValue, computeValue, action, msg);

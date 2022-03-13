@@ -15,11 +15,17 @@
  */
 package com.iofairy.pattern.mapping;
 
+
 /**
  * Matcher Mapping
  *
- * @since 0.0.1
+ * @since 0.2.5
  */
-public interface MatcherMapping {
+public abstract class PatternMatcherMapping<V> implements MatcherMapping {
+    protected final V value;
+
+    public PatternMatcherMapping(V value) {
+        this.value = value;
+    }
 
 }
