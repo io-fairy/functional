@@ -1,6 +1,8 @@
 package com.iofairy.test;
 
 import com.iofairy.top.G;
+import com.iofairy.top.O;
+import com.iofairy.top.S;
 import com.iofairy.tuple.Tuple2;
 import org.junit.jupiter.api.Test;
 
@@ -39,22 +41,22 @@ public class GlobalTest {
         Map<Object, Object> map = Map.of();
 
         assertFalse(G.hasNull());
-        assertTrue(G.hasEmpty());
+        assertTrue(S.hasEmpty());
         assertFalse(G.allNull());
-        assertTrue(G.allEmpty());
+        assertTrue(S.allEmpty());
         assertFalse(G.hasNull(i, o1, s1, s2));
         assertTrue(G.hasNull(i, o1, s1, s3));
-        assertFalse(G.hasEmpty(s2, s5));
-        assertTrue(G.hasEmpty(s2, s5, s3));
-        assertTrue(G.hasEmpty(s2, s5, s1));
-        assertTrue(G.hasEmpty(ss1));
-        assertTrue(G.hasEmpty(ss2));
+        assertFalse(S.hasEmpty(s2, s5));
+        assertTrue(S.hasEmpty(s2, s5, s3));
+        assertTrue(S.hasEmpty(s2, s5, s1));
+        assertTrue(S.hasEmpty(ss1));
+        assertTrue(S.hasEmpty(ss2));
         assertFalse(G.allNull(i, s1, s3, i1));
         assertTrue(G.allNull(s3, o2, i1));
         assertFalse(G.allNull(os));
         assertFalse(G.allNull(os1));
-        assertFalse(G.allEmpty(s1, s2, s3));
-        assertTrue(G.allEmpty(s1, s3, s4));
+        assertFalse(S.allEmpty(s1, s2, s3));
+        assertTrue(S.allEmpty(s1, s3, s4));
         assertTrue(G.isEmpty(s1));
         assertFalse(G.isEmpty(s2));
         assertTrue(G.isEmpty(nullSs));
@@ -73,6 +75,48 @@ public class GlobalTest {
 
     }
 
+    @Test
+    public void testEmptyAndNull1(){
+        String s1 = "1";
+        String s2 = "1";
+        String s3 = "1";
+        String s4 = "";
+        String s5 = "";
+        String s6 = "   ";
+
+        List<String> l1 = new ArrayList<>();
+        List<String> l2 = Arrays.asList(s1, s2, s3);
+        List<String> l3 = Arrays.asList(s1, s2, s4);
+        List<String> l4 = Arrays.asList(s1, s2, s6);
+        List<String> l5 = Arrays.asList(s4, s5);
+        List<String> l6 = Arrays.asList(s6);
+
+        assertTrue(S.hasEmpty(l1));
+        assertTrue(S.allEmpty(l1));
+        assertTrue(S.hasBlank(l1));
+        assertTrue(S.allBlank(l1));
+        assertFalse(S.hasEmpty(l2));
+        assertFalse(S.hasBlank(l2));
+        assertFalse(S.allEmpty(l2));
+        assertFalse(S.allBlank(l2));
+        assertTrue(S.hasEmpty(l3));
+        assertTrue(S.hasBlank(l3));
+        assertFalse(S.allEmpty(l3));
+        assertFalse(S.allBlank(l3));
+        assertFalse(S.hasEmpty(l4));
+        assertTrue(S.hasBlank(l4));
+        assertFalse(S.allEmpty(l4));
+        assertFalse(S.allBlank(l4));
+        assertTrue(S.hasEmpty(l5));
+        assertTrue(S.hasBlank(l5));
+        assertTrue(S.allEmpty(l5));
+        assertTrue(S.allBlank(l5));
+        assertFalse(S.hasEmpty(l6));
+        assertTrue(S.hasBlank(l6));
+        assertFalse(S.allEmpty(l6));
+        assertTrue(S.allBlank(l6));
+    }
+
     private boolean isEmptyForVarargs(Object... objects) {
         return G.isEmpty(objects);
     }
@@ -89,18 +133,18 @@ public class GlobalTest {
         String[] nullSs = null;
         String[] nullSs1 = new String[]{};
 
-        assertTrue(G.isBlank(s));
-        assertFalse(G.isBlank(s1));
-        assertTrue(G.isBlank(s2));
-        assertTrue(G.hasBlank(s, s1));
-        assertTrue(G.hasBlank(s4, s5));
-        assertFalse(G.hasBlank(s1, s3));
-        assertTrue(G.hasBlank(nullSs));
-        assertTrue(G.hasBlank(nullSs1));
-        assertTrue(G.allBlank(s, s2, s4, s5));
-        assertFalse(G.allBlank(s, s1, s4, s5));
-        assertTrue(G.allBlank(nullSs));
-        assertTrue(G.allBlank(nullSs1));
+        assertTrue(S.isBlank(s));
+        assertFalse(S.isBlank(s1));
+        assertTrue(S.isBlank(s2));
+        assertTrue(S.hasBlank(s, s1));
+        assertTrue(S.hasBlank(s4, s5));
+        assertFalse(S.hasBlank(s1, s3));
+        assertTrue(S.hasBlank(nullSs));
+        assertTrue(S.hasBlank(nullSs1));
+        assertTrue(S.allBlank(s, s2, s4, s5));
+        assertFalse(S.allBlank(s, s1, s4, s5));
+        assertTrue(S.allBlank(nullSs));
+        assertTrue(S.allBlank(nullSs1));
 
     }
 
@@ -112,12 +156,12 @@ public class GlobalTest {
         String d = "abc";
         Object o = new Object();
 
-        String s = G.firstNonNull(a, b, c);
-        String s1 = G.firstNonNull(a, c);
-        String s2 = G.firstNonNull();
-        String s3 = G.firstNonNull((String[]) null);
-        String s4 = G.firstNonNull(a, d, c);
-        Object o1 = G.firstNonNull(a, d, c, o);
+        String s = O.firstNonNull(a, b, c);
+        String s1 = O.firstNonNull(a, c);
+        String s2 = O.firstNonNull();
+        String s3 = O.firstNonNull((String[]) null);
+        String s4 = O.firstNonNull(a, d, c);
+        Object o1 = O.firstNonNull(a, d, c, o);
 
         assertEquals("", s);
         assertNull(s1);
@@ -139,18 +183,18 @@ public class GlobalTest {
 
     @Test
     public void testSplitOnce() {
-        Tuple2<String, String> t00 = G.splitOnce(":", ": ");
-        Tuple2<String, String> t01 = G.splitOnce(null, ": ");
-        Tuple2<String, String> t02 = G.splitOnce(": ", null);
-        Tuple2<String, String> t03 = G.splitOnce(": ", ": ");
-        Tuple2<String, String> t04 = G.splitOnce(": 1", ": ");
-        Tuple2<String, String> t05 = G.splitOnce("a: ", ": ");
-        Tuple2<String, String> t06 = G.splitOnce("a: 1", ": ");
-        Tuple2<String, String> t07 = G.splitOnce(" :  ", ": ");
-        Tuple2<String, String> t08 = G.splitOnce(" : : ", ": ");
-        Tuple2<String, String> t09 = G.splitOnce(" :abc ", ": ");
-        Tuple2<String, String> t10 = G.splitOnce("", "");
-        Tuple2<String, String> t11 = G.splitOnce(null, null);
+        Tuple2<String, String> t00 = S.splitOnce(":", ": ");
+        Tuple2<String, String> t01 = S.splitOnce(null, ": ");
+        Tuple2<String, String> t02 = S.splitOnce(": ", null);
+        Tuple2<String, String> t03 = S.splitOnce(": ", ": ");
+        Tuple2<String, String> t04 = S.splitOnce(": 1", ": ");
+        Tuple2<String, String> t05 = S.splitOnce("a: ", ": ");
+        Tuple2<String, String> t06 = S.splitOnce("a: 1", ": ");
+        Tuple2<String, String> t07 = S.splitOnce(" :  ", ": ");
+        Tuple2<String, String> t08 = S.splitOnce(" : : ", ": ");
+        Tuple2<String, String> t09 = S.splitOnce(" :abc ", ": ");
+        Tuple2<String, String> t10 = S.splitOnce("", "");
+        Tuple2<String, String> t11 = S.splitOnce(null, null);
 
         assertEquals(t00._1 + "||" + t00._2, ":||null");
         assertEquals(t01._1 + "||" + t01._2, "null||null");
@@ -608,8 +652,8 @@ public class GlobalTest {
 
     @Test
     public void testArrayEmpty() {
-        CharSequence[] cs1 = G.array0(CharSequence[].class);
-        CharSequence[] cs2 = G.arrayO(CharSequence.class);
+        CharSequence[] cs1 = O.array0(CharSequence[].class);
+        CharSequence[] cs2 = O.arrayO(CharSequence.class);
         List<String> strings = new ArrayList<>();
         CharSequence[] sArray1 = strings.toArray(cs1);
         CharSequence[] sArray2 = strings.toArray(cs2);
@@ -638,7 +682,7 @@ public class GlobalTest {
 
     @Test
     public void testArrayEmpty1() {
-        char[][] cs = G.arrayO(char[].class);
+        char[][] cs = O.arrayO(char[].class);
         List<char[]> charsList = new ArrayList<>();
         charsList.add(new char[]{'a'});
         charsList.add(null);
@@ -661,41 +705,98 @@ public class GlobalTest {
         String s2 = "　 \r\t\n  ";
         String s3 = "abcdefg";
 
-        String nullToEmpty0 = G.nullToEmpty(s0);
-        String nullToEmpty1 = G.nullToEmpty(s1);
-        String nullToEmpty2 = G.nullToEmpty(s2);
-        String nullToEmpty3 = G.nullToEmpty(s3);
+        String nullToEmpty0 = S.nullToEmpty(s0);
+        String nullToEmpty1 = S.nullToEmpty(s1);
+        String nullToEmpty2 = S.nullToEmpty(s2);
+        String nullToEmpty3 = S.nullToEmpty(s3);
         assertEquals("", nullToEmpty0);
         assertEquals("", nullToEmpty1);
         assertEquals(s2, nullToEmpty2);
         assertEquals(s3, nullToEmpty3);
 
-        String emptyToNull0 = G.emptyToNull(s0);
-        String emptyToNull1 = G.emptyToNull(s1);
-        String emptyToNull2 = G.emptyToNull(s2);
-        String emptyToNull3 = G.emptyToNull(s3);
+        String emptyToNull0 = S.emptyToNull(s0);
+        String emptyToNull1 = S.emptyToNull(s1);
+        String emptyToNull2 = S.emptyToNull(s2);
+        String emptyToNull3 = S.emptyToNull(s3);
         assertNull(emptyToNull0);
         assertNull(emptyToNull1);
         assertEquals(s2, emptyToNull2);
         assertEquals(s3, emptyToNull3);
 
-        String blankToNull0 = G.blankToNull(s0);
-        String blankToNull1 = G.blankToNull(s1);
-        String blankToNull2 = G.blankToNull(s2);
-        String blankToNull3 = G.blankToNull(s3);
+        String blankToNull0 = S.blankToNull(s0);
+        String blankToNull1 = S.blankToNull(s1);
+        String blankToNull2 = S.blankToNull(s2);
+        String blankToNull3 = S.blankToNull(s3);
         assertNull(blankToNull0);
         assertNull(blankToNull1);
         assertNull(blankToNull2);
         assertEquals(s3, blankToNull3);
 
-        String blankToEmpty0 = G.blankToEmpty(s0);
-        String blankToEmpty1 = G.blankToEmpty(s1);
-        String blankToEmpty2 = G.blankToEmpty(s2);
-        String blankToEmpty3 = G.blankToEmpty(s3);
+        String blankToEmpty0 = S.blankToEmpty(s0);
+        String blankToEmpty1 = S.blankToEmpty(s1);
+        String blankToEmpty2 = S.blankToEmpty(s2);
+        String blankToEmpty3 = S.blankToEmpty(s3);
         assertEquals("", blankToEmpty0);
         assertEquals("", blankToEmpty1);
         assertEquals("", blankToEmpty2);
         assertEquals(s3, blankToEmpty3);
 
     }
+
+    @Test
+    public void testCountChars() {
+        String s1 = "";
+        String s2 = "   ";
+        String s3 = "abc a bc";
+        String s4 = "ab呀呀--abcaaa呀";
+
+        assertEquals(S.countChars(s1, ' '), 0);
+        assertEquals(S.countChars(s1, 'a'), 0);
+        assertEquals(S.countChars(s2, ' '), 3);
+        assertEquals(S.countChars(s2, 'a'), 0);
+        assertEquals(S.countChars(s3, ' '), 2);
+        assertEquals(S.countChars(s3, 'a'), 2);
+        assertEquals(S.countChars(s4, ' '), 0);
+        assertEquals(S.countChars(s4, 'a'), 5);
+        assertEquals(S.countChars(s4, '呀'), 3);
+
+    }
+
+    @Test
+    public void testCountMultiChars() {
+        String s1 = null;
+        String s2 = "";
+        String s3 = "ldf- al_lf--dsa  _lfdksa-";
+        String s4 = "  -ldf al_lf呀dsa  _lf呀呀dksa-";
+
+        int[] ints1 = S.countMultiChars(s1);
+        int[] ints2 = S.countMultiChars(s1, '-');
+        int[] ints3 = S.countMultiChars(s2);
+        int[] ints4 = S.countMultiChars(s2, '-');
+        int[] ints5 = S.countMultiChars(s3, '-', ' ', 'z', '_');
+        int[] ints6 = S.countMultiChars(s4, '-', '呀', ' ');
+
+        int[] ints11 = S.countMultiChars(s1, "");
+        int[] ints12 = S.countMultiChars(s1, "-");
+        int[] ints13 = S.countMultiChars(s2, "");
+        int[] ints14 = S.countMultiChars(s2, "-");
+        int[] ints15 = S.countMultiChars(s3, "- z_");
+        int[] ints16 = S.countMultiChars(s4, "-呀 ");
+
+        assertEquals(G.toString(ints1), "[]");
+        assertEquals(G.toString(ints2), "[0]");
+        assertEquals(G.toString(ints3), "[]");
+        assertEquals(G.toString(ints4), "[0]");
+        assertEquals(G.toString(ints5), "[4, 3, 0, 2]");
+        assertEquals(G.toString(ints6), "[2, 3, 5]");
+
+        assertEquals(G.toString(ints11), "[]");
+        assertEquals(G.toString(ints12), "[0]");
+        assertEquals(G.toString(ints13), "[]");
+        assertEquals(G.toString(ints14), "[0]");
+        assertEquals(G.toString(ints15), "[4, 3, 0, 2]");
+        assertEquals(G.toString(ints16), "[2, 3, 5]");
+
+    }
+
 }

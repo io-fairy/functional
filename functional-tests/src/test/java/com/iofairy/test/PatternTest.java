@@ -63,6 +63,10 @@ public class PatternTest {
         assertEquals("it is AUTUMN", sRes);
     }
 
+    public enum Season {
+        SPRING, SUMMER, AUTUMN, WINTER
+    }
+
     @Test
     public void testPatternValue2() {
         int i = 10;

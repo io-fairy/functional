@@ -15,7 +15,7 @@
  */
 package com.iofairy.si;
 
-import com.iofairy.top.G;
+import com.iofairy.top.S;
 import com.iofairy.tuple.Tuple2;
 
 import java.util.ArrayList;
@@ -71,7 +71,7 @@ public class StringExtractor {
                 }
 
                 String strInBrace = matchStr.substring(2, matchStr.length() - 1);   // 获取${}中的内容
-                Tuple2<String, String> keyDefault = G.splitOnce(strInBrace, DEFAULT_VALUE_DELIMITER);
+                Tuple2<String, String> keyDefault = S.splitOnce(strInBrace, DEFAULT_VALUE_DELIMITER);
                 sts.add(new StringToken(StringType.VALUE, keyDefault._1, keyDefault._2 == null ? matchStr : keyDefault._2));
             }
             startIndex = end;

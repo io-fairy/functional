@@ -2,6 +2,7 @@ package com.iofairy.test.nullpattern;
 
 import com.iofairy.lambda.R1;
 import com.iofairy.top.G;
+import com.iofairy.top.S;
 import com.iofairy.tuple.*;
 import org.junit.jupiter.api.Test;
 
@@ -24,11 +25,11 @@ public class PatternNullTest {
         Tuple9<User, Account, String, Double, String, Integer, String, String, String> values = matchNull()
                 .whenV(order,   v -> v.buyer,       "order is null or order.buyer is null!")
                 .whenW(VALUE1,  v -> v.account,     "order.buyer.account is null!")
-                .whenV(order,   v -> v.orderId,     G::isBlank, "order.orderId is blank!")
+                .whenV(order,   v -> v.orderId,     S::isBlank, "order.orderId is blank!")
                 .whenV(order,   v -> v.price,       v -> v < 0, "order.price < 0!")
-                .whenW(VALUE1,  v -> v.name,        G::isEmpty, "order.buyer.name is empty!")
+                .whenW(VALUE1,  v -> v.name,        S::isEmpty, "order.buyer.name is empty!")
                 .whenW(VALUE1,  v -> v.age,         v -> v < 0, "order.buyer.age < 0!")
-                .whenW(VALUE2,  v -> v.id,          G::isBlank, "order.buyer.account.id is blank!")
+                .whenW(VALUE2,  v -> v.id,          S::isBlank, "order.buyer.account.id is blank!")
                 .whenW(VALUE2,  v -> v.userName,    "order.buyer.account.userName is null!")
                 .orElse(null);
 
@@ -61,9 +62,9 @@ public class PatternNullTest {
         Tuple7<User, Account, String, Double, String, Integer, String> values = matchNull()
                 .whenV(order,   v -> v.buyer,   "order is null or order.buyer is null!")
                 .whenW(VALUE1,  v -> v.account, v -> "user " + v._1.name + "'s account is null!")
-                .whenV(order,   v -> v.orderId, G::isBlank, "order.orderId is blank!")
+                .whenV(order,   v -> v.orderId, S::isBlank, "order.orderId is blank!")
                 .whenV(order,   v -> v.price,   v -> v < 0, "order.price < 0!")
-                .whenW(VALUE1,  v -> v.name,    G::isEmpty, "order.buyer.name is empty!")
+                .whenW(VALUE1,  v -> v.name,    S::isEmpty, "order.buyer.name is empty!")
                 .whenW(VALUE1,  v -> v.age,     v -> v < 0, "order.buyer.age < 0!")
                 .orElse(null);
 
@@ -99,7 +100,7 @@ public class PatternNullTest {
             msg = "user " + user.name + "'s account is null!";
             return;
         }
-        if (G.isBlank(order.orderId)) {
+        if (S.isBlank(order.orderId)) {
             msg = "order.orderId is blank!";
             return;
         }
@@ -126,11 +127,11 @@ public class PatternNullTest {
         Tuple9<User, Account, String, Double, String, Integer, String, String, String> values = matchNull()
                 .whenV(order,   v -> v.buyer,       "order is null or order.buyer is null!")
                 .whenW(VALUE1,  v -> v.account,     "order.buyer.account is null!")
-                .whenV(order,   v -> v.orderId,     G::isBlank, "order.orderId is blank!")
+                .whenV(order,   v -> v.orderId,     S::isBlank, "order.orderId is blank!")
                 .whenV(order,   v -> v.price,       v -> v < 0, "order.price < 0!")
-                .whenW(VALUE1,  v -> v.name,        G::isEmpty, "order.buyer.name is empty!")
+                .whenW(VALUE1,  v -> v.name,        S::isEmpty, "order.buyer.name is empty!")
                 .whenW(VALUE1,  v -> v.age,         v -> v < 0, "order.buyer.age < 0!")
-                .whenW(VALUE2,  v -> v.id,          G::isBlank, "order.buyer.account.id is blank!")
+                .whenW(VALUE2,  v -> v.id,          S::isBlank, "order.buyer.account.id is blank!")
                 .whenW(VALUE2,  v -> v.userName,    "order.buyer.account.userName is null!")
                 .orElse(null);
 
@@ -163,9 +164,9 @@ public class PatternNullTest {
         Tuple7<User, Account, String, Double, String, Integer, String> values = matchNull()
                 .whenV(order,   v -> v.buyer,   "order is null or order.buyer is null!")
                 .whenW(VALUE1,  oaR1,           v -> "user " + v._1.name + "'s account is null!")
-                .whenV(order,   v -> v.orderId, G::isBlank, "order.orderId is blank!")
+                .whenV(order,   v -> v.orderId, S::isBlank, "order.orderId is blank!")
                 .whenV(order,   v -> v.price,   v -> v < 0, "order.price < 0!")
-                .whenW(VALUE1,  v -> v.name,    G::isEmpty, "order.buyer.name is empty!")
+                .whenW(VALUE1,  v -> v.name,    S::isEmpty, "order.buyer.name is empty!")
                 .whenW(VALUE1,  v -> v.age,     v -> v < 0, "order.buyer.age < 0!")
                 .orElse(null);
 
@@ -196,11 +197,11 @@ public class PatternNullTest {
             values = matchNull()
                     .whenV(order,   v -> v.buyer,       "order is null or order.buyer is null!")
                     .whenW(VALUE1,  v -> v.account,     "order.buyer.account is null!")
-                    .whenV(order,   v -> v.orderId,     G::isBlank, "order.orderId is blank!")
+                    .whenV(order,   v -> v.orderId,     S::isBlank, "order.orderId is blank!")
                     .withV(order,   v -> throwXMLException(), "throwXMLException!")
-                    .whenW(VALUE1,  v -> v.name,        G::isEmpty, "order.buyer.name is empty!")
+                    .whenW(VALUE1,  v -> v.name,        S::isEmpty, "order.buyer.name is empty!")
                     .whenW(VALUE1,  v -> v.age,         v -> v < 0, "order.buyer.age < 0!")
-                    .whenW(VALUE2,  v -> v.id,          G::isBlank, "order.buyer.account.id is blank!")
+                    .whenW(VALUE2,  v -> v.id,          S::isBlank, "order.buyer.account.id is blank!")
                     .withW(VALUE2,  v -> v.userName,    v -> throwIOException(), "order.buyer.account.userName is null!")
                     .orElse(null);
         } catch (IOException | XMLStreamException e) {
