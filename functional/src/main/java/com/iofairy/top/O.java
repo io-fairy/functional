@@ -323,7 +323,8 @@ public class O {
     /**
      * Getting index of maximum value in {@link Number} array.
      *
-     * @param ts {@link Number} array
+     * @param ts  {@link Number} array
+     * @param <T> Number's type
      * @return index of maximum value, {@code -1} if not found.
      * @since 0.3.0
      */
@@ -352,7 +353,8 @@ public class O {
     /**
      * Getting index of minimum value in {@link Number} array.
      *
-     * @param ts {@link Number} array
+     * @param ts  {@link Number} array
+     * @param <T> Number's type
      * @return index of minimum value, {@code -1} if not found.
      * @since 0.3.0
      */
