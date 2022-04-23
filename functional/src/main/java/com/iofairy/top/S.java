@@ -313,7 +313,7 @@ public class S {
      * Counts how many times the char in char array occurrences in the given string.
      * <p>Examples:
      * <pre>{@code
-     * S.countMultiChars("ldf- al_lf--dsa  _lfdksa-", '-', ' ', 'z', '_');    // returns [4, 3, 0, 2];
+     * S.countMultiChars("abc- Defgh_IJ--klm  _nop-", '-', ' ', 'z', '_');    // returns [4, 3, 0, 2];
      *                                                                        // --------------------
      *                                                                        // The number of '-': 4
      *                                                                        // The number of ' ': 3
@@ -348,7 +348,7 @@ public class S {
      * Counts how many times the char in {@link CharSequence} occurrences in the given string.
      * <p>Examples:
      * <pre>{@code
-     * S.countMultiChars("ldf- al_lf--dsa  _lfdksa-", "- z_");    // returns [4, 3, 0, 2];
+     * S.countMultiChars("abc- Defgh_IJ--klm  _nop-", "- z_");    // returns [4, 3, 0, 2];
      *                                                            // --------------------
      *                                                            // The number of '-': 4
      *                                                            // The number of ' ': 3

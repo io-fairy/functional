@@ -13,20 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.iofairy.string;
 
-module iofairy.functional {
-    requires java.logging;
-
-    exports com.iofairy.lambda;
-    exports com.iofairy.base;
-    exports com.iofairy.tuple;
-    exports com.iofairy.except;
-    exports com.iofairy.pattern;
-    exports com.iofairy.pattern.type;
-    exports com.iofairy.pattern.mapping;
-    exports com.iofairy.pattern.matcher;
-    exports com.iofairy.si;
-    exports com.iofairy.top;
-    exports com.iofairy.tcf;
-    exports com.iofairy.string;
+/**
+ * StringConverter
+ *
+ * @since 0.3.0
+ */
+public interface StringConverter {
+    /**
+     * Convert str to new String
+     *
+     * @param str string
+     * @return new String
+     */
+    String convert(String str);
 }

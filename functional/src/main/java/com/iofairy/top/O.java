@@ -82,6 +82,7 @@ public class O {
      *
      * @param arr {@code int[] or long[] or float[] or double[] or char[] or byte[] or short[]}
      * @return index of maximum value, {@code -1} if not found.
+     * @since 0.3.0
      */
     public static int indexOfMax(Object arr) {
         if (G.isEmpty(arr)) return -1;
@@ -185,6 +186,7 @@ public class O {
      *
      * @param arr {@code int[] or long[] or float[] or double[] or char[] or byte[] or short[]}
      * @return index of minimum value, {@code -1} if not found.
+     * @since 0.3.0
      */
     public static int indexOfMin(Object arr) {
         if (G.isEmpty(arr)) return -1;
@@ -294,6 +296,7 @@ public class O {
      * <li>&nbsp;{@code 0}: number1 equal number2;
      * <li>&nbsp;{@code 1}: number1 greater than number2.
      * </ul>
+     * @since 0.3.0
      */
     public static int compare(Number n1, Number n2) {
         if (G.hasNull(n1, n2)) return -2;
@@ -322,6 +325,7 @@ public class O {
      *
      * @param ts {@link Number} array
      * @return index of maximum value, {@code -1} if not found.
+     * @since 0.3.0
      */
     @SafeVarargs
     public static <T extends Number> int indexOfMax(T... ts) {
@@ -350,6 +354,7 @@ public class O {
      *
      * @param ts {@link Number} array
      * @return index of minimum value, {@code -1} if not found.
+     * @since 0.3.0
      */
     @SafeVarargs
     public static <T extends Number> int indexOfMin(T... ts) {
