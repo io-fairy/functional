@@ -77,6 +77,10 @@ public class GlobalTest {
 
     }
 
+    private boolean isEmptyForVarargs(Object... objects) {
+        return G.isEmpty(objects);
+    }
+
     @Test
     public void testEmptyAndNull1() {
         String s1 = "1";
@@ -117,10 +121,21 @@ public class GlobalTest {
         assertTrue(S.hasBlank(l6));
         assertFalse(S.allEmpty(l6));
         assertTrue(S.allBlank(l6));
+
+        // System.out.println(hasNullForStringVarargs());
+        // System.out.println(hasNullForStringVarargs(null));
+        // System.out.println(hasNullForStringVarargs((String) null));
+        // System.out.println(hasNullForStringVarargs("", "a", ""));
+        // System.out.println(hasNullForStringVarargs("", "a", null));
+        assertFalse(hasNullForStringVarargs());
+        assertTrue(hasNullForStringVarargs(null));
+        assertTrue(hasNullForStringVarargs((String) null));
+        assertFalse(hasNullForStringVarargs("", "a", ""));
+        assertTrue(hasNullForStringVarargs("", "a", null));
     }
 
-    private boolean isEmptyForVarargs(Object... objects) {
-        return G.isEmpty(objects);
+    private boolean hasNullForStringVarargs(String... strings) {
+        return G.hasNull(strings);
     }
 
     @Test
