@@ -1,8 +1,6 @@
 package com.iofairy.test;
 
-import com.iofairy.top.G;
-import com.iofairy.top.O;
-import com.iofairy.top.S;
+import com.iofairy.top.*;
 import com.iofairy.tuple.Tuple2;
 import org.junit.jupiter.api.Test;
 
@@ -713,6 +711,48 @@ public class GlobalTest {
         System.out.println(G.toString(charss[2]));              // ['a', 'b', 'c']
         System.out.println(charss[2].getClass().getName());     // [C
         System.out.println(Objects.equals(charss[2][1], 'b'));  // true
+    }
+
+    @Test
+    public void testArrayN() {
+        String[] stringsM = O.arrayM(String[].class, 3);
+        String[] stringsN = O.arrayN(String.class, 3);
+        stringsM[0] = "a";
+        stringsN[0] = "a";
+        System.out.println(G.toString(stringsM));
+        System.out.println(G.toString(stringsN));
+        System.out.println(stringsM[0].getClass());
+        System.out.println(stringsN[0].getClass());
+        assertEquals(G.toString(stringsM), "[\"a\", null, null]");
+        assertEquals(G.toString(stringsN), "[\"a\", null, null]");
+        assertEquals(stringsM[0].getClass(), String.class);
+        assertEquals(stringsN[0].getClass(), String.class);
+    }
+
+    @Test
+    public void testArrayFill() {
+        Character[] fillM = O.arrayFillM(Character[].class, 3, '?');
+        Character[] fillN = O.arrayFillN(Character.class, 3, '?');
+        Character[] fillM1 = O.arrayFillM(Character[].class, 3, null);
+        Character[] fillN1 = O.arrayFillN(Character.class, 3, null);
+        System.out.println(G.toString(fillM));
+        System.out.println(G.toString(fillN));
+        System.out.println(G.toString(fillM1));
+        System.out.println(G.toString(fillN1));
+        fillM1[0] = '?';
+        fillN1[0] = '?';
+        System.out.println(G.toString(fillM1));
+        System.out.println(G.toString(fillN1));
+        System.out.println(fillM.getClass());
+        System.out.println(fillN.getClass());
+        assertEquals(G.toString(fillM), "['?', '?', '?']");
+        assertEquals(G.toString(fillN), "['?', '?', '?']");
+        assertEquals(G.toString(fillM1), "['?', null, null]");
+        assertEquals(G.toString(fillN1), "['?', null, null]");
+        assertEquals(fillM1[0].getClass(), Character.class);
+        assertEquals(fillN1[0].getClass(), Character.class);
+        assertEquals(fillM.getClass(), Character[].class);
+        assertEquals(fillN.getClass(), Character[].class);
     }
 
     @Test

@@ -18,6 +18,7 @@ package com.iofairy.top;
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Arrays;
 
 /**
  * Global Variables And Methods for {@link Object} Operations. <br>
@@ -39,9 +40,7 @@ public class O {
      * @since 0.2.2
      */
     public static <T> T[] array0(Class<T[]> tsClass) {
-        @SuppressWarnings("unchecked")
-        T[] ts = (T[]) Array.newInstance(tsClass.getComponentType(), 0);
-        return ts;
+        return arrayM(tsClass, 0);
     }
 
     /**
@@ -54,8 +53,66 @@ public class O {
      * @since 0.2.2
      */
     public static <T> T[] arrayO(Class<T> tClass) {
+        return arrayN(tClass, 0);
+    }
+
+    /**
+     * Creates a new <b>array</b> with the specified array class type and length. <br>
+     *
+     * @param tsClass array type
+     * @param length  array length
+     * @param <T>     array type
+     * @return new array with length
+     */
+    public static <T> T[] arrayM(Class<T[]> tsClass, int length) {
         @SuppressWarnings("unchecked")
-        T[] ts = (T[]) Array.newInstance(tClass, 0);
+        T[] ts = (T[]) Array.newInstance(tsClass.getComponentType(), length);
+        return ts;
+    }
+
+    /**
+     * Creates a new <b>array</b> with the specified class type and length. <br>
+     *
+     * @param tClass array type
+     * @param length array length
+     * @param <T>    array type
+     * @return new array with length
+     */
+    public static <T> T[] arrayN(Class<T> tClass, int length) {
+        @SuppressWarnings("unchecked")
+        T[] ts = (T[]) Array.newInstance(tClass, length);
+        return ts;
+    }
+
+    /**
+     * Creates a new <b>array</b> with the specified array class type and length,
+     * and assigns the <b>t</b> object reference to each element of array. <br>
+     *
+     * @param tsClass array type
+     * @param length  array length
+     * @param t       t object
+     * @param <T>     array type
+     * @return new array with length and fill <b>t</b> elements
+     */
+    public static <T> T[] arrayFillM(Class<T[]> tsClass, int length, T t) {
+        T[] ts = arrayM(tsClass, length);
+        Arrays.fill(ts, t);
+        return ts;
+    }
+
+    /**
+     * Creates a new <b>array</b> with the specified class type and length,
+     * and assigns the <b>t</b> object reference to each element of array. <br>
+     *
+     * @param tClass array type
+     * @param length array length
+     * @param t      t object
+     * @param <T>    array type
+     * @return new array with length and fill <b>t</b> elements
+     */
+    public static <T> T[] arrayFillN(Class<T> tClass, int length, T t) {
+        T[] ts = arrayN(tClass, length);
+        Arrays.fill(ts, t);
         return ts;
     }
 
