@@ -12,6 +12,11 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class AsciiTest {
     @Test
+    public void testNUL() {
+        assertEquals(Ascii.NUL, '\0');
+    }
+
+    @Test
     public void testToUpperLower() {
         String s1 = null;
         String s2 = "";

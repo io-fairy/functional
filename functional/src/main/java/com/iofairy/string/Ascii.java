@@ -25,7 +25,7 @@ import com.iofairy.top.S;
 public final class Ascii {
 
     /**
-     * ASCII: {@code 00 (NUL)}
+     * ASCII <b>null control character</b>: {@code 00  '\0'  (NUL)}
      */
     public static final char NUL = '\u0000';
 
