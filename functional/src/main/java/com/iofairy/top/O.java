@@ -63,6 +63,7 @@ public class O {
      * @param length  array length
      * @param <T>     array type
      * @return new array with length
+     * @since 0.3.1
      */
     public static <T> T[] arrayM(Class<T[]> tsClass, int length) {
         @SuppressWarnings("unchecked")
@@ -77,6 +78,7 @@ public class O {
      * @param length array length
      * @param <T>    array type
      * @return new array with length
+     * @since 0.3.1
      */
     public static <T> T[] arrayN(Class<T> tClass, int length) {
         @SuppressWarnings("unchecked")
@@ -93,6 +95,7 @@ public class O {
      * @param t       t object
      * @param <T>     array type
      * @return new array with length and fill <b>t</b> elements
+     * @since 0.3.1
      */
     public static <T> T[] arrayFillM(Class<T[]> tsClass, int length, T t) {
         T[] ts = arrayM(tsClass, length);
@@ -109,6 +112,7 @@ public class O {
      * @param t      t object
      * @param <T>    array type
      * @return new array with length and fill <b>t</b> elements
+     * @since 0.3.1
      */
     public static <T> T[] arrayFillN(Class<T> tClass, int length, T t) {
         T[] ts = arrayN(tClass, length);
