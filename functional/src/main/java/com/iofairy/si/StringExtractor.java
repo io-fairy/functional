@@ -34,7 +34,8 @@ public class StringExtractor {
      * ${} will parse to $ (String literal). <br>
      * 遇到 ${} 则解析成字符 $
      */
-    public final static String $ = "${}";
+    public final static String $__ = "${}";
+    public final static String $ = "$";
     public final static String DEFAULT_VALUE_DELIMITER = ": ";
     // DEFAULT_VALUE_DELIMITER (DVD) LENGTH
     public final static int DVD_LENGTH = DEFAULT_VALUE_DELIMITER.length();
@@ -61,9 +62,9 @@ public class StringExtractor {
             int start = matcher.start();    // 起始字符位置
             int end = matcher.end();        // 结束字符+1 的位置
 
-            if ($.equals(matchStr)) {
-                String value = source.substring(startIndex, start + 1);
-                sts.add(new StringToken(StringType.STRING, value, value));
+            if ($__.equals(matchStr)) {
+                String strBefore$ = source.substring(startIndex, start);  // ${} 前面还未加入列表的字符串，如： abc${}，则 strBefore$ == "abc"
+                sts.add(new StringToken(StringType.STRING, strBefore$ + $, strBefore$ + $__));
             } else {
                 if (start != startIndex) {  // 不相等说明${}前面有一段字符串常量还未添加进列表
                     String value = source.substring(startIndex, start);
