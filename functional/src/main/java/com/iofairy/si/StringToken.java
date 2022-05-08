@@ -17,12 +17,13 @@ package com.iofairy.si;
 
 /**
  * String Token. <br>
+ *
  * @since 0.0.1
  */
 public class StringToken {
-    private StringType type;
-    private String value;
-    private String originValue;
+    StringType type;
+    String value;
+    String originValue;
 
     public StringToken() {
     }

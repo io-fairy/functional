@@ -28,7 +28,7 @@ import java.util.Arrays;
  *
  * @since 0.3.0
  */
-public class O {
+public final class O {
 
     /**
      * Creates a new <b>empty array</b> with the specified array class type. <br>

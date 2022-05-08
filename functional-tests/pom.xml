@@ -5,7 +5,7 @@
     <parent>
         <artifactId>functional-parent</artifactId>
         <groupId>com.iofairy</groupId>
-        <version>0.3.2</version>
+        <version>0.3.3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,7 +15,7 @@
         <dependency>
             <groupId>com.iofairy</groupId>
             <artifactId>functional</artifactId>
-            <version>0.3.2</version>
+            <version>0.3.3</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

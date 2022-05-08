@@ -30,6 +30,82 @@ public class InterpolatorTest {
     }
 
     @Test
+    public void testStaticInterpolator() {
+        // ${nick\nName: Jack}: ${} can't contain \n, it will be ignore
+        String parse01 = SI.$("${NAME}--${age}--${nickName}--${nick\nName: Jack}--${ID}--${height}", null);
+        String parse02 = SI.$(null, null);
+        String parse03 = SI.$("null", null);
+        String parse04 = SI.$(null, new Object(), "a", "b");
+        String parse05 = SI.$("null", new Object(), "a", "b");
+        String parse06 = SI.$("${NAME}--${ID: abcd}--${ID::abcd}--${nick\nName: Jack}--${ID::abcd}--${height: 180}", null);
+        String parse07 = SI.$("${NAME}--${ID: abcd}--${ID::abcd}--${nick\nName: Jack}--${ID::abcd}--${height: 180}", null, 789, "a");
+        String parse08 = SI.$("${NAME}--${ID: abcd}--${ID::abcd}--${nick\nName: Jack}--${ID::abcd}--${height: 180}", null, 789, "a", 'b', "c");
+        String parse09 = SI.$("${NAME}--${ID: abcd}--${ID::abcd}--${nick\nName: Jack}--${ID::abcd}--${height: 180}", null, 789, "a", 'b', "c", "d");
+        String parse10 = SI.$("${ID: : }--${: empty}--${ID: }--${}--${}{a}--${:}", null);
+        String parse11 = SI.$("${ID: : }--${: empty}--${ID: }--${}--${}{a}--${:}", null, 789, "a", 'b', "c", "d", 'e');
+        String parse12 = SI.$("${ID: : }--${: empty}--${ID: }--${}--${}{a}--${:}", null, 789, "a");
+        StringBuffer sb1 = null;
+        StringBuffer sb2 = new StringBuffer();
+        StringBuffer sb3 = new StringBuffer();
+        sb3.append((Object) null);
+        StringBuffer sb4 = new StringBuffer();
+        sb4.append((Object) null);
+        sb4.append("${: empty}--${");
+        sb4.append("ID: }--${");
+        sb4.append("}");
+        String parse13 = SI.$(sb1, null);
+        String parse14 = SI.$(sb2, null);
+        String parse15 = SI.$(sb3, null);
+        String parse16 = SI.$(sb4, null);
+        String parse17 = SI.$(sb1, null, 789, "a", 'b', "c", "d", 'e');
+        String parse18 = SI.$(sb2, null, 789, "a", 'b', "c", "d", 'e');
+        String parse19 = SI.$(sb3, null, 789, "a", 'b', "c", "d", 'e');
+        String parse20 = SI.$(sb4, null, 789, "a", 'b', "c", "d", 'e');
+
+        System.out.println("parse01: " + parse01);
+        System.out.println("parse02: " + parse02);
+        System.out.println("parse03: " + parse03);
+        System.out.println("parse04: " + parse04);
+        System.out.println("parse05: " + parse05);
+        System.out.println("parse06: " + parse06);
+        System.out.println("parse07: " + parse07);
+        System.out.println("parse08: " + parse08);
+        System.out.println("parse09: " + parse09);
+        System.out.println("parse10: " + parse10);
+        System.out.println("parse11: " + parse11);
+        System.out.println("parse12: " + parse12);
+        System.out.println("parse13: " + parse13);
+        System.out.println("parse14: " + parse14);
+        System.out.println("parse15: " + parse15);
+        System.out.println("parse16: " + parse16);
+        System.out.println("parse17: " + parse17);
+        System.out.println("parse18: " + parse18);
+        System.out.println("parse19: " + parse19);
+        System.out.println("parse20: " + parse20);
+
+        assertEquals("${NAME}--${age}--${nickName}--${nick\nName: Jack}--${ID}--${height}", parse01);
+        assertNull(parse02);
+        assertEquals("null", parse03);
+        assertNull(parse04);
+        assertEquals("null", parse05);
+        assertEquals("${NAME}--abcd--${ID::abcd}--${nick\nName: Jack}--${ID::abcd}--180", parse06);
+        assertEquals("null--789--a--${nick\nName: Jack}--${ID::abcd}--180", parse07);
+        assertEquals("null--789--a--${nick\nName: Jack}--b--c", parse08);
+        assertEquals("null--789--a--${nick\nName: Jack}--b--c", parse09);
+        assertEquals(": --empty----$--${a}--${:}", parse10);
+        assertEquals("null--789--a--$--${a}--b", parse11);
+        assertEquals("null--789--a--$--${a}--${:}", parse12);
+        assertNull(parse13);
+        assertEquals("", parse14);
+        assertEquals("null", parse15);
+        assertEquals("nullempty----$", parse16);
+        assertNull(parse17);
+        assertEquals("", parse18);
+        assertEquals("null", parse19);
+        assertEquals("nullnull--789--$", parse20);
+    }
+
+    @Test
     public void testInterpolator1() {
         SI si = Tuple.of("zs", 20, "tom", 190.5, 123456).alias("name", "age", "nickName", "height", "id").toSI();
 

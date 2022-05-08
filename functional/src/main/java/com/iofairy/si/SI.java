@@ -16,25 +16,26 @@
 package com.iofairy.si;
 
 import com.iofairy.except.UnexpectedParameterException;
+import com.iofairy.top.G;
+import com.iofairy.top.S;
 import com.iofairy.tuple.Tuple;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * String Interpolator. <br>
  * 字符串插值器
+ *
  * @since 0.0.1
  */
 public class SI {
 
-    private final static Map<String, List<StringToken>> TEMPLATE_CACHE =new ConcurrentHashMap<>();
-    private final static Map<String, String> KEY_CACHE =new ConcurrentHashMap<>();
-
     private final static int CACHE_SIZE = 1000;
     private final static int KEY_CACHE_SIZE = 2000;
+    private final static Map<String, List<StringToken>> TEMPLATE_CACHE = Collections.synchronizedMap(new LRUCache<>(CACHE_SIZE));
+    private final static Map<String, String> KEY_CACHE = Collections.synchronizedMap(new LRUCache<>(KEY_CACHE_SIZE));
 
-    private final Map<String, Object> valueMap = new HashMap<>();
+    private final Map<String, Object> valueMap = new HashMap<>();   // 读多写少，未加同步机制
 
     private final static String MSG_UNEXPECTED_PARAM = "This parameter is a key, the key must be end with \" ->\" or \" >>>\" or \" >>\". ";
 
@@ -60,11 +61,12 @@ public class SI {
 
     /**
      * Instantiate an SI object by key-value pairs.
+     *
      * @param kvs key-value pairs
      * @return SI object
-     * @throws RuntimeException if the <b>kvs</b> length not be even.
-     * @throws NullPointerException if the <b>key</b> is null.
-     * @throws ClassCastException if the <b>key</b> is not String.
+     * @throws RuntimeException             if the <b>kvs</b> length not be even.
+     * @throws NullPointerException         if the <b>key</b> is null.
+     * @throws ClassCastException           if the <b>key</b> is not String.
      * @throws UnexpectedParameterException if the <b>key</b> is not end with " -&gt;" or " &gt;&gt;&gt;" or " &gt;&gt;".
      * @since 0.0.1
      */
@@ -89,11 +91,12 @@ public class SI {
      *
      * String dbInfo = si.$(infoTemplate);
      * </pre>
+     *
      * @param kvs key-value pairs
      * @return SI object
-     * @throws RuntimeException if the <b>kvs</b> length not be even.
-     * @throws NullPointerException if the <b>key</b> is null.
-     * @throws ClassCastException if the <b>key</b> is not String.
+     * @throws RuntimeException             if the <b>kvs</b> length not be even.
+     * @throws NullPointerException         if the <b>key</b> is null.
+     * @throws ClassCastException           if the <b>key</b> is not String.
      * @throws UnexpectedParameterException if the <b>key</b> is not end with " -&gt;" or " &gt;&gt;&gt;" or " &gt;&gt;".
      * @since 0.0.1
      */
@@ -115,11 +118,12 @@ public class SI {
      *
      *  String dbInfo = si.$("ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}");
      * </pre>
+     *
      * @param kvs key-value pairs
      * @return SI object
-     * @throws RuntimeException if the <b>kvs</b> length not be even.
-     * @throws NullPointerException if the <b>key</b> is null.
-     * @throws ClassCastException if the <b>key</b> is not String.
+     * @throws RuntimeException             if the <b>kvs</b> length not be even.
+     * @throws NullPointerException         if the <b>key</b> is null.
+     * @throws ClassCastException           if the <b>key</b> is not String.
      * @throws UnexpectedParameterException if the <b>key</b> is not end with " -&gt;" or " &gt;&gt;&gt;" or " &gt;&gt;".
      * @since 0.0.1
      */
@@ -140,11 +144,12 @@ public class SI {
 
     /**
      * Add key-value pairs to this SI object.
+     *
      * @param kvs key-value pairs
      * @return this SI object
-     * @throws RuntimeException if the <b>kvs</b> length not be even.
+     * @throws RuntimeException     if the <b>kvs</b> length not be even.
      * @throws NullPointerException if the <b>key</b> is null.
-     * @throws ClassCastException if the <b>key</b> is not String.
+     * @throws ClassCastException   if the <b>key</b> is not String.
      * @since 0.0.1
      */
     public SI add(Object... kvs) {
@@ -168,11 +173,12 @@ public class SI {
      *
      * String dbInfo = si.$(infoTemplate);
      * </pre>
+     *
      * @param kvs key-value pairs
      * @return this SI object
-     * @throws RuntimeException if the <b>kvs</b> length not be even.
-     * @throws NullPointerException if the <b>key</b> is null.
-     * @throws ClassCastException if the <b>key</b> is not String.
+     * @throws RuntimeException             if the <b>kvs</b> length not be even.
+     * @throws NullPointerException         if the <b>key</b> is null.
+     * @throws ClassCastException           if the <b>key</b> is not String.
      * @throws UnexpectedParameterException if the <b>key</b> is not end with " -&gt;" or " &gt;&gt;&gt;" or " &gt;&gt;".
      * @since 0.0.1
      */
@@ -193,11 +199,12 @@ public class SI {
 
     /**
      * Reset this SI object with key-value pairs.
+     *
      * @param kvs key-value pairs
      * @return this SI object
-     * @throws RuntimeException if the <b>kvs</b> length not be even.
+     * @throws RuntimeException     if the <b>kvs</b> length not be even.
      * @throws NullPointerException if the <b>key</b> is null.
-     * @throws ClassCastException if the <b>key</b> is not String.
+     * @throws ClassCastException   if the <b>key</b> is not String.
      * @since 0.0.1
      */
     public SI set(Object... kvs) {
@@ -224,51 +231,68 @@ public class SI {
     /**
      * Interpolating for strings.<br>
      * 执行插值程序，解析字符串
+     *
      * @param source source string
      * @return string that has been processed
      * @since 0.0.1
      */
-    public String $(String source) {
+    public String $(CharSequence source) {
         if (source == null) return null;
+        if (S.isBlank(source)) return source.toString();
 
-        List<StringToken> tokens = getTokens(source);
+        List<StringToken> tokens = getTokens(source.toString());
         StringBuffer parsed = new StringBuffer();
         tokens.forEach(token -> {
-            String value = token.getValue();
-            if (token.getType() == StringType.STRING) {
-                parsed.append(value);
-            }else {
-                if (valueMap.containsKey(value)) {
-                    parsed.append(valueMap.get(value));
-                }else {
-                    parsed.append(token.getOriginValue());
-                }
-            }
+            String value = token.value;
+            parsed.append(token.type == StringType.STRING ? value : valueMap.getOrDefault(value, token.originValue));
         });
 
         return parsed.toString();
     }
 
-    private List<StringToken> getTokens(String source) {
+    /**
+     * Interpolating for strings.<br>
+     * 字符串插值
+     *
+     * @param source    source string
+     * @param arguments arguments
+     * @return string that has been processed
+     * @since 0.3.3
+     */
+    public static String $(CharSequence source, Object... arguments) {
+        if (source == null) return null;
+        if (S.isBlank(source)) return source.toString();
+        int length = G.isEmpty(arguments) ? 0 : arguments.length;
+
+        int placeholderCount = 0;
+        List<StringToken> tokens = getTokens(source.toString());
+        StringBuilder parsed = new StringBuilder();
+        for (StringToken token : tokens) {
+            String value = token.value;
+            if (token.type == StringType.STRING) {
+                parsed.append(value);
+            } else {
+                if (placeholderCount < length) {
+                    parsed.append(arguments[placeholderCount]);
+                    placeholderCount++;
+                } else {
+                    parsed.append(token.originValue);
+                }
+            }
+        }
+
+        return parsed.toString();
+    }
+
+    private static List<StringToken> getTokens(String source) {
         List<StringToken> tokens;
         if (TEMPLATE_CACHE.containsKey(source)) {
             tokens = TEMPLATE_CACHE.get(source);
-        }else {
+        } else {
             tokens = StringExtractor.split(source);
-            if (TEMPLATE_CACHE.size() < CACHE_SIZE) TEMPLATE_CACHE.put(source, tokens);
+            TEMPLATE_CACHE.put(source, tokens);
         }
         return tokens;
-    }
-
-    /**
-     * Interpolating for strings.<br>
-     * 执行插值程序，解析字符串
-     * @param source source string
-     * @return string that has been processed
-     * @since 0.0.1
-     */
-    public String $(StringBuffer source) {
-        return $(source.toString());
     }
 
     public Map<String, Object> getValueMap() {
@@ -287,7 +311,7 @@ public class SI {
 
                     if (KEY_CACHE.containsKey(cacheKey)) {
                         kvMap.put(KEY_CACHE.get(cacheKey), kvs[i + 1]);
-                    }else {
+                    } else {
                         String tempKey = k;
                         if (needTrim) tempKey = k.replaceAll("[\\s　]+$", "");  // 删除尾部的空白字符，包括中文空格
                         boolean isEndThreeGT = tempKey.endsWith(" >>>");
@@ -296,13 +320,13 @@ public class SI {
                             String realKey = tempKey.substring(0, tempKey.length() - (isEndThreeGT ? 4 : 3));
                             realKey = needTrim ? realKey.trim() : realKey;
 
-                            if (KEY_CACHE.size() < KEY_CACHE_SIZE) KEY_CACHE.put(cacheKey, realKey);
+                            KEY_CACHE.put(cacheKey, realKey);
                             kvMap.put(realKey, kvs[i + 1]);
-                        }else {
+                        } else {
                             throw new UnexpectedParameterException("Index: " + i + ". " + MSG_UNEXPECTED_PARAM);
                         }
                     }
-                }else {
+                } else {
                     kvMap.put(k, kvs[i + 1]);
                 }
 
@@ -334,4 +358,28 @@ public class SI {
         return getClass().getName() + "@" + Integer.toHexString(hashCode());
     }
 
+    /**
+     * Simple LRU Cache, <b>this implementation is not synchronized and not thread-safe.</b>
+     *
+     * @param <K> key type
+     * @param <V> value type
+     */
+    static class LRUCache<K, V> extends LinkedHashMap<K, V> {
+        private final int maxEntries;
+
+        public LRUCache(final int maxEntries) {
+            super(maxEntries + 1, 1.0f, true);
+            this.maxEntries = maxEntries;
+        }
+
+        public LRUCache(final int maxEntries, float loadFactor) {
+            super(maxEntries + 1, loadFactor, true);
+            this.maxEntries = maxEntries;
+        }
+
+        @Override
+        protected boolean removeEldestEntry(final Map.Entry<K, V> eldest) {
+            return size() > maxEntries;
+        }
+    }
 }

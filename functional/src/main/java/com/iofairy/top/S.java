@@ -29,7 +29,7 @@ import java.util.List;
  *
  * @since 0.3.0
  */
-public class S {
+public final class S {
 
     /**
      * Whether CharSequence array contains {@code null} or empty {@code ""}
