@@ -16,12 +16,11 @@
 package com.iofairy.top;
 
 import com.iofairy.tcf.Try;
-import com.iofairy.tuple.Tuple;
-import com.iofairy.tuple.Tuple2;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.Array;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
@@ -324,15 +323,17 @@ public final class G {
         if (o instanceof Map)               return toString((Map<?, ?>) o);
         if (o instanceof Character[])       return toString((Character[]) o);
         if (o instanceof CharSequence[])    return toString((CharSequence[]) o);
-        if (o instanceof Object[])          return toString((Object[]) o);
         if (o instanceof int[])             return Arrays.toString((int[]) o);
         if (o instanceof long[])            return Arrays.toString((long[]) o);
-        if (o instanceof float[])           return Arrays.toString((float[]) o);
-        if (o instanceof double[])          return Arrays.toString((double[]) o);
+        if (o instanceof float[])           return toString((float[]) o);
+        if (o instanceof double[])          return toString((double[]) o);
         if (o instanceof char[])            return toString((char[]) o);
         if (o instanceof byte[])            return Arrays.toString((byte[]) o);
         if (o instanceof short[])           return Arrays.toString((short[]) o);
         if (o instanceof boolean[])         return Arrays.toString((boolean[]) o);
+        if (o instanceof Number)            return toString((Number) o);
+        if (o instanceof Number[])          return toString((Number[]) o);
+        if (o instanceof Object[])          return toString((Object[]) o);
         if (o instanceof Date)              return dtSimple((Date) o);
         if (o instanceof Calendar)          return dtSimple((Calendar) o);
         if (o instanceof Temporal)          return dtSimple((Temporal) o);
@@ -521,4 +522,258 @@ public final class G {
         return map.toString();
     }
 
+
+    /**
+     * To string for {@code float[]}
+     *
+     * @param floats float array
+     * @return string
+     * @since 0.3.4
+     */
+    public static String toString(float[] floats) {
+        return toString(floats, 6, RoundingMode.HALF_UP, true);
+    }
+
+    /**
+     * To string for {@code double[]}
+     *
+     * @param doubles double array
+     * @return string
+     * @since 0.3.4
+     */
+    public static String toString(double[] doubles) {
+        return toString(doubles, 6, RoundingMode.HALF_UP, true);
+    }
+
+    /**
+     * To string for {@code Number[]}
+     *
+     * @param numbers Number array
+     * @return string
+     * @since 0.3.4
+     */
+    public static String toString(Number[] numbers) {
+        return toString(numbers, 6, RoundingMode.HALF_UP, true);
+    }
+
+    /**
+     * To string for {@code Number}
+     *
+     * @param number Number
+     * @return string
+     * @since 0.3.4
+     */
+    public static String toString(Number number) {
+        return toString(number, 6, RoundingMode.HALF_UP, true);
+    }
+
+    /**
+     * To string for {@code float[]}
+     *
+     * @param floats   float array
+     * @param newScale newScale
+     * @return string
+     * @since 0.3.4
+     */
+    public static String toString(float[] floats, int newScale) {
+        return toString(floats, newScale, RoundingMode.HALF_UP, true);
+    }
+
+    /**
+     * To string for {@code double[]}
+     *
+     * @param doubles  double array
+     * @param newScale newScale
+     * @return string
+     * @since 0.3.4
+     */
+    public static String toString(double[] doubles, int newScale) {
+        return toString(doubles, newScale, RoundingMode.HALF_UP, true);
+    }
+
+    /**
+     * To string for {@code Number[]}
+     *
+     * @param numbers  Number array
+     * @param newScale newScale
+     * @return string
+     * @since 0.3.4
+     */
+    public static String toString(Number[] numbers, int newScale) {
+        return toString(numbers, newScale, RoundingMode.HALF_UP, true);
+    }
+
+    /**
+     * To string for {@code Number}
+     *
+     * @param number   Number
+     * @param newScale newScale
+     * @return string
+     * @since 0.3.4
+     */
+    public static String toString(Number number, int newScale) {
+        return toString(number, newScale, RoundingMode.HALF_UP, true);
+    }
+
+    /**
+     * To string for {@code float[]}
+     *
+     * @param floats       float array
+     * @param newScale     newScale
+     * @param roundingMode roundingMode
+     * @return string
+     * @since 0.3.4
+     */
+    public static String toString(float[] floats, int newScale, RoundingMode roundingMode) {
+        return toString(floats, newScale, roundingMode, true);
+    }
+
+    /**
+     * To string for {@code double[]}
+     *
+     * @param doubles      double array
+     * @param newScale     newScale
+     * @param roundingMode roundingMode
+     * @return string
+     * @since 0.3.4
+     */
+    public static String toString(double[] doubles, int newScale, RoundingMode roundingMode) {
+        return toString(doubles, newScale, roundingMode, true);
+    }
+
+    /**
+     * To string for {@code Number[]}
+     *
+     * @param numbers      Number array
+     * @param newScale     newScale
+     * @param roundingMode roundingMode
+     * @return string
+     * @since 0.3.4
+     */
+    public static String toString(Number[] numbers, int newScale, RoundingMode roundingMode) {
+        return toString(numbers, newScale, roundingMode, true);
+    }
+
+    /**
+     * To string for {@code Number}
+     *
+     * @param number       Number
+     * @param newScale     newScale
+     * @param roundingMode roundingMode
+     * @return string
+     * @since 0.3.4
+     */
+    public static String toString(Number number, int newScale, RoundingMode roundingMode) {
+        return toString(number, newScale, roundingMode, true);
+    }
+
+    /**
+     * To string for {@code float[]}
+     *
+     * @param floats               float array
+     * @param newScale             newScale
+     * @param roundingMode         roundingMode
+     * @param isStripTrailingZeros isStripTrailingZeros
+     * @return string
+     * @since 0.3.4
+     */
+    public static String toString(float[] floats, int newScale, RoundingMode roundingMode, boolean isStripTrailingZeros) {
+        if (floats == null) return "null";
+        int maxIndex = floats.length - 1;
+        if (maxIndex == -1) return "[]";
+
+        StringBuilder b = new StringBuilder("[");
+        for (int i = 0; ; i++) {
+            b.append(toString(floats[i], newScale, roundingMode, isStripTrailingZeros));
+            if (i == maxIndex)
+                return b.append("]").toString();
+            b.append(", ");
+        }
+    }
+
+    /**
+     * To string for {@code double[]}
+     *
+     * @param doubles              double array
+     * @param newScale             newScale
+     * @param roundingMode         roundingMode
+     * @param isStripTrailingZeros isStripTrailingZeros
+     * @return string
+     * @since 0.3.4
+     */
+    public static String toString(double[] doubles, int newScale, RoundingMode roundingMode, boolean isStripTrailingZeros) {
+        if (doubles == null) return "null";
+        int maxIndex = doubles.length - 1;
+        if (maxIndex == -1) return "[]";
+
+        StringBuilder b = new StringBuilder("[");
+        for (int i = 0; ; i++) {
+            b.append(toString(doubles[i], newScale, roundingMode, isStripTrailingZeros));
+            if (i == maxIndex)
+                return b.append("]").toString();
+            b.append(", ");
+        }
+    }
+
+    /**
+     * To string for {@code Number[]}
+     *
+     * @param numbers              Number array
+     * @param newScale             newScale
+     * @param roundingMode         roundingMode
+     * @param isStripTrailingZeros isStripTrailingZeros
+     * @return string
+     * @since 0.3.4
+     */
+    public static String toString(Number[] numbers, int newScale, RoundingMode roundingMode, boolean isStripTrailingZeros) {
+        if (numbers == null) return "null";
+        int maxIndex = numbers.length - 1;
+        if (maxIndex == -1) return "[]";
+
+        StringBuilder b = new StringBuilder("[");
+        for (int i = 0; ; i++) {
+            b.append(toString(numbers[i], newScale, roundingMode, isStripTrailingZeros));
+            if (i == maxIndex)
+                return b.append("]").toString();
+            b.append(", ");
+        }
+    }
+
+    /**
+     * To string for {@code Number}
+     *
+     * @param number               Number
+     * @param newScale             newScale
+     * @param roundingMode         roundingMode
+     * @param isStripTrailingZeros isStripTrailingZeros
+     * @return string
+     * @since 0.3.4
+     */
+    public static String toString(Number number, int newScale, RoundingMode roundingMode, boolean isStripTrailingZeros) {
+        if (number == null) return "null";
+
+        if (O.isInfinityOrNaN(number)) return number.toString();
+
+        if (O.isDouble(number) || number instanceof Float || number instanceof BigDecimal) {
+            return toString(O.toBigDecimal(number), newScale, roundingMode, isStripTrailingZeros);
+        } else {
+            return newScale < 0 ? toString(O.toBigDecimal(number), newScale, roundingMode, isStripTrailingZeros) : number.toString();
+        }
+    }
+
+    /**
+     * To string for {@link BigDecimal}
+     *
+     * @param bigDecimal           bigDecimal
+     * @param newScale             newScale
+     * @param roundingMode         roundingMode
+     * @param isStripTrailingZeros isStripTrailingZeros
+     * @return string
+     * @since 0.3.4
+     */
+    public static String toString(BigDecimal bigDecimal, int newScale, RoundingMode roundingMode, boolean isStripTrailingZeros) {
+        if (bigDecimal == null) return "null";
+        BigDecimal bd = bigDecimal.setScale(newScale, roundingMode);
+        return isStripTrailingZeros ? bd.stripTrailingZeros().toPlainString() : bd.toPlainString();
+    }
 }

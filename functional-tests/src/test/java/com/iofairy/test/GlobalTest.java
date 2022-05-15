@@ -6,11 +6,10 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -193,6 +192,42 @@ public class GlobalTest {
             int i = 1 / 0;
         } catch (Exception e) {
             System.out.println(G.stackTrace(e));
+        }
+    }
+
+    @Test
+    public void testCauseTrace() {
+        try {
+            throwException();
+        } catch (Exception e) {
+            List<Throwable> causes = O.causeTrace(e);
+            System.out.println("causeTrace: " + causes);
+            List<String> causeClassNames = causes.stream().map(c -> c.getClass().getSimpleName()).collect(Collectors.toList());
+            System.out.println("causeClassNames: " + causeClassNames);
+            assertEquals(causeClassNames.toString(), "[Exception, RuntimeException, IOException, IOException, ClassCastException]");
+            assertTrue(causes.get(2) instanceof IOException);
+            System.out.println("------------------------------------------------------------------------");
+            System.out.println(G.stackTrace(e));
+        }
+    }
+
+    void throwException() throws Exception {
+        try {
+            try {
+                try {
+                    try {
+                        throw new ClassCastException("");
+                    } catch (Exception e) {
+                        throw new IOException(e);
+                    }
+                } catch (Exception e) {
+                    throw new IOException(e);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } catch (Exception e) {
+            throw new Exception(e);
         }
     }
 
@@ -856,133 +891,4 @@ public class GlobalTest {
 
     }
 
-    @Test
-    public void testCompareNumber() {
-        int compare0 = O.compare(null, null);
-        int compare1 = O.compare(null, 111111789789.00000);
-        int compare2 = O.compare(1, null);
-        int compare3 = O.compare(111111789789.0, BigDecimal.valueOf(111111789789.00000));
-        int compare4 = O.compare(111111789789.0000102D, BigInteger.valueOf(111111789789L));
-        int compare5 = O.compare(111111789789.000001, 111111789789.00010);
-        // System.out.println("compare0 result: " + compare0);
-        // System.out.println("compare1 result: " + compare1);
-        // System.out.println("compare2 result: " + compare2);
-        // System.out.println("compare3 result: " + compare3);
-        // System.out.println("compare4 result: " + compare4);
-        // System.out.println("compare5 result: " + compare5);
-        assertEquals(compare0, -2);
-        assertEquals(compare1, -2);
-        assertEquals(compare2, -2);
-        assertEquals(compare3, 0);
-        assertEquals(compare4, 1);
-        assertEquals(compare5, -1);
-    }
-
-    @Test
-    public void testIndexOfMaxOrMin1() {
-        int i = 5;
-        int[] nullIs = null;
-        long[] ls = {};
-        int[] is = {3, 5, 9, 4, 1};
-        short[] ss = {20, 1, 5};
-        char[] cs = {'a', 'A', 'z', '9'};
-        byte[] bs = {20, -11, 5, 50};
-        double[] ds = {20.0, 19.79, 20.01, 19.81};
-        float[] fs = {-20.0f, -19.79f, -20.01f, -19.81f};
-        int i1 = O.indexOfMax(i);
-        int i2 = O.indexOfMax(nullIs);
-        int i3 = O.indexOfMax(ls);
-        int i4 = O.indexOfMax(is);
-        int i5 = O.indexOfMax(ss);
-        int i6 = O.indexOfMax(cs);
-        int i7 = O.indexOfMax(bs);
-        int i8 = O.indexOfMax(ds);
-        int i9 = O.indexOfMax(fs);
-
-        assertEquals(i1, -1);
-        assertEquals(i2, -1);
-        assertEquals(i3, -1);
-        assertEquals(i4, 2);
-        assertEquals(i5, 0);
-        assertEquals(i6, 2);
-        assertEquals(i7, 3);
-        assertEquals(i8, 2);
-        assertEquals(i9, 1);
-
-
-        int i01 = O.indexOfMin(i);
-        int i02 = O.indexOfMin(nullIs);
-        int i03 = O.indexOfMin(ls);
-        int i04 = O.indexOfMin(is);
-        int i05 = O.indexOfMin(ss);
-        int i06 = O.indexOfMin(cs);
-        int i07 = O.indexOfMin(bs);
-        int i08 = O.indexOfMin(ds);
-        int i09 = O.indexOfMin(fs);
-
-        assertEquals(i01, -1);
-        assertEquals(i02, -1);
-        assertEquals(i03, -1);
-        assertEquals(i04, 4);
-        assertEquals(i05, 1);
-        assertEquals(i06, 3);
-        assertEquals(i07, 1);
-        assertEquals(i08, 1);
-        assertEquals(i09, 2);
-
-    }
-
-    @Test
-    public void testIndexOfMaxOrMin2() {
-        Integer i = null;
-        Long[] ls = new Long[0];
-        Number[] ns = {null, BigInteger.valueOf(200), new BigDecimal("100.0005"), 1, null};
-        Long nullL = null;
-        double d = 0.05;
-        BigDecimal bigDecimal = BigDecimal.valueOf(100.50);
-        long l = 101;
-        byte b = 20;
-
-        int i1 = O.indexOfMax();
-        int i2 = O.indexOfMax(i);
-        int i3 = O.indexOfMax(ls);
-        int i4 = O.indexOfMax(i, d, nullL);
-        int i5 = O.indexOfMax(i, nullL);
-        int i6 = O.indexOfMax(d, bigDecimal, i, nullL);
-        int i7 = O.indexOfMax(i, d, bigDecimal, i, nullL);
-        int i8 = O.indexOfMax(i, d, bigDecimal, i, nullL, l, b);
-        int i9 = O.indexOfMax(ns);
-
-        assertEquals(i1, -1);
-        assertEquals(i2, -1);
-        assertEquals(i3, -1);
-        assertEquals(i4, 1);
-        assertEquals(i5, -1);
-        assertEquals(i6, 1);
-        assertEquals(i7, 2);
-        assertEquals(i8, 5);
-        assertEquals(i9, 1);
-
-
-        int i01 = O.indexOfMin();
-        int i02 = O.indexOfMin(i);
-        int i03 = O.indexOfMin(ls);
-        int i04 = O.indexOfMin(i, d, nullL);
-        int i05 = O.indexOfMin(i, nullL);
-        int i06 = O.indexOfMin(d, bigDecimal, i, nullL);
-        int i07 = O.indexOfMin(i, d, bigDecimal, i, nullL);
-        int i08 = O.indexOfMin(i, d, bigDecimal, i, nullL, l, b);
-        int i09 = O.indexOfMin(ns);
-
-        assertEquals(i01, -1);
-        assertEquals(i02, -1);
-        assertEquals(i03, -1);
-        assertEquals(i04, 1);
-        assertEquals(i05, -1);
-        assertEquals(i06, 0);
-        assertEquals(i07, 1);
-        assertEquals(i08, 1);
-        assertEquals(i09, 3);
-
-    }
 }

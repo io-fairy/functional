@@ -17,8 +17,11 @@ package com.iofairy.top;
 
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.atomic.DoubleAccumulator;
+import java.util.concurrent.atomic.DoubleAdder;
 
 /**
  * Global Variables And Methods for {@link Object} Operations. <br>
@@ -121,6 +124,26 @@ public final class O {
     }
 
     /**
+     * Get {@link Throwable}'s all causes order by the shallow and deep <br>
+     * 获取所有 {@link Throwable} 的 causes，由浅至深排序
+     *
+     * @param throwable Throwable
+     * @return current {@code throwable} and throwable's all causes
+     * @since 0.3.4
+     */
+    public static List<Throwable> causeTrace(Throwable throwable) {
+        if (throwable == null) return null;
+
+        List<Throwable> causes = new ArrayList<>();
+        causes.add(throwable);
+        Throwable cause = throwable;
+        while ((cause = cause.getCause()) != null) {
+            causes.add(cause);
+        }
+        return causes;
+    }
+
+    /**
      * Gets the first object that is not {@code null}. <br>
      * 获取第一个不为 {@code null} 的值
      *
@@ -138,212 +161,390 @@ public final class O {
         return null;
     }
 
-    /**
-     * Getting index of maximum value in {@code int[] or long[] or float[] or double[] or char[] or byte[] or short[]}
-     *
-     * @param arr {@code int[] or long[] or float[] or double[] or char[] or byte[] or short[]}
-     * @return index of maximum value, {@code -1} if not found.
-     * @since 0.3.0
-     */
-    public static int indexOfMax(Object arr) {
-        if (G.isEmpty(arr)) return -1;
-        if (arr instanceof int[]) {
-            int[] is = (int[]) arr;
-            int index = 0;
-            int max = is[0];
-            for (int i = 1; i < is.length; i++) {
-                int iInt = is[i];
-                if (iInt > max) {
-                    max = iInt;
-                    index = i;
-                }
-            }
-            return index;
-        }
-        if (arr instanceof long[]) {
-            long[] ls = (long[]) arr;
-            int index = 0;
-            long max = ls[0];
-            for (int i = 1; i < ls.length; i++) {
-                long iLong = ls[i];
-                if (iLong > max) {
-                    max = iLong;
-                    index = i;
-                }
-            }
-            return index;
-        }
-        if (arr instanceof float[]) {
-            float[] fs = (float[]) arr;
-            int index = 0;
-            float max = fs[0];
-            for (int i = 1; i < fs.length; i++) {
-                float iFloat = fs[i];
-                if (iFloat > max) {
-                    max = iFloat;
-                    index = i;
-                }
-            }
-            return index;
-        }
-        if (arr instanceof double[]) {
-            double[] ds = (double[]) arr;
-            int index = 0;
-            double max = ds[0];
-            for (int i = 1; i < ds.length; i++) {
-                double iDouble = ds[i];
-                if (iDouble > max) {
-                    max = iDouble;
-                    index = i;
-                }
-            }
-            return index;
-        }
-        if (arr instanceof char[]) {
-            char[] cs = (char[]) arr;
-            int index = 0;
-            char max = cs[0];
-            for (int i = 1; i < cs.length; i++) {
-                char iChar = cs[i];
-                if (iChar > max) {
-                    max = iChar;
-                    index = i;
-                }
-            }
-            return index;
-        }
-        if (arr instanceof byte[]) {
-            byte[] bs = (byte[]) arr;
-            int index = 0;
-            byte max = bs[0];
-            for (int i = 1; i < bs.length; i++) {
-                byte iByte = bs[i];
-                if (iByte > max) {
-                    max = iByte;
-                    index = i;
-                }
-            }
-            return index;
-        }
-        if (arr instanceof short[]) {
-            short[] ss = (short[]) arr;
-            int index = 0;
-            short max = ss[0];
-            for (int i = 1; i < ss.length; i++) {
-                short iShort = ss[i];
-                if (iShort > max) {
-                    max = iShort;
-                    index = i;
-                }
-            }
-            return index;
-        }
+    /*###################################################################################
+     ************************************************************************************
+     ------------------------------------------------------------------------------------
+     ***********************   index of maximum value in arrays   ***********************
+     ------------------------------------------------------------------------------------
+     ************************************************************************************
+     ###################################################################################*/
 
-        return -1;
+    /**
+     * Getting index of maximum value in {@code byte[]}
+     *
+     * @param bs {@code byte[]}
+     * @return index of maximum value, {@code -1} if not found.
+     * @since 0.3.4
+     */
+    public static int indexOfMax(byte[] bs) {
+        if (G.isEmpty(bs)) return -1;
+        int index = 0;
+        byte max = bs[0];
+        for (int i = 1; i < bs.length; i++) {
+            byte iByte = bs[i];
+            if (iByte > max) {
+                max = iByte;
+                index = i;
+            }
+        }
+        return index;
     }
 
     /**
-     * Getting index of minimum value in {@code int[] or long[] or float[] or double[] or char[] or byte[] or short[]}
+     * Getting index of maximum value in {@code short[]}
      *
-     * @param arr {@code int[] or long[] or float[] or double[] or char[] or byte[] or short[]}
-     * @return index of minimum value, {@code -1} if not found.
-     * @since 0.3.0
+     * @param ss {@code short[]}
+     * @return index of maximum value, {@code -1} if not found.
+     * @since 0.3.4
      */
-    public static int indexOfMin(Object arr) {
-        if (G.isEmpty(arr)) return -1;
-        if (arr instanceof int[]) {
-            int[] is = (int[]) arr;
-            int index = 0;
-            int min = is[0];
-            for (int i = 1; i < is.length; i++) {
-                int iInt = is[i];
-                if (iInt < min) {
-                    min = iInt;
+    public static int indexOfMax(short[] ss) {
+        if (G.isEmpty(ss)) return -1;
+        int index = 0;
+        short max = ss[0];
+        for (int i = 1; i < ss.length; i++) {
+            short iShort = ss[i];
+            if (iShort > max) {
+                max = iShort;
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    /**
+     * Getting index of maximum value in {@code char[]}
+     *
+     * @param cs {@code char[]}
+     * @return index of maximum value, {@code -1} if not found.
+     * @since 0.3.4
+     */
+    public static int indexOfMax(char[] cs) {
+        if (G.isEmpty(cs)) return -1;
+        int index = 0;
+        char max = cs[0];
+        for (int i = 1; i < cs.length; i++) {
+            char iChar = cs[i];
+            if (iChar > max) {
+                max = iChar;
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    /**
+     * Getting index of maximum value in {@code int[]}
+     *
+     * @param is {@code int[]}
+     * @return index of maximum value, {@code -1} if not found.
+     * @since 0.3.4
+     */
+    public static int indexOfMax(int[] is) {
+        if (G.isEmpty(is)) return -1;
+        int index = 0;
+        int max = is[0];
+        for (int i = 1; i < is.length; i++) {
+            int iInt = is[i];
+            if (iInt > max) {
+                max = iInt;
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    /**
+     * Getting index of maximum value in {@code long[]}
+     *
+     * @param ls {@code long[]}
+     * @return index of maximum value, {@code -1} if not found.
+     * @since 0.3.4
+     */
+    public static int indexOfMax(long[] ls) {
+        if (G.isEmpty(ls)) return -1;
+        int index = 0;
+        long max = ls[0];
+        for (int i = 1; i < ls.length; i++) {
+            long iLong = ls[i];
+            if (iLong > max) {
+                max = iLong;
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    /**
+     * Getting index of maximum value in {@code float[]} ({@link Float#NaN} will be ignored)
+     *
+     * @param fs {@code float[]}
+     * @return index of maximum value, {@code -1} if not found.
+     * @since 0.3.4
+     */
+    public static int indexOfMax(float[] fs) {
+        if (G.isEmpty(fs)) return -1;
+        int index = -1;
+        float max = Float.NaN;
+        for (int i = 0; i < fs.length; i++) {
+            float iFloat = fs[i];
+            if (!Float.isNaN(iFloat)) {
+                if (Float.isNaN(max)) {
+                    max = iFloat;
                     index = i;
+                } else {
+                    if (iFloat > max) {
+                        max = iFloat;
+                        index = i;
+                    }
                 }
             }
-            return index;
         }
-        if (arr instanceof long[]) {
-            long[] ls = (long[]) arr;
-            int index = 0;
-            long min = ls[0];
-            for (int i = 1; i < ls.length; i++) {
-                long iLong = ls[i];
-                if (iLong < min) {
-                    min = iLong;
+        return index;
+    }
+
+    /**
+     * Getting index of maximum value in {@code double[]} ({@link Double#NaN} will be ignored)
+     *
+     * @param ds {@code double[]}
+     * @return index of maximum value, {@code -1} if not found.
+     * @since 0.3.4
+     */
+    public static int indexOfMax(double[] ds) {
+        if (G.isEmpty(ds)) return -1;
+        int index = -1;
+        double max = Double.NaN;
+        for (int i = 0; i < ds.length; i++) {
+            double iDouble = ds[i];
+            if (!Double.isNaN(iDouble)) {
+                if (Double.isNaN(max)) {
+                    max = iDouble;
                     index = i;
+                } else {
+                    if (iDouble > max) {
+                        max = iDouble;
+                        index = i;
+                    }
                 }
             }
-            return index;
         }
-        if (arr instanceof float[]) {
-            float[] fs = (float[]) arr;
-            int index = 0;
-            float min = fs[0];
-            for (int i = 1; i < fs.length; i++) {
-                float iFloat = fs[i];
-                if (iFloat < min) {
+        return index;
+    }
+
+    /*###################################################################################
+     ************************************************************************************
+     ------------------------------------------------------------------------------------
+     ***********************   index of minimum value in arrays   ***********************
+     ------------------------------------------------------------------------------------
+     ************************************************************************************
+     ###################################################################################*/
+
+    /**
+     * Getting index of minimum value in {@code byte[]}
+     *
+     * @param bs {@code byte[]}
+     * @return index of minimum value, {@code -1} if not found.
+     * @since 0.3.4
+     */
+    public static int indexOfMin(byte[] bs) {
+        if (G.isEmpty(bs)) return -1;
+        int index = 0;
+        byte min = bs[0];
+        for (int i = 1; i < bs.length; i++) {
+            byte iByte = bs[i];
+            if (iByte < min) {
+                min = iByte;
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    /**
+     * Getting index of minimum value in {@code short[]}
+     *
+     * @param ss {@code short[]}
+     * @return index of minimum value, {@code -1} if not found.
+     * @since 0.3.4
+     */
+    public static int indexOfMin(short[] ss) {
+        if (G.isEmpty(ss)) return -1;
+        int index = 0;
+        short min = ss[0];
+        for (int i = 1; i < ss.length; i++) {
+            short iShort = ss[i];
+            if (iShort < min) {
+                min = iShort;
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    /**
+     * Getting index of minimum value in {@code char[]}
+     *
+     * @param cs {@code char[]}
+     * @return index of minimum value, {@code -1} if not found.
+     * @since 0.3.4
+     */
+    public static int indexOfMin(char[] cs) {
+        if (G.isEmpty(cs)) return -1;
+        int index = 0;
+        char min = cs[0];
+        for (int i = 1; i < cs.length; i++) {
+            char iChar = cs[i];
+            if (iChar < min) {
+                min = iChar;
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    /**
+     * Getting index of minimum value in {@code int[]}
+     *
+     * @param is {@code int[]}
+     * @return index of minimum value, {@code -1} if not found.
+     * @since 0.3.4
+     */
+    public static int indexOfMin(int[] is) {
+        if (G.isEmpty(is)) return -1;
+        int index = 0;
+        int min = is[0];
+        for (int i = 1; i < is.length; i++) {
+            int iInt = is[i];
+            if (iInt < min) {
+                min = iInt;
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    /**
+     * Getting index of minimum value in {@code long[]}
+     *
+     * @param ls {@code long[]}
+     * @return index of minimum value, {@code -1} if not found.
+     * @since 0.3.4
+     */
+    public static int indexOfMin(long[] ls) {
+        if (G.isEmpty(ls)) return -1;
+        int index = 0;
+        long min = ls[0];
+        for (int i = 1; i < ls.length; i++) {
+            long iLong = ls[i];
+            if (iLong < min) {
+                min = iLong;
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    /**
+     * Getting index of minimum value in {@code float[]} ({@link Float#NaN} will be ignored)
+     *
+     * @param fs {@code float[]}
+     * @return index of minimum value, {@code -1} if not found.
+     * @since 0.3.4
+     */
+    public static int indexOfMin(float[] fs) {
+        if (G.isEmpty(fs)) return -1;
+        int index = -1;
+        float min = Float.NaN;
+        for (int i = 0; i < fs.length; i++) {
+            float iFloat = fs[i];
+            if (!Float.isNaN(iFloat)) {
+                if (Float.isNaN(min)) {
                     min = iFloat;
                     index = i;
+                } else {
+                    if (iFloat < min) {
+                        min = iFloat;
+                        index = i;
+                    }
                 }
             }
-            return index;
         }
-        if (arr instanceof double[]) {
-            double[] ds = (double[]) arr;
-            int index = 0;
-            double min = ds[0];
-            for (int i = 1; i < ds.length; i++) {
-                double iDouble = ds[i];
-                if (iDouble < min) {
+        return index;
+    }
+
+    /**
+     * Getting index of minimum value in {@code double[]} ({@link Double#NaN} will be ignored)
+     *
+     * @param ds {@code double[]}
+     * @return index of minimum value, {@code -1} if not found.
+     * @since 0.3.4
+     */
+    public static int indexOfMin(double[] ds) {
+        if (G.isEmpty(ds)) return -1;
+        int index = -1;
+        double min = Double.NaN;
+        for (int i = 0; i < ds.length; i++) {
+            double iDouble = ds[i];
+            if (!Double.isNaN(iDouble)) {
+                if (Double.isNaN(min)) {
                     min = iDouble;
                     index = i;
+                } else {
+                    if (iDouble < min) {
+                        min = iDouble;
+                        index = i;
+                    }
                 }
             }
-            return index;
         }
-        if (arr instanceof char[]) {
-            char[] cs = (char[]) arr;
-            int index = 0;
-            char min = cs[0];
-            for (int i = 1; i < cs.length; i++) {
-                char iChar = cs[i];
-                if (iChar < min) {
-                    min = iChar;
-                    index = i;
-                }
-            }
-            return index;
-        }
-        if (arr instanceof byte[]) {
-            byte[] bs = (byte[]) arr;
-            int index = 0;
-            byte min = bs[0];
-            for (int i = 1; i < bs.length; i++) {
-                byte iByte = bs[i];
-                if (iByte < min) {
-                    min = iByte;
-                    index = i;
-                }
-            }
-            return index;
-        }
-        if (arr instanceof short[]) {
-            short[] ss = (short[]) arr;
-            int index = 0;
-            short min = ss[0];
-            for (int i = 1; i < ss.length; i++) {
-                short iShort = ss[i];
-                if (iShort < min) {
-                    min = iShort;
-                    index = i;
-                }
-            }
-            return index;
-        }
+        return index;
+    }
 
-        return -1;
+    /**
+     * Returns {@code true} if this {@code Number} value is {@link Double} or {@link DoubleAdder} or {@link DoubleAccumulator}, {@code false} otherwise.
+     *
+     * @param number number
+     * @return Returns {@code true} if this {@code Number} value is {@link Double} or {@link DoubleAdder} or {@link DoubleAccumulator}, {@code false} otherwise.
+     * @since 0.3.4
+     */
+    public static boolean isDouble(Number number) {
+        return number instanceof Double
+                || number instanceof DoubleAdder
+                || number instanceof DoubleAccumulator;
+    }
+
+    /**
+     * Returns {@code true} if this {@code Number} value is
+     * a {@code Not-a-Number (NaN)} or {@code Infinite}, {@code false} otherwise.
+     *
+     * @param number number
+     * @return Returns {@code true} if this {@code Number} value is
+     * a {@code Not-a-Number (NaN)} or {@code Infinite}, {@code false} otherwise.
+     * @since 0.3.4
+     */
+    public static boolean isInfinityOrNaN(Number number) {
+        if (number == null) return false;
+        if (number instanceof Float || isDouble(number)) {
+            double d = number.doubleValue();
+            return Double.isNaN(d) || Double.isInfinite(d);
+        }
+        return false;
+    }
+
+    /**
+     * Convert {@code Number} to {@code BigDecimal}
+     *
+     * @param number number
+     * @return BigDecimal
+     * @since 0.3.4
+     */
+    public static BigDecimal toBigDecimal(Number number) {
+        if (number == null) return null;
+        if (isInfinityOrNaN(number))
+            throw new NumberFormatException("The `number` is NaN or Infinity, can't convert to BigDecimal");
+
+        return number instanceof BigDecimal
+                ? (BigDecimal) number
+                : (isDouble(number) ? BigDecimal.valueOf(number.doubleValue()) : new BigDecimal(number.toString())); // float 使用字符串更准确
     }
 
     /**
@@ -361,48 +562,55 @@ public final class O {
      */
     public static int compare(Number n1, Number n2) {
         if (G.hasNull(n1, n2)) return -2;
-        BigDecimal bd1 = null;
-        BigDecimal bd2 = null;
-        if (n1 instanceof BigDecimal) {
-            bd1 = (BigDecimal) n1;
-        } else if (n1 instanceof BigInteger) {
-            bd1 = new BigDecimal((BigInteger) n1);
-        } else {
-            bd1 = BigDecimal.valueOf(n1.doubleValue());
+
+        if (n1 == n2) return 0;
+        boolean infinityOrNaN1 = isInfinityOrNaN(n1);
+        boolean infinityOrNaN2 = isInfinityOrNaN(n2);
+        if (infinityOrNaN1 || infinityOrNaN2) {
+            if (infinityOrNaN1) {
+                double d1 = n1.doubleValue();
+                if (infinityOrNaN2) {   // infinityOrNaN1 为 true 且 infinityOrNaN2 为 true
+                    return Double.compare(d1, n2.doubleValue());
+                } else {     // infinityOrNaN1 为 true，但 infinityOrNaN2 为 false
+                    if (Double.isNaN(d1) || d1 == Double.POSITIVE_INFINITY) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+            } else {     // infinityOrNaN1 为 false，但 infinityOrNaN2 为 true
+                double d2 = n2.doubleValue();
+                if (Double.isNaN(d2) || d2 == Double.POSITIVE_INFINITY) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            }
         }
 
-        if (n2 instanceof BigDecimal) {
-            bd2 = (BigDecimal) n2;
-        } else if (n2 instanceof BigInteger) {
-            bd2 = new BigDecimal((BigInteger) n2);
-        } else {
-            bd2 = BigDecimal.valueOf(n2.doubleValue());
-        }
-        return bd1.compareTo(bd2);
+        return toBigDecimal(n1).compareTo(toBigDecimal(n2));
     }
 
     /**
      * Getting index of maximum value in {@link Number} array.
      *
-     * @param ts  {@link Number} array
-     * @param <T> Number's type
+     * @param numbers {@link Number} array
      * @return index of maximum value, {@code -1} if not found.
      * @since 0.3.0
      */
-    @SafeVarargs
-    public static <T extends Number> int indexOfMax(T... ts) {
-        if (G.isEmpty(ts)) return -1;
+    public static int indexOfMax(Number[] numbers) {
+        if (G.isEmpty(numbers)) return -1;
         int index = -1;
         Number max = null;
-        for (int i = 0; i < ts.length; i++) {
-            T t = ts[i];
-            if (t != null) {
+        for (int i = 0; i < numbers.length; i++) {
+            Number number = numbers[i];
+            if (number != null) {
                 if (max == null) {
-                    max = t;
+                    max = number;
                     index = i;
                 } else {
-                    if (compare(t, max) == 1) {
-                        max = t;
+                    if (compare(number, max) == 1) {
+                        max = number;
                         index = i;
                     }
                 }
@@ -414,25 +622,23 @@ public final class O {
     /**
      * Getting index of minimum value in {@link Number} array.
      *
-     * @param ts  {@link Number} array
-     * @param <T> Number's type
+     * @param numbers {@link Number} array
      * @return index of minimum value, {@code -1} if not found.
      * @since 0.3.0
      */
-    @SafeVarargs
-    public static <T extends Number> int indexOfMin(T... ts) {
-        if (G.isEmpty(ts)) return -1;
+    public static int indexOfMin(Number[] numbers) {
+        if (G.isEmpty(numbers)) return -1;
         int index = -1;
         Number min = null;
-        for (int i = 0; i < ts.length; i++) {
-            T t = ts[i];
-            if (t != null) {
+        for (int i = 0; i < numbers.length; i++) {
+            Number number = numbers[i];
+            if (number != null) {
                 if (min == null) {
-                    min = t;
+                    min = number;
                     index = i;
                 } else {
-                    if (compare(t, min) == -1) {
-                        min = t;
+                    if (compare(number, min) == -1) {
+                        min = number;
                         index = i;
                     }
                 }
