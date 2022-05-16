@@ -755,7 +755,8 @@ public final class G {
         if (O.isInfinityOrNaN(number)) return number.toString();
 
         if (O.isDouble(number) || number instanceof Float || number instanceof BigDecimal) {
-            return toString(O.toBigDecimal(number), newScale, roundingMode, isStripTrailingZeros);
+            String numberStr = toString(O.toBigDecimal(number), newScale, roundingMode, isStripTrailingZeros);
+            return numberStr.contains(".") ? numberStr : numberStr + ".0";
         } else {
             return newScale < 0 ? toString(O.toBigDecimal(number), newScale, roundingMode, isStripTrailingZeros) : number.toString();
         }

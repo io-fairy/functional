@@ -19,11 +19,11 @@ public class GlobalNumberTest {
 
     @Test
     public void testNumberToString() {
-        Object[] objects = {"this is string", 1.0f, 'a', null, 0.0d / 0.0, Float.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY,
-                10.000198f, 897.66897975569d, new BigDecimal("100.1000000"), 9999999999.120000000089569999d};
+        Object[] objects = {"this is string", 1.0f, 100, 1, 'a', null, 0.0d / 0.0, Float.POSITIVE_INFINITY, 0f, 0d, 0, -0.0f, Double.NEGATIVE_INFINITY,
+                -10.000198f, 897.66897975569d, new BigDecimal("-100.1000000"), -9999999999.120000000089569999d};
         double[] ds = {0.0d / 0.0, Float.POSITIVE_INFINITY, 1.0f, Double.NEGATIVE_INFINITY, 10.000198f, 897.66897975569d, 9999999999.120000000089569999d};
-        Double[] ds1 = {0.0d / 0.0, 0.01 / 0.0, null, Double.NEGATIVE_INFINITY, 10.000198d, 897.66897975569d, 9999999999.120000000089569999d};
-        float[] fs = {0.0f / 0.0f, 0.01f / 0.0f, Float.NEGATIVE_INFINITY, 10.000198f, 897.66897975569f};
+        Double[] ds1 = {-0.0d / 0.0, -0.01 / 0.0, null, Double.NEGATIVE_INFINITY, 10.000198d, 897.66897975569d, 9999999999.120000000089569999d};
+        float[] fs = {0.0f / -0.0f, 0.01f / 0.0f, Float.NEGATIVE_INFINITY, -10.000198f, 897.66897975569f};
         Number[] ns = {0.0d / 0.0, Float.POSITIVE_INFINITY, 1.0f, null, Double.NEGATIVE_INFINITY, 10.000198f, 897.66897975569d,
                 new BigDecimal("100.1000000"), 9999999999l, 9999999999.120000000089569999d};
         Object o = 9999999999.120000000089569999d;
@@ -36,10 +36,10 @@ public class GlobalNumberTest {
         double d1 = 0.01 / 0.0;
         double d2 = Double.NEGATIVE_INFINITY;
 
-        System.out.println(Arrays.toString(objects)); // [this is string, 1.0, a, null, NaN, Infinity, -Infinity, 10.000198, 897.66897975569, 100.1000000, 9.99999999912E9]
+        System.out.println(Arrays.toString(objects)); // [this is string, 1.0, 100, 1, a, null, NaN, Infinity, 0.0, 0.0, 0, -0.0, -Infinity, -10.000198, 897.66897975569, -100.1000000, -9.99999999912E9]
         System.out.println(Arrays.toString(ds));      // [NaN, Infinity, 1.0, -Infinity, 10.000198364257812, 897.66897975569, 9.99999999912E9]
-        System.out.println(Arrays.toString(ds1));     // [NaN, Infinity, null, -Infinity, 10.000198, 897.66897975569, 9.99999999912E9]
-        System.out.println(Arrays.toString(fs));      // [NaN, Infinity, -Infinity, 10.000198, 897.669]
+        System.out.println(Arrays.toString(ds1));     // [NaN, -Infinity, null, -Infinity, 10.000198, 897.66897975569, 9.99999999912E9]
+        System.out.println(Arrays.toString(fs));      // [NaN, Infinity, -Infinity, -10.000198, 897.669]
         System.out.println(Arrays.toString(ns));      // [NaN, Infinity, 1.0, null, -Infinity, 10.000198, 897.66897975569, 100.1000000, 9999999999, 9.99999999912E9]
         System.out.println(o);   // 9.99999999912E9
         System.out.println(o1);  // Infinity
@@ -51,10 +51,10 @@ public class GlobalNumberTest {
         System.out.println(d1);  // Infinity
         System.out.println(d2);  // -Infinity
         System.out.println("===================================================");
-        System.out.println(G.toString(objects)); // ["this is string", 1, 'a', null, NaN, Infinity, -Infinity, 10.000198, 897.66898, 100.1, 9999999999.12]
+        System.out.println(G.toString(objects)); // ["this is string", 1.0, 100, 1, 'a', null, NaN, Infinity, 0.0, 0.0, 0, 0.0, -Infinity, -10.000198, 897.66898, -100.1, -9999999999.12]
         System.out.println(G.toString(ds));      // [NaN, Infinity, 1, -Infinity, 10.000198, 897.66898, 9999999999.12]
-        System.out.println(G.toString(ds1));     // [NaN, Infinity, null, -Infinity, 10.000198, 897.66898, 9999999999.12]
-        System.out.println(G.toString(fs));      // [NaN, Infinity, -Infinity, 10.000198, 897.669]
+        System.out.println(G.toString(ds1));     // [NaN, -Infinity, null, -Infinity, 10.000198, 897.66898, 9999999999.12]
+        System.out.println(G.toString(fs));      // [NaN, Infinity, -Infinity, -10.000198, 897.669]
         System.out.println(G.toString(ns));      // [NaN, Infinity, 1, null, -Infinity, 10.000198, 897.66898, 100.1, 9999999999, 9999999999.12]
         System.out.println(G.toString(o));       // 9999999999.12
         System.out.println(G.toString(o1));      // Infinity
@@ -66,11 +66,11 @@ public class GlobalNumberTest {
         System.out.println(G.toString(d1));      // Infinity
         System.out.println(G.toString(d2));      // -Infinity
         System.out.println("===================================================");
-        assertEquals(G.toString(objects), "[\"this is string\", 1, 'a', null, NaN, Infinity, -Infinity, 10.000198, 897.66898, 100.1, 9999999999.12]");
-        assertEquals(G.toString(ds), "[NaN, Infinity, 1, -Infinity, 10.000198, 897.66898, 9999999999.12]");
-        assertEquals(G.toString(ds1), "[NaN, Infinity, null, -Infinity, 10.000198, 897.66898, 9999999999.12]");
-        assertEquals(G.toString(fs), "[NaN, Infinity, -Infinity, 10.000198, 897.669]");
-        assertEquals(G.toString(ns), "[NaN, Infinity, 1, null, -Infinity, 10.000198, 897.66898, 100.1, 9999999999, 9999999999.12]");
+        assertEquals(G.toString(objects), "[\"this is string\", 1.0, 100, 1, 'a', null, NaN, Infinity, 0.0, 0.0, 0, 0.0, -Infinity, -10.000198, 897.66898, -100.1, -9999999999.12]");
+        assertEquals(G.toString(ds), "[NaN, Infinity, 1.0, -Infinity, 10.000198, 897.66898, 9999999999.12]");
+        assertEquals(G.toString(ds1), "[NaN, -Infinity, null, -Infinity, 10.000198, 897.66898, 9999999999.12]");
+        assertEquals(G.toString(fs), "[NaN, Infinity, -Infinity, -10.000198, 897.669]");
+        assertEquals(G.toString(ns), "[NaN, Infinity, 1.0, null, -Infinity, 10.000198, 897.66898, 100.1, 9999999999, 9999999999.12]");
         assertEquals(G.toString(o), "9999999999.12");
         assertEquals(G.toString(o1), "Infinity");
         assertEquals(G.toString(o2), "-Infinity");
@@ -367,14 +367,14 @@ public class GlobalNumberTest {
         assertEquals(G.toString(O.toBigDecimal(1.0001f)), "1.0001");
         assertEquals(G.toString(O.toBigDecimal(9999999999.120000000089569999d)), "9999999999.12");
         assertEquals(G.toString(O.toBigDecimal(new BigDecimal("100.1000000"))), "100.1");
-        assertEquals(G.toString(O.toBigDecimal(new BigInteger("789789789789789789889789779"))), "789789789789789789889789779");
+        assertEquals(G.toString(O.toBigDecimal(new BigInteger("-789789789789789789889789779"))), "-789789789789789789889789779.0");
 
         BigDecimal bd1 = BigDecimal.valueOf(0.1f);
         BigDecimal bd2 = BigDecimal.valueOf(0.000001f);
-        System.out.println(bd1);        // 0.10000000149011612
-        System.out.println(O.toBigDecimal(0.1f));   // 0.1
-        System.out.println(bd2);        // 9.999999974752427E-7
-        System.out.println(O.toBigDecimal(0.000001f));  // 0.0000010
+        System.out.println(bd1);                                // 0.10000000149011612
+        System.out.println(O.toBigDecimal(0.1f));               // 0.1
+        System.out.println(bd2);                                // 9.999999974752427E-7
+        System.out.println(O.toBigDecimal(0.000001f));          // 0.0000010
         assertEquals(G.toString(O.toBigDecimal(0.1f)), "0.1");
         assertEquals(G.toString(O.toBigDecimal(0.000001f)), "0.000001");
     }
