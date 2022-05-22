@@ -20,8 +20,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.DoubleAccumulator;
-import java.util.concurrent.atomic.DoubleAdder;
+import java.util.concurrent.atomic.*;
 
 /**
  * Global Variables And Methods for {@link Object} Operations. <br>
@@ -507,9 +506,51 @@ public final class O {
      * @since 0.3.4
      */
     public static boolean isDouble(Number number) {
-        return number instanceof Double
-                || number instanceof DoubleAdder
-                || number instanceof DoubleAccumulator;
+        return number instanceof Double || number instanceof DoubleAdder || number instanceof DoubleAccumulator;
+    }
+
+    /**
+     * Returns {@code true} if this {@code Number} value is {@link Float} or {@link #isDouble(Number)}, {@code false} otherwise.
+     *
+     * @param number number
+     * @return Returns {@code true} if this {@code Number} value is {@link Float} or {@link #isDouble(Number)}, {@code false} otherwise.
+     * @since 0.3.6
+     */
+    public static boolean isFloat(Number number) {
+        return number instanceof Float || isDouble(number);
+    }
+
+    /**
+     * Returns {@code true} if this {@code Number} value is {@link Long} or {@link AtomicLong} or {@link LongAdder}
+     * or {@link LongAccumulator}, {@code false} otherwise.
+     *
+     * @param number number
+     * @return Returns {@code true} if this {@code Number} value is {@link Long} or {@link AtomicLong} or {@link LongAdder}
+     * or {@link LongAccumulator}, {@code false} otherwise.
+     * @since 0.3.6
+     */
+    public static boolean isLong(Number number) {
+        return number instanceof Long
+                || number instanceof AtomicLong
+                || number instanceof LongAdder
+                || number instanceof LongAccumulator;
+    }
+
+    /**
+     * Returns {@code true} if this {@code Number} value is {@link Byte} or {@link Short} or {@link Integer}
+     * or {@link AtomicInteger} or {@link #isLong(Number)}, {@code false} otherwise.
+     *
+     * @param number number
+     * @return Returns {@code true} if this {@code Number} value is {@link Byte} or {@link Short} or {@link Integer}
+     * or {@link AtomicInteger} or {@link #isLong(Number)}, {@code false} otherwise.
+     * @since 0.3.6
+     */
+    public static boolean isInteger(Number number) {
+        return number instanceof Byte
+                || number instanceof Short
+                || number instanceof Integer
+                || number instanceof AtomicInteger
+                || isLong(number);
     }
 
     /**
@@ -523,7 +564,7 @@ public final class O {
      */
     public static boolean isInfinityOrNaN(Number number) {
         if (number == null) return false;
-        if (number instanceof Float || isDouble(number)) {
+        if (isFloat(number)) {
             double d = number.doubleValue();
             return Double.isNaN(d) || Double.isInfinite(d);
         }
