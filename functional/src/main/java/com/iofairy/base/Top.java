@@ -30,7 +30,7 @@ public final class Top {
      *
      * @since 0.3.6
      */
-    public static class Nul {
+    public final static class Nul {
         public static final Nul NUL = new Nul();
         public final char value = '\u0000';
 
