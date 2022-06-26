@@ -891,4 +891,53 @@ public class GlobalTest {
 
     }
 
+    @Test
+    public void testPadLeftChars() {
+        String s0 = null;
+        String s1 = "";
+        String s2 = "abcd";
+        Integer i = 10;
+
+        String s00 = S.padLeftChars(s0, '0', 0);        // null
+        String s01 = S.padLeftChars(s1, '0', 0);        //
+        String s02 = S.padLeftChars(s2, '0', 0);        // abcd
+        String s10 = S.padLeftChars(s0, '#', 3);        // null
+        String s11 = S.padLeftChars(s1, '#', 3);        // ###
+        String s12 = S.padLeftChars(s2, '#', 3);        // abcd
+        String s20 = S.padLeftChars(s0, '0', 5);        // null
+        String s21 = S.padLeftChars(s1, '0', 5);        // 00000
+        String s22 = S.padLeftChars(s2, '0', 5);        // 0abcd
+        String i1 = S.padLeftChars(i, '0', 0);          // 10
+        String i2 = S.padLeftChars(i, '0', 1);          // 10
+        String i3 = S.padLeftChars(i, '0', 5);          // 00010
+        String i4 = S.padLeftChars(i, '#', 3);          // #10
+
+        System.out.println(s00);        // null
+        System.out.println(s01);        //
+        System.out.println(s02);        // abcd
+        System.out.println(s10);        // null
+        System.out.println(s11);        // ###
+        System.out.println(s12);        // abcd
+        System.out.println(s20);        // null
+        System.out.println(s21);        // 00000
+        System.out.println(s22);        // 0abcd
+        System.out.println(i1);         // 10
+        System.out.println(i2);         // 10
+        System.out.println(i3);         // 00010
+        System.out.println(i4);         // #10
+
+        assertNull(s00);
+        assertEquals(s01, "");
+        assertEquals(s02, "abcd");
+        assertNull(s10);
+        assertEquals(s11, "###");
+        assertEquals(s12, "abcd");
+        assertNull(s20);
+        assertEquals(s21, "00000");
+        assertEquals(s22, "0abcd");
+        assertEquals(i1, "10");
+        assertEquals(i2, "10");
+        assertEquals(i3, "00010");
+        assertEquals(i4, "#10");
+    }
 }

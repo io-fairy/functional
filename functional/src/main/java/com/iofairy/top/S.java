@@ -271,6 +271,51 @@ public final class S {
     }
 
     /**
+     * Padding chars to the left of the input char sequence to the given length. <br>
+     * 在字符串左侧添加字符以达到给定的长度
+     *
+     * @param cs      input char sequence
+     * @param padChar pad char
+     * @param length  final length of returns string
+     * @return string
+     * @since 0.3.7
+     */
+    public static String padLeftChars(CharSequence cs, char padChar, int length) {
+        if (cs == null) return null;
+        if (cs.length() >= length) return cs.toString();
+        int padLength = length - cs.length();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < padLength; i++) {
+            sb.append(padChar);
+        }
+        sb.append(cs);
+        return sb.toString();
+    }
+
+    /**
+     * Padding chars to the left of the input number to the given length. <br>
+     * 在数字左侧添加字符以达到给定的长度
+     *
+     * @param number  input number
+     * @param padChar pad char
+     * @param length  final length of returns string
+     * @return string
+     * @since 0.3.7
+     */
+    public static String padLeftChars(Number number, char padChar, int length) {
+        if (number == null) return null;
+        String numberStr = G.toString(number);
+        if (numberStr.length() >= length) return numberStr;
+        int padLength = length - numberStr.length();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < padLength; i++) {
+            sb.append(padChar);
+        }
+        sb.append(numberStr);
+        return sb.toString();
+    }
+
+    /**
      * Split by the place where the delimiter first appears, only split once. <br>
      * 在分隔符第一次出现的地方切分字符串，将一个字符串分隔成两个字符串
      *
