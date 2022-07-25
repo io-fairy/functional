@@ -83,7 +83,8 @@ public final class G {
         public final static DateTimeFormatter SIMPLE_DTF          = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
         public final static DateTimeFormatter CONCISE_DTF         = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS '['VV xxx']'");
         public final static DateTimeFormatter CONCISE_OFFSET_DTF  = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS '['xxx']'");
-        public final static DateTimeFormatter DETAILED_DTF        = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSSSS '['VV xxx O E']'");
+        public final static DateTimeFormatter DETAILED_DTF        = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSSSS '['E']'");
+        public final static DateTimeFormatter DETAILED_ZONED_DTF  = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSSSS '['VV xxx O E']'");
         public final static DateTimeFormatter DETAILED_OFFSET_DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSSSS '['xxx O E']'");
     }
 
@@ -227,6 +228,8 @@ public final class G {
     public static String dtSimple(Temporal temporal) {
         if (temporal == null) return "null";
 
+        if (temporal instanceof LocalDateTime) return ((LocalDateTime) temporal).format(DTFormatters.SIMPLE_DTF);
+
         if (temporal instanceof OffsetDateTime) {
             Integer defaultOffsetSeconds = Try.tcf(() -> OffsetDateTime.now().getOffset().getTotalSeconds(), false);
             OffsetDateTime offsetDT = (OffsetDateTime) temporal;
@@ -280,10 +283,13 @@ public final class G {
      */
     public static String dtDetail(Temporal temporal) {
         if (temporal == null) return "null";
+
+        if (temporal instanceof LocalDateTime) return ((LocalDateTime) temporal).format(DTFormatters.DETAILED_DTF);
+
         ZonedDateTime zonedDT = temporalToZonedDT(temporal);
         return temporal instanceof OffsetDateTime
                 ? ((OffsetDateTime) temporal).format(DTFormatters.DETAILED_OFFSET_DTF)
-                : (zonedDT != null ? zonedDT.format(DTFormatters.DETAILED_DTF) : temporal.toString());
+                : (zonedDT != null ? zonedDT.format(DTFormatters.DETAILED_ZONED_DTF) : temporal.toString());
     }
 
     /**
@@ -296,11 +302,9 @@ public final class G {
      * @since 0.2.3
      */
     private static ZonedDateTime temporalToZonedDT(Temporal temporal) {
-        return temporal instanceof LocalDateTime
-                ? ZonedDateTime.of((LocalDateTime) temporal, DTFormatters.DEFAULT_ZONE)
-                : (temporal instanceof Instant
+        return temporal instanceof Instant
                 ? ZonedDateTime.ofInstant((Instant) temporal, DTFormatters.DEFAULT_ZONE)
-                : (temporal instanceof ZonedDateTime ? (ZonedDateTime) temporal : null));
+                : (temporal instanceof ZonedDateTime ? (ZonedDateTime) temporal : null);
     }
 
     /**

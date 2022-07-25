@@ -582,7 +582,7 @@ public class GlobalTest {
         // localDateTime
         assertEquals("2022-01-01 10:05:05.987", dtSimple2);
         assertEquals("2022-01-01 10:05:05.987", toString2);
-        assertEquals("2022-01-01 10:05:05.987654789 [Asia/Shanghai +08:00 GMT+8 周六]", dtDetail2);
+        assertEquals("2022-01-01 10:05:05.987654789 [周六]", dtDetail2);
         // instant
         assertEquals("2022-01-01 10:05:05.987", dtSimple3);
         assertEquals("2022-01-01 10:05:05.987", toString3);
@@ -661,7 +661,7 @@ public class GlobalTest {
         // localDateTime
         assertEquals("2022-01-01 23:05:05.987", dtSimple2);
         assertEquals("2022-01-01 23:05:05.987", toString2);
-        assertEquals("2022-01-01 23:05:05.987654789 [Asia/Shanghai +08:00 GMT+8 周六]", dtDetail2);
+        assertEquals("2022-01-01 23:05:05.987654789 [周六]", dtDetail2);
         // instant
         assertEquals("2022-01-01 23:05:05.987", dtSimple3);
         assertEquals("2022-01-01 23:05:05.987", toString3);
