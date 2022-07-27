@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,6 +36,8 @@ public class GlobalNumberTest {
         double d = 897.66897975569d;
         double d1 = 0.01 / 0.0;
         double d2 = Double.NEGATIVE_INFINITY;
+        List<Object> objectsList = Arrays.asList(objects);
+        List<Number> numberList = Arrays.asList(ns);
 
         System.out.println(Arrays.toString(objects)); // [this is string, 1.0, 100, 1, a, null, NaN, Infinity, 0.0, 0.0, 0, -0.0, -Infinity, -10.000198, 897.66897975569, -100.1000000, -9.99999999912E9]
         System.out.println(Arrays.toString(ds));      // [NaN, Infinity, 1.0, -Infinity, 10.000198364257812, 897.66897975569, 9.99999999912E9]
@@ -50,6 +53,8 @@ public class GlobalNumberTest {
         System.out.println(d);   // 897.66897975569
         System.out.println(d1);  // Infinity
         System.out.println(d2);  // -Infinity
+        System.out.println(objectsList);    // [this is string, 1.0, 100, 1, a, null, NaN, Infinity, 0.0, 0.0, 0, -0.0, -Infinity, -10.000198, 897.66897975569, -100.1000000, -9.99999999912E9]
+        System.out.println(numberList);     // [NaN, Infinity, 1.0, null, -Infinity, 10.000198, 897.66897975569, 100.1000000, 9999999999, 9.99999999912E9]
         System.out.println("===================================================");
         System.out.println(G.toString(objects)); // ["this is string", 1.0, 100, 1, 'a', null, NaN, Infinity, 0.0, 0.0, 0, 0.0, -Infinity, -10.000198, 897.66898, -100.1, -9999999999.12]
         System.out.println(G.toString(ds));      // [NaN, Infinity, 1, -Infinity, 10.000198, 897.66898, 9999999999.12]
@@ -65,6 +70,8 @@ public class GlobalNumberTest {
         System.out.println(G.toString(d));       // 897.66898
         System.out.println(G.toString(d1));      // Infinity
         System.out.println(G.toString(d2));      // -Infinity
+        System.out.println(G.toString(objectsList));    // ["this is string", 1.0, 100, 1, 'a', null, NaN, Infinity, 0.0, 0.0, 0, 0.0, -Infinity, -10.000198, 897.66898, -100.1, -9999999999.12]
+        System.out.println(G.toString(numberList));     // [NaN, Infinity, 1.0, null, -Infinity, 10.000198, 897.66898, 100.1, 9999999999, 9999999999.12]
         System.out.println("===================================================");
         assertEquals(G.toString(objects), "[\"this is string\", 1.0, 100, 1, 'a', null, NaN, Infinity, 0.0, 0.0, 0, 0.0, -Infinity, -10.000198, 897.66898, -100.1, -9999999999.12]");
         assertEquals(G.toString(ds), "[NaN, Infinity, 1.0, -Infinity, 10.000198, 897.66898, 9999999999.12]");
@@ -80,6 +87,8 @@ public class GlobalNumberTest {
         assertEquals(G.toString(d), "897.66898");
         assertEquals(G.toString(d1), "Infinity");
         assertEquals(G.toString(d2), "-Infinity");
+        assertEquals(G.toString(objectsList), "[\"this is string\", 1.0, 100, 1, 'a', null, NaN, Infinity, 0.0, 0.0, 0, 0.0, -Infinity, -10.000198, 897.66898, -100.1, -9999999999.12]");
+        assertEquals(G.toString(numberList), "[NaN, Infinity, 1.0, null, -Infinity, 10.000198, 897.66898, 100.1, 9999999999, 9999999999.12]");
     }
 
 
