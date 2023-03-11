@@ -15,6 +15,7 @@
  */
 package com.iofairy.top;
 
+import com.iofairy.except.UnexpectedParameterException;
 import com.iofairy.tuple.Tuple;
 import com.iofairy.tuple.Tuple2;
 
@@ -316,6 +317,75 @@ public final class S {
     }
 
     /**
+     * Using string to enclose a String<br>
+     * <p>Examples:
+     * <pre>{@code
+     * S.enclose("abc", "||");              // returns "||abc||";
+     * }</pre>
+     *
+     * @param enclosedStr 被包围的字符串
+     * @param encloseStr  包围的字符串
+     * @return 包围后的字符串
+     * @since 0.3.11
+     */
+    public static String enclose(String enclosedStr, String encloseStr) {
+        return enclose(enclosedStr, encloseStr, encloseStr);
+    }
+
+    /**
+     * Using two strings to enclose a String<br>
+     * <p>Examples:
+     * <pre>{@code
+     * S.enclose("abc", ">>", "<<");            // returns ">>abc<<";
+     * }</pre>
+     *
+     * @param enclosedStr 被包围的字符串
+     * @param encloseStr1 包围的字符串1
+     * @param encloseStr2 包围的字符串2
+     * @return 包围后的字符串
+     * @since 0.3.11
+     */
+    public static String enclose(String enclosedStr, String encloseStr1, String encloseStr2) {
+        if (encloseStr1 == null || encloseStr2 == null) throw new NullPointerException("Parameters `encloseStr1`, `encloseStr2` must be non-null!");
+        if (enclosedStr == null) return null;
+        return encloseStr1 + enclosedStr + encloseStr2;
+    }
+
+    /**
+     * Using char to enclose a String
+     * <p>Examples:
+     * <pre>{@code
+     * S.enclose("abc", '"');                   // returns "\"abc\"";
+     * }</pre>
+     *
+     * @param enclosedStr 被包围的字符串
+     * @param encloseChar 包围的字符
+     * @return 包围后的字符串
+     * @since 0.3.11
+     */
+    public static String enclose(String enclosedStr, char encloseChar) {
+        return enclose(enclosedStr, encloseChar, encloseChar);
+    }
+
+    /**
+     * Using two chars to enclose a String
+     * <p>Examples:
+     * <pre>{@code
+     * S.enclose("abc", '>', '<');              // returns ">abc<";
+     * }</pre>
+     *
+     * @param enclosedStr  被包围的字符串
+     * @param encloseChar1 包围的字符1
+     * @param encloseChar2 包围的字符2
+     * @return 包围后的字符串
+     * @since 0.3.11
+     */
+    public static String enclose(String enclosedStr, char encloseChar1, char encloseChar2) {
+        if (enclosedStr == null) return null;
+        return encloseChar1 + enclosedStr + encloseChar2;
+    }
+
+    /**
      * Split by the place where the delimiter first appears, only split once. <br>
      * 在分隔符第一次出现的地方切分字符串，将一个字符串分隔成两个字符串
      *
@@ -333,6 +403,32 @@ public final class S {
             return Tuple.of(source, null);
         }
     }
+
+    /**
+     * The index within this string of the specified occurrence order of the specified substring. <br>
+     * 获取指定的子字符串的指定出现次序在原字符串中的位置序号
+     *
+     * @param source          原字符串
+     * @param subStr          要匹配的子字符串
+     * @param appearanceOrder 出现的次序（第几次出现），从 1 开始计数
+     * @return index
+     * @since 0.3.11
+     */
+    public static int indexOf(String source, String subStr, int appearanceOrder) {
+        if (source == null || subStr == null) throw new NullPointerException("Parameters `source`, `subStr` must be non-null!");
+        if (appearanceOrder < 1) throw new UnexpectedParameterException("Parameter `appearanceOrder` must be greater than 0");
+
+        int index = -1;
+        int count = 0;
+        while ((index = source.indexOf(subStr, index + 1)) != -1) {
+            count++;
+            if (count == appearanceOrder) {
+                return index;
+            }
+        }
+        return -1;
+    }
+
 
     /**
      * Counts how many times the char occurrences in the given string.

@@ -14,7 +14,7 @@
 
     <packaging>jar</packaging>
     <name>Functional Programming for Java</name>
-    <description>Functional Programming for Java</description>
+    <description>Functional Programming for Java 8+ and compatible with the modular system of Java 9+.</description>
     <url>https://github.com/io-fairy/functional</url>
 
     <licenses>

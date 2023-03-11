@@ -1,5 +1,6 @@
 package com.iofairy.test;
 
+import com.iofairy.except.UnexpectedParameterException;
 import com.iofairy.top.*;
 import com.iofairy.tuple.Tuple2;
 import org.junit.jupiter.api.Test;
@@ -939,5 +940,59 @@ public class GlobalTest {
         assertEquals(i2, "10");
         assertEquals(i3, "00010");
         assertEquals(i4, "#10");
+    }
+
+    @Test
+    public void testEnclose() {
+        String s1 = S.enclose("abc", '"');
+        String s2 = S.enclose("abc", "||");
+        String s3 = S.enclose("abc", '>', '<');
+        String s4 = S.enclose("abc", ">>", "<<");
+        String s6 = S.enclose(null, ">>", "<<");
+
+        assertEquals(s1, "\"abc\"");
+        assertEquals(s2, "||abc||");
+        assertEquals(s3, ">abc<");
+        assertEquals(s4, ">>abc<<");
+        assertThrows(NullPointerException.class, () -> S.enclose("abc", null, "<<"));
+        assertNull(s6);
+
+    }
+
+    @Test
+    public void testIndexOf() {
+        assertThrows(NullPointerException.class, () -> S.indexOf(null, "", 1));
+        assertThrows(NullPointerException.class, () -> S.indexOf("", null, 1));
+        assertThrows(UnexpectedParameterException.class, () -> S.indexOf("", "", 0));
+        int i1 = S.indexOf("", "", 1);
+        int i2 = S.indexOf("abcabcaaabc", "abc", 3);
+        int i3 = S.indexOf("abcabcaaabc", "abc", 6);
+        int i4 = S.indexOf("abcabcaaabc", "b", 3);
+        int i5 = S.indexOf("abcabcaaabc", "a", 2);
+        int i6 = S.indexOf("aaaaaaaa", "aaa", 5);
+        int i7 = S.indexOf("aaaaaaaa", "abc", 1);
+        int i8 = S.indexOf("", "", 3);
+        System.out.println("".indexOf("")); // 0
+        System.out.println("a".indexOf(""));    // 0
+        System.out.println("".indexOf("a"));    // -1
+        // System.out.println("".indexOf(null));    // java.lang.NullPointerException
+        System.out.println(i1);     // 0
+        System.out.println(i2);     // 8
+        System.out.println(i3);     // -1
+        System.out.println(i4);     // 9
+        System.out.println(i5);     // 3
+        System.out.println(i6);     // 4
+        System.out.println(i7);     // -1
+        System.out.println(i8);     // 0
+
+        assertEquals(i1, 0);
+        assertEquals(i2, 8);
+        assertEquals(i3, -1);
+        assertEquals(i4, 9);
+        assertEquals(i5, 3);
+        assertEquals(i6, 4);
+        assertEquals(i7, -1);
+        assertEquals(i8, 0);
+
     }
 }
