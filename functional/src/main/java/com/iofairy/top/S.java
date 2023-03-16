@@ -317,6 +317,127 @@ public final class S {
     }
 
     /**
+     * Tests if the given string ends with the specified suffix, when compared starting from the specified offset from the end of the string. <br>
+     * 检查给定的字符串是否以指定的后缀结尾，从字符串末尾的指定偏移量开始比较。
+     *
+     * @param str           the string to check
+     * @param suffix        the suffix to check for
+     * @param offsetFromEnd the offset from the end of the string to start the comparison from. 从字符串末尾开始的偏移量
+     * @return true if the given string ends with the specified suffix, false otherwise
+     * @since 0.3.11
+     */
+    public static boolean endsWith(String str, String suffix, int offsetFromEnd) {
+        if (str == null || suffix == null || offsetFromEnd < 0) return false;
+        return str.startsWith(suffix, str.length() - offsetFromEnd - suffix.length());
+    }
+
+    /**
+     * Trims the string and returns a string that does not start with {@code trimHeadStr} and does not end with {@code trimTailStr}. <br>
+     * 修剪字符串，并返回不以 {@code trimHeadStr} 开头 且 不以 {@code trimTailStr} 结尾的字符串
+     *
+     * @param str         待修剪的字符串
+     * @param trimHeadStr 修剪头部指定的字符串
+     * @param trimTailStr 修剪尾部指定的字符串
+     * @return 修剪后的字符串
+     * @since 0.3.11
+     */
+    public static String trim(String str, String trimHeadStr, String trimTailStr) {
+        return trim(str, trimHeadStr, trimTailStr, true);
+    }
+
+    /**
+     * Trims the string and returns a string that does not start with {@code trimHeadStr} and does not end with {@code trimTailStr}. <br>
+     * 修剪字符串，并返回不以 {@code trimHeadStr} 开头 且 不以 {@code trimTailStr} 结尾的字符串
+     *
+     * @param str             待修剪的字符串
+     * @param trimHeadStr     修剪头部指定的字符串
+     * @param trimTailStr     修剪尾部指定的字符串
+     * @param isTrimHeadFirst true，先修剪头部，再修剪尾部；false，先修剪尾部，再修剪头部
+     * @return 修剪后的字符串
+     * @since 0.3.11
+     */
+    public static String trim(String str, String trimHeadStr, String trimTailStr, boolean isTrimHeadFirst) {
+        if (isEmpty(str)) return str;
+
+        int start = 0;
+        int end = str.length();
+
+        if (isTrimHeadFirst) {
+            if (!isEmpty(trimHeadStr)) {
+                while (start < end && str.startsWith(trimHeadStr, start)) {
+                    start += trimHeadStr.length();
+                }
+            }
+            if (!isEmpty(trimTailStr)) {
+                while (end - trimTailStr.length() >= start && endsWith(str, trimTailStr, str.length() - end)) {
+                    end -= trimTailStr.length();
+                }
+            }
+        } else {
+            if (!isEmpty(trimTailStr)) {
+                while (end - trimTailStr.length() >= start && endsWith(str, trimTailStr, str.length() - end)) {
+                    end -= trimTailStr.length();
+                }
+            }
+            if (!isEmpty(trimHeadStr)) {
+                while (start < end && str.startsWith(trimHeadStr, start)) {
+                    start += trimHeadStr.length();
+                }
+            }
+        }
+
+
+        return str.substring(start, end);
+    }
+
+    /**
+     * Trim the given string <b>once</b> with the specified header string and tail string. <br>
+     * 使用指定的头部字符串与尾部字符串对给定的字符串修剪<b>一次</b>
+     *
+     * @param str         待修剪的字符串
+     * @param trimHeadStr 修剪头部指定的字符串
+     * @param trimTailStr 修剪尾部指定的字符串
+     * @return 修剪后的字符串
+     * @since 0.3.11
+     */
+    public static String trimOnce(String str, String trimHeadStr, String trimTailStr) {
+        return trimOnce(str, trimHeadStr, trimTailStr, true);
+    }
+
+    /**
+     * Trim the given string <b>once</b> with the specified header string and tail string. <br>
+     * 使用指定的头部字符串与尾部字符串对给定的字符串修剪<b>一次</b>
+     *
+     * @param str             待修剪的字符串
+     * @param trimHeadStr     修剪头部指定的字符串
+     * @param trimTailStr     修剪尾部指定的字符串
+     * @param isTrimHeadFirst true，先修剪头部，再修剪尾部；false，先修剪尾部，再修剪头部
+     * @return 修剪后的字符串
+     * @since 0.3.11
+     */
+    public static String trimOnce(String str, String trimHeadStr, String trimTailStr, boolean isTrimHeadFirst) {
+        if (isEmpty(str)) return str;
+
+        if (isTrimHeadFirst) {
+            if (!isEmpty(trimHeadStr) && str.startsWith(trimHeadStr)) {
+                str = str.substring(trimHeadStr.length());
+            }
+            if (!isEmpty(trimTailStr) && str.endsWith(trimTailStr)) {
+                str = str.substring(0, str.length() - trimTailStr.length());
+            }
+        } else {
+            if (!isEmpty(trimTailStr) && str.endsWith(trimTailStr)) {
+                str = str.substring(0, str.length() - trimTailStr.length());
+            }
+            if (!isEmpty(trimHeadStr) && str.startsWith(trimHeadStr)) {
+                str = str.substring(trimHeadStr.length());
+            }
+        }
+
+        return str;
+    }
+
+    /**
      * Using string to enclose a String<br>
      * <p>Examples:
      * <pre>{@code
@@ -346,8 +467,9 @@ public final class S {
      * @since 0.3.11
      */
     public static String enclose(String enclosedStr, String encloseStr1, String encloseStr2) {
-        if (encloseStr1 == null || encloseStr2 == null) throw new NullPointerException("Parameters `encloseStr1`, `encloseStr2` must be non-null!");
         if (enclosedStr == null) return null;
+        if (encloseStr1 == null) encloseStr1 = "";
+        if (encloseStr2 == null) encloseStr2 = "";
         return encloseStr1 + enclosedStr + encloseStr2;
     }
 
@@ -412,6 +534,8 @@ public final class S {
      * @param subStr          要匹配的子字符串
      * @param appearanceOrder 出现的次序（第几次出现），从 1 开始计数
      * @return index
+     * @throws NullPointerException         if {@code source} or {@code subStr} is null
+     * @throws UnexpectedParameterException if {@code appearanceOrder} less than 1.
      * @since 0.3.11
      */
     public static int indexOf(String source, String subStr, int appearanceOrder) {

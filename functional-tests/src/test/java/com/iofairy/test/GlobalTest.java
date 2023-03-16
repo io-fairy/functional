@@ -948,13 +948,14 @@ public class GlobalTest {
         String s2 = S.enclose("abc", "||");
         String s3 = S.enclose("abc", '>', '<');
         String s4 = S.enclose("abc", ">>", "<<");
+        String s5 = S.enclose("abc", null, "<<");
         String s6 = S.enclose(null, ">>", "<<");
 
         assertEquals(s1, "\"abc\"");
         assertEquals(s2, "||abc||");
         assertEquals(s3, ">abc<");
         assertEquals(s4, ">>abc<<");
-        assertThrows(NullPointerException.class, () -> S.enclose("abc", null, "<<"));
+        assertEquals(s5, "abc<<");
         assertNull(s6);
 
     }
@@ -995,4 +996,159 @@ public class GlobalTest {
         assertEquals(i8, 0);
 
     }
+
+    @Test
+    public void testEndsWith() {
+        boolean b01 = S.endsWith(null, null, -2);       // false
+        boolean b02 = S.endsWith(null, null, 0);        // false
+        boolean b03 = S.endsWith(null, null, 2);        // false
+        boolean b04 = S.endsWith("", null, -2);         // false
+        boolean b05 = S.endsWith("", null, 0);          // false
+        boolean b06 = S.endsWith("", null, 2);          // false
+        boolean b07 = S.endsWith(null, "", -2);         // false
+        boolean b08 = S.endsWith(null, "", 0);          // false
+        boolean b09 = S.endsWith(null, "", 2);          // false
+        boolean b10 = S.endsWith("", "", -2);           // false
+        boolean b11 = S.endsWith("", "", 0);            // true
+        boolean b12 = S.endsWith("", "", 2);            // false
+        boolean b13 = S.endsWith("abc", "", -2);        // false
+        boolean b14 = S.endsWith("abc", "", 0);         // true
+        boolean b15 = S.endsWith("abc", "", 2);         // true
+        boolean b16 = S.endsWith("", "abc", -2);        // false
+        boolean b17 = S.endsWith("", "abc", 0);         // false
+        boolean b18 = S.endsWith("", "abc", 2);         // false
+        boolean b19 = S.endsWith("abcabc", "abc", -2);  // false
+        boolean b20 = S.endsWith("abcabc", "abc", 0);   // true
+        boolean b21 = S.endsWith("abcabc", "abc", 1);   // false
+        boolean b22 = S.endsWith("abcabc", "abc", 3);   // true
+
+        System.out.println("abc".endsWith(""));     // true
+        System.out.println("".endsWith(""));        // true
+
+        assertFalse(b01);
+        assertFalse(b02);
+        assertFalse(b03);
+        assertFalse(b04);
+        assertFalse(b05);
+        assertFalse(b06);
+        assertFalse(b07);
+        assertFalse(b08);
+        assertFalse(b09);
+        assertFalse(b10);
+        assertTrue(b11);
+        assertFalse(b12);
+        assertFalse(b13);
+        assertTrue(b14);
+        assertTrue(b15);
+        assertFalse(b16);
+        assertFalse(b17);
+        assertFalse(b18);
+        assertFalse(b19);
+        assertTrue(b20);
+        assertFalse(b21);
+        assertTrue(b22);
+
+    }
+
+    @Test
+    public void testTrim() {
+        String s01 = S.trimOnce(null, "", "");
+        String s02 = S.trimOnce("", null, null);
+        String s03 = S.trimOnce("", "", null);
+        String s04 = S.trimOnce("abc", null, null);
+        String s05 = S.trimOnce("abc", "", "c");
+        String s06 = S.trimOnce("abc", "a", "");
+        String s07 = S.trimOnce("abc", "abc", "abc");
+        String s08 = S.trimOnce("abcabc1111dddddd", "abc", "ddd");
+        String s09 = S.trimOnce("abc", "abcd", "abcd");
+        String s10 = S.trimOnce("abc", "a", "abc", true);
+        String s11 = S.trimOnce("abc", "a", "abc", false);
+
+        assertNull(s01);
+        assertEquals(s02, "");
+        assertEquals(s03, "");
+        assertEquals(s04, "abc");
+        assertEquals(s05, "ab");
+        assertEquals(s06, "bc");
+        assertEquals(s07, "");
+        assertEquals(s08, "abc1111ddd");
+        assertEquals(s09, "abc");
+        assertEquals(s10, "bc");
+        assertEquals(s11, "");
+
+
+        String s21 = S.trim(null, "", "");
+        String s22 = S.trim("", null, null);
+        String s23 = S.trim("", "", null);
+        String s24 = S.trim("abc", null, null);
+        String s25 = S.trim("abc", "", "c");
+        String s26 = S.trim("abc", "a", "");
+        String s27 = S.trim("abc", "abc", "abc");
+        String s28 = S.trim("abcabc1111dddddd", "abc", "ddd");
+        String s29 = S.trim("abc", "abcd", "abcd");
+        String s30 = S.trim("aaaaa", "a", "");
+        String s31 = S.trim("aaaaa", "", "a");
+        String s32 = S.trim("aaaaa", "a", "a");
+        String s33 = S.trim("abcabca", "abc", "");
+        String s34 = S.trim("aaabcabc", "", "abc", true);
+        String s35 = S.trim("aaabcabc", "", "abc", false);
+        String s36 = S.trim("aaabcabcabc", "a", "abc", true);
+        String s37 = S.trim("aaabcabcabc", "a", "abc", false);
+        String s38 = S.trim("1111abcabcabc", "1", "abc", true);
+        String s39 = S.trim("1111abcabcabc", "1", "abc", false);
+        String s40 = S.trim("10241024abcabcabc", "1024", "abc", true);
+        String s41 = S.trim("10241024abcabcabc", "1024", "abc", false);
+        String s42 = S.trim("", "abc", "a", true);
+        String s43 = S.trim("", "abc", "a", false);
+
+        assertNull(s21);
+        assertEquals(s22, "");
+        assertEquals(s23, "");
+        assertEquals(s24, "abc");
+        assertEquals(s25, "ab");
+        assertEquals(s26, "bc");
+        assertEquals(s27, "");
+        assertEquals(s28, "1111");
+        assertEquals(s29, "abc");
+        assertEquals(s30, "");
+        assertEquals(s31, "");
+        assertEquals(s32, "");
+        assertEquals(s33, "a");
+        assertEquals(s34, "aa");
+        assertEquals(s35, "aa");
+        assertEquals(s36, "bc");
+        assertEquals(s37, "");
+        assertEquals(s38, "");
+        assertEquals(s39, "");
+        assertEquals(s40, "");
+        assertEquals(s41, "");
+        assertEquals(s42, "");
+        assertEquals(s43, "");
+
+        // System.out.println("s21: " + s21);
+        // System.out.println("s22: " + s22);
+        // System.out.println("s23: " + s23);
+        // System.out.println("s24: " + s24);
+        // System.out.println("s25: " + s25);
+        // System.out.println("s26: " + s26);
+        // System.out.println("s27: " + s27);
+        // System.out.println("s28: " + s28);
+        // System.out.println("s29: " + s29);
+        // System.out.println("s30: " + s30);
+        // System.out.println("s31: " + s31);
+        // System.out.println("s32: " + s32);
+        // System.out.println("s33: " + s33);
+        // System.out.println("s34: " + s34);
+        // System.out.println("s35: " + s35);
+        // System.out.println("s36: " + s36);
+        // System.out.println("s37: " + s37);
+        // System.out.println("s38: " + s38);
+        // System.out.println("s39: " + s39);
+        // System.out.println("s40: " + s40);
+        // System.out.println("s41: " + s41);
+        // System.out.println("s42: " + s42);
+        // System.out.println("s43: " + s43);
+
+    }
+
 }
