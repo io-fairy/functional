@@ -4,6 +4,7 @@ import com.iofairy.except.UnexpectedParameterException;
 import com.iofairy.si.SI;
 import com.iofairy.si.StringExtractor;
 import com.iofairy.si.StringToken;
+import com.iofairy.tcf.Try;
 import com.iofairy.tuple.Tuple;
 import org.junit.jupiter.api.Test;
 
@@ -547,4 +548,125 @@ public class InterpolatorTest {
         List<StringToken> tokens1 = StringExtractor.split(s1);
         System.out.println(tokens1);    // [StringToken{type=STRING, value='abcd===1234===', originValue='abcd===1234==='}]
     }
+
+    @Test
+    public void testCheckCyclic() {
+        Try.sleep(1000);
+        System.out.println("================");
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("one", "-${four}-${three}-${two}");
+        hashMap.put("two", "${three}");
+        hashMap.put("three", "${number}");
+        hashMap.put("four", 4);
+        hashMap.put("five", 5);
+        hashMap.put("five$", "${number}");
+        hashMap.put("six", "${}");
+        hashMap.put("number", "${one}");
+
+        SI si = SI.of(hashMap);
+
+        String tpl = "${five}--${number}";
+        try {
+            String $ = si.$(tpl, true);
+            System.out.println($);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            assertEquals(e.getMessage(), "Circular references in string interpolation of [\"${five}--${number}\"]: number -> one -> three -> number");
+        }
+
+        tpl = "${five: ${number}}";
+        try {
+            String $ = si.$(tpl, true);
+            System.out.println($);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            assertEquals(e.getMessage(), "Circular references in string interpolation of [\"${five: ${number}}\"]: number -> one -> three -> number");
+        }
+
+
+        tpl = "${five${six}}";
+        try {
+            String $ = si.$(tpl, true);
+            System.out.println($);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            assertEquals(e.getMessage(), "Circular references in string interpolation of [\"${five${six}}\", \"${five${}}\", \"${five$}\"]: five$ -> number -> one -> three -> number");
+        }
+
+        tpl = "${five: ${key}}";
+        try {
+            String $ = si.$(tpl, true);
+            System.out.println($);
+            assertEquals($, "${five: ${key}}");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testEnableNestedParse() {
+        String tpl = "${key}{}";
+        SI si = Tuple.of("$").alias("key").toSI();
+        String $ = si.$(tpl, true);
+        System.out.println($);
+        assertEquals($, "$");
+
+        tpl = "${a.${}${b}: ${c}.${d}.${}name}--${e${f}}}";
+
+        si = Tuple.of("6", "7", "8", "e8value").alias("b", "c", "f", "e8").toSI();
+        $ = si.$(tpl, true);
+        System.out.println($);
+        assertEquals($, "${a.$6: 7.${d}.$name}--e8value}");
+
+        si = Tuple.of("6", "7", "8").alias("b", "c", "f").toSI();
+        $ = si.$(tpl, true);
+        System.out.println($);
+        assertEquals($, "${a.$6: 7.${d}.$name}--${e8}}");
+
+        si = Tuple.of("6", "7", "8").alias("b", "c", "d").toSI();
+        $ = si.$(tpl, true);
+        System.out.println($);
+        assertEquals($, "7.8.$name--${e${f}}}");
+
+    }
+
+    @Test
+    public void testEnableNestedParse1() {
+        String tpl = "${}{${dbType}.${order}.dbName: ${${defaultDbType}.${defaultOrder}.dbName}}---}}}" +
+                "---${${dbType}.${order}.password: ${${defaultDbType}.${defaultOrder}.password: mysql**sa-pass}}";
+        Map<String, String> map = new HashMap<>();
+        map.put("dbType", "ORACLE");
+        map.put("order", "1");
+        map.put("defaultDbType", "mysql");
+
+        SI si = SI.of(map);
+
+        String $ = si.$(tpl, true);
+        assertEquals($, "${ORACLE.1.dbName: ${mysql.${defaultOrder}.dbName}}---}}}---${ORACLE.1.password: ${mysql.${defaultOrder}.password: mysql**sa-pass}}");
+
+        si.add("defaultOrder", "2", "mysql.2.dbName", "mysqlDb");
+        $ = si.$(tpl, true);
+        assertEquals($, "mysqlDb---}}}---mysql**sa-pass");
+
+        si.add("ORACLE.1.dbName", "oracledb", "mysql.2.password", "\\mysql**edb");
+        $ = si.$(tpl, true);
+        assertEquals($, "oracledb---}}}---\\mysql**edb");
+
+        si.add("ORACLE.1.password", "oracl{}{abc}*edb");
+        $ = si.$(tpl, true);
+        assertEquals($, "oracledb---}}}---oracl{}{abc}*edb");
+
+    }
+
+    @Test
+    public void testEnableNestedParse2() {
+        String tpl = "${}{${dbType: sqlserver}.${order: 2}.dbName: ${${defaultDbType: mysql}.${defaultOrder: 1}.password: mysql**sa-pass}}";
+
+        SI si = SI.of();
+
+        String $ = si.$(tpl, true);
+        assertEquals($, "mysql**sa-pass");
+
+    }
+
 }

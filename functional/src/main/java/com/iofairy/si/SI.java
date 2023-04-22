@@ -15,6 +15,7 @@
  */
 package com.iofairy.si;
 
+import com.iofairy.except.CircularReferencesException;
 import com.iofairy.except.UnexpectedParameterException;
 import com.iofairy.top.G;
 import com.iofairy.top.S;
@@ -47,7 +48,7 @@ public class SI {
         tuplesPutToMap(tuples);
     }
 
-    public SI(final Map<String, Object> valueMap) {
+    public SI(final Map<String, ?> valueMap) {
         if (valueMap != null) this.valueMap.putAll(valueMap);
     }
 
@@ -55,7 +56,7 @@ public class SI {
         return new SI(tuples);
     }
 
-    public static SI of(final Map<String, Object> map) {
+    public static SI of(final Map<String, ?> map) {
         return new SI(map);
     }
 
@@ -137,7 +138,7 @@ public class SI {
         return this;
     }
 
-    public SI add(Map<String, Object> valueMap) {
+    public SI add(Map<String, ?> valueMap) {
         if (valueMap != null) this.valueMap.putAll(valueMap);
         return this;
     }
@@ -192,7 +193,7 @@ public class SI {
         return this.add(tuples);
     }
 
-    public SI set(Map<String, Object> valueMap) {
+    public SI set(Map<String, ?> valueMap) {
         this.valueMap.clear();
         return this.add(valueMap);
     }
@@ -237,17 +238,102 @@ public class SI {
      * @since 0.0.1
      */
     public String $(CharSequence source) {
+        return $(source, false);
+    }
+
+    /**
+     * Interpolating for strings.<br>
+     * 执行插值程序，解析字符串
+     *
+     * @param source            source string
+     * @param enableNestedParse enable nested parsing or not
+     * @return string that has been processed
+     * @throws CircularReferencesException when the circular reference occurs
+     * @since 0.3.12
+     */
+    public String $(CharSequence source, boolean enableNestedParse) {
         if (source == null) return null;
         if (S.isBlank(source)) return source.toString();
 
-        List<StringToken> tokens = getTokens(source.toString());
-        StringBuffer parsed = new StringBuffer();
-        tokens.forEach(token -> {
-            String value = token.value;
-            parsed.append(token.type == StringType.STRING ? value : valueMap.getOrDefault(value, token.originValue));
-        });
+        if (enableNestedParse) {
+            List<String> sourceList = new ArrayList<>();
+            String sourceStr = source.toString();
 
-        return parsed.toString();
+            for (; ; ) {
+                sourceList.add(sourceStr);
+                List<String> propertiesStack = new ArrayList<>();
+                List<StringToken> tokens = StringExtractor.split(sourceStr);
+                StringBuffer parsed = new StringBuffer();
+                tokens.forEach(token -> {
+                    String value = token.value;
+                    parsed.append(token.type == StringType.STRING ? value : valueMap.getOrDefault(value, token.originValue));
+                });
+
+                String tmpSource = parsed.toString();
+                if (Objects.equals(sourceStr, tmpSource)) {
+                    sourceStr = tmpSource;
+                    break;
+                }
+                splitTokenAndCheckCyclic(tokens, propertiesStack, sourceList);
+                sourceStr = tmpSource;
+            }
+
+            return sourceStr;
+        } else {
+            List<StringToken> tokens = getTokens(source.toString());
+            StringBuffer parsed = new StringBuffer();
+            tokens.forEach(token -> {
+                String value = token.value;
+                parsed.append(token.type == StringType.STRING ? value : valueMap.getOrDefault(value, token.originValue));
+            });
+
+            return parsed.toString();
+        }
+    }
+
+    /**
+     * 分割token及检查是否循环引用
+     *
+     * @param tokens          字符串分割的token
+     * @param propertiesStack 属性栈
+     * @param sourceList      原始字符串多次插值后的数组
+     * @since 0.3.12
+     */
+    private void splitTokenAndCheckCyclic(List<StringToken> tokens, List<String> propertiesStack, List<String> sourceList) {
+        for (StringToken token : tokens) {
+            if (token.type == StringType.VALUE) {
+                String property = token.value;
+                /*
+                 * 如果没有找到，则直接设置为null，如果设置成原来的字符串，则可能一直循环
+                 * 比如 ${key}，key没有找到，则直接设置为 null，不能设置为 ${key}，否则会一直循环检查
+                 */
+                Object obj = valueMap.getOrDefault(property, null);
+                if (obj != null) {
+                    checkCyclic(property, propertiesStack, sourceList);
+                    propertiesStack.add(property);
+                    List<StringToken> tmpTokens = StringExtractor.split(obj.toString());
+                    splitTokenAndCheckCyclic(tmpTokens, propertiesStack, sourceList);
+                    propertiesStack.remove(propertiesStack.size() - 1);
+                }
+            }
+        }
+    }
+
+    /**
+     * Check for circular references when inspecting string interpolation. <br>
+     * 检查字符串插值时是否有存在循环引用
+     *
+     * @param property        当前检查的属性
+     * @param propertiesStack 属性栈
+     * @param sourceList      原始字符串多次插值后的数组
+     * @since 0.3.12
+     */
+    private void checkCyclic(final String property, final List<String> propertiesStack, final List<String> sourceList) {
+        if (!propertiesStack.contains(property)) {
+            return;
+        }
+        propertiesStack.add(property);
+        throw new CircularReferencesException("Circular references in string interpolation of " + G.toString(sourceList) + ": " + String.join(" -> ", propertiesStack));
     }
 
     /**
