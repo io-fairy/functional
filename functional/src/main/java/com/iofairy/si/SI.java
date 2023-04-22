@@ -329,11 +329,12 @@ public class SI {
      * @since 0.3.12
      */
     private void checkCyclic(final String property, final List<String> propertiesStack, final List<String> sourceList) {
-        if (!propertiesStack.contains(property)) {
-            return;
+        if (propertiesStack.contains(property)) {
+            propertiesStack.add(property);
+
+            String errMsg = "Circular references in string interpolation of " + G.toString(sourceList) + ": " + String.join(" -> ", propertiesStack);
+            throw new CircularReferencesException(errMsg);
         }
-        propertiesStack.add(property);
-        throw new CircularReferencesException("Circular references in string interpolation of " + G.toString(sourceList) + ": " + String.join(" -> ", propertiesStack));
     }
 
     /**
