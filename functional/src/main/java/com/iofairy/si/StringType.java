@@ -18,9 +18,10 @@ package com.iofairy.si;
 /**
  * StringType. <br>
  * 字符串类型
+ *
  * @since 0.0.1
  */
 public enum StringType {
     STRING,     // string literal. 字符串字面量
-    VALUE,      // Interpolator's value. 待解析的值
+    VARIABLE,      // Interpolator's variable. 待解析的变量
 }

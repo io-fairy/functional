@@ -16,6 +16,7 @@
 package com.iofairy.si;
 
 import com.iofairy.except.CircularReferencesException;
+import com.iofairy.except.UndefinedVariableException;
 import com.iofairy.except.UnexpectedParameterException;
 import com.iofairy.top.G;
 import com.iofairy.top.S;
@@ -24,19 +25,29 @@ import com.iofairy.tuple.Tuple;
 import java.util.*;
 
 /**
- * String Interpolator. <br>
- * 字符串插值器
+ * String Interpolator. <b>It's not thread-safe</b>.<br>
+ * 字符串插值器<b>（非线程安全）</b>
  *
  * @since 0.0.1
  */
 public class SI {
 
     private final static int CACHE_SIZE = 1000;
+    private final static int NESTED_CACHE_SIZE = 500;
     private final static int KEY_CACHE_SIZE = 2000;
     private final static Map<String, List<StringToken>> TEMPLATE_CACHE = Collections.synchronizedMap(new LRUCache<>(CACHE_SIZE));
+    private final static Map<String, List<Object>> NESTED_TEMPLATE_CACHE = Collections.synchronizedMap(new LRUCache<>(NESTED_CACHE_SIZE));
     private final static Map<String, String> KEY_CACHE = Collections.synchronizedMap(new LRUCache<>(KEY_CACHE_SIZE));
 
     private final Map<String, Object> valueMap = new HashMap<>();   // 读多写少，未加同步机制
+
+    /**是否开启嵌套插值*/
+    private boolean enableSIInVariables = false;
+    /**是否在 {@link #valueMap} 的值中开启嵌套插值（{@link #enableSIInVariables} 为 {@code true} 时才有效）*/
+    private boolean enableSIInValues = false;
+    /**是否抛出异常，当 {@link #valueMap} 中不存在指定的变量*/
+    private boolean enableUndefinedVariableException = false;
+
 
     private final static String MSG_UNEXPECTED_PARAM = "This parameter is a key, the key must be end with \" ->\" or \" >>>\" or \" >>\". ";
 
@@ -235,106 +246,143 @@ public class SI {
      *
      * @param source source string
      * @return string that has been processed
+     * @throws CircularReferencesException when the circular reference occurs
+     * @throws UndefinedVariableException  No variable was found during string interpolation when {@link #enableUndefinedVariableException} is {@code true}.
      * @since 0.0.1
      */
     public String $(CharSequence source) {
-        return $(source, false);
-    }
-
-    /**
-     * Interpolating for strings.<br>
-     * 执行插值程序，解析字符串
-     *
-     * @param source            source string
-     * @param enableNestedParse enable nested parsing or not
-     * @return string that has been processed
-     * @throws CircularReferencesException when the circular reference occurs
-     * @since 0.3.12
-     */
-    public String $(CharSequence source, boolean enableNestedParse) {
         if (source == null) return null;
         if (S.isBlank(source)) return source.toString();
 
-        if (enableNestedParse) {
-            List<String> sourceList = new ArrayList<>();
-            String sourceStr = source.toString();
-
-            for (; ; ) {
-                sourceList.add(sourceStr);
-                List<String> propertiesStack = new ArrayList<>();
-                List<StringToken> tokens = StringExtractor.split(sourceStr);
-                StringBuffer parsed = new StringBuffer();
-                tokens.forEach(token -> {
-                    String value = token.value;
-                    parsed.append(token.type == StringType.STRING ? value : valueMap.getOrDefault(value, token.originValue));
-                });
-
-                String tmpSource = parsed.toString();
-                if (Objects.equals(sourceStr, tmpSource)) {
-                    sourceStr = tmpSource;
-                    break;
-                }
-                splitTokenAndCheckCyclic(tokens, propertiesStack, sourceList);
-                sourceStr = tmpSource;
-            }
-
-            return sourceStr;
+        String sourceString = source.toString();
+        if (enableSIInVariables) {
+            List<Object> nestedTokens = getNestedTokens(sourceString);
+            return interpolate(sourceString, nestedTokens);
         } else {
-            List<StringToken> tokens = getTokens(source.toString());
+            List<StringToken> tokens = getTokens(sourceString);
             StringBuffer parsed = new StringBuffer();
-            tokens.forEach(token -> {
+
+            for (StringToken token : tokens) {
                 String value = token.value;
+                if (token.type == StringType.VARIABLE && !valueMap.containsKey(value) && enableUndefinedVariableException) {
+                    throw new UndefinedVariableException("Cannot resolve variable `" + value + "` in \"" + sourceString + "\". ");
+                }
                 parsed.append(token.type == StringType.STRING ? value : valueMap.getOrDefault(value, token.originValue));
-            });
+            }
 
             return parsed.toString();
         }
     }
 
     /**
-     * 分割token及检查是否循环引用
+     * 字符串插值处理
      *
-     * @param tokens          字符串分割的token
-     * @param propertiesStack 属性栈
-     * @param sourceList      原始字符串多次插值后的数组
-     * @since 0.3.12
+     * @param source 原始字符串
+     * @param tokens tokens
+     * @return 插值后的字符串
+     * @since 0.4.0
      */
-    private void splitTokenAndCheckCyclic(List<StringToken> tokens, List<String> propertiesStack, List<String> sourceList) {
-        for (StringToken token : tokens) {
-            if (token.type == StringType.VALUE) {
-                String property = token.value;
-                /*
-                 * 如果没有找到，则直接设置为null，如果设置成原来的字符串，则可能一直循环
-                 * 比如 ${key}，key没有找到，则直接设置为 null，不能设置为 ${key}，否则会一直循环检查
-                 */
-                Object obj = valueMap.getOrDefault(property, null);
-                if (obj != null) {
-                    checkCyclic(property, propertiesStack, sourceList);
-                    propertiesStack.add(property);
-                    List<StringToken> tmpTokens = StringExtractor.split(obj.toString());
-                    splitTokenAndCheckCyclic(tmpTokens, propertiesStack, sourceList);
-                    propertiesStack.remove(propertiesStack.size() - 1);
-                }
+    private String interpolate(String source, List<Object> tokens) {
+        StringBuilder sb = new StringBuilder();
+        for (Object token : tokens) {
+            if (token instanceof NestedStringToken) {
+                List<String> variablesStack = new ArrayList<>();
+                Object afterInterpolated = interpolate(source, (NestedStringToken) token, variablesStack);
+                sb.append(afterInterpolated);
+            } else {
+                sb.append(token);
             }
         }
+        return sb.toString();
     }
+
+    /**
+     * 字符串插值处理
+     *
+     * @param source         原始字符串
+     * @param nestedToken    nestedToken
+     * @param variablesStack 变量栈
+     * @return 插值后的字符串
+     * @since 0.4.0
+     */
+    private Object interpolate(String source, NestedStringToken nestedToken, List<String> variablesStack) {
+        String key = traverseInterpolation(source, variablesStack, nestedToken.key);
+
+        if (valueMap.containsKey(key)) {
+            Object obj = valueMap.get(key);
+            if (!enableSIInValues || obj == null) return obj;
+
+            String value = obj.toString();
+            if (value.isEmpty()) {
+                return value;
+            } else {
+                checkCyclic(key, variablesStack, source);
+                variablesStack.add(key);
+
+                List<Object> tokens = StringExtractor.nestedParse(value);
+                value = traverseInterpolation(source, variablesStack, tokens);
+
+                variablesStack.remove(variablesStack.size() - 1);
+                return value;
+            }
+        } else {
+            if (enableUndefinedVariableException) {
+                throw new UndefinedVariableException("Cannot resolve variable `" + key + "` in \"" + source + "\". ");
+            }
+
+            return nestedToken.defaultValue.isEmpty() ? "${" + key + "}" : traverseInterpolation(source, variablesStack, nestedToken.defaultValue);
+        }
+
+    }
+
+    /**
+     * 遍历token进行字符串插值
+     *
+     * @param source         原始字符串
+     * @param variablesStack 变量栈
+     * @param tokens         tokens
+     * @return 插值后的字符串
+     * @since 0.4.0
+     */
+    private String traverseInterpolation(String source, List<String> variablesStack, List<Object> tokens) {
+        StringBuilder sb = new StringBuilder();
+        for (Object token : tokens) {
+            if (token instanceof NestedStringToken) {
+                sb.append(interpolate(source, (NestedStringToken) token, variablesStack));
+            } else {
+                sb.append(token);
+            }
+        }
+        return sb.toString();
+    }
+
 
     /**
      * Check for circular references when inspecting string interpolation. <br>
      * 检查字符串插值时是否有存在循环引用
      *
-     * @param property        当前检查的属性
-     * @param propertiesStack 属性栈
-     * @param sourceList      原始字符串多次插值后的数组
-     * @since 0.3.12
+     * @param variable       当前检查的变量
+     * @param variablesStack 变量栈
+     * @param source         原始字符串
+     * @since 0.4.0
      */
-    private void checkCyclic(final String property, final List<String> propertiesStack, final List<String> sourceList) {
-        if (propertiesStack.contains(property)) {
-            propertiesStack.add(property);
-
-            String errMsg = "Circular references in string interpolation of " + G.toString(sourceList) + ": " + String.join(" -> ", propertiesStack);
-            throw new CircularReferencesException(errMsg);
+    private void checkCyclic(final String variable, final List<String> variablesStack, final String source) {
+        if (!variablesStack.contains(variable)) {
+            return;
         }
+        variablesStack.add(variable);
+        throw new CircularReferencesException("Circular references in string interpolation of " + G.toString(source) + ": " + String.join(" -> ", variablesStack));
+    }
+
+    private static List<Object> getNestedTokens(String source) {
+        List<Object> tokens;
+        if (NESTED_TEMPLATE_CACHE.containsKey(source)) {
+            tokens = NESTED_TEMPLATE_CACHE.get(source);
+        } else {
+            tokens = StringExtractor.nestedParse(source);
+            NESTED_TEMPLATE_CACHE.put(source, tokens);
+        }
+        return tokens;
     }
 
     /**
@@ -469,4 +517,39 @@ public class SI {
             return size() > maxEntries;
         }
     }
+
+
+    public boolean isEnableSIInVariables() {
+        return enableSIInVariables;
+    }
+
+    public SI setEnableSIInVariables(boolean enableSIInVariables) {
+        this.enableSIInVariables = enableSIInVariables;
+        return this;
+    }
+
+    public boolean isEnableSIInValues() {
+        return enableSIInValues;
+    }
+
+    public SI setEnableSIInValues(boolean enableSIInValues) {
+        this.enableSIInValues = enableSIInValues;
+        return this;
+    }
+
+    public SI setEnableNestedSI(boolean enableNestedSI) {
+        this.enableSIInVariables = enableNestedSI;
+        this.enableSIInValues = enableNestedSI;
+        return this;
+    }
+
+    public boolean isEnableUndefinedVariableException() {
+        return enableUndefinedVariableException;
+    }
+
+    public SI setEnableUndefinedVariableException(boolean enableUndefinedVariableException) {
+        this.enableUndefinedVariableException = enableUndefinedVariableException;
+        return this;
+    }
+
 }
