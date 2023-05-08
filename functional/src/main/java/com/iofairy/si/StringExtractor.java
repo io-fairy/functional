@@ -22,6 +22,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.iofairy.si.SIBase.*;
+
 /**
  * Extracting expression from ${}
  *
@@ -29,18 +31,6 @@ import java.util.regex.Pattern;
  */
 public class StringExtractor {
 
-    /**
-     * ${} will parse to $ (String literal). <br>
-     * 遇到 ${} 则解析成字符 $
-     */
-    public final static String $__ = "${}";
-    public final static String $ = "$";
-    public final static String DEFAULT_VALUE_DELIMITER = ": ";
-    // DEFAULT_VALUE_DELIMITER (DVD) LENGTH
-    public final static int DVD_LENGTH = DEFAULT_VALUE_DELIMITER.length();
-
-    public final static String PREFIX = "${";
-    public final static String SUFFIX = "}";
     /**
      * Regex for extracting expression from ${}, but { or } can't be included in ${}
      */
@@ -158,7 +148,7 @@ public class StringExtractor {
 
         // 检查最后一个 NestedStringToken 是否未封闭
         while (currentNst != null) {
-            currentNst.tokens.addFirst("${");
+            currentNst.tokens.addFirst(PREFIX);
             NestedStringToken parentNode = currentNst.parentNode;
             if (parentNode == null) {
                 tokens.remove(currentNst);

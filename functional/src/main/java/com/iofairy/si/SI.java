@@ -24,6 +24,8 @@ import com.iofairy.tuple.Tuple;
 
 import java.util.*;
 
+import static com.iofairy.si.SIBase.*;
+
 /**
  * String Interpolator. <b>It's not thread-safe</b>.<br>
  * 字符串插值器<b>（非线程安全）</b>
@@ -255,45 +257,34 @@ public class SI {
         if (S.isBlank(source)) return source.toString();
 
         String sourceString = source.toString();
+
+        StringBuilder interpolated = new StringBuilder();
+
         if (enableSIInVariables) {
             List<Object> nestedTokens = getNestedTokens(sourceString);
-            return interpolate(sourceString, nestedTokens);
+
+            for (Object token : nestedTokens) {
+                if (token instanceof NestedStringToken) {
+                    List<String> variablesStack = new ArrayList<>();
+                    Object afterInterpolated = interpolate(sourceString, (NestedStringToken) token, variablesStack);
+                    interpolated.append(afterInterpolated);
+                } else {
+                    interpolated.append(token);
+                }
+            }
         } else {
             List<StringToken> tokens = getTokens(sourceString);
-            StringBuffer parsed = new StringBuffer();
 
             for (StringToken token : tokens) {
                 String value = token.value;
-                if (token.type == StringType.VARIABLE && !valueMap.containsKey(value) && enableUndefinedVariableException) {
+                if (enableUndefinedVariableException && token.type == StringType.VARIABLE && !valueMap.containsKey(value)) {
                     throw new UndefinedVariableException("Cannot resolve variable `" + value + "` in \"" + sourceString + "\". ");
                 }
-                parsed.append(token.type == StringType.STRING ? value : valueMap.getOrDefault(value, token.originValue));
-            }
-
-            return parsed.toString();
-        }
-    }
-
-    /**
-     * 字符串插值处理
-     *
-     * @param source 原始字符串
-     * @param tokens tokens
-     * @return 插值后的字符串
-     * @since 0.4.0
-     */
-    private String interpolate(String source, List<Object> tokens) {
-        StringBuilder sb = new StringBuilder();
-        for (Object token : tokens) {
-            if (token instanceof NestedStringToken) {
-                List<String> variablesStack = new ArrayList<>();
-                Object afterInterpolated = interpolate(source, (NestedStringToken) token, variablesStack);
-                sb.append(afterInterpolated);
-            } else {
-                sb.append(token);
+                interpolated.append(token.type == StringType.STRING ? value : valueMap.getOrDefault(value, token.originValue));
             }
         }
-        return sb.toString();
+
+        return interpolated.toString();
     }
 
     /**
@@ -308,18 +299,20 @@ public class SI {
     private Object interpolate(String source, NestedStringToken nestedToken, List<String> variablesStack) {
         String key = traverseInterpolation(source, variablesStack, nestedToken.key);
 
+        int lengthOfCacheThreshold = 30;        // valueMap中的值需要缓存的临界长度
+
         if (valueMap.containsKey(key)) {
             Object obj = valueMap.get(key);
             if (!enableSIInValues || obj == null) return obj;
 
             String value = obj.toString();
-            if (value.isEmpty()) {
+            if (!value.contains(PREFIX)) {          // valueMap的值中不包含 ${
                 return value;
-            } else {
+            } else {                                // valueMap的值中包含 ${，需要解析
                 checkCyclic(key, variablesStack, source);
                 variablesStack.add(key);
 
-                List<Object> tokens = StringExtractor.nestedParse(value);
+                List<Object> tokens = value.length() <= lengthOfCacheThreshold ? StringExtractor.nestedParse(value) : getNestedTokens(value);
                 value = traverseInterpolation(source, variablesStack, tokens);
 
                 variablesStack.remove(variablesStack.size() - 1);
@@ -330,9 +323,8 @@ public class SI {
                 throw new UndefinedVariableException("Cannot resolve variable `" + key + "` in \"" + source + "\". ");
             }
 
-            return nestedToken.defaultValue.isEmpty() ? "${" + key + "}" : traverseInterpolation(source, variablesStack, nestedToken.defaultValue);
+            return nestedToken.defaultValue.isEmpty() ? PREFIX + key + SUFFIX : traverseInterpolation(source, variablesStack, nestedToken.defaultValue);
         }
-
     }
 
     /**

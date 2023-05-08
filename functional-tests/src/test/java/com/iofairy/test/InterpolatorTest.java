@@ -722,7 +722,7 @@ public class InterpolatorTest {
         valueMap.put("带{的key", "value这是带{的值！");
         valueMap.put("level", "1");
         valueMap.put("number.1", new ArrayList<Tuple>() {{
-            add(Tuple.of("${带{的key}", "${a2: ${a3: ${}{a\nb}}}", "${c\ne}"));
+            add(Tuple.of("${带{的key}", "${a2: ${a3: ${}{a\nb}}}", "${c\ne}", "${a3: ${: }}"));
         }});
         valueMap.put("${a\nb}", "带换行符");
         valueMap.put("a", "--${b}--");
@@ -737,12 +737,12 @@ public class InterpolatorTest {
 
         String $ = si.$(tpl);
         System.out.println($);
-        assertEquals($, "${--${{--[(\"value这是带{的值！\", \"${a\nb}\", \"${c\ne}\")]----null------null----**1-1**--${a4}----${");
+        assertEquals($, "${--${{--[(\"value这是带{的值！\", \"${a\nb}\", \"${c\ne}\", \"\")]----null------null----**1-1**--${a4}----${");
 
         si.add("", "empty string value.");
         $ = si.$(tpl);
         System.out.println($);
-        assertEquals($, "${--${{--[(\"value这是带{的值！\", \"${a\nb}\", \"${c\ne}\")]----null------null----**1-1**--${a4}--empty string value.--${");
+        assertEquals($, "${--${{--[(\"value这是带{的值！\", \"${a\nb}\", \"${c\ne}\", \"empty string value.\")]----null------null----**1-1**--${a4}--empty string value.--${");
 
         si.add("c\ne", "${a}");
         si.add("b", "${${}{e}}");   // ${${}{e}} 中的 key 为 ${e 而不是：${e}
@@ -755,6 +755,43 @@ public class InterpolatorTest {
             assertEquals(e.getMessage(), "Circular references in string interpolation of \"${--${{--${number: ${number.${level}}}--${a}--${a}--${a1}--${c1}--${: }--${\": number.1 -> c\ne -> a -> b -> ${e -> c\ne");
         }
 
+        si.setEnableUndefinedVariableException(true);
+        try {
+            $ = si.$(tpl);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            assertEquals(e.getMessage(), "Cannot resolve variable `number` in \"${--${{--${number: ${number.${level}}}--${a}--${a}--${a1}--${c1}--${: }--${\". ");
+        }
+
     }
+
+    @Test
+    public void testInitForNestedParse() {
+        String infoTemplate = "ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}";
+
+        SI s1 = SI.init("         ip ->", "127.0.0.1",
+                        "         db ->", "testdb",
+                        "       port ->", 3306,
+                        "     dbType ->", "mysql",
+                        " other_info ->", Tuple.of("isCluster", "${: ${这是一个描述}}"),
+                        " 这是一个描述 ->", "this is description.")
+                .setEnableNestedSI(true);
+
+        String dbInfo = s1.$(infoTemplate);
+        assertEquals("ip: 127.0.0.1---port: 3306---db: testdb---otherInfo: (\"isCluster\", \"this is description.\")", dbInfo);
+
+        s1 = SI.init("         ip >> ", "127.0.0.1",
+                     "         db >> ", "testdb",
+                     "       port >> ", 3306,
+                     "     dbType >> ", "mysql",
+                     " other_info >> ", Tuple.of("isCluster", "${: ${这是一个描述}}"),
+                     " 这是一个描述 >> ", "this is description.")
+                .setEnableNestedSI(true);
+
+        dbInfo = s1.$(infoTemplate);
+        assertEquals("ip: 127.0.0.1---port: 3306---db: testdb---otherInfo: (\"isCluster\", \"this is description.\")", dbInfo);
+
+    }
+
 
 }

@@ -19,6 +19,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.iofairy.si.SIBase.*;
+
 /**
  * Nested String Token
  *
@@ -186,10 +188,10 @@ public class NestedStringToken {
 
     private static int getIndexOfDefaultValue(LinkedList<Object> newTokens, int indexOfDefaultValue, StringBuilder sb) {
         String word = sb.toString();
-        int i = word.indexOf(": ");
+        int i = word.indexOf(DEFAULT_VALUE_DELIMITER);
         if (indexOfDefaultValue == -1 && i > -1) {  // 之前没有找到默认值，且当前找到默认值
             newTokens.add(word.substring(0, i));
-            newTokens.add(": ");
+            newTokens.add(DEFAULT_VALUE_DELIMITER);
             indexOfDefaultValue = newTokens.size() - 1;
             newTokens.add(word.substring(i + 2));
         } else {
@@ -201,8 +203,8 @@ public class NestedStringToken {
     @Override
     public String toString() {
         StringBuilder sb = tokensToString(this.tokens);
-        sb.insert(0, "${");
-        sb.append(isClosed ? "}" : "");
+        sb.insert(0, PREFIX);
+        sb.append(isClosed ? SUFFIX : "");
 
         return sb.toString();
     }
