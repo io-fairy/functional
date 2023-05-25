@@ -41,8 +41,9 @@ public class CaseAutoConverter implements StringConverter {
         return toCase;
     }
 
-    public void setToCase(StringCase toCase) {
+    public CaseAutoConverter setToCase(StringCase toCase) {
         this.toCase = toCase;
+        return this;
     }
 
     @Override

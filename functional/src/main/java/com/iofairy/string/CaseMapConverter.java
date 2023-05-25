@@ -41,16 +41,18 @@ public class CaseMapConverter implements StringConverter {
         return convertMap;
     }
 
-    public void setConvertMap(Map<String, String> convertMap) {
+    public CaseMapConverter setConvertMap(Map<String, String> convertMap) {
         setConvertMap(convertMap, keyIgnoreCase);
+        return this;
     }
 
     public boolean isKeyIgnoreCase() {
         return keyIgnoreCase;
     }
 
-    public void setKeyIgnoreCase(boolean keyIgnoreCase) {
+    public CaseMapConverter setKeyIgnoreCase(boolean keyIgnoreCase) {
         this.keyIgnoreCase = keyIgnoreCase;
+        return this;
     }
 
     private void setConvertMap(Map<String, String> convertMap, boolean keyIgnoreCase) {

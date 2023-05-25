@@ -1,6 +1,7 @@
 package com.iofairy.test;
 
 import com.iofairy.lambda.*;
+import com.iofairy.top.G;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -128,6 +129,24 @@ public class FunctionalTest {
         ArrayList<R> rs = new ArrayList<>();
         for (T l : ls) rs.add(r1.$(l));
         return rs;
+    }
+
+    @Test
+    public void testPredicateN() {
+        PT3<String, Integer, String, Exception> p = (s1, i, s2) -> (s1.length() + s2.length()) == i;
+
+        try {
+            boolean $1 = p.$("a", 2, "b");
+            boolean $2 = p.$("a", 3, "b");
+            assertTrue($1);
+            assertFalse($2);
+
+            boolean $3 = p.$(null, 3, "b");
+
+        } catch (Exception e) {
+            System.out.println(G.stackTrace(e));
+            assertSame(e.getClass(), NullPointerException.class);
+        }
     }
 
 
