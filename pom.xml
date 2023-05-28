@@ -92,12 +92,18 @@
                 <!-- defaults for compile and testCompile -->
                 <configuration>
                     <encoding>${project.build.sourceEncoding}</encoding>
-                    <!--<compilerArgument>-Xlint:unchecked</compilerArgument>-->
                     <!-- Only required when JAVA_HOME isn't at least Java 9 and when haven't configured the maven-toolchains-plugin -->
                     <jdkToolchain>
                         <version>9</version>
                     </jdkToolchain>
                     <release>8</release>
+
+                    <compilerArgs>
+                        <!-- 解决编译提示 “有关详细信息, 请使用 -Xlint:deprecation 重新编译” ，主要是检查哪些地方使用过时的API等-->
+                        <arg>-Xlint:deprecation</arg>
+                        <!-- 检查代码中 “未经检查的转换”，这个通常不开启，开启会有特别多的警告，很多类型转换的警告不好消除 -->
+                        <!--<arg>-Xlint:unchecked</arg>-->
+                    </compilerArgs>
                 </configuration>
             </plugin>
 
