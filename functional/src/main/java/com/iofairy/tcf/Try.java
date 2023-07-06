@@ -26,25 +26,22 @@ import java.util.logging.Logger;
  * 仅支持一些简单的try-catch块<br><br>
  * <b>Examples:</b><br>
  * non-use of <b>{@code Try}</b>: <br>
- * <pre>
+ * <blockquote><pre>{@code
  *      try {
  *          Thread.sleep(2000);
  *      } catch (InterruptedException e) {
  *          e.printStackTrace();
  *      }
- * </pre>
+ * }</pre></blockquote>
  * use <b>{@code Try}</b>: <br>
- * <pre>
- *      Try.sleep(2000);
- * </pre>
- * or
- * <pre>
- *      Try.sleep(TimeUnit.SECONDS, 2);
- * </pre>
- * or
- * <pre>
- *      Try.tcf(() -&gt; Thread.sleep(2000));
- * </pre>
+ * <blockquote><pre>{@code
+ * Try.sleep(2000);
+ * // or
+ * Try.sleep(TimeUnit.SECONDS, 2);
+ * // or
+ * Try.tcf(() -> Thread.sleep(2000));
+ * }</pre></blockquote>
+ *
  * @since 0.0.4
  */
 public class Try {
@@ -57,6 +54,7 @@ public class Try {
     /**
      * Simplify {@code try-catch} block. <br>
      * 简化冗长的 {@code try-catch} 块
+     *
      * @param tryAction action that maybe throw exception
      * @see #tcf(VT0, boolean)
      */
@@ -67,7 +65,8 @@ public class Try {
     /**
      * Simplify {@code try-catch} block. <br>
      * 简化冗长的 {@code try-catch} 块
-     * @param tryAction action that maybe throw exception
+     *
+     * @param tryAction    action that maybe throw exception
      * @param isPrintTrace isPrintTrace
      */
     public static void tcf(VT0<Throwable> tryAction, boolean isPrintTrace) {
@@ -83,8 +82,9 @@ public class Try {
     /**
      * Simplify {@code try-catch} block. <br>
      * 简化冗长的 {@code try-catch} 块
+     *
      * @param tryAction action that maybe throw exception
-     * @param <R> return value type
+     * @param <R>       return value type
      * @return R object
      * @see #tcf(RT0, boolean)
      */
@@ -95,9 +95,10 @@ public class Try {
     /**
      * Simplify {@code try-catch} block. <br>
      * 简化冗长的 {@code try-catch} 块
-     * @param tryAction action that maybe throw exception
+     *
+     * @param tryAction    action that maybe throw exception
      * @param isPrintTrace isPrintTrace
-     * @param <R> return value type
+     * @param <R>          return value type
      * @return R object
      * @see #tcf(RT0, Object, boolean)
      */
@@ -108,10 +109,11 @@ public class Try {
     /**
      * Simplify {@code try-catch} block. <br>
      * 简化冗长的 {@code try-catch} 块
-     * @param tryAction action that maybe throw exception
+     *
+     * @param tryAction     action that maybe throw exception
      * @param defaultReturn default return value when occur exception
-     * @param isPrintTrace isPrintTrace
-     * @param <R> return value type
+     * @param isPrintTrace  isPrintTrace
+     * @param <R>           return value type
      * @return R object
      */
     public static <R> R tcf(RT0<R, Throwable> tryAction, R defaultReturn, boolean isPrintTrace) {
@@ -128,7 +130,8 @@ public class Try {
     /**
      * Simplify {@code try-catch} block. <br>
      * 简化冗长的 {@code try-catch} 块
-     * @param tryAction action that maybe throw exception
+     *
+     * @param tryAction   action that maybe throw exception
      * @param catchAction catchAction
      */
     public static void tcf(VT0<Throwable> tryAction, V1<Throwable> catchAction) {
@@ -142,9 +145,10 @@ public class Try {
     /**
      * Simplify {@code try-catch} block. <br>
      * 简化冗长的 {@code try-catch} 块
-     * @param tryAction action that maybe throw exception
+     *
+     * @param tryAction   action that maybe throw exception
      * @param catchAction catchAction
-     * @param <R> return value type
+     * @param <R>         return value type
      * @return R object
      * @see #tcf(RT0, Object, V1)
      */
@@ -155,10 +159,11 @@ public class Try {
     /**
      * Simplify {@code try-catch} block. <br>
      * 简化冗长的 {@code try-catch} 块
-     * @param tryAction action that maybe throw exception
+     *
+     * @param tryAction     action that maybe throw exception
      * @param defaultReturn default return value when occur exception
-     * @param catchAction catchAction
-     * @param <R> return value type
+     * @param catchAction   catchAction
+     * @param <R>           return value type
      * @return R object
      */
     public static <R> R tcf(RT0<R, Throwable> tryAction, R defaultReturn, V1<Throwable> catchAction) {
@@ -172,6 +177,7 @@ public class Try {
 
     /**
      * Performs a {@link #sleep(long, boolean)}
+     *
      * @param milliSeconds the length of time to sleep in millisecond
      * @since 0.1.0
      */
@@ -181,6 +187,7 @@ public class Try {
 
     /**
      * Performs a {@link #sleep(TimeUnit, long, boolean)}
+     *
      * @param milliSeconds the length of time to sleep in millisecond
      * @param isPrintTrace isPrintTrace
      * @since 0.1.0
@@ -191,8 +198,9 @@ public class Try {
 
     /**
      * Performs a {@link #sleep(TimeUnit, long, boolean)}
+     *
      * @param timeUnit timeUnit
-     * @param timeout the minimum time to sleep. If less than or equal to zero, do not sleep at all.
+     * @param timeout  the minimum time to sleep. If less than or equal to zero, do not sleep at all.
      * @since 0.1.0
      */
     public static void sleep(TimeUnit timeUnit, long timeout) {
@@ -201,8 +209,9 @@ public class Try {
 
     /**
      * Performs a {@link TimeUnit#sleep(long)} using this time unit
-     * @param timeUnit timeUnit
-     * @param timeout the minimum time to sleep. If less than or equal to zero, do not sleep at all.
+     *
+     * @param timeUnit     timeUnit
+     * @param timeout      the minimum time to sleep. If less than or equal to zero, do not sleep at all.
      * @param isPrintTrace isPrintTrace
      * @since 0.1.0
      */

@@ -93,18 +93,18 @@ public class SI {
      * Instantiate an SI object by key-value pairs, and key must be end with " -&gt;" or " &gt;&gt;&gt;" or " &gt;&gt;",
      * and key will be removed leading and trailing whitespace. <br>
      * <b>Examples:</b>
-     * <pre>
+     * <blockquote><pre>{@code
      * String infoTemplate = "ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}";
      *
-     * SI si = SI.init("         ip -&gt;", "127.0.0.1",
-     *                 "         db -&gt;", "testdb",
-     *                 "       port -&gt;", 3306,
-     *                 "     dbType -&gt;", "mysql",
-     *                 " other_info -&gt;", Tuple.of("isCluster", true),
-     *                 "description -&gt;", new Object());
+     * SI si = SI.init("         ip ->", "127.0.0.1",
+     *                 "         db ->", "testdb",
+     *                 "       port ->", 3306,
+     *                 "     dbType ->", "mysql",
+     *                 " other_info ->", Tuple.of("isCluster", true),
+     *                 "description ->", new Object());
      *
      * String dbInfo = si.$(infoTemplate);
-     * </pre>
+     * }</pre></blockquote>
      *
      * @param kvs key-value pairs
      * @return SI object
@@ -122,16 +122,16 @@ public class SI {
     /**
      * Instantiate an SI object by key-value pairs, and key must be end with " -&gt;" or " &gt;&gt;&gt;" or " &gt;&gt;". <br>
      * <b>Examples:</b>
-     * <pre>
-     * SI si = SI.load("ip -&gt;", "127.0.0.1",
-     *                 "port -&gt;", 3306,
-     *                 "db -&gt;", "testdb",
-     *                 "dbType -&gt;", "mysql",
-     *                 "other_info -&gt;", Tuple.of("isCluster", true),
-     *                 "description -&gt;", new Object());
+     * <blockquote><pre>{@code
+     * SI si = SI.load("ip ->", "127.0.0.1",
+     *                 "port ->", 3306,
+     *                 "db ->", "testdb",
+     *                 "dbType ->", "mysql",
+     *                 "other_info ->", Tuple.of("isCluster", true),
+     *                 "description ->", new Object());
      *
      *  String dbInfo = si.$("ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}");
-     * </pre>
+     * }</pre></blockquote>
      *
      * @param kvs key-value pairs
      * @return SI object
@@ -175,18 +175,18 @@ public class SI {
      * Fill key-value pairs to this SI object. And key must be end with " -&gt;" or " &gt;&gt;&gt;" or " &gt;&gt;",
      * and key will be removed leading and trailing whitespace. <br>
      * <b>Examples:</b>
-     * <pre>
+     * <blockquote><pre>{@code
      * String infoTemplate = "ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}";
      * SI si = SI.of();
-     * si.fill("         ip -&gt;", "127.0.0.1",
-     *         "         db -&gt;", "testdb",
-     *         "       port -&gt;", 3306,
-     *         "     dbType -&gt;", "mysql",
-     *         " other_info -&gt;", Tuple.of("isCluster", true),
-     *         "description -&gt;", new Object());
+     * si.fill("         ip ->", "127.0.0.1",
+     *         "         db ->", "testdb",
+     *         "       port ->", 3306,
+     *         "     dbType ->", "mysql",
+     *         " other_info ->", Tuple.of("isCluster", true),
+     *         "description ->", new Object());
      *
      * String dbInfo = si.$(infoTemplate);
-     * </pre>
+     * }</pre></blockquote>
      *
      * @param kvs key-value pairs
      * @return this SI object

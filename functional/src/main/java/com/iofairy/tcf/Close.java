@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  * 优雅的关闭资源<br><br>
  * <b>Examples:</b><br>
  * non-use of <b>{@code Close}</b>: <br>
- * <pre>
+ * <blockquote><pre>{@code
  *      Connection conn = null;
  *      PreparedStatement st = null;
  *      ResultSet rs = null;
@@ -56,9 +56,9 @@ import java.util.logging.Logger;
  *              }
  *          }
  *      }
- * </pre>
+ * }</pre></blockquote>
  * use <b>{@code Close}</b>: <br>
- * <pre>
+ * <blockquote><pre>{@code
  *      Connection conn = null;
  *      PreparedStatement st = null;
  *      ResultSet rs = null;
@@ -71,7 +71,8 @@ import java.util.logging.Logger;
  *          Close.close(st);
  *          Close.close(conn);
  *      }
- * </pre>
+ * }</pre></blockquote>
+ *
  * @param <C> object type
  * @since 0.0.3
  */
@@ -93,8 +94,9 @@ public class Close<C> {
     /**
      * Closing resources. <br>
      * 用于简化关闭资源的操作
+     *
      * @param autoCloseable resources that {@code implements} {@link AutoCloseable}
-     * @param <T> type of resources
+     * @param <T>           type of resources
      * @see #close(AutoCloseable, boolean)
      */
     public static <T extends AutoCloseable> void close(final T autoCloseable) {
@@ -104,9 +106,10 @@ public class Close<C> {
     /**
      * Closing resources. <br>
      * 用于简化关闭资源的操作
+     *
      * @param autoCloseable resources that {@code implements} {@link AutoCloseable}
-     * @param isPrintTrace isPrintTrace
-     * @param <T> type of resources
+     * @param isPrintTrace  isPrintTrace
+     * @param <T>           type of resources
      */
     public static <T extends AutoCloseable> void close(final T autoCloseable, boolean isPrintTrace) {
         if (autoCloseable != null) {
@@ -123,9 +126,10 @@ public class Close<C> {
     /**
      * Simplify {@code try-catch-finally} block when closing resources. <br>
      * 用于简化关闭资源的操作
+     *
      * @param autoCloseable resources that {@code implements} {@link AutoCloseable}
-     * @param catchAction catchAction
-     * @param <T> type of resources
+     * @param catchAction   catchAction
+     * @param <T>           type of resources
      * @see #close(AutoCloseable, V2, V1)
      */
     public static <T extends AutoCloseable> void close(final T autoCloseable, V2<T, Throwable> catchAction) {
@@ -135,10 +139,11 @@ public class Close<C> {
     /**
      * Simplify {@code try-catch-finally} block when closing resources. <br>
      * 用于简化关闭资源的操作
+     *
      * @param autoCloseable resources that {@code implements} {@link AutoCloseable}
-     * @param catchAction catchAction
+     * @param catchAction   catchAction
      * @param finallyAction finallyAction
-     * @param <T> type of resources
+     * @param <T>           type of resources
      */
     public static <T extends AutoCloseable> void close(final T autoCloseable, V2<T, Throwable> catchAction, V1<T> finallyAction) {
         if (autoCloseable != null) {
@@ -155,6 +160,7 @@ public class Close<C> {
     /**
      * Closing multi-resources that {@code implements} {@link AutoCloseable}. <br>
      * 关闭多个实现了 {@link AutoCloseable} 资源
+     *
      * @param autoCloseables autoCloseables
      * @since 0.1.1
      */
@@ -165,7 +171,8 @@ public class Close<C> {
     /**
      * Closing multi-resources that {@code implements} {@link AutoCloseable}. <br>
      * 关闭多个实现了 {@link AutoCloseable} 资源
-     * @param isPrintTrace isPrintTrace
+     *
+     * @param isPrintTrace   isPrintTrace
      * @param autoCloseables autoCloseables
      * @since 0.1.1
      */
@@ -188,6 +195,7 @@ public class Close<C> {
     /**
      * Closing resources that not {@code implements} {@link AutoCloseable}. <br>
      * 用于简化关闭资源的操作，且这些资源未实现 {@link AutoCloseable} 接口
+     *
      * @param closeAction closeAction
      * @see #tcf(VT1, boolean)
      */
@@ -198,7 +206,8 @@ public class Close<C> {
     /**
      * Closing resources that not {@code implements} {@link AutoCloseable}. <br>
      * 用于简化关闭资源的操作，且这些资源未实现 {@link AutoCloseable} 接口
-     * @param closeAction closeAction
+     *
+     * @param closeAction  closeAction
      * @param isPrintTrace isPrintTrace
      */
     public void tcf(VT1<C, Throwable> closeAction, boolean isPrintTrace) {
@@ -216,6 +225,7 @@ public class Close<C> {
     /**
      * Simplify {@code try-catch-finally} block when closing resources that not {@code implements} {@link AutoCloseable}. <br>
      * 用于简化关闭资源的操作，且这些资源未实现 {@link AutoCloseable} 接口
+     *
      * @param closeAction closeAction
      * @param catchAction catchAction
      * @see #tcf(VT1, V2, V1)
@@ -227,8 +237,9 @@ public class Close<C> {
     /**
      * Simplify {@code try-catch-finally} block when closing resources that not {@code implements} {@link AutoCloseable}. <br>
      * 用于简化关闭资源的操作，且这些资源未实现 {@link AutoCloseable} 接口
-     * @param closeAction closeAction
-     * @param catchAction catchAction
+     *
+     * @param closeAction   closeAction
+     * @param catchAction   catchAction
      * @param finallyAction finallyAction
      */
     public void tcf(VT1<C, Throwable> closeAction, V2<C, Throwable> catchAction, V1<C> finallyAction) {

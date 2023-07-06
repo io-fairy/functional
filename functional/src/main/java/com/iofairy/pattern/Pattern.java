@@ -19,10 +19,12 @@ import com.iofairy.base.None;
 import com.iofairy.lambda.R1;
 import com.iofairy.pattern.mapping.*;
 import com.iofairy.pattern.type.*;
+
 import java.util.Objects;
 
 /**
  * Pattern Matching for Java
+ *
  * @since 0.0.1
  */
 public class Pattern {
@@ -52,23 +54,23 @@ public class Pattern {
     public static final PatternNull8 VALUE8 = PatternNull8.VALUE8;
 
 
-
     /**
      * {@code match} can instead of {@code switch} statement or {@code if} statement. <br>
      * 使用 match 来替代 switch 和 if 语句 <br>
      * <b>Examples:</b>
-     * <pre>
+     * <blockquote><pre>{@code
      * String s = "5";
      * String result = match(s)
-     *         .when("1", v -&gt; v + v)
-     *         .when("2", v -&gt; v + "a")
-     *         .when(in("3", "4", "5", "6"), v -&gt; v + " - abcd")
-     *         .orElse(v -&gt; "no match");
+     *         .when("1", v -> v + v)
+     *         .when("2", v -> v + "a")
+     *         .when(in("3", "4", "5", "6"), v -> v + " - abcd")
+     *         .orElse(v -> "no match");
      *
      * System.out.println("match result: " + result);
-     * </pre>
+     * }</pre></blockquote>
+     *
      * @param value value
-     * @param <V> value type
+     * @param <V>   value type
      * @return MixMatcherMapping
      * @since 0.0.1
      */
@@ -91,17 +93,18 @@ public class Pattern {
      * use {@code match()} without value. <br>
      * 当你有多条if语句，但是彼此并不相关时，可以使用不带value的match。<br>
      * <b>Examples:</b>
-     * <pre>
+     * <blockquote><pre>{@code
      * int i = 10;
      * String s = "abc";
      * Object o = new Object();
      *
      * String res = match()
-     *              .when(i == 5,           v -&gt; "i == 5")
-     *              .when(s.equals("abc"),  v -&gt; "abc")
-     *              .when(o == null,        v -&gt; "object is null")
-     *              .orElse(v -&gt; null);
-     * </pre>
+     *              .when(i == 5,           v -> "i == 5")
+     *              .when(s.equals("abc"),  v -> "abc")
+     *              .when(o == null,        v -> "object is null")
+     *              .orElse(v -> null);
+     * }</pre></blockquote>
+     *
      * @return BooleanMatcherMapping
      * @see #match(None)
      * @since 0.0.1
@@ -118,17 +121,17 @@ public class Pattern {
      * Use Type Matcher instead of {@code instanceof}. <br>
      * 此 {@code match()} 函数可替代 {@code instanceof} 类型检测与类型转换功能。<br>
      * <b>Examples:</b>
-     * <pre>
+     * <blockquote><pre>{@code
      * Object o = Tuple.of("zs", 20);
      *
      * Integer result = match(o, TYPE)
-     *         .when(Integer.class, v -&gt; v + 10)
-     *         .when(Tuple2.class,  v -&gt; v.arity())
-     *         .when(String.class,  v -&gt; v.contains("abc") ? 20 : 30)
-     *         .orElse(v -&gt; 40);
-     * </pre>
+     *         .when(Integer.class, v -> v + 10)
+     *         .when(Tuple2.class,  v -> v.arity())
+     *         .when(String.class,  v -> v.contains("abc") ? 20 : 30)
+     *         .orElse(v -> 40);
+     * }</pre></blockquote>
      * <b>It is equivalent to the code below: </b>
-     * <pre>
+     * <blockquote><pre>{@code
      * Integer ifResult;
      * if (o instanceof Integer) {
      *     ifResult = (Integer) o + 10;
@@ -139,11 +142,11 @@ public class Pattern {
      * } else {
      *     ifResult = 40;
      * }
-     * </pre>
+     * }</pre></blockquote>
      *
-     * @param value value
+     * @param value       value
      * @param patternType {@link PatternType}
-     * @param <V> value type
+     * @param <V>         value type
      * @return TypeMatcherMapping
      * @since 0.0.1
      */
@@ -156,41 +159,42 @@ public class Pattern {
      * Pattern matching for String. <br>
      * 为字符串提供强大的模式匹配。<br>
      * <b>Examples:</b>
-     * <pre>
+     * <blockquote><pre>{@code
      * String str = "aBcdE123.$fGHIj";
      *
      * // ignore case match
      * String res1 = match(str, IGNORECASE)
-     *         .when((String) null,     v -&gt; "match null")
-     *         .when("abcd",            v -&gt; "match abcd")
-     *         .when("abcde123.$fGHIj", v -&gt; "ignore case match")        // match this
-     *         .orElse(v -&gt; "no match");
+     *         .when((String) null,     v -> "match null")
+     *         .when("abcd",            v -> "match abcd")
+     *         .when("abcde123.$fGHIj", v -> "ignore case match")        // match this
+     *         .orElse(v -> "no match");
      *
      * // CONTAIN match
      * String res2 = match(str, CONTAIN)
-     *         .when("abcd", v -&gt; "abcd")
-     *         .when("E123", v -&gt; "E123")        // match this
-     *         .orElse(v -&gt; "no match");
+     *         .when("abcd", v -> "abcd")
+     *         .when("E123", v -> "E123")        // match this
+     *         .orElse(v -> "no match");
      *
      * // ignore case for contain
      * String res3 = match(str, ICCONTAIN)
-     *         .when("abcd1",   v -&gt; "abcd1")
-     *         .when(in(null, "aaa", ".$fghi", "123"), v -&gt; ".$fghi")    // match this
-     *         .orElse(v -&gt; "no match");
+     *         .when("abcd1",   v -> "abcd1")
+     *         .when(in(null, "aaa", ".$fghi", "123"), v -> ".$fghi")    // match this
+     *         .orElse(v -> "no match");
      *
      * // PREFIX
      * String res4 = match(str, PREFIX)
-     *         .when("abcd",    v -&gt; "abcd")
-     *         .when("aBcd",    v -&gt; "aBcd")         // match this
-     *         .orElse(v -&gt; "no match");
+     *         .when("abcd",    v -> "abcd")
+     *         .when("aBcd",    v -> "aBcd")         // match this
+     *         .orElse(v -> "no match");
      *
      * // ignore case for suffix
      * String res5 = match(str, ICSUFFIX)
-     *         .when("fghij",   v -&gt; "fGHIj")        // match this
-     *         .when("aBcd",    v -&gt; "aBcd")
-     *         .orElse(v -&gt; "no match");
-     * </pre>
-     * @param value value
+     *         .when("fghij",   v -> "fGHIj")        // match this
+     *         .when("aBcd",    v -> "aBcd")
+     *         .orElse(v -> "no match");
+     * }</pre></blockquote>
+     *
+     * @param value         value
      * @param patternString {@link PatternString}
      * @return StringMatcherMapping
      * @since 0.0.1
@@ -208,20 +212,21 @@ public class Pattern {
      * The values in {@code .when(value)} are preprocessed by {@code preAction} and then {@code match}. <br>
      * 对 when 中的值进行预处理以后再进行模式匹配 <br>
      * <b>Examples:</b>
-     * <pre>
+     * <blockquote><pre>{@code
      * String str = "123abc";
      *
-     * R1&lt;String, String&gt; preAction = s -&gt; "123" + (s == null ? null : s.toLowerCase());
+     * R1<String, String> preAction = s -> "123" + (s == null ? null : s.toLowerCase());
      * String res1 = match(str, preAction, String.class)
-     *         .when("123", v -&gt; "1 " + v + "-- 123")
-     *         .when("123ABC", v -&gt; "2 " + v + "-- 123ABC")
-     *         .when("ABC", v -&gt; "4 " + v + "-- ABC")           // will be matched
-     *         .orElse(v -&gt; "orElse " + v);
+     *         .when("123", v -> "1 " + v + "-- 123")
+     *         .when("123ABC", v -> "2 " + v + "-- 123ABC")
+     *         .when("ABC", v -> "4 " + v + "-- ABC")           // will be matched
+     *         .orElse(v -> "orElse " + v);
      * System.out.println(res1);   // output: 4 123abc-- ABC
-     * </pre>
-     * @param value value
+     * }</pre></blockquote>
+     *
+     * @param value     value
      * @param preAction Preprocess for value in {@code .when(value)}
-     * @param <V> value type
+     * @param <V>       value type
      * @return ActionValueMatcherMapping
      * @since 0.0.1
      */
@@ -243,18 +248,18 @@ public class Pattern {
     /**
      * 适用于判断多个值是否为null值（或其他终止条件），只要其中一个值满足终止条件，则立即 {@code return} 方法，终止后续语句运算。<br><br>
      * <b>Examples:</b><br><br>
-     * <pre>
+     * <blockquote><pre>{@code
      * public String patternCheckNull() {
      *     Account account = new Account("12345", "", "aaaabbbb");
      *     Order order = new Order("order_123456", 10.5, new User("zs", 10, account));
      *
-     *     Tuple7&lt;User, Account, String, Double, String, Integer, String&gt; values = matchNull()
-     *             .whenV(order,   v -&gt; v.buyer,     "order is null or order.buyer is null!")
-     *             .whenW(VALUE1,  v -&gt; v.account,   v -&gt; "user " + v._1.name + "'s account is null!")
-     *             .whenV(order,   v -&gt; v.orderId,   G::isBlank, "order.orderId is blank!")
-     *             .whenV(order,   v -&gt; v.price,     v -&gt; v &lt; 0, "order.price &lt; 0!")
-     *             .whenW(VALUE2,  v -&gt; v.userName,  G::isEmpty, "order.buyer.account.userName is empty!")
-     *             .whenW(VALUE1,  v -&gt; v.age,       v -&gt; v &lt; 0, "order.buyer.age &lt; 0!")
+     *     Tuple7<User, Account, String, Double, String, Integer, String> values = matchNull()
+     *             .whenV(order,   v -> v.buyer,     "order is null or order.buyer is null!")
+     *             .whenW(VALUE1,  v -> v.account,   v -> "user " + v._1.name + "'s account is null!")
+     *             .whenV(order,   v -> v.orderId,   G::isBlank, "order.orderId is blank!")
+     *             .whenV(order,   v -> v.price,     v -> v < 0, "order.price < 0!")
+     *             .whenW(VALUE2,  v -> v.userName,  G::isEmpty, "order.buyer.account.userName is empty!")
+     *             .whenW(VALUE1,  v -> v.age,       v -> v < 0, "order.buyer.age < 0!")
      *             .orElse(null);
      *
      *     User user = values._1;
@@ -285,19 +290,19 @@ public class Pattern {
      *     if (G.isBlank(order.orderId)) {
      *         return "order.orderId is blank!";
      *     }
-     *     if (order.price &lt; 0) {
-     *         return "order.price &lt; 0!";
+     *     if (order.price < 0) {
+     *         return "order.price < 0!";
      *     }
      *     if (G.isEmpty(user.account.userName)) {
      *         return "order.buyer.account.userName is empty!";
      *     }
-     *     if (user.age &lt; 0) {
-     *         return "order.buyer.age &lt; 0!";
+     *     if (user.age < 0) {
+     *         return "order.buyer.age < 0!";
      *     }
      *
      *     return null;
      * }
-     * </pre>
+     * }</pre></blockquote>
      *
      * @return NullMatcherMapping
      */

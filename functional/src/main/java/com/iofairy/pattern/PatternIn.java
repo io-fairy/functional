@@ -20,6 +20,7 @@ import java.util.List;
 
 /**
  * PatternIn for matching multi-values in one time.
+ *
  * @since 0.0.1
  */
 public class PatternIn<V> {
@@ -30,8 +31,8 @@ public class PatternIn<V> {
      * Match multi-values in one time. <br>
      * 判断 待匹配的值是否在集合中，也可用于一次匹配多个值：<br>
      * <b>Examples:</b>
-     * <pre>
-     * .when(in(0, 1, 2), v -&gt; {System.out.println("match!");})
+     * <blockquote><pre>{@code
+     * .when(in(0, 1, 2), v -> {System.out.println("match!");})
      *
      * // it is equivalent to the code below
      * int i = 1;
@@ -44,9 +45,10 @@ public class PatternIn<V> {
      *     default:
      *         ...
      * }
-     * </pre>
+     * }</pre></blockquote>
+     *
      * @param values multi-values
-     * @param <T> values type
+     * @param <T>    values type
      * @return PatternIn
      * @since 0.0.1
      */
@@ -54,7 +56,7 @@ public class PatternIn<V> {
     public static <T> PatternIn<T> in(T... values) {
         PatternIn<T> patternIn = new PatternIn<>();
         if (values == null) {
-            patternIn.vs = Arrays.asList((T)null);
+            patternIn.vs = Arrays.asList((T) null);
             return patternIn;
         }
         if (values.length == 0) throw new RuntimeException("The params's length must be greater than 0. 参数个数必须大于0");
@@ -65,4 +67,5 @@ public class PatternIn<V> {
     public List<V> getVs() {
         return vs;
     }
+
 }
