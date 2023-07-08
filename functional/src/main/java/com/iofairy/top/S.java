@@ -19,7 +19,10 @@ import com.iofairy.except.UnexpectedParameterException;
 import com.iofairy.tuple.Tuple;
 import com.iofairy.tuple.Tuple2;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -643,5 +646,52 @@ public final class S {
         }
         return counts;
     }
+
+    /**
+     * Formats a given number according to a specified pattern with a specific rounding mode.
+     *
+     * @param number  The number to be formatted.
+     * @param pattern The pattern to be applied during formatting.
+     * @return The formatted number as a string.
+     * @since 0.4.9
+     */
+    public static String format(Number number, String pattern) {
+        return format(number, pattern, RoundingMode.HALF_UP);
+    }
+
+    /**
+     * Formats a given number according to a specified pattern with a specific rounding mode.
+     *
+     * @param number       The number to be formatted.
+     * @param pattern      The pattern to be applied during formatting.
+     * @param roundingMode The rounding mode to be used during formatting.
+     * @return The formatted number as a string.
+     * @since 0.4.9
+     */
+    public static String format(Number number, String pattern, RoundingMode roundingMode) {
+        if (number == null) return "null";
+        DecimalFormat df = new DecimalFormat(pattern);
+        df.setRoundingMode(roundingMode);
+        return df.format(number);
+    }
+
+    /**
+     * Repeats a string a specified number of times.
+     *
+     * @param str         The string to be repeated.
+     * @param repeatTimes The number of times to repeat the string.
+     * @return The repeated string.
+     * @since 0.4.9
+     */
+    public static String repeat(String str, int repeatTimes) {
+        if (str == null) return null;
+        if (str.length() == 0 || repeatTimes <= 0) return "";
+        if (repeatTimes == 1) return str;
+        if (repeatTimes > Integer.MAX_VALUE - 8)
+            throw new IllegalArgumentException("Parameter `repeatTimes` must be <= (Integer.MAX_VALUE - 8), otherwise, the memory will overflow! ");
+
+        return String.join("", Collections.nCopies(repeatTimes, str));
+    }
+
 
 }

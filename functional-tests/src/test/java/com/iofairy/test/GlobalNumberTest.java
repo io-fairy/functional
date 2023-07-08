@@ -2,6 +2,7 @@ package com.iofairy.test;
 
 import com.iofairy.top.G;
 import com.iofairy.top.O;
+import com.iofairy.top.S;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -56,39 +57,39 @@ public class GlobalNumberTest {
         System.out.println(objectsList);    // [this is string, 1.0, 100, 1, a, null, NaN, Infinity, 0.0, 0.0, 0, -0.0, -Infinity, -10.000198, 897.66897975569, -100.1000000, -9.99999999912E9]
         System.out.println(numberList);     // [NaN, Infinity, 1.0, null, -Infinity, 10.000198, 897.66897975569, 100.1000000, 9999999999, 9.99999999912E9]
         System.out.println("===================================================");
-        System.out.println(G.toString(objects)); // ["this is string", 1.0, 100, 1, 'a', null, NaN, Infinity, 0.0, 0.0, 0, 0.0, -Infinity, -10.000198, 897.66898, -100.1, -9999999999.12]
-        System.out.println(G.toString(ds));      // [NaN, Infinity, 1, -Infinity, 10.000198, 897.66898, 9999999999.12]
-        System.out.println(G.toString(ds1));     // [NaN, -Infinity, null, -Infinity, 10.000198, 897.66898, 9999999999.12]
-        System.out.println(G.toString(fs));      // [NaN, Infinity, -Infinity, -10.000198, 897.669]
-        System.out.println(G.toString(ns));      // [NaN, Infinity, 1, null, -Infinity, 10.000198, 897.66898, 100.1, 9999999999, 9999999999.12]
+        System.out.println(G.toString(objects)); // ["this is string", 1.0, 100, 1, 'a', null, NaN, ∞, 0.0, 0.0, 0, 0.0, -∞, -10.000198, 897.66898, -100.1, -9999999999.12]
+        System.out.println(G.toString(ds));      // [NaN, ∞, 1, -∞, 10.000198, 897.66898, 9999999999.12]
+        System.out.println(G.toString(ds1));     // [NaN, -∞, null, -∞, 10.000198, 897.66898, 9999999999.12]
+        System.out.println(G.toString(fs));      // [NaN, ∞, -∞, -10.000198, 897.669]
+        System.out.println(G.toString(ns));      // [NaN, ∞, 1, null, -∞, 10.000198, 897.66898, 100.1, 9999999999, 9999999999.12]
         System.out.println(G.toString(o));       // 9999999999.12
-        System.out.println(G.toString(o1));      // Infinity
-        System.out.println(G.toString(o2));      // -Infinity
+        System.out.println(G.toString(o1));      // ∞
+        System.out.println(G.toString(o2));      // -∞
         System.out.println(G.toString(n));       // 897.66898
-        System.out.println(G.toString(n1));      // Infinity
-        System.out.println(G.toString(n2));      // -Infinity
+        System.out.println(G.toString(n1));      // ∞
+        System.out.println(G.toString(n2));      // -∞
         System.out.println(G.toString(d));       // 897.66898
-        System.out.println(G.toString(d1));      // Infinity
-        System.out.println(G.toString(d2));      // -Infinity
-        System.out.println(G.toString(objectsList));    // ["this is string", 1.0, 100, 1, 'a', null, NaN, Infinity, 0.0, 0.0, 0, 0.0, -Infinity, -10.000198, 897.66898, -100.1, -9999999999.12]
-        System.out.println(G.toString(numberList));     // [NaN, Infinity, 1.0, null, -Infinity, 10.000198, 897.66898, 100.1, 9999999999, 9999999999.12]
+        System.out.println(G.toString(d1));      // ∞
+        System.out.println(G.toString(d2));      // -∞
+        System.out.println(G.toString(objectsList));    // ["this is string", 1.0, 100, 1, 'a', null, NaN, ∞, 0.0, 0.0, 0, 0.0, -∞, -10.000198, 897.66898, -100.1, -9999999999.12]
+        System.out.println(G.toString(numberList));     // [NaN, ∞, 1.0, null, -∞, 10.000198, 897.66898, 100.1, 9999999999, 9999999999.12]
         System.out.println("===================================================");
-        assertEquals(G.toString(objects), "[\"this is string\", 1.0, 100, 1, 'a', null, NaN, Infinity, 0.0, 0.0, 0, 0.0, -Infinity, -10.000198, 897.66898, -100.1, -9999999999.12]");
-        assertEquals(G.toString(ds), "[NaN, Infinity, 1.0, -Infinity, 10.000198, 897.66898, 9999999999.12]");
-        assertEquals(G.toString(ds1), "[NaN, -Infinity, null, -Infinity, 10.000198, 897.66898, 9999999999.12]");
-        assertEquals(G.toString(fs), "[NaN, Infinity, -Infinity, -10.000198, 897.669]");
-        assertEquals(G.toString(ns), "[NaN, Infinity, 1.0, null, -Infinity, 10.000198, 897.66898, 100.1, 9999999999, 9999999999.12]");
+        assertEquals(G.toString(objects), "[\"this is string\", 1.0, 100, 1, 'a', null, NaN, ∞, 0.0, 0.0, 0, 0.0, -∞, -10.000198, 897.66898, -100.1, -9999999999.12]");
+        assertEquals(G.toString(ds), "[NaN, ∞, 1.0, -∞, 10.000198, 897.66898, 9999999999.12]");
+        assertEquals(G.toString(ds1), "[NaN, -∞, null, -∞, 10.000198, 897.66898, 9999999999.12]");
+        assertEquals(G.toString(fs), "[NaN, ∞, -∞, -10.000198, 897.669]");
+        assertEquals(G.toString(ns), "[NaN, ∞, 1.0, null, -∞, 10.000198, 897.66898, 100.1, 9999999999, 9999999999.12]");
         assertEquals(G.toString(o), "9999999999.12");
-        assertEquals(G.toString(o1), "Infinity");
-        assertEquals(G.toString(o2), "-Infinity");
+        assertEquals(G.toString(o1), "∞");
+        assertEquals(G.toString(o2), "-∞");
         assertEquals(G.toString(n), "897.66898");
-        assertEquals(G.toString(n1), "Infinity");
-        assertEquals(G.toString(n2), "-Infinity");
+        assertEquals(G.toString(n1), "∞");
+        assertEquals(G.toString(n2), "-∞");
         assertEquals(G.toString(d), "897.66898");
-        assertEquals(G.toString(d1), "Infinity");
-        assertEquals(G.toString(d2), "-Infinity");
-        assertEquals(G.toString(objectsList), "[\"this is string\", 1.0, 100, 1, 'a', null, NaN, Infinity, 0.0, 0.0, 0, 0.0, -Infinity, -10.000198, 897.66898, -100.1, -9999999999.12]");
-        assertEquals(G.toString(numberList), "[NaN, Infinity, 1.0, null, -Infinity, 10.000198, 897.66898, 100.1, 9999999999, 9999999999.12]");
+        assertEquals(G.toString(d1), "∞");
+        assertEquals(G.toString(d2), "-∞");
+        assertEquals(G.toString(objectsList), "[\"this is string\", 1.0, 100, 1, 'a', null, NaN, ∞, 0.0, 0.0, 0, 0.0, -∞, -10.000198, 897.66898, -100.1, -9999999999.12]");
+        assertEquals(G.toString(numberList), "[NaN, ∞, 1.0, null, -∞, 10.000198, 897.66898, 100.1, 9999999999, 9999999999.12]");
     }
 
 
@@ -387,4 +388,110 @@ public class GlobalNumberTest {
         assertEquals(G.toString(O.toBigDecimal(0.1f)), "0.1");
         assertEquals(G.toString(O.toBigDecimal(0.000001f)), "0.000001");
     }
+
+
+    @Test
+    public void testFormat() {
+        String pattern1 = "#.###";
+        String pattern2 = "0.000";
+        String pattern3 = "0.00";
+        String pattern4 = "0.0%";
+        String pattern5 = "0.00%";
+        String pattern6 = "#.##%";
+
+        String format01 = S.format(0.0d / 0.0, pattern1);
+        String format02 = S.format(Float.POSITIVE_INFINITY, pattern1);
+        String format03 = S.format(Double.NEGATIVE_INFINITY, pattern1);
+        String format04 = S.format(1.0f, pattern1);
+        String format05 = S.format(9999999999.120000000089569999d, pattern1);
+        String format06 = S.format(9999999999l, pattern1);
+        String format07 = S.format(-10.000198f, pattern1);
+        String format08 = S.format(-0.01 / 0.0, pattern1);
+        String format09 = S.format(897.66897975569f, pattern1);
+        String format10 = S.format(Double.NaN, pattern1);
+        String format11 = S.format(0.0d / 0.0, pattern2);
+        String format12 = S.format(Float.POSITIVE_INFINITY, pattern2);
+        String format13 = S.format(Double.NEGATIVE_INFINITY, pattern2);
+        String format14 = S.format(1.0f, pattern3);
+        String format15 = S.format(9999999999.120000000089569999d, pattern2);
+        String format16 = S.format(9999999999l, pattern2);
+        String format17 = S.format(-10.000198f, pattern2);
+        String format18 = S.format(-0.01 / 0.0, pattern2);
+        String format19 = S.format(897.66897975569f, pattern2);
+        String format20 = S.format(Float.NaN, pattern2);
+        String format21 = S.format(0.0d / 0.0, pattern4);
+        String format22 = S.format(Float.POSITIVE_INFINITY, pattern5);
+        String format23 = S.format(Double.NEGATIVE_INFINITY, pattern5);
+        String format24 = S.format(1.0f, pattern6);
+        String format25 = S.format(9999999999.120000000089569999d, pattern6);
+        String format26 = S.format(9999999999l, pattern5);
+        String format27 = S.format(-10.000198f, pattern5);
+        String format28 = S.format(-0.01 / 0.0, pattern5);
+        String format29 = S.format(897.66897975569f, pattern5);
+        String format30 = S.format(Float.NaN, pattern5);
+
+        System.out.println(pattern1 + ": " + format01);
+        System.out.println(pattern1 + ": " + format02);
+        System.out.println(pattern1 + ": " + format03);
+        System.out.println(pattern1 + ": " + format04);
+        System.out.println(pattern1 + ": " + format05);
+        System.out.println(pattern1 + ": " + format06);
+        System.out.println(pattern1 + ": " + format07);
+        System.out.println(pattern1 + ": " + format08);
+        System.out.println(pattern1 + ": " + format09);
+        System.out.println(pattern1 + ": " + format10);
+        System.out.println(pattern2 + ": " + format11);
+        System.out.println(pattern2 + ": " + format12);
+        System.out.println(pattern2 + ": " + format13);
+        System.out.println(pattern3 + ": " + format14);
+        System.out.println(pattern2 + ": " + format15);
+        System.out.println(pattern2 + ": " + format16);
+        System.out.println(pattern2 + ": " + format17);
+        System.out.println(pattern2 + ": " + format18);
+        System.out.println(pattern2 + ": " + format19);
+        System.out.println(pattern2 + ": " + format20);
+        System.out.println(pattern4 + ": " + format21);
+        System.out.println(pattern5 + ": " + format22);
+        System.out.println(pattern5 + ": " + format23);
+        System.out.println(pattern6 + ": " + format24);
+        System.out.println(pattern6 + ": " + format25);
+        System.out.println(pattern5 + ": " + format26);
+        System.out.println(pattern5 + ": " + format27);
+        System.out.println(pattern5 + ": " + format28);
+        System.out.println(pattern5 + ": " + format29);
+        System.out.println(pattern5 + ": " + format30);
+
+        assertEquals(format01, "NaN");
+        assertEquals(format02, "∞");
+        assertEquals(format03, "-∞");
+        assertEquals(format04, "1");
+        assertEquals(format05, "9999999999.12");
+        assertEquals(format06, "9999999999");
+        assertEquals(format07, "-10");
+        assertEquals(format08, "-∞");
+        assertEquals(format09, "897.669");
+        assertEquals(format10, "NaN");
+        assertEquals(format11, "NaN");
+        assertEquals(format12, "∞");
+        assertEquals(format13, "-∞");
+        assertEquals(format14, "1.00");
+        assertEquals(format15, "9999999999.120");
+        assertEquals(format16, "9999999999.000");
+        assertEquals(format17, "-10.000");
+        assertEquals(format18, "-∞");
+        assertEquals(format19, "897.669");
+        assertEquals(format20, "NaN");
+        assertEquals(format21, "NaN");
+        assertEquals(format22, "∞%");
+        assertEquals(format23, "-∞%");
+        assertEquals(format24, "100%");
+        assertEquals(format25, "999999999912%");
+        assertEquals(format26, "999999999900.00%");
+        assertEquals(format27, "-1000.02%");
+        assertEquals(format28, "-∞%");
+        assertEquals(format29, "89766.90%");
+        assertEquals(format30, "NaN");
+
+    }
+
 }

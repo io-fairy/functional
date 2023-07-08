@@ -88,6 +88,15 @@ public final class G {
         public final static DateTimeFormatter DETAILED_OFFSET_DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSSSS '['xxx O E']'");
     }
 
+    /**
+     * String used to represent "not a number".
+     */
+    public static final String NAN = "NaN";
+    /**
+     * String used to represent infinity.
+     */
+    public static final String INFINITY = "∞";
+
     /*###################################################################################
      ************************************************************************************
      ------------------------------------------------------------------------------------
@@ -756,7 +765,10 @@ public final class G {
     public static String toString(Number number, int newScale, RoundingMode roundingMode, boolean isStripTrailingZeros) {
         if (number == null) return "null";
 
-        if (O.isInfinityOrNaN(number)) return number.toString();
+        if (O.isInfinityOrNaN(number)) {
+            double d = number.doubleValue();
+            return Double.isNaN(d) ? NAN : (d == Double.POSITIVE_INFINITY ? INFINITY : "-" + INFINITY);
+        }
 
         if (O.isFloat(number) || number instanceof BigDecimal) {
             String numberStr = toString(O.toBigDecimal(number), newScale, roundingMode, isStripTrailingZeros);

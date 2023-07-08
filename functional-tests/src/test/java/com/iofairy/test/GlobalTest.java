@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -1148,6 +1149,45 @@ public class GlobalTest {
         // System.out.println("s41: " + s41);
         // System.out.println("s42: " + s42);
         // System.out.println("s43: " + s43);
+
+    }
+
+    @Test
+    public void testRepeat() {
+        String repeat01 = S.repeat(null, -1);
+        String repeat02 = S.repeat("", -1);
+        String repeat03 = S.repeat("", 10);
+        String repeat04 = S.repeat("abc", 20);
+        String repeat05 = S.repeat("abc", 0);
+        String repeat06 = S.repeat("abc", -1);
+        String repeat07 = S.repeat("abc", 1);
+        String repeat08 = S.repeat("", Integer.MAX_VALUE);
+
+        System.out.println(repeat01);
+        System.out.println(repeat02);
+        System.out.println(repeat03);
+        System.out.println(repeat04);
+        System.out.println(repeat05);
+        System.out.println(repeat06);
+        System.out.println(repeat07);
+        System.out.println(repeat08);
+
+        assertNull(repeat01);
+        assertEquals(repeat02, "");
+        assertEquals(repeat03, "");
+        assertEquals(repeat04, "abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc");
+        assertEquals(repeat05, "");
+        assertEquals(repeat06, "");
+        assertEquals(repeat07, "abc");
+        assertEquals(repeat08, "");
+
+        try {
+            S.repeat("a", Integer.MAX_VALUE);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            assertEquals(e.getMessage(), "Parameter `repeatTimes` must be <= (Integer.MAX_VALUE - 8), otherwise, the memory will overflow! ");
+        }
+
 
     }
 
