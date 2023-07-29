@@ -648,7 +648,19 @@ public final class S {
     }
 
     /**
-     * Formats a given number according to a specified pattern with a specific rounding mode.
+     * Formats a given number according to a default pattern.
+     *
+     * @param number The number to be formatted.
+     * @return The formatted number as a string.
+     * @since 0.4.10
+     */
+    public static String format(Number number) {
+        return format(number, "#.##", RoundingMode.HALF_UP, false);
+    }
+
+
+    /**
+     * Formats a given number according to a specified pattern.
      *
      * @param number  The number to be formatted.
      * @param pattern The pattern to be applied during formatting.
@@ -656,7 +668,7 @@ public final class S {
      * @since 0.4.9
      */
     public static String format(Number number, String pattern) {
-        return format(number, pattern, RoundingMode.HALF_UP);
+        return format(number, pattern, RoundingMode.HALF_UP, false);
     }
 
     /**
@@ -669,7 +681,46 @@ public final class S {
      * @since 0.4.9
      */
     public static String format(Number number, String pattern, RoundingMode roundingMode) {
-        if (number == null) return "null";
+        return format(number, pattern, roundingMode, false);
+    }
+
+    /**
+     * Formats a given number according to a default pattern.
+     *
+     * @param number       The number to be formatted.
+     * @param isNullToZero Is {@code null} to {@code 0}
+     * @return The formatted number as a string.
+     * @since 0.4.10
+     */
+    public static String format(Number number, boolean isNullToZero) {
+        return format(number, "#.##", RoundingMode.HALF_UP, isNullToZero);
+    }
+
+    /**
+     * Formats a given number according to a specified pattern.
+     *
+     * @param number       The number to be formatted.
+     * @param pattern      The pattern to be applied during formatting.
+     * @param isNullToZero Is {@code null} to {@code 0}
+     * @return The formatted number as a string.
+     * @since 0.4.10
+     */
+    public static String format(Number number, String pattern, boolean isNullToZero) {
+        return format(number, pattern, RoundingMode.HALF_UP, isNullToZero);
+    }
+
+    /**
+     * Formats a given number according to a specified pattern with a specific rounding mode.
+     *
+     * @param number       The number to be formatted.
+     * @param pattern      The pattern to be applied during formatting.
+     * @param roundingMode The rounding mode to be used during formatting.
+     * @param isNullToZero Is {@code null} to {@code 0}
+     * @return The formatted number as a string.
+     * @since 0.4.10
+     */
+    public static String format(Number number, String pattern, RoundingMode roundingMode, boolean isNullToZero) {
+        if (number == null) return isNullToZero ? "0" : "null";
         DecimalFormat df = new DecimalFormat(pattern);
         df.setRoundingMode(roundingMode);
         return df.format(number);

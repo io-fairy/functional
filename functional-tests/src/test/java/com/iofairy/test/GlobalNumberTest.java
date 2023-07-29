@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.List;
 
@@ -429,6 +430,32 @@ public class GlobalNumberTest {
         String format28 = S.format(-0.01 / 0.0, pattern5);
         String format29 = S.format(897.66897975569f, pattern5);
         String format30 = S.format(Float.NaN, pattern5);
+        String format31 = S.format(BigDecimal.valueOf(1.00003), "#.##%");
+        String format32 = S.format(BigDecimal.valueOf(1.00003), "0.00%");
+        String format33 = S.format(BigDecimal.valueOf(1.00005), "#.##%");
+        String format34 = S.format(BigDecimal.valueOf(1.00005), "0.00%");
+        String format35 = S.format(BigDecimal.valueOf(1.003), "#.##");
+        String format36 = S.format(BigDecimal.valueOf(1.003), "0.00");
+        String format37 = S.format(BigDecimal.valueOf(1.005), "#.##");
+        String format38 = S.format(BigDecimal.valueOf(1.005), "0.00");
+        String format39 = S.format(null, "0.00", true);
+        String format40 = S.format(null, "0.00");
+        String format41 = S.format(BigDecimal.valueOf(1.00003), "#.##%", RoundingMode.HALF_EVEN);
+        String format42 = S.format(BigDecimal.valueOf(1.00003), "0.00%", RoundingMode.HALF_EVEN);
+        String format43 = S.format(BigDecimal.valueOf(1.00005), "#.##%", RoundingMode.HALF_EVEN);
+        String format44 = S.format(BigDecimal.valueOf(1.00005), "0.00%", RoundingMode.HALF_EVEN);
+        String format45 = S.format(BigDecimal.valueOf(1.003), "#.##", RoundingMode.HALF_EVEN);
+        String format46 = S.format(BigDecimal.valueOf(1.003), "0.00", RoundingMode.HALF_EVEN);
+        String format47 = S.format(BigDecimal.valueOf(1.005), "#.##", RoundingMode.HALF_EVEN);
+        String format48 = S.format(BigDecimal.valueOf(1.005), "0.00", RoundingMode.HALF_EVEN);
+        String format49 = S.format(BigDecimal.valueOf(1.00003), "#.##%", RoundingMode.UP);
+        String format50 = S.format(BigDecimal.valueOf(1.00003), "0.00%", RoundingMode.UP);
+        String format51 = S.format(BigDecimal.valueOf(1.00005), "#.##%", RoundingMode.UP);
+        String format52 = S.format(BigDecimal.valueOf(1.00005), "0.00%", RoundingMode.UP);
+        String format53 = S.format(BigDecimal.valueOf(1.003), "#.##", RoundingMode.UP);
+        String format54 = S.format(BigDecimal.valueOf(1.003), "0.00", RoundingMode.UP);
+        String format55 = S.format(BigDecimal.valueOf(1.005), "#.##", RoundingMode.UP);
+        String format56 = S.format(BigDecimal.valueOf(1.005), "0.00", RoundingMode.UP);
 
         System.out.println(pattern1 + ": " + format01);
         System.out.println(pattern1 + ": " + format02);
@@ -460,6 +487,33 @@ public class GlobalNumberTest {
         System.out.println(pattern5 + ": " + format28);
         System.out.println(pattern5 + ": " + format29);
         System.out.println(pattern5 + ": " + format30);
+        System.out.println("format31: " + format31);
+        System.out.println("format32: " + format32);
+        System.out.println("format33: " + format33);
+        System.out.println("format34: " + format34);
+        System.out.println("format35: " + format35);
+        System.out.println("format36: " + format36);
+        System.out.println("format37: " + format37);
+        System.out.println("format38: " + format38);
+        System.out.println("format39: " + format39);
+        System.out.println("format40: " + format40);
+        System.out.println("format41: " + format41);
+        System.out.println("format42: " + format42);
+        System.out.println("format43: " + format43);
+        System.out.println("format44: " + format44);
+        System.out.println("format45: " + format45);
+        System.out.println("format46: " + format46);
+        System.out.println("format47: " + format47);
+        System.out.println("format48: " + format48);
+        System.out.println("format49: " + format49);
+        System.out.println("format50: " + format50);
+        System.out.println("format51: " + format51);
+        System.out.println("format52: " + format52);
+        System.out.println("format53: " + format53);
+        System.out.println("format54: " + format54);
+        System.out.println("format55: " + format55);
+        System.out.println("format56: " + format56);
+
 
         assertEquals(format01, "NaN");
         assertEquals(format02, "∞");
@@ -491,6 +545,32 @@ public class GlobalNumberTest {
         assertEquals(format28, "-∞%");
         assertEquals(format29, "89766.90%");
         assertEquals(format30, "NaN");
+        assertEquals(format31, "100%");
+        assertEquals(format32, "100.00%");
+        assertEquals(format33, "100.01%");
+        assertEquals(format34, "100.01%");
+        assertEquals(format35, "1");
+        assertEquals(format36, "1.00");
+        assertEquals(format37, "1.01");
+        assertEquals(format38, "1.01");
+        assertEquals(format39, "0");
+        assertEquals(format40, "null");
+        assertEquals(format41, "100%");
+        assertEquals(format42, "100.00%");
+        assertEquals(format43, "100%");
+        assertEquals(format44, "100.00%");
+        assertEquals(format45, "1");
+        assertEquals(format46, "1.00");
+        assertEquals(format47, "1");
+        assertEquals(format48, "1.00");
+        assertEquals(format49, "100.01%");
+        assertEquals(format50, "100.01%");
+        assertEquals(format51, "100.01%");
+        assertEquals(format52, "100.01%");
+        assertEquals(format53, "1.01");
+        assertEquals(format54, "1.01");
+        assertEquals(format55, "1.01");
+        assertEquals(format56, "1.01");
 
     }
 

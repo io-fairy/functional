@@ -211,6 +211,9 @@ public final class G {
      */
     public static String dtSimple(Date date) {
         if (date == null) return "null";
+        String className = date.getClass().getName();
+        if (Objects.equals(className, "java.sql.Date") || Objects.equals(className, "java.sql.Time")) return date.toString();
+
         return dtSimple(date.toInstant());
     }
 
@@ -267,6 +270,9 @@ public final class G {
      */
     public static String dtDetail(Date date) {
         if (date == null) return "null";
+        String className = date.getClass().getName();
+        if (Objects.equals(className, "java.sql.Date") || Objects.equals(className, "java.sql.Time")) return date.toString();
+
         return dtDetail(date.toInstant());
     }
 

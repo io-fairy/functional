@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -701,6 +702,45 @@ public class GlobalTest {
         // System.out.println(toString5);
         // System.out.println(dtDetail5);
     }
+
+    @Test
+    public void testDTToString3() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2023, Calendar.AUGUST, 29, 10, 30, 15);
+        calendar.set(Calendar.MILLISECOND, 567);
+        long timeInMillis = calendar.getTimeInMillis();
+        Date date = calendar.getTime();
+        java.sql.Date sqlDate = new java.sql.Date(timeInMillis);
+        Time sqlTime = new Time(timeInMillis);
+        Timestamp timestamp = new Timestamp(timeInMillis);
+        System.out.println("date: " + G.toString(date));
+        System.out.println("date: " + G.dtSimple(date));
+        System.out.println("date: " + G.dtDetail(date));
+        System.out.println("sqlDate: " + G.toString(sqlDate));
+        System.out.println("sqlDate: " + G.dtSimple(sqlDate));
+        System.out.println("sqlDate: " + G.dtDetail(sqlDate));
+        System.out.println("sqlTime: " + G.toString(sqlTime));
+        System.out.println("sqlTime: " + G.dtSimple(sqlTime));
+        System.out.println("sqlTime: " + G.dtDetail(sqlTime));
+        System.out.println("timestamp: " + G.toString(timestamp));
+        System.out.println("timestamp: " + G.dtSimple(timestamp));
+        System.out.println("timestamp: " + G.dtDetail(timestamp));
+
+        assertEquals("2023-08-29 10:30:15.567", G.toString(date));
+        assertEquals("2023-08-29 10:30:15.567", G.dtSimple(date));
+        assertEquals("2023-08-29 10:30:15.567000000 [Asia/Shanghai +08:00 GMT+8 周二]", G.dtDetail(date));
+        assertEquals("2023-08-29", G.toString(sqlDate));
+        assertEquals("2023-08-29", G.dtSimple(sqlDate));
+        assertEquals("2023-08-29", G.dtDetail(sqlDate));
+        assertEquals("10:30:15", G.toString(sqlTime));
+        assertEquals("10:30:15", G.dtSimple(sqlTime));
+        assertEquals("10:30:15", G.dtDetail(sqlTime));
+        assertEquals("2023-08-29 10:30:15.567", G.toString(timestamp));
+        assertEquals("2023-08-29 10:30:15.567", G.dtSimple(timestamp));
+        assertEquals("2023-08-29 10:30:15.567000000 [Asia/Shanghai +08:00 GMT+8 周二]", G.dtDetail(timestamp));
+
+    }
+
 
     @Test
     public void testArrayEmpty() {
