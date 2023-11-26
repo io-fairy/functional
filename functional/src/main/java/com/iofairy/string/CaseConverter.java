@@ -15,8 +15,6 @@
  */
 package com.iofairy.string;
 
-import com.iofairy.top.S;
-
 import static com.iofairy.string.StringCase.*;
 
 /**
@@ -248,7 +246,40 @@ public enum CaseConverter implements StringConverter {
     /**
      * {@link StringCase#UPPER_SPACE} to {@link StringCase#LOWER_SPACE}<br><b>e.g.</b> <b>UPPER SPACE</b> to <b>lower space</b>
      */
-    US_LS(UPPER_SPACE, LOWER_SPACE);
+    US_LS(UPPER_SPACE, LOWER_SPACE),
+    /**
+     * {@link StringCase#ALL_SEPARATORS} to {@link StringCase#UPPER_CAMEL}
+     */
+    AS_UC(ALL_SEPARATORS, UPPER_CAMEL),
+    /**
+     * {@link StringCase#ALL_SEPARATORS} to {@link StringCase#LOWER_CAMEL}
+     */
+    AS_LC(ALL_SEPARATORS, LOWER_CAMEL),
+    /**
+     * {@link StringCase#ALL_SEPARATORS} to {@link StringCase#UPPER_UNDERSCORE}
+     */
+    AS_UU(ALL_SEPARATORS, UPPER_UNDERSCORE),
+    /**
+     * {@link StringCase#ALL_SEPARATORS} to {@link StringCase#LOWER_UNDERSCORE}
+     */
+    AS_LU(ALL_SEPARATORS, LOWER_UNDERSCORE),
+    /**
+     * {@link StringCase#ALL_SEPARATORS} to {@link StringCase#UPPER_SPACE}
+     */
+    AS_US(ALL_SEPARATORS, UPPER_SPACE),
+    /**
+     * {@link StringCase#ALL_SEPARATORS} to {@link StringCase#LOWER_SPACE}
+     */
+    AS_LS(ALL_SEPARATORS, LOWER_SPACE),
+    /**
+     * {@link StringCase#ALL_SEPARATORS} to {@link StringCase#UPPER_HYPHEN}
+     */
+    AS_UH(ALL_SEPARATORS, UPPER_HYPHEN),
+    /**
+     * {@link StringCase#ALL_SEPARATORS} to {@link StringCase#LOWER_HYPHEN}
+     */
+    AS_LH(ALL_SEPARATORS, LOWER_HYPHEN);
+
 
     /*=======================================================*/
     public final StringCase fromCase;
@@ -260,9 +291,8 @@ public enum CaseConverter implements StringConverter {
     }
 
     @Override
-    public String convert(String str) {
-        if (S.isEmpty(str)) return str;
-        return fromCase.to(toCase, str);
+    public String convert(String inputStr) {
+        return fromCase.to(toCase, inputStr);
     }
 
 }

@@ -47,17 +47,21 @@ public class CaseAutoConverter implements StringConverter {
     }
 
     @Override
-    public String convert(String str) {
-        if (S.isEmpty(str)) return str;
+    public String convert(String inputStr) {
+        if (S.isEmpty(inputStr)) return inputStr;
         StringCase fromCase;
         String chars = " _-";
-        int[] charCounts = S.countMultiChars(str, chars);
+        int[] charCounts = S.countMultiChars(inputStr, chars);
         int index = O.indexOfMax(charCounts);
-        if (charCounts[index] == 0) {
-            int[] ints = Ascii.countCases(str);  // int[]{upperCount, lowerCount, notLetterCount}
-            // toLower(str) if the number of upper letters is greater than the number of lower letters
+
+        if (charCounts[index] == 0) {               // None of these characters( _-) exist
+            int[] ints = Ascii.countCases(inputStr);     // int[]{upperCount, lowerCount, notLetterCount}
+            /*
+             * NOTE:
+             * toLower(str) if count(upper letters) >= count(lower letters)
+             */
             if (ints[0] >= ints[1]) {
-                str = Ascii.toLower(str);
+                inputStr = Ascii.toLower(inputStr);
             }
             fromCase = LOWER_CAMEL;
         } else {
@@ -71,8 +75,13 @@ public class CaseAutoConverter implements StringConverter {
                 default:
                     fromCase = LOWER_HYPHEN;
             }
+
+            if (toCase.isCamelCase) {
+                fromCase = ALL_SEPARATORS;
+            }
         }
 
-        return fromCase.to(toCase, str);
+        return fromCase.to(toCase, inputStr);
     }
+
 }

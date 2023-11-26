@@ -15,6 +15,11 @@
  */
 package com.iofairy.string;
 
+import com.iofairy.top.S;
+
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * StringCase
  *
@@ -52,7 +57,16 @@ public enum StringCase {
     /**
      * UPPER_CAMEL (separator is "A-Z"), e.g. "UpperCamel"
      */
-    UPPER_CAMEL('A', true, true);
+    UPPER_CAMEL('A', true, true),
+    /**
+     * ALL_SEPARATORS (separator is '-' or ' ' or '_'), it is used to convert "camel case"
+     */
+    ALL_SEPARATORS('*', false, false);
+
+    /**
+     * All available separators
+     */
+    public static final List<Character> SEPARATORS = Arrays.asList(' ', '-', '_');
 
     public final char separator;
     public final boolean isCamelCase;
@@ -67,51 +81,68 @@ public enum StringCase {
     /**
      * Convert this StringCase to another StringCase.
      *
-     * @param toCase target StringCase
-     * @param str    string
+     * @param toCase   target StringCase
+     * @param inputStr string
      * @return new string
      */
-    String to(StringCase toCase, String str) {
+    public String to(StringCase toCase, String inputStr) {
+        if (S.isEmpty(inputStr)) return inputStr;
+
+        if (toCase == ALL_SEPARATORS) throw new IllegalArgumentException("Parameter `toCase` cannot be `StringCase.ALL_SEPARATORS`! ");
+
         if (this == toCase) {
             return isCamelCase
-                    ? (isUpper ? Ascii.toUpperFirstChar(str) : Ascii.toLowerFirstChar(str))
-                    : (isUpper ? Ascii.toUpper(str) : Ascii.toLower(str));
+                    ? (isUpper ? Ascii.toUpperFirstChar(inputStr) : Ascii.toLowerFirstChar(inputStr))
+                    : (isUpper ? Ascii.toUpper(inputStr) : Ascii.toLower(inputStr));
         }
 
         if (this.isCamelCase || toCase.isCamelCase) {
             if (this.isCamelCase) { // (this.isCamelCase && toCase.isCamelCase) || (this.isCamelCase && !toCase.isCamelCase)
-                return fromCamelCase(toCase, str);
+                return fromCamelCase(toCase, inputStr);
             } else {                // !this.isCamelCase && toCase.isCamelCase
-                return toCamelCase(toCase, str);
+                return toCamelCase(toCase, inputStr, this == ALL_SEPARATORS ? SEPARATORS : Arrays.asList(this.separator));
             }
         } else {
-            return toCase.isUpper
-                    ? Ascii.toUpper(str.replace(this.separator, toCase.separator))
-                    : Ascii.toLower(str.replace(this.separator, toCase.separator));
+            if (this == ALL_SEPARATORS) {
+                String replaceStr = inputStr.replaceAll("[\\- _]", toCase.separator + "");
+                return toCase.isUpper ? Ascii.toUpper(replaceStr) : Ascii.toLower(replaceStr);
+            } else {
+                return toCase.isUpper
+                        ? Ascii.toUpper(inputStr.replace(this.separator, toCase.separator))
+                        : Ascii.toLower(inputStr.replace(this.separator, toCase.separator));
+            }
         }
     }
 
     /**
      * Convert {@code StringCase} to {@link #LOWER_CAMEL} or {@link #UPPER_CAMEL}.
      *
-     * @param toCase {@link #LOWER_CAMEL} or {@link #UPPER_CAMEL}
-     * @param str    string
+     * @param toCase     {@link #LOWER_CAMEL} or {@link #UPPER_CAMEL}
+     * @param inputStr   string
+     * @param separators separators
      * @return CamelCase string
      */
-    private String toCamelCase(StringCase toCase, String str) {
+    private String toCamelCase(StringCase toCase, String inputStr, List<Character> separators) {
         if (this.isCamelCase) {
-            return toCase.isUpper ? Ascii.toUpperFirstChar(str) : Ascii.toLowerFirstChar(str);
+            return toCase.isUpper ? Ascii.toUpperFirstChar(inputStr) : Ascii.toLowerFirstChar(inputStr);
         } else {
-            boolean isLastCharSeparator = false;
+            TrimRegex regex = TrimRegex.regex(separators);
+            inputStr = inputStr.replaceAll(regex.trimHeadRegex, "").replaceAll(regex.trimTailRegex, "");
+            if (S.isEmpty(inputStr)) return inputStr;
+
+            boolean isLastCharSeparator = false;        // Whether the last character was a separator
+            boolean isCurrentCharSeparator;     // Whether the current character was a separator
             StringBuilder sb = new StringBuilder();
-            for (char c : str.toCharArray()) {
-                if (isLastCharSeparator && Ascii.isLetter(c)) {
-                    sb.setCharAt(sb.length() - 1, Ascii.toUpper(c));
-                } else {
-                    sb.append(Ascii.toLower(c));
+            for (char c : inputStr.toCharArray()) {
+                isCurrentCharSeparator = separators.contains(c);
+
+                if (!isCurrentCharSeparator) {
+                    sb.append(isLastCharSeparator ? Ascii.toUpper(c) : Ascii.toLower(c));
                 }
-                isLastCharSeparator = this.separator == c;
+
+                isLastCharSeparator = isCurrentCharSeparator;
             }
+
             if (toCase.isUpper) {
                 sb.setCharAt(0, Ascii.toUpper(sb.charAt(0)));
             }
@@ -122,16 +153,16 @@ public enum StringCase {
     /**
      * Convert {@link #LOWER_CAMEL} or {@link #UPPER_CAMEL} to {@code toCase}
      *
-     * @param toCase toCase
-     * @param str    string
+     * @param toCase   toCase
+     * @param inputStr string
      * @return toCase string
      */
-    private String fromCamelCase(StringCase toCase, String str) {
+    private String fromCamelCase(StringCase toCase, String inputStr) {
         if (toCase.isCamelCase) {
-            return toCase.isUpper ? Ascii.toUpperFirstChar(str) : Ascii.toLowerFirstChar(str);
+            return toCase.isUpper ? Ascii.toUpperFirstChar(inputStr) : Ascii.toLowerFirstChar(inputStr);
         } else {
             StringBuilder sb = new StringBuilder();
-            char[] chars = str.toCharArray();
+            char[] chars = inputStr.toCharArray();
             if (toCase.isUpper) {
                 for (int i = 0; i < chars.length; i++) {
                     char c = chars[i];
@@ -163,6 +194,39 @@ public enum StringCase {
             }
 
             return sb.toString();
+        }
+    }
+
+
+    /**
+     * 修剪字符正则表达式
+     *
+     * @since 0.4.11
+     */
+    static class TrimRegex {
+        String trimHeadRegex;
+        String trimTailRegex;
+
+        public TrimRegex(String trimHeadRegex, String trimTailRegex) {
+            this.trimHeadRegex = trimHeadRegex;
+            this.trimTailRegex = trimTailRegex;
+        }
+
+        static TrimRegex regex(List<Character> characters) {
+            String trimRegex = "[";
+            for (Character character : characters) {
+                trimRegex += character == '-' ? "\\-" : character;
+            }
+            trimRegex += "]+";
+            return new TrimRegex("^" + trimRegex, trimRegex + "$");
+        }
+
+        @Override
+        public String toString() {
+            return "TrimRegex{" +
+                    "trimHeadRegex='" + trimHeadRegex + '\'' +
+                    ", trimTailRegex='" + trimTailRegex + '\'' +
+                    '}';
         }
     }
 

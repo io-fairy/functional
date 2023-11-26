@@ -22,10 +22,10 @@ package com.iofairy.string;
  */
 public interface StringConverter {
     /**
-     * Convert str to new String
+     * Convert inputStr to new String
      *
-     * @param str string
+     * @param inputStr string
      * @return new String
      */
-    String convert(String str);
+    String convert(String inputStr);
 }
