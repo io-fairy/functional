@@ -951,7 +951,7 @@ public class GlobalTest {
         String s22 = S.padLeftChars(s2, '0', 5);        // 0abcd
         String i1 = S.padLeftChars(i, '0', 0);          // 10
         String i2 = S.padLeftChars(i, '0', 1);          // 10
-        String i3 = S.padLeftChars(i, '0', 5);          // 00010
+        String i3 = S.padLeftChars(i, ' ', 5);          // 00010
         String i4 = S.padLeftChars(i, '#', 3);          // #10
 
         System.out.println(s00);        // null
@@ -979,8 +979,58 @@ public class GlobalTest {
         assertEquals(s22, "0abcd");
         assertEquals(i1, "10");
         assertEquals(i2, "10");
-        assertEquals(i3, "00010");
+        assertEquals(i3, "   10");
         assertEquals(i4, "#10");
+    }
+
+    @Test
+    public void testPadRightChars() {
+        String s0 = null;
+        String s1 = "";
+        String s2 = "abcd";
+        Integer i = 10;
+
+        String s00 = S.padRightChars(s0, '0', 0);
+        String s01 = S.padRightChars(s1, '0', 0);
+        String s02 = S.padRightChars(s2, '0', 0);
+        String s10 = S.padRightChars(s0, '#', 3);
+        String s11 = S.padRightChars(s1, '#', 3);
+        String s12 = S.padRightChars(s2, '#', 3);
+        String s20 = S.padRightChars(s0, '0', 5);
+        String s21 = S.padRightChars(s1, '0', 5);
+        String s22 = S.padRightChars(s2, '0', 5);
+        String i1 = S.padRightChars(i, '0', 0);
+        String i2 = S.padRightChars(i, '0', 1);
+        String i3 = S.padRightChars(i, ' ', 5);
+        String i4 = S.padRightChars(i, '#', 3);
+
+        System.out.println(s00);
+        System.out.println(s01);
+        System.out.println(s02);
+        System.out.println(s10);
+        System.out.println(s11);
+        System.out.println(s12);
+        System.out.println(s20);
+        System.out.println(s21);
+        System.out.println(s22);
+        System.out.println(i1);
+        System.out.println(i2);
+        System.out.println(i3);
+        System.out.println(i4);
+
+        assertNull(s00);
+        assertEquals(s01, "");
+        assertEquals(s02, "abcd");
+        assertNull(s10);
+        assertEquals(s11, "###");
+        assertEquals(s12, "abcd");
+        assertNull(s20);
+        assertEquals(s21, "00000");
+        assertEquals(s22, "abcd0");
+        assertEquals(i1, "10");
+        assertEquals(i2, "10");
+        assertEquals(i3, "10   ");
+        assertEquals(i4, "10#");
     }
 
     @Test

@@ -309,14 +309,45 @@ public final class S {
     public static String padLeftChars(Number number, char padChar, int length) {
         if (number == null) return null;
         String numberStr = G.toString(number);
-        if (numberStr.length() >= length) return numberStr;
-        int padLength = length - numberStr.length();
+        return padLeftChars(numberStr, padChar, length);
+    }
+
+    /**
+     * Padding chars to the right of the input char sequence to the given length. <br>
+     * 在字符串右侧添加字符以达到给定的长度
+     *
+     * @param cs      input char sequence
+     * @param padChar pad char
+     * @param length  final length of returns string
+     * @return string
+     * @since 0.4.15
+     */
+    public static String padRightChars(CharSequence cs, char padChar, int length) {
+        if (cs == null) return null;
+        if (cs.length() >= length) return cs.toString();
+        int padLength = length - cs.length();
         StringBuilder sb = new StringBuilder();
+        sb.append(cs);
         for (int i = 0; i < padLength; i++) {
             sb.append(padChar);
         }
-        sb.append(numberStr);
         return sb.toString();
+    }
+
+    /**
+     * Padding chars to the right of the input number to the given length. <br>
+     * 在数字右侧添加字符以达到给定的长度
+     *
+     * @param number  input number
+     * @param padChar pad char
+     * @param length  final length of returns string
+     * @return string
+     * @since 0.4.15
+     */
+    public static String padRightChars(Number number, char padChar, int length) {
+        if (number == null) return null;
+        String numberStr = G.toString(number);
+        return padRightChars(numberStr, padChar, length);
     }
 
     /**

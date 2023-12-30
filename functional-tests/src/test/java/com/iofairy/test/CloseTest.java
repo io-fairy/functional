@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.sql.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -71,7 +74,7 @@ public class CloseTest {
     }
 
     @Test
-    public void testCloseMethod3() {
+    public void testCloseAll1() {
         System.out.println(">>>>>testCloseMethod3<<<<<");
         InputStream in = null;
         try {
@@ -80,9 +83,23 @@ public class CloseTest {
             System.out.println("testCloseMethod3: do something when an exception occurs");
         } finally {
             Close.closeAll();
-            Close.closeAll(null);
+            Close.closeAll((AutoCloseable[]) null);
             Close.closeAll(in);
         }
+    }
+
+    @Test
+    public void testCloseAll2() {
+        List<Closeable> closeables1 = null;
+        Collection<Closeable> closeables2 = null;
+        Set<InputStream> closeables3 = null;
+        List<AutoCloseable> closeables4 = null;
+        Collection<AutoCloseable> closeables5 = null;
+        Close.closeAll(closeables1);
+        Close.closeAll(closeables2);
+        Close.closeAll(closeables3);
+        Close.closeAll(closeables4);
+        Close.closeAll(closeables5);
     }
 
     @Test

@@ -18,6 +18,7 @@ package com.iofairy.tcf;
 import com.iofairy.lambda.*;
 import com.iofairy.top.G;
 
+import java.util.Collection;
 import java.util.logging.Logger;
 
 /**
@@ -179,15 +180,35 @@ public class Close<C> {
     public static void closeAll(boolean isPrintTrace, final AutoCloseable... autoCloseables) {
         if (!G.isEmpty(autoCloseables)) {
             for (AutoCloseable autoCloseable : autoCloseables) {
-                if (autoCloseable != null) {
-                    try {
-                        autoCloseable.close();
-                    } catch (Throwable e) {
-                        if (isPrintTrace) {
-                            log.severe("Exception in `closeAll()` method:\n" + G.stackTrace(e));
-                        }
-                    }
-                }
+                close(autoCloseable, isPrintTrace);
+            }
+        }
+    }
+
+
+    /**
+     * Closing multi-resources that {@code implements} {@link AutoCloseable}. <br>
+     * 关闭多个实现了 {@link AutoCloseable} 资源
+     *
+     * @param autoCloseables autoCloseables
+     * @since 0.4.15
+     */
+    public static void closeAll(final Collection<? extends AutoCloseable> autoCloseables) {
+        closeAll(true, autoCloseables);
+    }
+
+    /**
+     * Closing multi-resources that {@code implements} {@link AutoCloseable}. <br>
+     * 关闭多个实现了 {@link AutoCloseable} 资源
+     *
+     * @param isPrintTrace   isPrintTrace
+     * @param autoCloseables autoCloseables
+     * @since 0.4.15
+     */
+    public static void closeAll(boolean isPrintTrace, final Collection<? extends AutoCloseable> autoCloseables) {
+        if (!G.isEmpty(autoCloseables)) {
+            for (AutoCloseable autoCloseable : autoCloseables) {
+                close(autoCloseable, isPrintTrace);
             }
         }
     }
