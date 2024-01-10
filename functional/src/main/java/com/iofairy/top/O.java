@@ -15,6 +15,8 @@
  */
 package com.iofairy.top;
 
+import com.iofairy.except.UnexpectedTypeException;
+
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -158,6 +160,39 @@ public final class O {
             if (r != null) return r;
         }
         return null;
+    }
+
+
+    /**
+     * Validate the key-value pair array when creating a map
+     *
+     * @param allowKeyIsNull       Whether null keys are allowed
+     * @param whetherKeyIsString   Whether keys are of string type
+     * @param whetherValueIsString Whether values are of string type
+     * @param kvs                  Array of key-value pairs, in the form of {@code key1, value1, key2, value2, ...}
+     * @since 0.4.19
+     */
+    public static void verifyMapKV(boolean allowKeyIsNull, boolean whetherKeyIsString, boolean whetherValueIsString, Object... kvs) {
+        if (kvs != null) {
+            if (kvs.length % 2 != 0) throw new RuntimeException("The parameters length must be even. ");
+
+            for (int i = 0; i < kvs.length; i++) {
+                Object o = kvs[i];
+                if (i % 2 == 0) {       // Validate elements at even indexes (keys)
+                    if (o == null && !allowKeyIsNull) {
+                        throw new NullPointerException("Index: " + i + ". This parameter is a key, the key must be not null. ");
+                    }
+
+                    if (whetherKeyIsString && o != null && !(o instanceof String)) {
+                        throw new UnexpectedTypeException("Index: " + i + ". This parameter is a key, the key must be `java.lang.String` type. ");
+                    }
+                } else {                // Validate elements at odd indexes (values)
+                    if (whetherValueIsString && o != null && !(o instanceof String)) {
+                        throw new UnexpectedTypeException("Index: " + i + ". This parameter is a value, the value must be `java.lang.String` type. ");
+                    }
+                }
+            }
+        }
     }
 
     /*###################################################################################

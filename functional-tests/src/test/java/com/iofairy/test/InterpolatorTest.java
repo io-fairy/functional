@@ -2,6 +2,7 @@ package com.iofairy.test;
 
 import com.iofairy.except.UndefinedVariableException;
 import com.iofairy.except.UnexpectedParameterException;
+import com.iofairy.except.UnexpectedTypeException;
 import com.iofairy.si.SI;
 import com.iofairy.si.StringExtractor;
 import com.iofairy.si.StringToken;
@@ -518,7 +519,7 @@ public class InterpolatorTest {
         SI.load(" >>>", null);
         SI.load(" >>", null);
         assertThrows(NullPointerException.class, () -> SI.init(null, null));
-        assertThrows(ClassCastException.class, () -> SI.init(new Object(), null));
+        assertThrows(UnexpectedTypeException.class, () -> SI.init(new Object(), null));
         assertThrows(RuntimeException.class, () -> SI.init(null, null, null));
         assertThrows(UnexpectedParameterException.class, () -> SI.init("", null));
         assertThrows(UnexpectedParameterException.class, () -> SI.init("->", null));

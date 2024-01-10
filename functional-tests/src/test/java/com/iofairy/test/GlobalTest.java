@@ -1281,4 +1281,305 @@ public class GlobalTest {
 
     }
 
+    @Test
+    public void testVerifyMapKV() {
+        try {
+            O.verifyMapKV(false, false, false, null);
+        } catch (Exception e) {
+            System.out.println("01: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, false, (Object) null);
+        } catch (Exception e) {
+            System.out.println("02: " + e.getMessage());
+            assertEquals("The parameters length must be even. ", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, false, (Object[]) null);
+        } catch (Exception e) {
+            System.out.println("03: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, false);
+        } catch (Exception e) {
+            System.out.println("04: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, false, 1);
+        } catch (Exception e) {
+            System.out.println("05: " + e.getMessage());
+            assertEquals("The parameters length must be even. ", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, false, 1, 2);
+        } catch (Exception e) {
+            System.out.println("06: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, false, "key1", 2);
+        } catch (Exception e) {
+            System.out.println("07: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, false, "key1", "1");
+        } catch (Exception e) {
+            System.out.println("08: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, false, null, "1");
+        } catch (Exception e) {
+            System.out.println("09: " + e.getMessage());
+            assertEquals("Index: 0. This parameter is a key, the key must be not null. ", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, false, null, "1", "key2", "2");
+        } catch (Exception e) {
+            System.out.println("10: " + e.getMessage());
+            assertEquals("Index: 0. This parameter is a key, the key must be not null. ", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, false, "key1", "1", "key2", "2");
+        } catch (Exception e) {
+            System.out.println("11: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, false, "key1", "1", "key2", new Object(), new Object(), new Object());
+        } catch (Exception e) {
+            System.out.println("12: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+
+        System.out.println("============================================================");
+        System.out.println("============================================================");
+        try {
+            O.verifyMapKV(true, false, false, null);
+        } catch (Exception e) {
+            System.out.println("01: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(true, false, false, (Object) null);
+        } catch (Exception e) {
+            System.out.println("02: " + e.getMessage());
+            assertEquals("The parameters length must be even. ", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(true, false, false, (Object[]) null);
+        } catch (Exception e) {
+            System.out.println("03: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(true, false, false);
+        } catch (Exception e) {
+            System.out.println("04: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(true, false, false, 1);
+        } catch (Exception e) {
+            System.out.println("05: " + e.getMessage());
+            assertEquals("The parameters length must be even. ", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(true, false, false, 1, 2);
+        } catch (Exception e) {
+            System.out.println("06: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(true, false, false, "key1", 2);
+        } catch (Exception e) {
+            System.out.println("07: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(true, false, false, "key1", "1");
+        } catch (Exception e) {
+            System.out.println("08: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(true, false, false, null, "1");
+        } catch (Exception e) {
+            System.out.println("09: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(true, false, false, null, "1", "key2", "2");
+        } catch (Exception e) {
+            System.out.println("10: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(true, false, false, "key1", "1", "key2", "2");
+        } catch (Exception e) {
+            System.out.println("11: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(true, false, false, "key1", "1", "key2", new Object(), new Object(), new Object());
+        } catch (Exception e) {
+            System.out.println("12: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+
+        System.out.println("============================================================");
+        System.out.println("============================================================");
+        try {
+            O.verifyMapKV(false, true, false, null);
+        } catch (Exception e) {
+            System.out.println("01: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, true, false, (Object) null);
+        } catch (Exception e) {
+            System.out.println("02: " + e.getMessage());
+            assertEquals("The parameters length must be even. ", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, true, false, (Object[]) null);
+        } catch (Exception e) {
+            System.out.println("03: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, true, false);
+        } catch (Exception e) {
+            System.out.println("04: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, true, false, 1);
+        } catch (Exception e) {
+            System.out.println("05: " + e.getMessage());
+            assertEquals("The parameters length must be even. ", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, true, false, 1, 2);
+        } catch (Exception e) {
+            System.out.println("06: " + e.getMessage());
+            assertEquals("Index: 0. This parameter is a key, the key must be `java.lang.String` type. ", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, true, false, "key1", 2);
+        } catch (Exception e) {
+            System.out.println("07: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, true, false, "key1", "1");
+        } catch (Exception e) {
+            System.out.println("08: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, true, false, null, "1");
+        } catch (Exception e) {
+            System.out.println("09: " + e.getMessage());
+            assertEquals("Index: 0. This parameter is a key, the key must be not null. ", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, true, false, null, "1", "key2", "2");
+        } catch (Exception e) {
+            System.out.println("10: " + e.getMessage());
+            assertEquals("Index: 0. This parameter is a key, the key must be not null. ", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, true, false, "key1", "1", "key2", "2");
+        } catch (Exception e) {
+            System.out.println("11: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, true, false, "key1", "1", "key2", new Object(), new Object(), new Object());
+        } catch (Exception e) {
+            System.out.println("12: " + e.getMessage());
+            assertEquals("Index: 4. This parameter is a key, the key must be `java.lang.String` type. ", e.getMessage());
+        }
+
+        System.out.println("============================================================");
+        System.out.println("============================================================");
+        try {
+            O.verifyMapKV(false, false, true, null);
+        } catch (Exception e) {
+            System.out.println("01: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, true, (Object) null);
+        } catch (Exception e) {
+            System.out.println("02: " + e.getMessage());
+            assertEquals("The parameters length must be even. ", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, true, (Object[]) null);
+        } catch (Exception e) {
+            System.out.println("03: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, true);
+        } catch (Exception e) {
+            System.out.println("04: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, true, 1);
+        } catch (Exception e) {
+            System.out.println("05: " + e.getMessage());
+            assertEquals("The parameters length must be even. ", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, true, 1, 2);
+        } catch (Exception e) {
+            System.out.println("06: " + e.getMessage());
+            assertEquals("Index: 1. This parameter is a value, the value must be `java.lang.String` type. ", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, true, "key1", 2);
+        } catch (Exception e) {
+            System.out.println("07: " + e.getMessage());
+            assertEquals("Index: 1. This parameter is a value, the value must be `java.lang.String` type. ", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, true, "key1", "1");
+        } catch (Exception e) {
+            System.out.println("08: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, true, null, "1");
+        } catch (Exception e) {
+            System.out.println("09: " + e.getMessage());
+            assertEquals("Index: 0. This parameter is a key, the key must be not null. ", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, true, null, "1", "key2", "2");
+        } catch (Exception e) {
+            System.out.println("10: " + e.getMessage());
+            assertEquals("Index: 0. This parameter is a key, the key must be not null. ", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, true, "key1", "1", "key2", "2");
+        } catch (Exception e) {
+            System.out.println("11: " + e.getMessage());
+            assertEquals("", e.getMessage());
+        }
+        try {
+            O.verifyMapKV(false, false, true, "key1", "1", "key2", new Object(), new Object(), new Object());
+        } catch (Exception e) {
+            System.out.println("12: " + e.getMessage());
+            assertEquals("Index: 3. This parameter is a value, the value must be `java.lang.String` type. ", e.getMessage());
+        }
+
+    }
 }

@@ -18,7 +18,9 @@ package com.iofairy.si;
 import com.iofairy.except.CircularReferencesException;
 import com.iofairy.except.UndefinedVariableException;
 import com.iofairy.except.UnexpectedParameterException;
+import com.iofairy.except.UnexpectedTypeException;
 import com.iofairy.top.G;
+import com.iofairy.top.O;
 import com.iofairy.top.S;
 import com.iofairy.tuple.Tuple;
 
@@ -43,11 +45,17 @@ public class SI {
 
     private final Map<String, Object> valueMap = new HashMap<>();   // 读多写少，未加同步机制
 
-    /**是否开启嵌套插值*/
+    /**
+     * 是否开启嵌套插值
+     */
     private boolean enableSIInVariables = false;
-    /**是否在 {@link #valueMap} 的值中开启嵌套插值（{@link #enableSIInVariables} 为 {@code true} 时才有效）*/
+    /**
+     * 是否在 {@link #valueMap} 的值中开启嵌套插值（{@link #enableSIInVariables} 为 {@code true} 时才有效）
+     */
     private boolean enableSIInValues = false;
-    /**是否抛出异常，当 {@link #valueMap} 中不存在指定的变量*/
+    /**
+     * 是否抛出异常，当 {@link #valueMap} 中不存在指定的变量
+     */
     private boolean enableUndefinedVariableException = false;
 
 
@@ -80,7 +88,7 @@ public class SI {
      * @return SI object
      * @throws RuntimeException             if the <b>kvs</b> length not be even.
      * @throws NullPointerException         if the <b>key</b> is null.
-     * @throws ClassCastException           if the <b>key</b> is not String.
+     * @throws UnexpectedTypeException      if the <b>key</b> is not String.
      * @throws UnexpectedParameterException if the <b>key</b> is not end with " -&gt;" or " &gt;&gt;&gt;" or " &gt;&gt;".
      * @since 0.0.1
      */
@@ -110,7 +118,7 @@ public class SI {
      * @return SI object
      * @throws RuntimeException             if the <b>kvs</b> length not be even.
      * @throws NullPointerException         if the <b>key</b> is null.
-     * @throws ClassCastException           if the <b>key</b> is not String.
+     * @throws UnexpectedTypeException      if the <b>key</b> is not String.
      * @throws UnexpectedParameterException if the <b>key</b> is not end with " -&gt;" or " &gt;&gt;&gt;" or " &gt;&gt;".
      * @since 0.0.1
      */
@@ -137,7 +145,7 @@ public class SI {
      * @return SI object
      * @throws RuntimeException             if the <b>kvs</b> length not be even.
      * @throws NullPointerException         if the <b>key</b> is null.
-     * @throws ClassCastException           if the <b>key</b> is not String.
+     * @throws UnexpectedTypeException      if the <b>key</b> is not String.
      * @throws UnexpectedParameterException if the <b>key</b> is not end with " -&gt;" or " &gt;&gt;&gt;" or " &gt;&gt;".
      * @since 0.0.1
      */
@@ -161,9 +169,9 @@ public class SI {
      *
      * @param kvs key-value pairs
      * @return this SI object
-     * @throws RuntimeException     if the <b>kvs</b> length not be even.
-     * @throws NullPointerException if the <b>key</b> is null.
-     * @throws ClassCastException   if the <b>key</b> is not String.
+     * @throws RuntimeException        if the <b>kvs</b> length not be even.
+     * @throws NullPointerException    if the <b>key</b> is null.
+     * @throws UnexpectedTypeException if the <b>key</b> is not String.
      * @since 0.0.1
      */
     public SI add(Object... kvs) {
@@ -192,7 +200,7 @@ public class SI {
      * @return this SI object
      * @throws RuntimeException             if the <b>kvs</b> length not be even.
      * @throws NullPointerException         if the <b>key</b> is null.
-     * @throws ClassCastException           if the <b>key</b> is not String.
+     * @throws UnexpectedTypeException      if the <b>key</b> is not String.
      * @throws UnexpectedParameterException if the <b>key</b> is not end with " -&gt;" or " &gt;&gt;&gt;" or " &gt;&gt;".
      * @since 0.0.1
      */
@@ -216,9 +224,9 @@ public class SI {
      *
      * @param kvs key-value pairs
      * @return this SI object
-     * @throws RuntimeException     if the <b>kvs</b> length not be even.
-     * @throws NullPointerException if the <b>key</b> is null.
-     * @throws ClassCastException   if the <b>key</b> is not String.
+     * @throws RuntimeException        if the <b>kvs</b> length not be even.
+     * @throws NullPointerException    if the <b>key</b> is null.
+     * @throws UnexpectedTypeException if the <b>key</b> is not String.
      * @since 0.0.1
      */
     public SI set(Object... kvs) {
@@ -429,7 +437,8 @@ public class SI {
     private static Map<String, Object> toMap(boolean withSuffix, boolean needTrim, Object... kvs) {
         Map<String, Object> kvMap = new HashMap<>();
         if (kvs == null || kvs.length == 0) return kvMap;
-        verifyPairWithStringKey(kvs);
+        O.verifyMapKV(false, true, false, kvs);
+
         for (int i = 0; i < kvs.length; i++) {
             if (i % 2 == 0) {
                 String k = (String) kvs[i];
@@ -460,24 +469,6 @@ public class SI {
             }
         }
         return kvMap;
-    }
-
-    private static void verifyPairWithStringKey(Object... kvs) {
-        if (kvs != null) {
-            if (kvs.length % 2 != 0)
-                throw new RuntimeException("The parameters length must be even. 参数个数必须为偶数。");
-            for (int i = 0; i < kvs.length; i++) {
-                if (i % 2 == 0) {
-                    if (kvs[i] == null)
-                        throw new NullPointerException("Index: " + i + ". This parameter is a key, the key must be not null. ");
-                    try {
-                        String k = (String) kvs[i];
-                    } catch (ClassCastException castException) {
-                        throw new ClassCastException("Index: " + i + ". This parameter is a key, the key must be `String` type. ");
-                    }
-                }
-            }
-        }
     }
 
     @Override
