@@ -22,8 +22,8 @@ import com.iofairy.tuple.Tuple2;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * Global Variables And Methods for {@link String} Operations. <br>
@@ -130,9 +130,9 @@ public final class S {
      * @return {@code true} or {@code false}
      * @since 0.3.0
      */
-    public static boolean hasEmpty(List<? extends CharSequence> css) {
+    public static boolean hasEmpty(Collection<? extends CharSequence> css) {
         if (css == null) return true;
-        if (css.size() == 0) return true;
+        if (css.isEmpty()) return true;
         boolean hasEmpty = false;
         for (CharSequence cs : css) {
             if (isEmpty(cs)) {
@@ -154,9 +154,9 @@ public final class S {
      * @return {@code true} or {@code false}
      * @since 0.3.0
      */
-    public static boolean allEmpty(List<? extends CharSequence> css) {
+    public static boolean allEmpty(Collection<? extends CharSequence> css) {
         if (css == null) return true;
-        if (css.size() == 0) return true;
+        if (css.isEmpty()) return true;
         return css.stream().allMatch(G::isEmpty);
     }
 
@@ -172,9 +172,9 @@ public final class S {
      * @see #isBlank(CharSequence)
      * @since 0.3.0
      */
-    public static boolean hasBlank(List<? extends CharSequence> css) {
+    public static boolean hasBlank(Collection<? extends CharSequence> css) {
         if (css == null) return true;
-        if (css.size() == 0) return true;
+        if (css.isEmpty()) return true;
         boolean hasBlank = false;
         for (CharSequence cs : css) {
             if (isBlank(cs)) {
@@ -197,9 +197,9 @@ public final class S {
      * @see #isBlank(CharSequence)
      * @since 0.3.0
      */
-    public static boolean allBlank(List<? extends CharSequence> css) {
+    public static boolean allBlank(Collection<? extends CharSequence> css) {
         if (css == null) return true;
-        if (css.size() == 0) return true;
+        if (css.isEmpty()) return true;
         return css.stream().allMatch(S::isBlank);
     }
 

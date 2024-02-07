@@ -109,6 +109,7 @@ public final class G {
     /**
      * Whether object array contains {@code null} value or object array is {@code null}. <br>
      * 数组中是否包含{@code null}值或数组本身就是{@code null}，则返回{@code true}
+     *
      * @param objects object array
      * @return {@code true} or {@code false}
      * @since 0.0.1
@@ -129,6 +130,7 @@ public final class G {
     /**
      * {@code true} if all array values are {@code null} or object array is {@code null}. <br>
      * 数组中所有的值都是{@code null}或数组本身就是{@code null}，则返回{@code true}
+     *
      * @param objects object array
      * @return {@code true} or {@code false}
      * @since 0.0.1
@@ -136,33 +138,56 @@ public final class G {
     public static boolean allNull(Object... objects) {
         if (objects == null) return true;
         if (objects.length == 0) return false;
-        return Arrays.stream(objects).allMatch(Objects::isNull);
-    }
-
-    public static boolean isEmpty(CharSequence cs) {
-        return cs == null || cs.length() == 0;
-    }
-
-    /**
-     * Return {@code true} when collection is {@code null} or collection is empty. <br>
-     * 如果集合为{@code null}或集合中没有一个元素，则返回{@code true}
-     * @param collection collection
-     * @return {@code true} or {@code false}
-     * @since 0.0.1
-     */
-    public static boolean isEmpty(Collection<?> collection) {
-        return collection == null || collection.isEmpty();
+        boolean allNull = true;
+        for (Object obj : objects) {
+            if (obj != null) {
+                allNull = false;
+                break;
+            }
+        }
+        return allNull;
     }
 
     /**
-     * Return {@code true} when map is {@code null} or map is empty. <br>
-     * 如果map为{@code null}或map中没有一个元素，则返回{@code true}
-     * @param map map object
+     * Whether object Collection contains {@code null} value or object Collection is {@code null}. <br>
+     * Collection中是否包含{@code null}值或Collection本身就是{@code null}，则返回{@code true}
+     *
+     * @param objects object Collection
      * @return {@code true} or {@code false}
-     * @since 0.0.1
+     * @since 0.5.0
      */
-    public static boolean isEmpty(Map<?, ?> map) {
-        return map == null || map.isEmpty();
+    public static boolean hasNull(Collection<?> objects) {
+        if (objects == null) return true;
+        if (objects.isEmpty()) return false;
+        boolean hasNull = false;
+        for (Object obj : objects) {
+            if (obj == null) {
+                hasNull = true;
+                break;
+            }
+        }
+        return hasNull;
+    }
+
+    /**
+     * {@code true} if all Collection values are {@code null} or object Collection is {@code null}. <br>
+     * Collection中所有的值都是{@code null}或Collection本身就是{@code null}，则返回{@code true}
+     *
+     * @param objects object Collection
+     * @return {@code true} or {@code false}
+     * @since 0.5.0
+     */
+    public static boolean allNull(Collection<?> objects) {
+        if (objects == null) return true;
+        if (objects.isEmpty()) return false;
+        boolean allNull = true;
+        for (Object obj : objects) {
+            if (obj != null) {
+                allNull = false;
+                break;
+            }
+        }
+        return allNull;
     }
 
     /**
@@ -172,8 +197,12 @@ public final class G {
      * @return {@code true} or {@code false}
      * @since 0.2.2
      */
+    @SuppressWarnings("rawtypes")
     public static boolean isEmpty(Object o) {
         if (o == null)                  return true;
+        if (o instanceof CharSequence)  return ((CharSequence) o).length() == 0;
+        if (o instanceof Map)           return ((Map) o).isEmpty();
+        if (o instanceof Collection)    return ((Collection) o).isEmpty();
         if (o instanceof Object[])      return ((Object[]) o).length == 0;
         if (o instanceof int[])         return ((int[]) o).length == 0;
         if (o instanceof long[])        return ((long[]) o).length == 0;
@@ -201,6 +230,78 @@ public final class G {
         e.printStackTrace(pw);
         return sw.getBuffer().toString();
     }
+
+
+    /**
+     * Obtain a more concise exception stack trace by filtering through package names.<br>
+     * 通过包名过滤，获取更简洁的异常堆栈信息
+     *
+     * @param e        Exception object
+     * @param packages Package names to be filtered
+     * @return Exception stack trace information
+     * @since 0.5.0
+     */
+    public static String stackTraceSimple(Throwable e, String... packages) {
+        String stackTrace = G.stackTrace(e);
+        if (e == null || G.isEmpty(packages)) return stackTrace;
+
+        String[] stackTraceList = stackTrace.split("\n");
+        List<String> stackTraces = new ArrayList<>();
+        for (String stack : stackTraceList) {
+            if (stack.startsWith("\t")) {
+                for (String pack : packages) {
+                    if (pack != null && stack.contains(pack)) {
+                        stackTraces.add(stack);
+                        break;
+                    }
+                }
+            } else {
+                stackTraces.add(stack);
+            }
+        }
+
+        return String.join("\n", stackTraces) + "\n";
+    }
+
+    /**
+     * Obtain a more concise exception stack trace by filtering through package names.<br>
+     * 通过包名过滤，获取更简洁的异常堆栈信息
+     *
+     * @param e        Exception object
+     * @param packages Package names to be filtered
+     * @return Exception stack trace information
+     * @since 0.5.0
+     */
+    public static String stackTraceConcise(Throwable e, String... packages) {
+        if (e == null || G.isEmpty(packages)) return G.stackTrace(e);
+
+        List<Throwable> throwables = O.causeTrace(e);
+        List<String> stackTraces = new ArrayList<>();
+
+        for (int i = 0; i < throwables.size(); i++) {
+            Throwable throwable = throwables.get(i);
+            if (throwable == null) {
+                stackTraces.add(i == 0 ? "null" : "Caused by: null");
+                continue;
+            }
+            stackTraces.add(i == 0 ? throwable.toString() : "Caused by: " + throwable);
+
+            StackTraceElement[] stackTraceElements = throwable.getStackTrace();
+            for (StackTraceElement stackTraceElement : stackTraceElements) {
+                if (stackTraceElement == null) continue;
+                String traceElementString = stackTraceElement.toString();
+                for (String pack : packages) {
+                    if (pack != null && traceElementString.contains(pack)) {
+                        stackTraces.add("\tat " + traceElementString);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return String.join("\n", stackTraces) + "\n";
+    }
+
 
     /**
      * Formatting DateTime use simple pattern (<b>{@code yyyy-MM-dd HH:mm:ss.SSS}</b>).

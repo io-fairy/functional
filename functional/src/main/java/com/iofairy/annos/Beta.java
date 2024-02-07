@@ -13,21 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.iofairy.annos;
 
-module iofairy.functional {
-    requires java.logging;
+import java.lang.annotation.*;
 
-    exports com.iofairy.lambda;
-    exports com.iofairy.base;
-    exports com.iofairy.tuple;
-    exports com.iofairy.except;
-    exports com.iofairy.pattern;
-    exports com.iofairy.pattern.type;
-    exports com.iofairy.pattern.mapping;
-    exports com.iofairy.pattern.matcher;
-    exports com.iofairy.si;
-    exports com.iofairy.top;
-    exports com.iofairy.tcf;
-    exports com.iofairy.string;
-    exports com.iofairy.range;
+/**
+ * This annotation is used to indicate that a class, method, or field <b>may be subject to
+ * incompatible changes, or even removal, in a future release.</b><br>
+ * <p>
+ * 此注解标识的类、方法、字段<b>在后续的版本中可能出现不兼容的修改甚至是被移除</b>
+ *
+ * @since 0.5.0
+ */
+@Retention(RetentionPolicy.CLASS)
+@Target({ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR, ElementType.FIELD, ElementType.METHOD, ElementType.TYPE})
+@Documented
+public @interface Beta {
 }

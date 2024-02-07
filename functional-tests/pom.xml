@@ -5,17 +5,21 @@
     <parent>
         <artifactId>functional-parent</artifactId>
         <groupId>com.iofairy</groupId>
-        <version>0.4.19</version>
+        <version>0.5.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>functional-tests</artifactId>
 
+    <properties>
+        <functional.version>0.5.0</functional.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.iofairy</groupId>
             <artifactId>functional</artifactId>
-            <version>0.4.19</version>
+            <version>${functional.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

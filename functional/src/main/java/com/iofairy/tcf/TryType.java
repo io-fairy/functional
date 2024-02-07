@@ -13,21 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.iofairy.tcf;
 
-module iofairy.functional {
-    requires java.logging;
-
-    exports com.iofairy.lambda;
-    exports com.iofairy.base;
-    exports com.iofairy.tuple;
-    exports com.iofairy.except;
-    exports com.iofairy.pattern;
-    exports com.iofairy.pattern.type;
-    exports com.iofairy.pattern.mapping;
-    exports com.iofairy.pattern.matcher;
-    exports com.iofairy.si;
-    exports com.iofairy.top;
-    exports com.iofairy.tcf;
-    exports com.iofairy.string;
-    exports com.iofairy.range;
+/**
+ * Try Type
+ *
+ * @since 0.5.0
+ */
+public enum TryType {
+    /** Output an error log with exception Stack Trace when an exception is caught. */
+    TRACE_LOG,
+    /** Do something when an exception is caught. */
+    CATCH_DO,
+    /** Output a simple error log when an exception is caught. */
+    LOGGING,
+    /** Rethrow {@link com.iofairy.except.TryException} when an exception is caught. */
+    RETHROW,
+    /** Silent processing when an exception is caught. */
+    SILENT,
 }

@@ -77,8 +77,28 @@ import java.util.logging.Logger;
  * @param <C> object type
  * @since 0.0.3
  */
-public class Close<C> {
-
+public final class Close<C> {
+    /**
+     * {@code JUL(java.util.logging)} Logger<br><br>
+     *
+     * <b>NOTE: </b> If you use {@code logback}, but want to output the following {@code JUL} logs, you need to make some settings: <br>
+     * <blockquote><pre>{@code
+     * // ==================================
+     * // First, reference bridge dependency
+     * // ==================================
+     * <dependency>
+     *     <groupId>org.slf4j</groupId>
+     *     <artifactId>jul-to-slf4j</artifactId>
+     *     <version>${slf4j.version}</version>
+     * </dependency>
+     * // =====================================
+     * // Second, install 'jul-to-slf4j' bridge
+     * // =====================================
+     * SLF4JBridgeHandler.removeHandlersForRootLogger();
+     * SLF4JBridgeHandler.install();
+     *
+     * }</pre></blockquote>
+     */
     private final static Logger log = Logger.getLogger(Close.class.getName());
 
     private C c;

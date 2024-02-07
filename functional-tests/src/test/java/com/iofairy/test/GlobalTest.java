@@ -1,6 +1,7 @@
 package com.iofairy.test;
 
 import com.iofairy.except.UnexpectedParameterException;
+import com.iofairy.tcf.Try;
 import com.iofairy.top.*;
 import com.iofairy.tuple.Tuple2;
 import org.junit.jupiter.api.Test;
@@ -1581,5 +1582,59 @@ public class GlobalTest {
             assertEquals("Index: 3. This parameter is a value, the value must be `java.lang.String` type. ", e.getMessage());
         }
 
+    }
+
+    @Test
+    public void testStackTraceSimple() {
+        try {
+            divideByZero();
+        } catch (Throwable e) {
+            try {
+                throw new RuntimeException("发生了运行时异常！", e);
+            } catch (Exception e1) {
+                try {
+                    throw new UnexpectedParameterException(e1);
+                } catch (Throwable e2) {
+                    System.out.println("==============================1==============================");
+                    String stackTrace1 = G.stackTraceSimple(e2, null, "com.iofairy", "java.util");
+                    System.out.println(stackTrace1);
+                    Try.sleep(50);
+                    System.out.println("==============================2==============================");
+                    String stackTrace2 = G.stackTraceSimple(e2, null, null);
+                    System.out.println(stackTrace2);
+                    Try.sleep(50);
+                    System.out.println("==============================3==============================");
+                    String stackTrace3 = G.stackTraceSimple(e2, "com.iofairy", null);
+                    System.out.println(stackTrace3);
+                    Try.sleep(50);
+                    System.out.println("==============================4==============================");
+                    String stackTrace4 = G.stackTraceSimple(e2, null);
+                    System.out.println(stackTrace4);
+
+                    System.out.println("============================================================");
+                    System.out.println("============================================================");
+                    System.out.println("==============================1==============================");
+                    stackTrace1 = G.stackTraceConcise(e2, null, "com.iofairy", "java.util");
+                    System.out.println(stackTrace1);
+                    Try.sleep(50);
+                    System.out.println("==============================2==============================");
+                    stackTrace2 = G.stackTraceConcise(e2, null, null);
+                    System.out.println(stackTrace2);
+                    Try.sleep(50);
+                    System.out.println("==============================3==============================");
+                    stackTrace3 = G.stackTraceConcise(e2, "com.iofairy", null);
+                    System.out.println(stackTrace3);
+                    Try.sleep(50);
+                    System.out.println("==============================4==============================");
+                    stackTrace4 = G.stackTraceConcise(e2, null);
+                    System.out.println(stackTrace4);
+                }
+            }
+        }
+
+    }
+
+    private void divideByZero() {
+        int result = 5 / 0; // 这里会抛出 ArithmeticException
     }
 }

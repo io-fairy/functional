@@ -195,6 +195,17 @@ public final class O {
         }
     }
 
+    /**
+     * Convert dynamic arguments of type {@link Object} to an array of Objects.<br>
+     *
+     * @param objs Variable arguments of type {@link Object}
+     * @return An {@link Object} array
+     * @since 0.5.0
+     */
+    public static Object[] args(Object... objs) {
+        return objs;
+    }
+
     /*###################################################################################
      ************************************************************************************
      ------------------------------------------------------------------------------------
