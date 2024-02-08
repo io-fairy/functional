@@ -98,7 +98,14 @@ public class Range<T extends Comparable> implements Serializable {
      * IntervalType
      */
     public final IntervalType intervalType;
+    /**
+     * <b>EMPTY SET</b> or not
+     */
     public final boolean isEmpty;
+    /**
+     * Contains  <b>INFINITY</b> flag or not <b>({@code lowerBound} is null or {@code upperBound} is null )</b>
+     */
+    public final boolean hasInfinity;
 
     /**
      * Constructs a {@code Range} <br>
@@ -143,6 +150,7 @@ public class Range<T extends Comparable> implements Serializable {
         this.left = lowerBound;
         this.right = upperBound;
         this.isEmpty = isEmpty;
+        this.hasInfinity = lowerBound == null || upperBound == null;
     }
 
     public static <T extends Comparable<?>> Range<T> of(T lowerBound, T upperBound, IntervalType intervalType) {
@@ -179,6 +187,10 @@ public class Range<T extends Comparable> implements Serializable {
 
     public boolean isEmpty() {
         return isEmpty;
+    }
+
+    public boolean hasInfinity() {
+        return hasInfinity;
     }
 
     /**

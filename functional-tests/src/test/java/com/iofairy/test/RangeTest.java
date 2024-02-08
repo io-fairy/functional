@@ -107,5 +107,36 @@ public class RangeTest {
         assertTrue(contains15);
         assertFalse(contains16);
 
+        System.out.println("============================================================");
+
+        System.out.println(range01.toSimpleString() + "---" + range01.hasInfinity());
+        System.out.println(range02.toSimpleString() + "---" + range02.hasInfinity());
+        System.out.println(range03.toSimpleString() + "---" + range03.hasInfinity());
+        System.out.println(range04.toSimpleString() + "---" + range04.hasInfinity());
+        System.out.println(range05.toSimpleString() + "---" + range05.hasInfinity());
+        System.out.println(range06.toSimpleString() + "---" + range06.hasInfinity());
+        System.out.println(range07.toSimpleString() + "---" + range07.hasInfinity());
+        System.out.println(range01.toSimpleString() + "---" + range01.isEmpty);
+        System.out.println(range02.toSimpleString() + "---" + range02.isEmpty);
+        System.out.println(range03.toSimpleString() + "---" + range03.isEmpty);
+        System.out.println(range04.toSimpleString() + "---" + range04.isEmpty);
+        System.out.println(range05.toSimpleString() + "---" + range05.isEmpty);
+        System.out.println(range06.toSimpleString() + "---" + range06.isEmpty);
+        System.out.println(range07.toSimpleString() + "---" + range07.isEmpty);
+
+        assertTrue(range01.hasInfinity());
+        assertTrue(range02.hasInfinity());
+        assertTrue(range03.hasInfinity());
+        assertTrue(range04.hasInfinity());
+        assertFalse(range05.hasInfinity());
+        assertFalse(range06.hasInfinity());
+        assertFalse(range07.hasInfinity());
+        assertFalse(range01.isEmpty);
+        assertFalse(range02.isEmpty);
+        assertFalse(range03.isEmpty);
+        assertFalse(range04.isEmpty);
+        assertFalse(range05.isEmpty);
+        assertTrue(range06.isEmpty);
+        assertFalse(range07.isEmpty);
     }
 }

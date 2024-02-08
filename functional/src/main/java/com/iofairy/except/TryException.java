@@ -51,13 +51,19 @@ public class TryException extends RuntimeException {
      * }
      *
      * try {
+     *     throw new TryException("userId: ${…}, `phone` must be non-empty! ", 10000);
+     * } catch (Exception e) {
+     *     assertEquals("userId: 10000, `phone` must be non-empty! ", e.getMessage());
+     * }
+     *
+     * try {
      *     throw new TryException("`orderStatus` must be non-empty! ");
      * } catch (Exception e) {
      *     assertEquals("`orderStatus` must be non-empty! ", e.getMessage());
      * }
      * }</pre></blockquote>
      *
-     * @param msgTemplate message template, use <b>{@code ${_}}</b> or <b>{@code ${0}}</b> as a placeholder
+     * @param msgTemplate message template, use <b>{@code ${_}}</b> or <b>{@code ${0}}</b> or <b>{@code ${…}}</b> as a placeholder
      * @param args        arguments use to fill placeholder
      */
     public TryException(String msgTemplate, Object... args) {

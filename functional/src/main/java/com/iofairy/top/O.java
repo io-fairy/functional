@@ -206,6 +206,28 @@ public final class O {
         return objs;
     }
 
+    /**
+     * Convert dynamic arguments of type {@link CharSequence} to an array of CharSequences.<br>
+     *
+     * @param cs Variable arguments of type {@link CharSequence}
+     * @return An {@link CharSequence} array
+     * @since 0.5.1
+     */
+    public static CharSequence[] args(CharSequence... cs) {
+        return cs;
+    }
+
+    /**
+     * Convert dynamic arguments of type {@link String} to an array of Strings.<br>
+     *
+     * @param ss Variable arguments of type {@link String}
+     * @return An {@link String} array
+     * @since 0.5.1
+     */
+    public static String[] args(String... ss) {
+        return ss;
+    }
+
     /*###################################################################################
      ************************************************************************************
      ------------------------------------------------------------------------------------

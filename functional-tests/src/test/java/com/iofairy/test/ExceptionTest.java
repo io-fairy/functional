@@ -52,6 +52,16 @@ public class ExceptionTest {
         System.out.println("============================================================");
         System.out.println("============================================================");
         try {
+            throw new ConditionsNotMetException("userId: ${…}, `phone` must be non-empty! ", 10000);
+        } catch (Exception e) {
+            System.out.println(G.stackTraceSimple(e, "com.iofairy"));
+            System.out.println("=====================");
+            System.out.println(G.stackTrace(e));
+            assertEquals("userId: 10000, `phone` must be non-empty! ", e.getMessage());
+        }
+        System.out.println("============================================================");
+        System.out.println("============================================================");
+        try {
             throw new ConditionsNotMetException("`orderStatus` must be non-empty! ");
         } catch (Exception e) {
             System.out.println(G.stackTraceSimple(e, "com.iofairy"));

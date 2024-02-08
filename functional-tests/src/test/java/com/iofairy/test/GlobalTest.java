@@ -1637,4 +1637,39 @@ public class GlobalTest {
     private void divideByZero() {
         int result = 5 / 0; // 这里会抛出 ArithmeticException
     }
+
+
+    @Test
+    public void testArgs() {
+        Object o = null;
+        String s = null;
+
+        CharSequence[] args1 = O.args(s);
+        Object[] args2 = args1;
+        Object[] args3 = O.args(o);
+        CharSequence[] args4 = O.args(null);
+        Object[] args5 = O.args(null, 1);
+        Object[] args6 = O.args(null, 1, "abc");
+        String[] args7 = O.args(null, "a", "b");
+        CharSequence[] args8 = args7;
+
+        System.out.println(G.toString(args1));
+        System.out.println(G.toString(args2));
+        System.out.println(G.toString(args3));
+        System.out.println(G.toString(args4));
+        System.out.println(G.toString(args5));
+        System.out.println(G.toString(args6));
+        System.out.println(G.toString(args7));
+        System.out.println(G.toString(args8));
+
+        assertEquals(G.toString(args1), "[null]");
+        assertEquals(G.toString(args2), "[null]");
+        assertEquals(G.toString(args3), "[null]");
+        assertEquals(G.toString(args4), "null");
+        assertEquals(G.toString(args5), "[null, 1]");
+        assertEquals(G.toString(args6), "[null, 1, \"abc\"]");
+        assertEquals(G.toString(args7), "[null, \"a\", \"b\"]");
+        assertEquals(G.toString(args8), "[null, \"a\", \"b\"]");
+
+    }
 }

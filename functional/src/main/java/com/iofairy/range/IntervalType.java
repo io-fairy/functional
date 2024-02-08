@@ -45,5 +45,8 @@ public enum IntervalType {
         return this == CLOSED || this == OPEN_CLOSED;
     }
 
+    public boolean isHalfOpen() {
+        return this == CLOSED_OPEN || this == OPEN_CLOSED;
+    }
 
 }
