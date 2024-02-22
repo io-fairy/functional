@@ -897,6 +897,7 @@ public final class G {
      */
     public static String toString(BigDecimal bigDecimal, int newScale, RoundingMode roundingMode, boolean isStripTrailingZeros) {
         if (bigDecimal == null) return "null";
+        if (roundingMode == null) roundingMode = RoundingMode.HALF_UP;
         BigDecimal bd = bigDecimal.setScale(newScale, roundingMode);
         return isStripTrailingZeros ? bd.stripTrailingZeros().toPlainString() : bd.toPlainString();
     }

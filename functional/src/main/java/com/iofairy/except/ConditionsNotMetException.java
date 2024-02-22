@@ -38,7 +38,7 @@ public class ConditionsNotMetException extends RuntimeException {
      * <b>Examples:</b>
      * <blockquote><pre>{@code
      * try {
-     *     throw new ConditionsNotMetException("orderId: ${0}, orderName: ${0}, `orderStatus` must be non-empty! ", 10000, "'order_test'");
+     *     throw new ConditionsNotMetException("orderId: ${0}, orderName: ${?}, `orderStatus` must be non-empty! ", 10000, "'order_test'");
      * } catch (Exception e) {
      *     assertEquals("orderId: 10000, orderName: 'order_test', `orderStatus` must be non-empty! ", e.getMessage());
      * }
@@ -62,7 +62,8 @@ public class ConditionsNotMetException extends RuntimeException {
      * }
      * }</pre></blockquote>
      *
-     * @param msgTemplate message template, use <b>{@code ${_}}</b> or <b>{@code ${0}}</b> or <b>{@code ${…}}</b> as a placeholder
+     * @param msgTemplate message template. It is recommended to use any one of <b>{@code ${0}}</b> or <b>{@code ${?}}</b> or <b>{@code ${…}}</b>
+     *                    or <b>{@code ${_}}</b> or <b>meaningful names</b> as placeholders
      * @param args        arguments use to fill placeholder
      */
     public ConditionsNotMetException(String msgTemplate, Object... args) {

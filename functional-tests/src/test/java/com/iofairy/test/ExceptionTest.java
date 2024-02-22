@@ -32,7 +32,7 @@ public class ExceptionTest {
     @Test
     public void testConditionsNotMetException() {
         try {
-            throw new ConditionsNotMetException("orderId: ${0}, orderName: ${0}, `orderStatus` must be non-empty! ", 10000, "'order_test'");
+            throw new ConditionsNotMetException("orderId: ${0}, orderName: ${?}, `orderStatus` must be non-empty! ", 10000, "'order_test'");
         } catch (Exception e) {
             System.out.println(G.stackTraceSimple(e, "com.iofairy"));
             System.out.println("=====================");
