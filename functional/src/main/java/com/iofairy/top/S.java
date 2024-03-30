@@ -234,6 +234,30 @@ public final class S {
         return cs == null || cs.length() == 0;
     }
 
+
+    /**
+     * Return {@code true} when CharSequence is not blank. <br>
+     *
+     * @param cs CharSequence
+     * @return {@code true} or {@code false}
+     * @since 0.5.2
+     */
+    public static boolean isNotBlank(CharSequence cs) {
+        return !isBlank(cs);
+    }
+
+    /**
+     * Return {@code true} when CharSequence is not empty. <br>
+     *
+     * @param cs CharSequence
+     * @return {@code true} or {@code false}
+     * @since 0.5.2
+     */
+    public static boolean isNotEmpty(CharSequence cs) {
+        return !isEmpty(cs);
+    }
+
+
     /**
      * Returns itself if string is non-null; otherwise, returns empty({@code ""}).
      *
@@ -272,6 +296,28 @@ public final class S {
      */
     public static String blankToEmpty(String s) {
         return isBlank(s) ? "" : s;
+    }
+
+    /**
+     * Returns itself if string is non-null; otherwise, returns blank({@code " "}).
+     *
+     * @param s string
+     * @return itself or blank({@code " "}).
+     * @since 0.5.2
+     */
+    public static String nullToBlank(String s) {
+        return s == null ? " " : s;
+    }
+
+    /**
+     * Returns itself if string is non-empty; otherwise, returns blank({@code " "}).
+     *
+     * @param s string
+     * @return itself or blank({@code " "}).
+     * @since 0.5.2
+     */
+    public static String emptyToBlank(String s) {
+        return isEmpty(s) ? " " : s;
     }
 
     /**

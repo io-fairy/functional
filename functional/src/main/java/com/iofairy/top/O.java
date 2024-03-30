@@ -228,6 +228,60 @@ public final class O {
         return ss;
     }
 
+    /**
+     * Returns the provided default value if the specified value is null; otherwise, returns the original value.
+     *
+     * @param value        The original value
+     * @param defaultValue The value to return if the original value is null
+     * @param <T>          The generic type
+     * @return The default value if it's null, otherwise, returns the original value.
+     * @since 0.5.2
+     */
+    public static <T> T valueIfNull(T value, T defaultValue) {
+        return value == null ? defaultValue : value;
+    }
+
+    /**
+     * Returns the provided default value if the specified value is empty; otherwise, returns the original value.
+     *
+     * @param value        The original value
+     * @param defaultValue The value to return if the original value is empty
+     * @param <T>          The generic type
+     * @return The default value if it's empty, otherwise, returns the original value.
+     * @since 0.5.2
+     */
+    public static <T> T valueIfEmpty(T value, T defaultValue) {
+        return G.isEmpty(value) ? defaultValue : value;
+    }
+
+    /**
+     * Returns the provided default value if the specified value is blank; otherwise, returns the original value.
+     *
+     * @param value        The original value
+     * @param defaultValue The value to return if the original value is blank
+     * @param <T>          The generic type
+     * @return The default value if it's blank, otherwise, returns the original value.
+     * @since 0.5.2
+     */
+    public static <T extends CharSequence> T valueIfBlank(T value, T defaultValue) {
+        return S.isBlank(value) ? defaultValue : value;
+    }
+
+    /**
+     * Returns the default value if the condition is {@code true}; otherwise, returns the original value. Equivalent to <b>Ternary Operator</b>.
+     *
+     * @param condition    The boolean condition to check. If true, the default value will be returned.
+     * @param value        The original value
+     * @param defaultValue The value to return when the condition is {@code true}
+     * @param <T>          The generic type
+     * @return The default value if the condition is {@code true}, otherwise, returns the original value.
+     * @since 0.5.2
+     */
+    public static <T> T valueIfElse(boolean condition, T value, T defaultValue) {
+        return condition ? defaultValue : value;
+    }
+
+
     /*###################################################################################
      ************************************************************************************
      ------------------------------------------------------------------------------------

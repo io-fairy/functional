@@ -191,8 +191,20 @@ public final class G {
     }
 
     /**
+     * Return {@code true} when object is {@code null}<br>
+     *
+     * @param o object
+     * @return {@code true} or {@code false}
+     * @since 0.5.2
+     */
+    public static boolean isNull(Object o) {
+        return o == null;
+    }
+
+    /**
      * Return {@code true} when object is {@code null}, or object is a array and this array is empty. <br>
      * 如果 object 为{@code null}或object是一个数组且数组中没有一个元素，则返回{@code true}
+     *
      * @param o object
      * @return {@code true} or {@code false}
      * @since 0.2.2
@@ -214,6 +226,28 @@ public final class G {
         if (o instanceof boolean[])     return ((boolean[]) o).length == 0;
 
         return false;
+    }
+
+    /**
+     * Return {@code true} when object is not {@code null}<br>
+     *
+     * @param o object
+     * @return {@code true} or {@code false}
+     * @since 0.5.2
+     */
+    public static boolean isNotNull(Object o) {
+        return !isNull(o);
+    }
+
+    /**
+     * Return {@code true} when object is not empty. <br>
+     *
+     * @param o object
+     * @return {@code true} or {@code false}
+     * @since 0.5.2
+     */
+    public static boolean isNotEmpty(Object o) {
+        return !isEmpty(o);
     }
 
     /**

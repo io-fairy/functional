@@ -167,6 +167,51 @@ public class GlobalTest {
     }
 
     @Test
+    public void testNotEmptyOrNotNull() {
+        int i = 10;
+        String s1 = "";
+        String s2 = "abcd";
+        String s3 = null;
+        Object o1 = new Object();
+        Integer i1 = null;
+        String[] nullSs = null;
+        String[] ss1 = new String[]{};
+        List<String> list = Arrays.asList("a", "b");
+        Map<Object, Object> map = Map.of();
+
+        System.out.println(G.isNotNull(i));
+        System.out.println(G.isNotNull(o1));
+        System.out.println(G.isNotNull(map));
+        System.out.println(G.isNotNull(i1));
+        System.out.println(G.isNotEmpty(i));
+        System.out.println(G.isNotEmpty(list));
+        System.out.println(G.isNotEmpty(nullSs));
+        System.out.println(G.isNotEmpty(ss1));
+        System.out.println(G.isNotEmpty(map));
+        System.out.println(S.isNotBlank(s1));
+        System.out.println(S.isNotBlank(s2));
+        System.out.println(S.isNotBlank(s3));
+        System.out.println(S.isNotEmpty(s2));
+        System.out.println(S.isNotEmpty(s3));
+
+        assertTrue(G.isNotNull(i));
+        assertTrue(G.isNotNull(o1));
+        assertTrue(G.isNotNull(map));
+        assertFalse(G.isNotNull(i1));
+        assertTrue(G.isNotEmpty(i));
+        assertTrue(G.isNotEmpty(list));
+        assertFalse(G.isNotEmpty(nullSs));
+        assertFalse(G.isNotEmpty(ss1));
+        assertFalse(G.isNotEmpty(map));
+        assertFalse(S.isNotBlank(s1));
+        assertTrue(S.isNotBlank(s2));
+        assertFalse(S.isNotBlank(s3));
+        assertTrue(S.isNotEmpty(s2));
+        assertFalse(S.isNotEmpty(s3));
+
+    }
+
+    @Test
     public void testFirstNonNull() {
         String a = null;
         String b = "";
@@ -1670,6 +1715,52 @@ public class GlobalTest {
         assertEquals(G.toString(args6), "[null, 1, \"abc\"]");
         assertEquals(G.toString(args7), "[null, \"a\", \"b\"]");
         assertEquals(G.toString(args8), "[null, \"a\", \"b\"]");
+
+    }
+
+    @Test
+    public void testIfElse() {
+        int i = 10;
+        String s1 = "";
+        String s2 = "abcd";
+        String s5 = "abcd1";
+        String s3 = null;
+        Object o1 = new Object();
+        Integer i1 = null;
+        String s4 = "";
+        String[] nullSs = null;
+        String[] ss1 = new String[]{};
+        String[] ss2 = new String[]{""};
+        Object[] os1 = {'a', "1"};
+        List<String> list = Arrays.asList("a", "b");
+        Map<Object, Object> map = Map.of();
+
+        String valueIfBlank1 = O.valueIfBlank(s1, "aaa");
+        String valueIfBlank2 = O.valueIfBlank(s2, "aaa");
+        Integer valueIfEmpty1 = O.valueIfEmpty(i, 20);
+        String[] valueIfEmpty2 = O.valueIfEmpty(ss1, new String[]{"1"});
+        Integer valueIfNull1 = O.valueIfNull(i1, 20);
+        String[] valueIfNull2 = O.valueIfNull(ss1, new String[]{"1"});
+        Integer valueIfElse1 = O.valueIfElse(os1.length == 2, 1, 2);
+        String valueIfElse2 = O.valueIfElse(ss2.length == 2, "1", "2");
+
+        System.out.println(valueIfBlank1);
+        System.out.println(valueIfBlank2);
+        System.out.println(valueIfEmpty1);
+        System.out.println(G.toString(valueIfEmpty2));
+        System.out.println(valueIfNull1);
+        System.out.println(G.toString(valueIfNull2));
+        System.out.println(valueIfElse1);
+        System.out.println(valueIfElse2);
+
+        assertEquals("aaa", valueIfBlank1);
+        assertEquals("abcd", valueIfBlank2);
+        assertEquals(10, valueIfEmpty1);
+        assertEquals("[\"1\"]", G.toString(valueIfEmpty2));
+        assertEquals(20, valueIfNull1);
+        assertEquals("[]", G.toString(valueIfNull2));
+        assertEquals(2, valueIfElse1);
+        assertEquals("1", valueIfElse2);
 
     }
 }
