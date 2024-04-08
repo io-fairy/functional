@@ -602,6 +602,11 @@ public class GlobalTest {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
+        ZonedDateTime zonedDateTime1 = ZonedDateTime.of(995, 3, 1, 8, 5, 13, 987654789, ZoneId.systemDefault());
+        Date date1 = Date.from(zonedDateTime1.toInstant());
+        ZonedDateTime zonedDateTime2 = ZonedDateTime.of(15093, 6, 1, 10, 5, 5, 987654789, ZoneId.systemDefault());
+        Date date2 = Date.from(zonedDateTime2.toInstant());
+
         String dtSimple0 = G.dtSimple(zonedDateTime);
         String toString0 = G.toString(zonedDateTime);
         String dtDetail0 = G.dtDetail(zonedDateTime);
@@ -620,6 +625,15 @@ public class GlobalTest {
         String dtSimple5 = G.dtSimple(calendar);
         String toString5 = G.toString(calendar);
         String dtDetail5 = G.dtDetail(calendar);
+        String toString6 = G.toString(zonedDateTime1);
+        String dtDetail6 = G.dtDetail(zonedDateTime1);
+        String toString7 = G.toString(zonedDateTime2);
+        String dtDetail7 = G.dtDetail(zonedDateTime2);
+        String toString8 = G.toString(date1);
+        String dtDetail8 = G.dtDetail(date1);
+        String toString9 = G.toString(date2);
+        String dtDetail9 = G.dtDetail(date2);
+
         // zonedDateTime
         assertEquals("2022-01-01 10:05:05.987", dtSimple0);
         assertEquals("2022-01-01 10:05:05.987", toString0);
@@ -644,6 +658,15 @@ public class GlobalTest {
         assertEquals("2022-01-01 10:05:05.987", dtSimple5);
         assertEquals("2022-01-01 10:05:05.987", toString5);
         assertEquals("2022-01-01 10:05:05.987000000 [Asia/Shanghai +08:00 GMT+8 周六]", dtDetail5);
+
+        assertEquals(toString6, "995-03-01 08:05:13.987");
+        assertEquals(dtDetail6, "995-03-01 08:05:13.987654789 [Asia/Shanghai +08:05 GMT+8:05:43 周日]");
+        assertEquals(toString7, "15093-06-01 10:05:05.987");
+        assertEquals(dtDetail7, "15093-06-01 10:05:05.987654789 [Asia/Shanghai +08:00 GMT+8 周四]");
+        assertEquals(toString8, "995-03-01 08:05:13.987");
+        assertEquals(dtDetail8, "995-03-01 08:05:13.987000000 [Asia/Shanghai +08:05 GMT+8:05:43 周日]");
+        assertEquals(toString9, "15093-06-01 10:05:05.987");
+        assertEquals(dtDetail9, "15093-06-01 10:05:05.987000000 [Asia/Shanghai +08:00 GMT+8 周四]");
         // System.out.println("=========zonedDateTime=========");
         // System.out.println(dtSimple0);
         // System.out.println(toString0);
@@ -668,6 +691,15 @@ public class GlobalTest {
         // System.out.println(dtSimple5);
         // System.out.println(toString5);
         // System.out.println(dtDetail5);
+
+        System.out.println(toString6);
+        System.out.println(dtDetail6);
+        System.out.println(toString7);
+        System.out.println(dtDetail7);
+        System.out.println(toString8);
+        System.out.println(dtDetail8);
+        System.out.println(toString9);
+        System.out.println(dtDetail9);
     }
 
     @Test

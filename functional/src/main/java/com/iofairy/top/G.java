@@ -80,12 +80,12 @@ public final class G {
         /*############################################
          ************* DateTime Formatter ************
          ############################################*/
-        public final static DateTimeFormatter SIMPLE_DTF          = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
-        public final static DateTimeFormatter CONCISE_DTF         = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS '['VV xxx']'");
-        public final static DateTimeFormatter CONCISE_OFFSET_DTF  = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS '['xxx']'");
-        public final static DateTimeFormatter DETAILED_DTF        = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSSSS '['E']'");
-        public final static DateTimeFormatter DETAILED_ZONED_DTF  = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSSSS '['VV xxx O E']'");
-        public final static DateTimeFormatter DETAILED_OFFSET_DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSSSS '['xxx O E']'");
+        public final static DateTimeFormatter SIMPLE_DTF          = DateTimeFormatter.ofPattern("y-MM-dd HH:mm:ss.SSS");
+        public final static DateTimeFormatter CONCISE_DTF         = DateTimeFormatter.ofPattern("y-MM-dd HH:mm:ss.SSS '['VV xxx']'");
+        public final static DateTimeFormatter CONCISE_OFFSET_DTF  = DateTimeFormatter.ofPattern("y-MM-dd HH:mm:ss.SSS '['xxx']'");
+        public final static DateTimeFormatter DETAILED_DTF        = DateTimeFormatter.ofPattern("y-MM-dd HH:mm:ss.SSSSSSSSS '['E']'");
+        public final static DateTimeFormatter DETAILED_ZONED_DTF  = DateTimeFormatter.ofPattern("y-MM-dd HH:mm:ss.SSSSSSSSS '['VV xxx O E']'");
+        public final static DateTimeFormatter DETAILED_OFFSET_DTF = DateTimeFormatter.ofPattern("y-MM-dd HH:mm:ss.SSSSSSSSS '['xxx O E']'");
     }
 
     /**
