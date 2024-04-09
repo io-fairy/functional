@@ -125,6 +125,20 @@ public final class O {
     }
 
     /**
+     * Quietly throw Checked exceptions <b>(Checked exceptions -> Unchecked Exceptions)</b>, so they don't have to be thrown explicitly. <br>
+     * 静静地抛出受检查异常，使其不必显式抛出。
+     *
+     * @param e   Throwable
+     * @param <E> Throwable type
+     * @throws E Throwable
+     * @since 0.5.4
+     */
+    @SuppressWarnings("unchecked")
+    public static <E extends Throwable> void sneakyThrows(Throwable e) throws E {
+        throw (E) e;
+    }
+
+    /**
      * Get {@link Throwable}'s all causes order by the shallow and deep <br>
      * 获取所有 {@link Throwable} 的 causes，由浅至深排序
      *

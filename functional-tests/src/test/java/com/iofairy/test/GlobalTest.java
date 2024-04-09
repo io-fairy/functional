@@ -1795,4 +1795,19 @@ public class GlobalTest {
         assertEquals("1", valueIfElse2);
 
     }
+
+    @Test
+    public void testSneakyThrow() {
+        try {
+            sneakyThrow(new IOException());
+        } catch (Exception e) {
+            assertEquals(e.getClass(), IOException.class);
+        }
+        // sneakyThrow(new IOException());
+    }
+
+    private void sneakyThrow(Throwable e) {
+        O.sneakyThrows(e);
+    }
+
 }
