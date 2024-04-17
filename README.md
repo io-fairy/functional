@@ -30,23 +30,23 @@ implementation 'com.iofairy:functional:0.5.3'
 
 
 ## 🗺️使用指南（User Guide）
-- [增强版switch（简单的模式匹配）](#增强版switch简单的模式匹配)
+- [📘增强版switch（简单的模式匹配）](#增强版switch简单的模式匹配)
   - [匹配对象的值](#匹配对象的值)
   - [null值匹配](#null值匹配)
   - [按类型匹配（替代instanceof）](#按类型匹配替代instanceof)
   - [String匹配](#string匹配)
   - [按条件匹配（替代if语句）](#按条件匹配替代if语句)
-- [String Interpolator（字符串插值器）](#string-interpolator字符串插值器)
+- [🔥String Interpolator（字符串插值器）](#string-interpolator字符串插值器)
   - [能做什么](#能做什么)
   - [字符串插值（参数少时）](#字符串插值参数少时)
   - [字符串插值（参数多时）](#字符串插值参数多时)
   - [default-value（设置默认值）](#default-value设置默认值)
   - [`${}` metachar（元字符）](#-metachar元字符)
   - [add-del-set](#add-del-set)
-- [Functional与函数式接口](#functional与函数式接口)
+- [📘Functional与函数式接口](#functional与函数式接口)
   - [Java函数式接口说明](#java函数式接口说明)
   - [Functional函数式接口使用](#functional函数式接口使用)
-- [Tuple（元组）](#tuple元组)
+- [📘Tuple（元组）](#tuple元组)
   - [Tuple（元组）使用](#tuple元组使用)
   - [EasyTuple 使用](#easytuple-使用)
 
@@ -267,7 +267,7 @@ if (i == 0) {
 }
 ```
 
-## 📘String Interpolator（字符串插值器）  
+## 🔥String Interpolator（字符串插值器）  
 ### 能做什么 
 取代不够优雅、可读性差的`+`号拼接字符串的方式以及Java内置字符串插值器`MessageFormat.format()`和`String.format()`  
 - **使用Java内置**  
