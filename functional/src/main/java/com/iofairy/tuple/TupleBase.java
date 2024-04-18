@@ -44,16 +44,16 @@ public abstract class TupleBase implements Tuple {
     private final Map<String, Integer> alias_index = new HashMap<>();
 
     private final static String MSG_FOR_TUPLE0_UNSUPPORTED =
-                    "`alias` method is unsupported in Tuple0. Because Tuple0 is empty tuple. " +
-                    "Tuple0不支持调用alias方法，因为Tuple0是一个空元组。";
+            G.IS_ZH_LANG ? "Tuple0不支持调用alias方法，因为Tuple0是一个空元组。"
+                    : "The `alias` method is unsupported in Tuple0. Because Tuple0 is empty tuple. ";
 
     private final static String MSG_FOR_STRING_ALIASES =
-                    "The aliases not set. Please call `alias(String...)` or `alias(TupleAlias...)` method first. " +
-                    "别名未设置，请先调用 alias(String...) 或 alias(TupleAlias...) 方法设置别名。";
+            G.IS_ZH_LANG ? "别名未设置，请先调用 alias(String...) 或 alias(TupleAlias...) 方法设置别名。"
+                    : "The aliases not set. Please call `alias(String...)` or `alias(TupleAlias...)` method first. ";
 
     private final static String MSG_FOR_TUPLE_ALIASES =
-                    "The aliases not set. Please call `alias(TupleAlias...)` method first. " +
-                    "别名未设置，请先调用 alias(TupleAlias...) 方法设置别名。";
+            G.IS_ZH_LANG ? "别名未设置，请先调用 alias(TupleAlias...) 方法设置别名。"
+                    : "The aliases not set. Please call `alias(TupleAlias...)` method first. ";
 
     @Override
     public Tuple alias(TupleAlias... aliases) {
@@ -66,14 +66,14 @@ public abstract class TupleBase implements Tuple {
                 tupleAliasList.add(null);
                 return this;
             }
-            throw new NumberOfAliasesException("aliases' length is not equals " + arity() + ". 参数aliases的长度不等于" + arity() + "。");
+            throw new NumberOfAliasesException(G.IS_ZH_LANG ? "参数`aliases`的长度不等于" + arity() + "。" : "The aliases' length is not equals " + arity() + ". ");
         }
 
         List<TupleAlias> localAliases = Arrays.asList(aliases);
         Set<TupleAlias> aliasSet = new HashSet<>(localAliases);
-        if (localAliases.size() != aliasSet.size()) throw new AliasDuplicateException("The aliases can't repeat. 别名不能重复！");
+        if (localAliases.size() != aliasSet.size()) throw new AliasDuplicateException(G.IS_ZH_LANG ? "别名不能重复！" : "The `aliases` can't repeat. ");
 
-        String[] localStrAliases = localAliases.stream().map( e -> e == null ? null : e.toString()).toArray(String[]::new);
+        String[] localStrAliases = localAliases.stream().map(e -> e == null ? null : e.toString()).toArray(String[]::new);
         alias(localStrAliases);
         tupleAliasList.addAll(localAliases);
 
@@ -90,15 +90,15 @@ public abstract class TupleBase implements Tuple {
                 putToMapAndList(null, 0);
                 return this;
             }
-            throw new NumberOfAliasesException("aliases' length is not equals " + arity() + ". 参数aliases的长度不等于" + arity() + "。");
+            throw new NumberOfAliasesException(G.IS_ZH_LANG ? "参数`aliases`的长度不等于" + arity() + "。" : "The aliases' length is not equals " + arity() + ". ");
         }
 
         List<String> localAliases = Arrays.asList(aliases);
         Set<String> aliasSet = new HashSet<>(localAliases);
-        if (localAliases.size() != aliasSet.size()) throw new AliasDuplicateException("The aliases can't repeat. 别名不能重复！");
+        if (localAliases.size() != aliasSet.size()) throw new AliasDuplicateException(G.IS_ZH_LANG ? "别名不能重复！" : "The `aliases` can't repeat. ");
 
         if (arity() != aliases.length)
-            throw new NumberOfAliasesException("aliases' length is not equals " + arity() + ". 参数aliases的长度不等于" + arity() + "。");
+            throw new NumberOfAliasesException(G.IS_ZH_LANG ? "参数`aliases`的长度不等于" + arity() + "。" : "The aliases' length is not equals " + arity() + ". ");
         for (int i = 0; i < aliases.length; i++) putToMapAndList(aliases[i], i);
 
         return this;
@@ -116,7 +116,7 @@ public abstract class TupleBase implements Tuple {
 
     @Override
     public Tuple copyAliases(Tuple tuple) {
-        if (tuple.arity() == arity()){
+        if (tuple.arity() == arity()) {
             List<TupleAlias> tempTupleAliases = tuple.getTupleAliases();
             List<String> tempAliases = tuple.getAliases();
             clearAlias();
@@ -125,14 +125,14 @@ public abstract class TupleBase implements Tuple {
                     String[] strAliases = tempAliases.toArray(new String[0]);
                     alias(strAliases);
                 }
-            }else {
+            } else {
                 TupleAlias[] tupleAliases = tempTupleAliases.toArray(new TupleAlias[0]);
                 alias(tupleAliases);
             }
             return this;
         }
 
-        throw new NumberOfAliasesException("`tuple.arity()` is not equals " + arity() + ". 参数tuple的元素数量不等于" + arity() + "。");
+        throw new NumberOfAliasesException(G.IS_ZH_LANG ? "参数`tuple`的元素数量不等于" + arity() + "。" : "The `tuple.arity()` is not equals " + arity() + ". ");
     }
 
     @Override
@@ -181,8 +181,8 @@ public abstract class TupleBase implements Tuple {
         }
         if (alias_index.containsKey(alias)) {
             return element(alias_index.get(alias));
-        }else {
-            throw new AliasNotFoundException("the alias `" + alias + "` not found. "+" 别名`" + alias + "`没有找到。");
+        } else {
+            throw new AliasNotFoundException(G.IS_ZH_LANG ? "别名`" + alias + "`没有找到。" : "The alias `" + alias + "` not found. ");
         }
     }
 
@@ -207,7 +207,7 @@ public abstract class TupleBase implements Tuple {
         for (int i = 0; i < arity(); i++) {
             if (aliasList.isEmpty()) {
                 tupleMap.put("_" + (i + 1), element(i));
-            }else {
+            } else {
                 tupleMap.put(aliasList.get(i), element(i));
             }
         }
@@ -249,7 +249,7 @@ public abstract class TupleBase implements Tuple {
     public String toString() {
         if (arity() == 0) {
             return "()";
-        }else {
+        } else {
             List<String> strList = new ArrayList<>();
             for (int i = 0; i < arity(); i++) {
                 strList.add(G.toString((Object) element(i)));

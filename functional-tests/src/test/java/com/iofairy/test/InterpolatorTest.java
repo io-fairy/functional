@@ -364,10 +364,10 @@ public class InterpolatorTest {
     @Test
     public void testInitTime() {
 
-//        for (int i = 0; i < 800; i++) {
-//            SI.KEY_CACHE.put("aldkfslj" + i, "aldkfslj" + i);
-//        }
-//        System.out.println("size: " + SI.KEY_CACHE.size());
+        //        for (int i = 0; i < 800; i++) {
+        //            SI.KEY_CACHE.put("aldkfslj" + i, "aldkfslj" + i);
+        //        }
+        //        System.out.println("size: " + SI.KEY_CACHE.size());
 
         System.out.println("---start calculate---");
         long startTime = System.currentTimeMillis();
@@ -375,15 +375,15 @@ public class InterpolatorTest {
         String dbInfo = null;
         for (int i = 0; i < 1000; i++) {
             SI si = SI.init(
-                            "          ip -> ", "127.0.0.1",
-                            "          db -> ", "testdb",
-                            "        port -> ", 3306,
-                            "      dbType -> ", "mysql",
-                            "  other_info -> ", Tuple.of("isCluster", true),
-                            " description -> ", new Object(),
-                            "         ip1 -> ", "127.0.0.1",
-                            "       port1 -> ", 3306,
-                            "     dbType1 -> ", "mysql");
+                    "          ip -> ", "127.0.0.1",
+                    "          db -> ", "testdb",
+                    "        port -> ", 3306,
+                    "      dbType -> ", "mysql",
+                    "  other_info -> ", Tuple.of("isCluster", true),
+                    " description -> ", new Object(),
+                    "         ip1 -> ", "127.0.0.1",
+                    "       port1 -> ", 3306,
+                    "     dbType1 -> ", "mysql");
 
             si.fill("         db1 -> ", "testdb",
                     " other_info1 -> ", Tuple.of("isCluster1", true),
@@ -393,14 +393,14 @@ public class InterpolatorTest {
 
             String infoTemplate =
                     "${}---ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}---" +
-                    "ip1: ${ip1}---port: ${port1}---db1: ${db1}---description1: ${description1}---" +
-                    "ip: ${ip}---port: ${port}---dbName: ${dbName}---otherInfo1: ${==${other_info1}==}";
+                            "ip1: ${ip1}---port: ${port1}---db1: ${db1}---description1: ${description1}---" +
+                            "ip: ${ip}---port: ${port}---dbName: ${dbName}---otherInfo1: ${==${other_info1}==}";
             dbInfo = si.$(infoTemplate);
         }
         System.out.println("dbInfo >>> " + dbInfo);
         long timeDiff = System.currentTimeMillis() - startTime;
         System.out.println("cost time: " + timeDiff);
-        //1000次花费时间(ms)： 136, 97, 97, 164, 115, 127
+        // 1000次花费时间(ms)： 136, 97, 97, 164, 115, 127
         // 加了两种后缀符(ms)：298，338，338，349，425，405, 273, 294, 298, 300
         // 加了缓存(ms)：114, 105, 83, 92, 124, 77, 112, 149, 109, 100
     }
@@ -442,11 +442,11 @@ public class InterpolatorTest {
     @Test
     public void testOfPairs() {
         SI si = SI.of("ip", "127.0.0.1",
-                      "port", 3306,
-                      "db", "testdb",
-                      "dbType", "mysql",
-                      "other_info", Tuple.of("isCluster", true),
-                      "description", new Object());
+                "port", 3306,
+                "db", "testdb",
+                "dbType", "mysql",
+                "other_info", Tuple.of("isCluster", true),
+                "description", new Object());
 
         String dbInfo = si.$("ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}");
         assertEquals("ip: 127.0.0.1---port: 3306---db: testdb---otherInfo: (\"isCluster\", true)", dbInfo);
@@ -570,7 +570,7 @@ public class InterpolatorTest {
 
     @Test
     public void testCheckCyclic() {
-        Try.sleep(1000);
+        Try.sleep(500);
         System.out.println("================");
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("one", "-${four}-${three}-${two}");
@@ -595,19 +595,15 @@ public class InterpolatorTest {
         System.out.println("================================");
 
         tpl = "${five: ${number\n}}";
-        try {
-            String $ = si.$(tpl);
-            System.out.println($);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            assertEquals(e.getMessage(), "Circular references in string interpolation of \"${five${six}}\": five$ -> number\n -> one -> three -> number\n");
-        }
+        String $1 = si.$(tpl);
+        System.out.println($1);
         System.out.println("================================");
 
         tpl = "${five${six}}";
         try {
             String $ = si.$(tpl);
             System.out.println($);
+            throwException();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             assertEquals(e.getMessage(), "Circular references in string interpolation of \"${five${six}}\": five$ -> number\n -> one -> three -> number\n");
@@ -637,6 +633,7 @@ public class InterpolatorTest {
         SI si = SI.of(map).setEnableNestedSI(true);
         try {
             String $ = si.$(tpl);
+            throwException();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             assertEquals(e.getMessage(), "Circular references in string interpolation of \"${number.${order.${level}}}abc}\": number.2 -> one -> number.2");
@@ -751,14 +748,18 @@ public class InterpolatorTest {
 
         try {
             $ = si.$(tpl);
+            throwException();
         } catch (Exception e) {
+            System.out.println("============================================================");
             System.out.println(e.getMessage());
+            System.out.println("============================================================");
             assertEquals(e.getMessage(), "Circular references in string interpolation of \"${--${{--${number: ${number.${level}}}--${a}--${a}--${a1}--${c1}--${: }--${\": number.1 -> c\ne -> a -> b -> ${e -> c\ne");
         }
 
         si.setEnableUndefinedVariableException(true);
         try {
             $ = si.$(tpl);
+            throwException();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             assertEquals(e.getMessage(), "Cannot resolve variable `number` in \"${--${{--${number: ${number.${level}}}--${a}--${a}--${a1}--${c1}--${: }--${\". ");
@@ -794,5 +795,8 @@ public class InterpolatorTest {
 
     }
 
+    private void throwException() {
+        throw new RuntimeException();
+    }
 
 }

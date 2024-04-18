@@ -1810,4 +1810,8 @@ public class GlobalTest {
         O.sneakyThrows(e);
     }
 
+    @Test
+    public void testIsZhLang() {
+        System.out.println("是否中文环境：" + G.IS_ZH_LANG);
+    }
 }

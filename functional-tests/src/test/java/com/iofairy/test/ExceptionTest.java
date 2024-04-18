@@ -18,14 +18,14 @@ public class ExceptionTest {
             throw new OutOfBoundsException(10.98767899876D);
         } catch (OutOfBoundsException e) {
             System.out.println(G.stackTrace(e));
-            assertEquals("The value out of range, the current value is: [10.987678999]. ", e.getMessage());
+            assertEquals("数值超出所允许的范围，当前值为：[10.987678999]。", e.getMessage());
         }
         System.out.println("---------------------------------------------------------------------------------------");
         try {
-            throw new OutOfBoundsException(10.98767000033D, "The value must be less than [10]. ");
+            throw new OutOfBoundsException(10.98767000033D, "数值必须小于[10]。");
         } catch (OutOfBoundsException e) {
             System.out.println(G.stackTrace(e));
-            assertEquals("The value out of range, the current value is: [10.98767]. The value must be less than [10]. ", e.getMessage());
+            assertEquals("数值超出所允许的范围，当前值为：[10.98767]。数值必须小于[10]。", e.getMessage());
         }
     }
 

@@ -371,7 +371,7 @@ public class SI {
             return;
         }
         variablesStack.add(variable);
-        throw new CircularReferencesException("Circular references in string interpolation of " + G.toString(source) + ": " + String.join(" -> ", variablesStack));
+        throw new CircularReferencesException("Circular references in string interpolation of ${source}: ${variablesStack}", G.toString(source), String.join(" -> ", variablesStack));
     }
 
     private static List<Object> getNestedTokens(String source) {

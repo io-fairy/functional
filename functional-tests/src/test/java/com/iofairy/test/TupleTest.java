@@ -39,8 +39,24 @@ public class TupleTest {
         assertEquals("abc", name1);
 
         Tuple2<String, Integer> zsTuple = new Tuple2<>("zs", 12);
-        assertThrows(NumberOfAliasesException.class, () -> zsTuple.alias(A, B, C));
-        assertThrows(AliasDuplicateException.class, () -> zsTuple.alias(A, B, B));
+
+        try {
+            zsTuple.alias(A, B, C);
+            throwException();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            assertSame(e.getClass(), NumberOfAliasesException.class);
+            assertEquals(e.getMessage(), "参数`aliases`的长度不等于2。");
+        }
+        try {
+            zsTuple.alias(A, B, B);
+            throwException();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            assertSame(e.getClass(), AliasDuplicateException.class);
+            assertEquals(e.getMessage(), "别名不能重复！");
+        }
+
     }
 
     @Test
@@ -54,7 +70,16 @@ public class TupleTest {
 
         assertEquals("tuple", t3.aliasType());
         System.out.println(t3);
-        assertThrows(NumberOfAliasesException.class, () -> t3.copyAliases(t2));
+
+        try {
+            t3.copyAliases(t2);
+            throwException();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            assertSame(e.getClass(), NumberOfAliasesException.class);
+            assertEquals(e.getMessage(), "参数`tuple`的元素数量不等于3。");
+        }
+
         assertEquals("tuple", t3.aliasType());
         System.out.println(t3);
         t22.copyAliases(t2);
@@ -246,5 +271,9 @@ public class TupleTest {
         assertEquals("(3DCharArr: [[['a', 'b'], null], [['1', '2']], null, []], " +
                 "3DObjectArr: [[['a', \"b\", null], null], [['1', 2, 1.205]], null, []], 3DObjectArr1: null)", tuple.toString());
         System.out.println("testTupleToString1: \n" + tuple);
+    }
+
+    private void throwException() {
+        throw new RuntimeException();
     }
 }

@@ -27,6 +27,9 @@ import com.iofairy.top.S;
 public class OutOfBoundsException extends RuntimeException {
     private static final long serialVersionUID = 656057285L;
 
+    private static final String MESSAGE = G.IS_ZH_LANG ? "数值超出所允许的范围，当前值为：" : "The value out of range, the current value is: ";
+    private static final String PERIOD = G.IS_ZH_LANG ? "。" : ". ";
+
     /**
      * Constructs an {@code OutOfBoundsException} with {@code null}
      * as its error detail message.
@@ -82,7 +85,7 @@ public class OutOfBoundsException extends RuntimeException {
      * @param value the illegal value.
      */
     public OutOfBoundsException(Number value) {
-        super("The value out of range, the current value is: [" + G.toString(value, 9) + "]. ");
+        super(MESSAGE + "[" + G.toString(value, 9) + "]" + PERIOD);
     }
 
     /**
@@ -96,6 +99,7 @@ public class OutOfBoundsException extends RuntimeException {
      * @param message The detail message
      */
     public OutOfBoundsException(Number value, String message) {
-        super("The value out of range, the current value is: [" + G.toString(value, 9) + "]. " + (S.isBlank(message) ? "" : message));
+        super(MESSAGE + "[" + G.toString(value, 9) + "]" + PERIOD + (S.isBlank(message) ? "" : message));
     }
+
 }

@@ -15,6 +15,8 @@
  */
 package com.iofairy.except;
 
+import com.iofairy.si.SI;
+
 /**
  * When the circular reference occurs, will throw {@code CircularReferencesException}. <br>
  * 当出现循环引用时，将抛出此异常
@@ -34,31 +36,29 @@ public class CircularReferencesException extends RuntimeException {
     }
 
     /**
-     * Constructs an {@code CircularReferencesException} with the specified detail message.
+     * Constructs a {@code CircularReferencesException} <br>
      *
-     * @param message
-     *        The detail message (which is saved for later retrieval
-     *        by the {@link #getMessage()} method)
+     * @param msgTemplate message template. It is recommended to use any one of <b>{@code ${0}}</b> or <b>{@code ${?}}</b> or <b>{@code ${…}}</b>
+     *                    or <b>{@code ${_}}</b> or <b>meaningful names</b> as placeholders
+     * @param args        arguments use to fill placeholder
+     * @since 0.5.4
      */
-    public CircularReferencesException(String message) {
-        super(message);
+    public CircularReferencesException(String msgTemplate, Object... args) {
+        super(getMsg(msgTemplate, args));
     }
 
     /**
-     * Constructs an {@code CircularReferencesException} with the specified detail message
-     * and cause.
+     * Constructs a {@code CircularReferencesException} <br>
      *
-     * @param message
-     *        The detail message (which is saved for later retrieval
-     *        by the {@link #getMessage()} method)
-     *
-     * @param cause
-     *        The cause (which is saved for later retrieval by the
-     *        {@link #getCause()} method).  (A null value is permitted,
-     *        and indicates that the cause is nonexistent or unknown.)
+     * @param cause       The cause (which is saved for later retrieval by the {@link #getCause()} method).
+     *                    (A null value is permitted, and indicates that the cause is nonexistent or unknown.)
+     * @param msgTemplate message template. It is recommended to use any one of <b>{@code ${0}}</b> or <b>{@code ${?}}</b> or <b>{@code ${…}}</b>
+     *                    or <b>{@code ${_}}</b> or <b>meaningful names</b> as placeholders
+     * @param args        arguments use to fill placeholder
+     * @since 0.5.4
      */
-    public CircularReferencesException(String message, Throwable cause) {
-        super(message, cause);
+    public CircularReferencesException(Throwable cause, String msgTemplate, Object... args) {
+        super(getMsg(msgTemplate, args), cause);
     }
 
     /**
@@ -66,14 +66,17 @@ public class CircularReferencesException extends RuntimeException {
      * detail message of {@code (cause==null ? null : cause.toString())}
      * (which typically contains the class and detail message of {@code cause}).
      *
-     * @param cause
-     *        The cause (which is saved for later retrieval by the
-     *        {@link #getCause()} method).  (A null value is permitted,
-     *        and indicates that the cause is nonexistent or unknown.)
-     *
+     * @param cause The cause (which is saved for later retrieval by the
+     *              {@link #getCause()} method).  (A null value is permitted,
+     *              and indicates that the cause is nonexistent or unknown.)
      */
     public CircularReferencesException(Throwable cause) {
         super(cause);
+    }
+
+    private static String getMsg(String msgTemplate, Object... args) {
+        if (msgTemplate == null) return null;
+        return SI.$(msgTemplate, args);
     }
 
 }

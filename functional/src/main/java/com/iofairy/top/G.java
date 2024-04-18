@@ -96,6 +96,11 @@ public final class G {
      * String used to represent infinity.
      */
     public static final String INFINITY = "∞";
+    /**
+     * Is the default language Chinese? <br>
+     * 默认语言是否是中文（是否中文环境）？
+     */
+    public static final boolean IS_ZH_LANG = Try.tcf(() -> Locale.getDefault().getLanguage().equals("zh"), false, false);
 
     /*###################################################################################
      ************************************************************************************

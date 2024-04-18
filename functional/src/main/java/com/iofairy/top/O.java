@@ -125,7 +125,7 @@ public final class O {
     }
 
     /**
-     * Quietly throw Checked exceptions <b>(Checked exceptions -> Unchecked Exceptions)</b>, so they don't have to be thrown explicitly. <br>
+     * Quietly throw Checked exceptions <b>(Checked exceptions -&gt; Unchecked Exceptions)</b>, so they don't have to be thrown explicitly. <br>
      * 静静地抛出受检查异常，使其不必显式抛出。
      *
      * @param e   Throwable
