@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.*;
 
 /**
@@ -198,11 +199,11 @@ public final class O {
                     }
 
                     if (whetherKeyIsString && o != null && !(o instanceof String)) {
-                        throw new UnexpectedTypeException("Index: " + i + ". This parameter is a key, the key must be `java.lang.String` type. ");
+                        throw new UnexpectedTypeException("Index: ${i}. This parameter is a key, the key must be `java.lang.String` type. ", i);
                     }
                 } else {                // Validate elements at odd indexes (values)
                     if (whetherValueIsString && o != null && !(o instanceof String)) {
-                        throw new UnexpectedTypeException("Index: " + i + ". This parameter is a value, the value must be `java.lang.String` type. ");
+                        throw new UnexpectedTypeException("Index: ${i}. This parameter is a value, the value must be `java.lang.String` type. ", i);
                     }
                 }
             }
@@ -295,6 +296,30 @@ public final class O {
         return condition ? defaultValue : value;
     }
 
+    /**
+     * Returns {@code true} if the arguments are equal to each other and {@code false} otherwise.
+     * Consequently, if both arguments are {@code null}, {@code true} is returned and if exactly one argument is {@code null},
+     * {@code false} is returned.  Otherwise, equality is determined by using the {@link Object#equals equals} method of the first argument.<br>
+     * In particular, if both a and b are of type number, they are converted to strings and then compared for equality
+     *
+     * @param a an object
+     * @param b an object to be compared with {@code a} for equality
+     * @return {@code true} if the arguments are equal to each other and {@code false} otherwise
+     * @see Object#equals(Object)
+     * @since 0.5.5
+     */
+    public static boolean equals(Object a, Object b) {
+        boolean equals = Objects.equals(a, b);
+        if (!equals && a != null && b != null) {
+            if (a instanceof Number && b instanceof Number) {
+                String as = G.toString((Number) a, 10000);
+                String bs = G.toString((Number) b, 10000);
+
+                return as.equals(bs);
+            }
+        }
+        return equals;
+    }
 
     /*###################################################################################
      ************************************************************************************

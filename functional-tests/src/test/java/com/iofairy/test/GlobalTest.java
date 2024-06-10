@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.*;
@@ -1793,6 +1795,95 @@ public class GlobalTest {
         assertEquals("[]", G.toString(valueIfNull2));
         assertEquals(2, valueIfElse1);
         assertEquals("1", valueIfElse2);
+
+    }
+
+    @Test
+    public void testEquals() {
+        Byte b = null;
+        Short s0 = null;
+        byte b1 = 1;
+        Short s = 1;
+        short s1 = 1;
+        Integer i = 1;
+        Integer i1 = 0;
+        BigInteger bigInteger = new BigInteger("1");
+        double d1 = -0.0d;
+        double d2 = +0.0d;
+        Float f = -0.0f;
+        Double d4 = +0.0d;
+        double d5 = 1008.230953d;
+        BigDecimal bigDecimal = new BigDecimal("1008.230953");
+        long l = 5669887456526599999L;
+        BigInteger bigInteger1 = new BigInteger("5669887456526599999");
+        BigInteger bigInteger2 = new BigInteger("89746549865465465415465498448888335433878565656364585658");
+        BigInteger bigInteger3 = new BigInteger("89746549865465465415465498448888335433878565656364585658");
+        float f0 = Float.NaN;
+        Double d6 = Double.NaN;
+        Double d7 = Double.POSITIVE_INFINITY;
+        Double d8 = Double.NEGATIVE_INFINITY;
+        Float f1 = Float.POSITIVE_INFINITY;
+        Float f2 = Float.NEGATIVE_INFINITY;
+
+        String s01 = G.toString(b) + ", " + G.toString(b1) + "---" + Objects.equals(b, b1) + "---" + O.equals(b, b1);
+        String s02 = G.toString(b) + ", " + G.toString(d1) + "---" + Objects.equals(b, d1) + "---" + O.equals(b, d1);
+        String s03 = G.toString(b) + ", " + G.toString(s0) + "---" + Objects.equals(b, s0) + "---" + O.equals(b, s0);
+        String s04 = G.toString(s) + ", " + G.toString(s1) + "---" + Objects.equals(s, s1) + "---" + O.equals(s, s1);
+        String s05 = G.toString(s) + ", " + G.toString(i) + "---" + Objects.equals(s, i) + "---" + O.equals(s, i);
+        String s06 = G.toString(b1) + ", " + G.toString(s1) + "---" + Objects.equals(b1, s1) + "---" + O.equals(b1, s1);
+        String s07 = G.toString(b1) + ", " + G.toString(bigInteger) + "---" + Objects.equals(b1, bigInteger) + "---" + O.equals(b1, bigInteger);
+        String s08 = G.toString(s1) + ", " + G.toString(bigInteger) + "---" + Objects.equals(s1, bigInteger) + "---" + O.equals(s1, bigInteger);
+        String s09 = G.toString(i1) + ", " + G.toString(d1) + "---" + Objects.equals(i1, d1) + "---" + O.equals(i1, d1);
+        String s10 = G.toString(d1) + ", " + G.toString(d2) + "---" + Objects.equals(d1, d2) + "---" + O.equals(d1, d2);
+        String s11 = G.toString(d1) + ", " + G.toString(f) + "---" + Objects.equals(d1, f) + "---" + O.equals(d1, f);
+        String s12 = G.toString(f) + ", " + G.toString(d4) + "---" + Objects.equals(f, d4) + "---" + O.equals(f, d4);
+        String s13 = G.toString(f) + ", " + G.toString(d5) + "---" + Objects.equals(f, d5) + "---" + O.equals(f, d5);
+        String s14 = G.toString(bigDecimal) + ", " + G.toString(d5) + "---" + Objects.equals(bigDecimal, d5) + "---" + O.equals(bigDecimal, d5);
+        String s15 = G.toString(l) + ", " + G.toString(bigInteger1) + "---" + Objects.equals(l, bigInteger1) + "---" + O.equals(l, bigInteger1);
+        String s16 = G.toString(bigInteger2) + ", " + G.toString(bigInteger3) + "---" + Objects.equals(bigInteger2, bigInteger3) + "---" + O.equals(bigInteger2, bigInteger3);
+        String s17 = G.toString(f0) + ", " + G.toString(d6) + "---" + Objects.equals(f0, d6) + "---" + O.equals(f0, d6);
+        String s18 = G.toString(d7) + ", " + G.toString(f1) + "---" + Objects.equals(d7, f1) + "---" + O.equals(d7, f1);
+        String s19 = G.toString(d8) + ", " + G.toString(f2) + "---" + Objects.equals(d8, f2) + "---" + O.equals(d8, f2);
+
+        System.out.println("01、 " + s01);
+        System.out.println("02、 " + s02);
+        System.out.println("03、 " + s03);
+        System.out.println("04、 " + s04);
+        System.out.println("05、 " + s05);
+        System.out.println("06、 " + s06);
+        System.out.println("07、 " + s07);
+        System.out.println("08、 " + s08);
+        System.out.println("09、 " + s09);
+        System.out.println("10、 " + s10);
+        System.out.println("11、 " + s11);
+        System.out.println("12、 " + s12);
+        System.out.println("13、 " + s13);
+        System.out.println("14、 " + s14);
+        System.out.println("15、 " + s15);
+        System.out.println("16、 " + s16);
+        System.out.println("17、 " + s17);
+        System.out.println("18、 " + s18);
+        System.out.println("19、 " + s19);
+
+        assertEquals(s01, "null, 1---false---false");
+        assertEquals(s02, "null, 0.0---false---false");
+        assertEquals(s03, "null, null---true---true");
+        assertEquals(s04, "1, 1---true---true");
+        assertEquals(s05, "1, 1---false---true");
+        assertEquals(s06, "1, 1---false---true");
+        assertEquals(s07, "1, 1---false---true");
+        assertEquals(s08, "1, 1---false---true");
+        assertEquals(s09, "0, 0.0---false---false");
+        assertEquals(s10, "0.0, 0.0---false---true");
+        assertEquals(s11, "0.0, 0.0---false---true");
+        assertEquals(s12, "0.0, 0.0---false---true");
+        assertEquals(s13, "0.0, 1008.230953---false---false");
+        assertEquals(s14, "1008.230953, 1008.230953---false---true");
+        assertEquals(s15, "5669887456526599999, 5669887456526599999---false---true");
+        assertEquals(s16, "89746549865465465415465498448888335433878565656364585658, 89746549865465465415465498448888335433878565656364585658---true---true");
+        assertEquals(s17, "NaN, NaN---false---true");
+        assertEquals(s18, "∞, ∞---false---true");
+        assertEquals(s19, "-∞, -∞---false---true");
 
     }
 

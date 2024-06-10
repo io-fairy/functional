@@ -272,9 +272,9 @@ public class Pattern {
      *
      *     return msg;
      * }
-     * </pre>
+     * }</pre></blockquote>
      * <b>It is equivalent to the code below: </b><br><br>
-     * <pre>
+     * <blockquote><pre>{@code
      * public String commonCheckNull() {
      *     Account account = new Account("12345", "", "aaaabbbb");
      *     Order order = new Order("order_123456", 10.5, new User("zs", 10, account));
