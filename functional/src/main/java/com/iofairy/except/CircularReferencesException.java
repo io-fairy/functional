@@ -24,6 +24,10 @@ package com.iofairy.except;
 public class CircularReferencesException extends BaseRuntimeException {
     private static final long serialVersionUID = 99936560555729000L;
 
+    public CircularReferencesException() {
+        super();
+    }
+
     /**
      * Constructs a {@code CircularReferencesException} <br>
      *

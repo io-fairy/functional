@@ -28,6 +28,9 @@ public class AIException extends BaseRuntimeException {
 
     private static final long serialVersionUID = 9999988565600666L;
 
+    public AIException() {
+        super();
+    }
 
     /**
      * Constructs a {@code AIException} <br>

@@ -26,6 +26,9 @@ public class AIInferenceException extends AIException {
 
     private static final long serialVersionUID = 997898789653005L;
 
+    public AIInferenceException() {
+        super();
+    }
 
     /**
      * Constructs a {@code AIInferenceException} <br>

@@ -27,6 +27,10 @@ public class TryException extends BaseRuntimeException {
 
     private static final long serialVersionUID = 999315723685987666L;
 
+    public TryException() {
+        super();
+    }
+
     /**
      * Constructs a {@code TryException} <br>
      * <b>Examples:</b>

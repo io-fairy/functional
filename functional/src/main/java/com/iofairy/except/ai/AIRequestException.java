@@ -26,6 +26,9 @@ public class AIRequestException extends AIException {
 
     private static final long serialVersionUID = 9987563568965555L;
 
+    public AIRequestException() {
+        super();
+    }
 
     /**
      * Constructs a {@code AIRequestException} <br>

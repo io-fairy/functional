@@ -25,6 +25,10 @@ public class RequestFailureException extends BaseRuntimeException {
 
     private static final long serialVersionUID = 99993567865953666L;
 
+    public RequestFailureException() {
+        super();
+    }
+
     /**
      * Constructs a {@code RequestFailureException} <br>
      * <b>Examples:</b>

@@ -20,9 +20,10 @@ import com.iofairy.tuple.Tuple;
 /**
  * Call {@link Tuple#elementWithAlias} before {@link Tuple#alias}, will throw AliasNotSetException.<br>
  * 在调用 {@link Tuple#alias} 之前调用 {@link Tuple#elementWithAlias}，将抛出此异常
+ *
  * @since 0.0.1
  */
-public class AliasNotSetException extends RuntimeException {
+public class AliasNotSetException extends BaseRuntimeException {
     private static final long serialVersionUID = 656057270L;
 
     /**
@@ -34,46 +35,53 @@ public class AliasNotSetException extends RuntimeException {
     }
 
     /**
-     * Constructs an {@code AliasNotSetException} with the specified detail message.
+     * Constructs a {@code AliasNotSetException} <br>
+     * <b>Examples:</b>
+     * <blockquote><pre>{@code
+     * try {
+     *     throw new AliasNotSetException("orderId: ${0}, orderName: ${?}, `orderStatus` must be non-empty! ", 10000, "'order_test'");
+     * } catch (Exception e) {
+     *     assertEquals("orderId: 10000, orderName: 'order_test', `orderStatus` must be non-empty! ", e.getMessage());
+     * }
      *
-     * @param message
-     *        The detail message (which is saved for later retrieval
-     *        by the {@link #getMessage()} method)
+     * try {
+     *     throw new AliasNotSetException("userId: ${_}, `phone` must be non-empty! ", 10000);
+     * } catch (Exception e) {
+     *     assertEquals("userId: 10000, `phone` must be non-empty! ", e.getMessage());
+     * }
+     *
+     * try {
+     *     throw new AliasNotSetException("userId: ${…}, `phone` must be non-empty! ", 10000);
+     * } catch (Exception e) {
+     *     assertEquals("userId: 10000, `phone` must be non-empty! ", e.getMessage());
+     * }
+     *
+     * try {
+     *     throw new AliasNotSetException("`orderStatus` must be non-empty! ");
+     * } catch (Exception e) {
+     *     assertEquals("`orderStatus` must be non-empty! ", e.getMessage());
+     * }
+     * }</pre></blockquote>
+     *
+     * @param msgTemplate message template. It is recommended to use any one of <b>{@code ${0}}</b> or <b>{@code ${?}}</b> or <b>{@code ${…}}</b>
+     *                    or <b>{@code ${_}}</b> or <b>meaningful names</b> as placeholders
+     * @param args        arguments use to fill placeholder
      */
-    public AliasNotSetException(String message) {
-        super(message);
+    public AliasNotSetException(String msgTemplate, Object... args) {
+        super(msgTemplate, args);
     }
 
-    /**
-     * Constructs an {@code AliasNotSetException} with the specified detail message
-     * and cause.
-     *
-     * @param message
-     *        The detail message (which is saved for later retrieval
-     *        by the {@link #getMessage()} method)
-     *
-     * @param cause
-     *        The cause (which is saved for later retrieval by the
-     *        {@link #getCause()} method).  (A null value is permitted,
-     *        and indicates that the cause is nonexistent or unknown.)
-     */
-    public AliasNotSetException(String message, Throwable cause) {
-        super(message, cause);
+    public AliasNotSetException(Throwable cause, String msgTemplate, Object... args) {
+        super(cause, msgTemplate, args);
     }
 
-    /**
-     * Constructs an {@code AliasNotSetException} with the specified cause and a
-     * detail message of {@code (cause==null ? null : cause.toString())}
-     * (which typically contains the class and detail message of {@code cause}).
-     *
-     * @param cause
-     *        The cause (which is saved for later retrieval by the
-     *        {@link #getCause()} method).  (A null value is permitted,
-     *        and indicates that the cause is nonexistent or unknown.)
-     *
-     */
     public AliasNotSetException(Throwable cause) {
         super(cause);
     }
 
+    @Override
+    public AliasNotSetException setCode(String code) {
+        this.code = code;
+        return this;
+    }
 }

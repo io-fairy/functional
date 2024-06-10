@@ -286,7 +286,7 @@ public class SI {
             for (StringToken token : tokens) {
                 String value = token.value;
                 if (enableUndefinedVariableException && token.type == StringType.VARIABLE && !valueMap.containsKey(value)) {
-                    throw new UndefinedVariableException("Cannot resolve variable `" + value + "` in \"" + sourceString + "\". ");
+                    throw new UndefinedVariableException("Cannot resolve variable `${value}` in \"${sourceString}\". ", value, sourceString);
                 }
                 interpolated.append(token.type == StringType.STRING ? value : valueMap.getOrDefault(value, token.originValue));
             }
@@ -328,7 +328,7 @@ public class SI {
             }
         } else {
             if (enableUndefinedVariableException) {
-                throw new UndefinedVariableException("Cannot resolve variable `" + key + "` in \"" + source + "\". ");
+                throw new UndefinedVariableException("Cannot resolve variable `${key}` in \"${source}\". ", key, source);
             }
 
             return nestedToken.defaultValue.isEmpty() ? PREFIX + key + SUFFIX : traverseInterpolation(source, variablesStack, nestedToken.defaultValue);
@@ -459,7 +459,7 @@ public class SI {
                             KEY_CACHE.put(cacheKey, realKey);
                             kvMap.put(realKey, kvs[i + 1]);
                         } else {
-                            throw new UnexpectedParameterException("Index: " + i + ". " + MSG_UNEXPECTED_PARAM);
+                            throw new UnexpectedParameterException("Index: ${i}. ${paramsMsg}", i, MSG_UNEXPECTED_PARAM);
                         }
                     }
                 } else {

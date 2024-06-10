@@ -18,9 +18,10 @@ package com.iofairy.except;
 /**
  * named for properties of tuple, when the alias is duplication, will throw AliasDuplicateException<br>
  * 为元组（tuple）的属性起别名，别名重复时将会抛出此异常
+ *
  * @since 0.0.1
  */
-public class AliasDuplicateException extends RuntimeException {
+public class AliasDuplicateException extends BaseRuntimeException {
     private static final long serialVersionUID = 656057265L;
 
 
@@ -33,46 +34,53 @@ public class AliasDuplicateException extends RuntimeException {
     }
 
     /**
-     * Constructs an {@code AliasDuplicateException} with the specified detail message.
+     * Constructs a {@code AliasDuplicateException} <br>
+     * <b>Examples:</b>
+     * <blockquote><pre>{@code
+     * try {
+     *     throw new AliasDuplicateException("orderId: ${0}, orderName: ${?}, `orderStatus` must be non-empty! ", 10000, "'order_test'");
+     * } catch (Exception e) {
+     *     assertEquals("orderId: 10000, orderName: 'order_test', `orderStatus` must be non-empty! ", e.getMessage());
+     * }
      *
-     * @param message
-     *        The detail message (which is saved for later retrieval
-     *        by the {@link #getMessage()} method)
+     * try {
+     *     throw new AliasDuplicateException("userId: ${_}, `phone` must be non-empty! ", 10000);
+     * } catch (Exception e) {
+     *     assertEquals("userId: 10000, `phone` must be non-empty! ", e.getMessage());
+     * }
+     *
+     * try {
+     *     throw new AliasDuplicateException("userId: ${…}, `phone` must be non-empty! ", 10000);
+     * } catch (Exception e) {
+     *     assertEquals("userId: 10000, `phone` must be non-empty! ", e.getMessage());
+     * }
+     *
+     * try {
+     *     throw new AliasDuplicateException("`orderStatus` must be non-empty! ");
+     * } catch (Exception e) {
+     *     assertEquals("`orderStatus` must be non-empty! ", e.getMessage());
+     * }
+     * }</pre></blockquote>
+     *
+     * @param msgTemplate message template. It is recommended to use any one of <b>{@code ${0}}</b> or <b>{@code ${?}}</b> or <b>{@code ${…}}</b>
+     *                    or <b>{@code ${_}}</b> or <b>meaningful names</b> as placeholders
+     * @param args        arguments use to fill placeholder
      */
-    public AliasDuplicateException(String message) {
-        super(message);
+    public AliasDuplicateException(String msgTemplate, Object... args) {
+        super(msgTemplate, args);
     }
 
-    /**
-     * Constructs an {@code AliasDuplicateException} with the specified detail message
-     * and cause.
-     *
-     * @param message
-     *        The detail message (which is saved for later retrieval
-     *        by the {@link #getMessage()} method)
-     *
-     * @param cause
-     *        The cause (which is saved for later retrieval by the
-     *        {@link #getCause()} method).  (A null value is permitted,
-     *        and indicates that the cause is nonexistent or unknown.)
-     */
-    public AliasDuplicateException(String message, Throwable cause) {
-        super(message, cause);
+    public AliasDuplicateException(Throwable cause, String msgTemplate, Object... args) {
+        super(cause, msgTemplate, args);
     }
 
-    /**
-     * Constructs an {@code AliasDuplicateException} with the specified cause and a
-     * detail message of {@code (cause==null ? null : cause.toString())}
-     * (which typically contains the class and detail message of {@code cause}).
-     *
-     * @param cause
-     *        The cause (which is saved for later retrieval by the
-     *        {@link #getCause()} method).  (A null value is permitted,
-     *        and indicates that the cause is nonexistent or unknown.)
-     *
-     */
     public AliasDuplicateException(Throwable cause) {
         super(cause);
     }
 
+    @Override
+    public AliasDuplicateException setCode(String code) {
+        this.code = code;
+        return this;
+    }
 }

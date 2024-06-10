@@ -26,6 +26,9 @@ public class AICallException extends AIException {
 
     private static final long serialVersionUID = 99785263687956L;
 
+    public AICallException() {
+        super();
+    }
 
     /**
      * Constructs a {@code AICallException} <br>

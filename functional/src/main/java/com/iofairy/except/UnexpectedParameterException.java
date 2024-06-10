@@ -18,9 +18,10 @@ package com.iofairy.except;
 /**
  * When parameters are not expected, will throw UnexpectedParameterException. <br>
  * 当传入的参数不符合要求时，会抛出此异常
+ *
  * @since 0.0.1
  */
-public class UnexpectedParameterException extends RuntimeException {
+public class UnexpectedParameterException extends BaseRuntimeException {
     private static final long serialVersionUID = 656057280L;
 
 
@@ -33,46 +34,53 @@ public class UnexpectedParameterException extends RuntimeException {
     }
 
     /**
-     * Constructs an {@code UnexpectedParameterException} with the specified detail message.
+     * Constructs a {@code UnexpectedParameterException} <br>
+     * <b>Examples:</b>
+     * <blockquote><pre>{@code
+     * try {
+     *     throw new UnexpectedParameterException("orderId: ${0}, orderName: ${?}, `orderStatus` must be non-empty! ", 10000, "'order_test'");
+     * } catch (Exception e) {
+     *     assertEquals("orderId: 10000, orderName: 'order_test', `orderStatus` must be non-empty! ", e.getMessage());
+     * }
      *
-     * @param message
-     *        The detail message (which is saved for later retrieval
-     *        by the {@link #getMessage()} method)
+     * try {
+     *     throw new UnexpectedParameterException("userId: ${_}, `phone` must be non-empty! ", 10000);
+     * } catch (Exception e) {
+     *     assertEquals("userId: 10000, `phone` must be non-empty! ", e.getMessage());
+     * }
+     *
+     * try {
+     *     throw new UnexpectedParameterException("userId: ${…}, `phone` must be non-empty! ", 10000);
+     * } catch (Exception e) {
+     *     assertEquals("userId: 10000, `phone` must be non-empty! ", e.getMessage());
+     * }
+     *
+     * try {
+     *     throw new UnexpectedParameterException("`orderStatus` must be non-empty! ");
+     * } catch (Exception e) {
+     *     assertEquals("`orderStatus` must be non-empty! ", e.getMessage());
+     * }
+     * }</pre></blockquote>
+     *
+     * @param msgTemplate message template. It is recommended to use any one of <b>{@code ${0}}</b> or <b>{@code ${?}}</b> or <b>{@code ${…}}</b>
+     *                    or <b>{@code ${_}}</b> or <b>meaningful names</b> as placeholders
+     * @param args        arguments use to fill placeholder
      */
-    public UnexpectedParameterException(String message) {
-        super(message);
+    public UnexpectedParameterException(String msgTemplate, Object... args) {
+        super(msgTemplate, args);
     }
 
-    /**
-     * Constructs an {@code UnexpectedParameterException} with the specified detail message
-     * and cause.
-     *
-     * @param message
-     *        The detail message (which is saved for later retrieval
-     *        by the {@link #getMessage()} method)
-     *
-     * @param cause
-     *        The cause (which is saved for later retrieval by the
-     *        {@link #getCause()} method).  (A null value is permitted,
-     *        and indicates that the cause is nonexistent or unknown.)
-     */
-    public UnexpectedParameterException(String message, Throwable cause) {
-        super(message, cause);
+    public UnexpectedParameterException(Throwable cause, String msgTemplate, Object... args) {
+        super(cause, msgTemplate, args);
     }
 
-    /**
-     * Constructs an {@code UnexpectedParameterException} with the specified cause and a
-     * detail message of {@code (cause==null ? null : cause.toString())}
-     * (which typically contains the class and detail message of {@code cause}).
-     *
-     * @param cause
-     *        The cause (which is saved for later retrieval by the
-     *        {@link #getCause()} method).  (A null value is permitted,
-     *        and indicates that the cause is nonexistent or unknown.)
-     *
-     */
     public UnexpectedParameterException(Throwable cause) {
         super(cause);
     }
 
+    @Override
+    public UnexpectedParameterException setCode(String code) {
+        this.code = code;
+        return this;
+    }
 }

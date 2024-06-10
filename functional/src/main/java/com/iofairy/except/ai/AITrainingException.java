@@ -26,6 +26,9 @@ public class AITrainingException extends AIException {
 
     private static final long serialVersionUID = 9965379799330000L;
 
+    public AITrainingException() {
+        super();
+    }
 
     /**
      * Constructs a {@code AITrainingException} <br>

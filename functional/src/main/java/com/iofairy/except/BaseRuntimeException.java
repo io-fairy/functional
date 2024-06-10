@@ -33,6 +33,15 @@ public class BaseRuntimeException extends RuntimeException {
     protected String code;
 
     /**
+     * Constructs a new runtime exception with {@code null} as its
+     * detail message.  The cause is not initialized, and may subsequently be
+     * initialized by a call to {@link #initCause}.
+     */
+    public BaseRuntimeException() {
+        super();
+    }
+
+    /**
      * Constructs a {@code BaseRuntimeException} <br>
      * <b>Examples:</b>
      * <blockquote><pre>{@code
@@ -75,6 +84,21 @@ public class BaseRuntimeException extends RuntimeException {
 
     public BaseRuntimeException(Throwable cause) {
         super(cause);
+    }
+
+    /**
+     * Constructs a new runtime exception with the specified detail message, cause, suppression enabled or disabled,
+     * and writable stack trace enabled or disabled.
+     *
+     * @param cause              the cause.  (A {@code null} value is permitted, and indicates that the cause is nonexistent or unknown.)
+     * @param enableSuppression  whether or not suppression is enabled or disabled
+     * @param writableStackTrace whether or not the stack trace should be writable
+     * @param msgTemplate        message template. It is recommended to use any one of <b>{@code ${0}}</b> or <b>{@code ${?}}</b> or <b>{@code ${…}}</b>
+     *                           or <b>{@code ${_}}</b> or <b>meaningful names</b> as placeholders
+     * @param args               arguments use to fill placeholder
+     */
+    public BaseRuntimeException(Throwable cause, boolean enableSuppression, boolean writableStackTrace, String msgTemplate, Object... args) {
+        super(getMsg(msgTemplate, args), cause, enableSuppression, writableStackTrace);
     }
 
     public String getCode() {

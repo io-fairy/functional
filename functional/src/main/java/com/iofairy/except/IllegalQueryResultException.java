@@ -26,6 +26,9 @@ public class IllegalQueryResultException extends BaseRuntimeException {
 
     private static final long serialVersionUID = 9997865002365680L;
 
+    public IllegalQueryResultException() {
+        super();
+    }
 
     /**
      * Constructs a {@code IllegalQueryResultException} <br>

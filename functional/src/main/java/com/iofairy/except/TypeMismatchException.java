@@ -21,53 +21,61 @@ package com.iofairy.except;
  *
  * @since 0.4.19
  */
-public class TypeMismatchException extends RuntimeException {
+public class TypeMismatchException extends BaseRuntimeException {
     private static final long serialVersionUID = 996665356057200L;
 
-
-    /**
-     * Constructs an {@code TypeMismatchException} with {@code null}
-     * as its error detail message.
-     */
     public TypeMismatchException() {
         super();
     }
 
     /**
-     * Constructs an {@code TypeMismatchException} with the specified detail message.
+     * Constructs a {@code TypeMismatchException} <br>
+     * <b>Examples:</b>
+     * <blockquote><pre>{@code
+     * try {
+     *     throw new TypeMismatchException("orderId: ${0}, orderName: ${?}, `orderStatus` must be non-empty! ", 10000, "'order_test'");
+     * } catch (Exception e) {
+     *     assertEquals("orderId: 10000, orderName: 'order_test', `orderStatus` must be non-empty! ", e.getMessage());
+     * }
      *
-     * @param message The detail message (which is saved for later retrieval
-     *                by the {@link #getMessage()} method)
+     * try {
+     *     throw new TypeMismatchException("userId: ${_}, `phone` must be non-empty! ", 10000);
+     * } catch (Exception e) {
+     *     assertEquals("userId: 10000, `phone` must be non-empty! ", e.getMessage());
+     * }
+     *
+     * try {
+     *     throw new TypeMismatchException("userId: ${…}, `phone` must be non-empty! ", 10000);
+     * } catch (Exception e) {
+     *     assertEquals("userId: 10000, `phone` must be non-empty! ", e.getMessage());
+     * }
+     *
+     * try {
+     *     throw new TypeMismatchException("`orderStatus` must be non-empty! ");
+     * } catch (Exception e) {
+     *     assertEquals("`orderStatus` must be non-empty! ", e.getMessage());
+     * }
+     * }</pre></blockquote>
+     *
+     * @param msgTemplate message template. It is recommended to use any one of <b>{@code ${0}}</b> or <b>{@code ${?}}</b> or <b>{@code ${…}}</b>
+     *                    or <b>{@code ${_}}</b> or <b>meaningful names</b> as placeholders
+     * @param args        arguments use to fill placeholder
      */
-    public TypeMismatchException(String message) {
-        super(message);
+    public TypeMismatchException(String msgTemplate, Object... args) {
+        super(msgTemplate, args);
     }
 
-    /**
-     * Constructs an {@code TypeMismatchException} with the specified detail message
-     * and cause.
-     *
-     * @param message The detail message (which is saved for later retrieval
-     *                by the {@link #getMessage()} method)
-     * @param cause   The cause (which is saved for later retrieval by the
-     *                {@link #getCause()} method).  (A null value is permitted,
-     *                and indicates that the cause is nonexistent or unknown.)
-     */
-    public TypeMismatchException(String message, Throwable cause) {
-        super(message, cause);
+    public TypeMismatchException(Throwable cause, String msgTemplate, Object... args) {
+        super(cause, msgTemplate, args);
     }
 
-    /**
-     * Constructs an {@code TypeMismatchException} with the specified cause and a
-     * detail message of {@code (cause==null ? null : cause.toString())}
-     * (which typically contains the class and detail message of {@code cause}).
-     *
-     * @param cause The cause (which is saved for later retrieval by the
-     *              {@link #getCause()} method).  (A null value is permitted,
-     *              and indicates that the cause is nonexistent or unknown.)
-     */
     public TypeMismatchException(Throwable cause) {
         super(cause);
     }
 
+    @Override
+    public TypeMismatchException setCode(String code) {
+        this.code = code;
+        return this;
+    }
 }

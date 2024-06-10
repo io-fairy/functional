@@ -26,6 +26,9 @@ public class ConditionsNotMetException extends BaseRuntimeException {
 
     private static final long serialVersionUID = 999985673658666L;
 
+    public ConditionsNotMetException() {
+        super();
+    }
 
     /**
      * Constructs a {@code ConditionsNotMetException} <br>

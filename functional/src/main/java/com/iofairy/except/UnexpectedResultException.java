@@ -26,6 +26,9 @@ public class UnexpectedResultException extends BaseRuntimeException {
 
     private static final long serialVersionUID = 9999956893658666L;
 
+    public UnexpectedResultException() {
+        super();
+    }
 
     /**
      * Constructs a {@code UnexpectedResultException} <br>

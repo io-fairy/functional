@@ -523,7 +523,14 @@ public class InterpolatorTest {
         assertThrows(RuntimeException.class, () -> SI.init(null, null, null));
         assertThrows(UnexpectedParameterException.class, () -> SI.init("", null));
         assertThrows(UnexpectedParameterException.class, () -> SI.init("->", null));
-        assertThrows(UnexpectedParameterException.class, () -> SI.init(" >>>>", null));
+
+        try {
+            SI init = SI.init(" >>>>", null);
+            throwException();
+        } catch (Exception e) {
+            assertSame(e.getClass(), UnexpectedParameterException.class);
+            assertEquals(e.getMessage(), "Index: 0. This parameter is a key, the key must be end with \" ->\" or \" >>>\" or \" >>\". ");
+        }
         assertThrows(UnexpectedParameterException.class, () -> SI.load("->", null));
         assertThrows(UnexpectedParameterException.class, () -> SI.load(" -> ", null));
         assertThrows(UnexpectedParameterException.class, () -> SI.load(" >>> ", null));
