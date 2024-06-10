@@ -15,42 +15,47 @@
  */
 package com.iofairy.except;
 
+import com.iofairy.si.SI;
 
 /**
- * When results are not expected, will throw {@code UnexpectedResultException}. <br>
- * 当出现预期外的结果时，将抛出此异常
+ * Base RuntimeException. <br>
+ * 自定义的运行时异常基类
  *
  * @since 0.5.5
  */
-public class UnexpectedResultException extends BaseRuntimeException {
+public class BaseRuntimeException extends RuntimeException {
 
-    private static final long serialVersionUID = 9999956893658666L;
-
+    private static final long serialVersionUID = 99985638568632666L;
 
     /**
-     * Constructs a {@code UnexpectedResultException} <br>
+     * error code
+     */
+    protected String code;
+
+    /**
+     * Constructs a {@code BaseRuntimeException} <br>
      * <b>Examples:</b>
      * <blockquote><pre>{@code
      * try {
-     *     throw new UnexpectedResultException("orderId: ${0}, orderName: ${?}, `orderStatus` must be non-empty! ", 10000, "'order_test'");
+     *     throw new BaseRuntimeException("orderId: ${0}, orderName: ${?}, `orderStatus` must be non-empty! ", 10000, "'order_test'");
      * } catch (Exception e) {
      *     assertEquals("orderId: 10000, orderName: 'order_test', `orderStatus` must be non-empty! ", e.getMessage());
      * }
      *
      * try {
-     *     throw new UnexpectedResultException("userId: ${_}, `phone` must be non-empty! ", 10000);
+     *     throw new BaseRuntimeException("userId: ${_}, `phone` must be non-empty! ", 10000);
      * } catch (Exception e) {
      *     assertEquals("userId: 10000, `phone` must be non-empty! ", e.getMessage());
      * }
      *
      * try {
-     *     throw new UnexpectedResultException("userId: ${…}, `phone` must be non-empty! ", 10000);
+     *     throw new BaseRuntimeException("userId: ${…}, `phone` must be non-empty! ", 10000);
      * } catch (Exception e) {
      *     assertEquals("userId: 10000, `phone` must be non-empty! ", e.getMessage());
      * }
      *
      * try {
-     *     throw new UnexpectedResultException("`orderStatus` must be non-empty! ");
+     *     throw new BaseRuntimeException("`orderStatus` must be non-empty! ");
      * } catch (Exception e) {
      *     assertEquals("`orderStatus` must be non-empty! ", e.getMessage());
      * }
@@ -60,21 +65,30 @@ public class UnexpectedResultException extends BaseRuntimeException {
      *                    or <b>{@code ${_}}</b> or <b>meaningful names</b> as placeholders
      * @param args        arguments use to fill placeholder
      */
-    public UnexpectedResultException(String msgTemplate, Object... args) {
-        super(msgTemplate, args);
+    public BaseRuntimeException(String msgTemplate, Object... args) {
+        super(getMsg(msgTemplate, args));
     }
 
-    public UnexpectedResultException(Throwable cause, String msgTemplate, Object... args) {
-        super(cause, msgTemplate, args);
+    public BaseRuntimeException(Throwable cause, String msgTemplate, Object... args) {
+        super(getMsg(msgTemplate, args), cause);
     }
 
-    public UnexpectedResultException(Throwable cause) {
+    public BaseRuntimeException(Throwable cause) {
         super(cause);
     }
 
-    @Override
-    public UnexpectedResultException setCode(String code) {
+    public String getCode() {
+        return code;
+    }
+
+    public BaseRuntimeException setCode(String code) {
         this.code = code;
         return this;
     }
+
+    private static String getMsg(String msgTemplate, Object... args) {
+        if (msgTemplate == null) return null;
+        return SI.$(msgTemplate, args);
+    }
+
 }

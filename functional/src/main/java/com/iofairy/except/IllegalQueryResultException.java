@@ -17,40 +17,40 @@ package com.iofairy.except;
 
 
 /**
- * When results are not expected, will throw {@code UnexpectedResultException}. <br>
- * 当出现预期外的结果时，将抛出此异常
+ * An illegal result occurred during the query, will throw {@code IllegalQueryResultException}. <br>
+ * 查询时出现非法的结果时，将抛出此异常
  *
  * @since 0.5.5
  */
-public class UnexpectedResultException extends BaseRuntimeException {
+public class IllegalQueryResultException extends BaseRuntimeException {
 
-    private static final long serialVersionUID = 9999956893658666L;
+    private static final long serialVersionUID = 9997865002365680L;
 
 
     /**
-     * Constructs a {@code UnexpectedResultException} <br>
+     * Constructs a {@code IllegalQueryResultException} <br>
      * <b>Examples:</b>
      * <blockquote><pre>{@code
      * try {
-     *     throw new UnexpectedResultException("orderId: ${0}, orderName: ${?}, `orderStatus` must be non-empty! ", 10000, "'order_test'");
+     *     throw new IllegalQueryResultException("orderId: ${0}, orderName: ${?}, `orderStatus` must be non-empty! ", 10000, "'order_test'");
      * } catch (Exception e) {
      *     assertEquals("orderId: 10000, orderName: 'order_test', `orderStatus` must be non-empty! ", e.getMessage());
      * }
      *
      * try {
-     *     throw new UnexpectedResultException("userId: ${_}, `phone` must be non-empty! ", 10000);
+     *     throw new IllegalQueryResultException("userId: ${_}, `phone` must be non-empty! ", 10000);
      * } catch (Exception e) {
      *     assertEquals("userId: 10000, `phone` must be non-empty! ", e.getMessage());
      * }
      *
      * try {
-     *     throw new UnexpectedResultException("userId: ${…}, `phone` must be non-empty! ", 10000);
+     *     throw new IllegalQueryResultException("userId: ${…}, `phone` must be non-empty! ", 10000);
      * } catch (Exception e) {
      *     assertEquals("userId: 10000, `phone` must be non-empty! ", e.getMessage());
      * }
      *
      * try {
-     *     throw new UnexpectedResultException("`orderStatus` must be non-empty! ");
+     *     throw new IllegalQueryResultException("`orderStatus` must be non-empty! ");
      * } catch (Exception e) {
      *     assertEquals("`orderStatus` must be non-empty! ", e.getMessage());
      * }
@@ -60,20 +60,20 @@ public class UnexpectedResultException extends BaseRuntimeException {
      *                    or <b>{@code ${_}}</b> or <b>meaningful names</b> as placeholders
      * @param args        arguments use to fill placeholder
      */
-    public UnexpectedResultException(String msgTemplate, Object... args) {
+    public IllegalQueryResultException(String msgTemplate, Object... args) {
         super(msgTemplate, args);
     }
 
-    public UnexpectedResultException(Throwable cause, String msgTemplate, Object... args) {
+    public IllegalQueryResultException(Throwable cause, String msgTemplate, Object... args) {
         super(cause, msgTemplate, args);
     }
 
-    public UnexpectedResultException(Throwable cause) {
+    public IllegalQueryResultException(Throwable cause) {
         super(cause);
     }
 
     @Override
-    public UnexpectedResultException setCode(String code) {
+    public IllegalQueryResultException setCode(String code) {
         this.code = code;
         return this;
     }

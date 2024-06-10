@@ -16,22 +16,16 @@
 package com.iofairy.except;
 
 
-import com.iofairy.si.SI;
-
 /**
  * When the condition is not met, will throw {@code ConditionsNotMetException}. <br>
  * 条件未满足时抛出此异常
  *
  * @since 0.5.0
  */
-public class ConditionsNotMetException extends RuntimeException {
+public class ConditionsNotMetException extends BaseRuntimeException {
 
     private static final long serialVersionUID = 999985673658666L;
 
-    /**
-     * error code
-     */
-    protected String code;
 
     /**
      * Constructs a {@code ConditionsNotMetException} <br>
@@ -67,25 +61,16 @@ public class ConditionsNotMetException extends RuntimeException {
      * @param args        arguments use to fill placeholder
      */
     public ConditionsNotMetException(String msgTemplate, Object... args) {
-        super(getMsg(msgTemplate, args));
+        super(msgTemplate, args);
     }
 
     public ConditionsNotMetException(Throwable cause, String msgTemplate, Object... args) {
-        super(getMsg(msgTemplate, args), cause);
+        super(cause, msgTemplate, args);
     }
 
-    public String getCode() {
-        return code;
-    }
-
+    @Override
     public ConditionsNotMetException setCode(String code) {
         this.code = code;
         return this;
     }
-
-    private static String getMsg(String msgTemplate, Object... args) {
-        if (msgTemplate == null) return null;
-        return SI.$(msgTemplate, args);
-    }
-
 }

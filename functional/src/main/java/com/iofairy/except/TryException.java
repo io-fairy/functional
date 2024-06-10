@@ -15,8 +15,6 @@
  */
 package com.iofairy.except;
 
-
-import com.iofairy.si.SI;
 import com.iofairy.tcf.Try;
 
 /**
@@ -25,14 +23,9 @@ import com.iofairy.tcf.Try;
  *
  * @since 0.5.0
  */
-public class TryException extends RuntimeException {
+public class TryException extends BaseRuntimeException {
 
     private static final long serialVersionUID = 999315723685987666L;
-
-    /**
-     * error code
-     */
-    protected String code;
 
     /**
      * Constructs a {@code TryException} <br>
@@ -68,29 +61,20 @@ public class TryException extends RuntimeException {
      * @param args        arguments use to fill placeholder
      */
     public TryException(String msgTemplate, Object... args) {
-        super(getMsg(msgTemplate, args));
+        super(msgTemplate, args);
     }
 
     public TryException(Throwable cause, String msgTemplate, Object... args) {
-        super(getMsg(msgTemplate, args), cause);
+        super(cause, msgTemplate, args);
     }
 
     public TryException(Throwable cause) {
         super(cause);
     }
 
-    public String getCode() {
-        return code;
-    }
-
+    @Override
     public TryException setCode(String code) {
         this.code = code;
         return this;
     }
-
-    private static String getMsg(String msgTemplate, Object... args) {
-        if (msgTemplate == null) return null;
-        return SI.$(msgTemplate, args);
-    }
-
 }

@@ -13,44 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.iofairy.except;
+package com.iofairy.except.ai;
 
 
 /**
- * When results are not expected, will throw {@code UnexpectedResultException}. <br>
- * 当出现预期外的结果时，将抛出此异常
+ * An error occurs when an AI service is invoked, will throw {@code AICallException}. <br>
+ * 调用AI服务或接口出现错误时，将抛出此异常
  *
  * @since 0.5.5
  */
-public class UnexpectedResultException extends BaseRuntimeException {
+public class AICallException extends AIException {
 
-    private static final long serialVersionUID = 9999956893658666L;
+    private static final long serialVersionUID = 99785263687956L;
 
 
     /**
-     * Constructs a {@code UnexpectedResultException} <br>
+     * Constructs a {@code AICallException} <br>
      * <b>Examples:</b>
      * <blockquote><pre>{@code
      * try {
-     *     throw new UnexpectedResultException("orderId: ${0}, orderName: ${?}, `orderStatus` must be non-empty! ", 10000, "'order_test'");
+     *     throw new AICallException("orderId: ${0}, orderName: ${?}, `orderStatus` must be non-empty! ", 10000, "'order_test'");
      * } catch (Exception e) {
      *     assertEquals("orderId: 10000, orderName: 'order_test', `orderStatus` must be non-empty! ", e.getMessage());
      * }
      *
      * try {
-     *     throw new UnexpectedResultException("userId: ${_}, `phone` must be non-empty! ", 10000);
+     *     throw new AICallException("userId: ${_}, `phone` must be non-empty! ", 10000);
      * } catch (Exception e) {
      *     assertEquals("userId: 10000, `phone` must be non-empty! ", e.getMessage());
      * }
      *
      * try {
-     *     throw new UnexpectedResultException("userId: ${…}, `phone` must be non-empty! ", 10000);
+     *     throw new AICallException("userId: ${…}, `phone` must be non-empty! ", 10000);
      * } catch (Exception e) {
      *     assertEquals("userId: 10000, `phone` must be non-empty! ", e.getMessage());
      * }
      *
      * try {
-     *     throw new UnexpectedResultException("`orderStatus` must be non-empty! ");
+     *     throw new AICallException("`orderStatus` must be non-empty! ");
      * } catch (Exception e) {
      *     assertEquals("`orderStatus` must be non-empty! ", e.getMessage());
      * }
@@ -60,20 +60,20 @@ public class UnexpectedResultException extends BaseRuntimeException {
      *                    or <b>{@code ${_}}</b> or <b>meaningful names</b> as placeholders
      * @param args        arguments use to fill placeholder
      */
-    public UnexpectedResultException(String msgTemplate, Object... args) {
+    public AICallException(String msgTemplate, Object... args) {
         super(msgTemplate, args);
     }
 
-    public UnexpectedResultException(Throwable cause, String msgTemplate, Object... args) {
+    public AICallException(Throwable cause, String msgTemplate, Object... args) {
         super(cause, msgTemplate, args);
     }
 
-    public UnexpectedResultException(Throwable cause) {
+    public AICallException(Throwable cause) {
         super(cause);
     }
 
     @Override
-    public UnexpectedResultException setCode(String code) {
+    public AICallException setCode(String code) {
         this.code = code;
         return this;
     }

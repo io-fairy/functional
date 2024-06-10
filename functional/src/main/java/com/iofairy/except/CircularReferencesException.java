@@ -15,25 +15,14 @@
  */
 package com.iofairy.except;
 
-import com.iofairy.si.SI;
-
 /**
  * When the circular reference occurs, will throw {@code CircularReferencesException}. <br>
  * 当出现循环引用时，将抛出此异常
  *
  * @since 0.3.12
  */
-public class CircularReferencesException extends RuntimeException {
-    private static final long serialVersionUID = 656057290L;
-
-
-    /**
-     * Constructs an {@code CircularReferencesException} with {@code null}
-     * as its error detail message.
-     */
-    public CircularReferencesException() {
-        super();
-    }
+public class CircularReferencesException extends BaseRuntimeException {
+    private static final long serialVersionUID = 99936560555729000L;
 
     /**
      * Constructs a {@code CircularReferencesException} <br>
@@ -44,7 +33,7 @@ public class CircularReferencesException extends RuntimeException {
      * @since 0.5.4
      */
     public CircularReferencesException(String msgTemplate, Object... args) {
-        super(getMsg(msgTemplate, args));
+        super(msgTemplate, args);
     }
 
     /**
@@ -58,25 +47,17 @@ public class CircularReferencesException extends RuntimeException {
      * @since 0.5.4
      */
     public CircularReferencesException(Throwable cause, String msgTemplate, Object... args) {
-        super(getMsg(msgTemplate, args), cause);
+        super(cause, msgTemplate, args);
     }
 
-    /**
-     * Constructs an {@code CircularReferencesException} with the specified cause and a
-     * detail message of {@code (cause==null ? null : cause.toString())}
-     * (which typically contains the class and detail message of {@code cause}).
-     *
-     * @param cause The cause (which is saved for later retrieval by the
-     *              {@link #getCause()} method).  (A null value is permitted,
-     *              and indicates that the cause is nonexistent or unknown.)
-     */
     public CircularReferencesException(Throwable cause) {
         super(cause);
     }
 
-    private static String getMsg(String msgTemplate, Object... args) {
-        if (msgTemplate == null) return null;
-        return SI.$(msgTemplate, args);
+    @Override
+    public CircularReferencesException setCode(String code) {
+        this.code = code;
+        return this;
     }
 
 }
