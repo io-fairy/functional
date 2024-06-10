@@ -20,15 +20,17 @@ module iofairy.functional {
     exports com.iofairy.annos;
     exports com.iofairy.base;
     exports com.iofairy.except;
+    exports com.iofairy.except.ai;
     exports com.iofairy.lambda;
     exports com.iofairy.pattern;
+    exports com.iofairy.pattern.mapping;
+    exports com.iofairy.pattern.matcher;
+    exports com.iofairy.pattern.type;
     exports com.iofairy.range;
     exports com.iofairy.si;
     exports com.iofairy.string;
     exports com.iofairy.tcf;
     exports com.iofairy.top;
     exports com.iofairy.tuple;
-    exports com.iofairy.pattern.mapping;
-    exports com.iofairy.pattern.matcher;
-    exports com.iofairy.pattern.type;
+
 }
