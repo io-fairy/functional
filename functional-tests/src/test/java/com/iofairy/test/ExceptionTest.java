@@ -5,6 +5,8 @@ import com.iofairy.except.OutOfBoundsException;
 import com.iofairy.top.G;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -92,4 +94,34 @@ public class ExceptionTest {
         }
 
     }
+
+    @Test
+    public void testStackTraceSimple() {
+        System.out.println("============================================================");
+        try {
+            addSuppressed();
+        } catch (Exception e) {
+            System.out.println(G.stackTraceSimple(e, "com.iofairy" ));
+            System.out.println("============================================================");
+            System.out.println(G.stackTrace(e));
+        }
+    }
+
+    private void addSuppressed() {
+        Throwable throwable = null;
+        try {
+            throw new RuntimeException(new IOException("IO异常！"));
+        } catch (Exception e) {
+            throwable = e;
+            throw e;
+        } finally {
+            RuntimeException runtimeException = new RuntimeException(new IOException("finally抛出的异常！"));
+            if (throwable != null) {
+                runtimeException.addSuppressed(throwable);
+                runtimeException.addSuppressed(new RuntimeException("其他异常！"));
+            }
+            throw runtimeException;
+        }
+    }
+
 }

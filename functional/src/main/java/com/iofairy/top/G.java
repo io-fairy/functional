@@ -287,15 +287,15 @@ public final class G {
         String[] stackTraceList = stackTrace.split("\n");
         List<String> stackTraces = new ArrayList<>();
         for (String stack : stackTraceList) {
-            if (stack.startsWith("\t")) {
+            if (!stack.startsWith("\t") || stack.contains("Caused by: ") || stack.contains("Suppressed: ")) {
+                stackTraces.add(stack);
+            } else {
                 for (String pack : packages) {
                     if (pack != null && stack.contains(pack)) {
                         stackTraces.add(stack);
                         break;
                     }
                 }
-            } else {
-                stackTraces.add(stack);
             }
         }
 
