@@ -312,8 +312,8 @@ public final class O {
         boolean equals = Objects.equals(a, b);
         if (!equals && a != null && b != null) {
             if (a instanceof Number && b instanceof Number) {
-                String as = G.toString((Number) a, 10000);
-                String bs = G.toString((Number) b, 10000);
+                String as = G.toString((Number) a, 50);
+                String bs = G.toString((Number) b, 50);
 
                 return as.equals(bs);
             }
