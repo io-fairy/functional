@@ -19,6 +19,7 @@ import com.iofairy.except.UnexpectedTypeException;
 
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -305,7 +306,7 @@ public final class O {
      * @param a an object
      * @param b an object to be compared with {@code a} for equality
      * @return {@code true} if the arguments are equal to each other and {@code false} otherwise
-     * @see Object#equals(Object)
+     * @see Objects#equals(Object, Object)
      * @since 0.5.5
      */
     public static boolean equals(Object a, Object b) {
@@ -320,6 +321,20 @@ public final class O {
         }
         return equals;
     }
+
+    /**
+     * Returns {@code true} if the arguments are not equal to each other and {@code false} otherwise.
+     *
+     * @param a an object
+     * @param b an object to be compared with {@code a} for equality
+     * @return {@code true} if the arguments are not equal to each other and {@code false} otherwise
+     * @see #equals(Object, Object)
+     * @since 0.5.10
+     */
+    public static boolean notEqual(Object a, Object b) {
+        return !equals(a, b);
+    }
+
 
     /*###################################################################################
      ************************************************************************************
@@ -660,14 +675,17 @@ public final class O {
     }
 
     /**
-     * Returns {@code true} if this {@code Number} value is {@link Double} or {@link DoubleAdder} or {@link DoubleAccumulator}, {@code false} otherwise.
+     * Returns {@code true} if this {@code Number} value is {@link Double} or {@link DoubleAdder} or {@link DoubleAccumulator} or {@link BigDecimal}, {@code false} otherwise.
      *
      * @param number number
-     * @return Returns {@code true} if this {@code Number} value is {@link Double} or {@link DoubleAdder} or {@link DoubleAccumulator}, {@code false} otherwise.
+     * @return Returns {@code true} if this {@code Number} value is {@link Double} or {@link DoubleAdder} or {@link DoubleAccumulator} or {@link BigDecimal}, {@code false} otherwise.
      * @since 0.3.4
      */
     public static boolean isDouble(Number number) {
-        return number instanceof Double || number instanceof DoubleAdder || number instanceof DoubleAccumulator;
+        return number instanceof Double
+                || number instanceof DoubleAdder
+                || number instanceof DoubleAccumulator
+                || number instanceof BigDecimal;
     }
 
     /**
@@ -683,18 +701,19 @@ public final class O {
 
     /**
      * Returns {@code true} if this {@code Number} value is {@link Long} or {@link AtomicLong} or {@link LongAdder}
-     * or {@link LongAccumulator}, {@code false} otherwise.
+     * or {@link LongAccumulator} or {@link BigInteger}, {@code false} otherwise.
      *
      * @param number number
      * @return Returns {@code true} if this {@code Number} value is {@link Long} or {@link AtomicLong} or {@link LongAdder}
-     * or {@link LongAccumulator}, {@code false} otherwise.
+     * or {@link LongAccumulator} or {@link BigInteger}, {@code false} otherwise.
      * @since 0.3.6
      */
     public static boolean isLong(Number number) {
         return number instanceof Long
                 || number instanceof AtomicLong
                 || number instanceof LongAdder
-                || number instanceof LongAccumulator;
+                || number instanceof LongAccumulator
+                || number instanceof BigInteger;
     }
 
     /**

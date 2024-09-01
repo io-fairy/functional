@@ -916,7 +916,7 @@ public final class G {
             return Double.isNaN(d) ? NAN : (d == Double.POSITIVE_INFINITY ? INFINITY : "-" + INFINITY);
         }
 
-        if (O.isFloat(number) || number instanceof BigDecimal) {
+        if (O.isFloat(number)) {
             String numberStr = toString(O.toBigDecimal(number), newScale, roundingMode, isStripTrailingZeros);
             return numberStr.contains(".") ? numberStr : numberStr + ".0";
         } else {

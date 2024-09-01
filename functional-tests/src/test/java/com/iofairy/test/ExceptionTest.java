@@ -1,6 +1,7 @@
 package com.iofairy.test;
 
 import com.iofairy.except.ConditionsNotMetException;
+import com.iofairy.except.GeneralException;
 import com.iofairy.except.OutOfBoundsException;
 import com.iofairy.top.G;
 import org.junit.jupiter.api.Test;
@@ -124,4 +125,14 @@ public class ExceptionTest {
         }
     }
 
+
+    @Test
+    public void testGeneralException() {
+        try {
+            throw new GeneralException("userId: ${_}, `phone` must be non-empty! ", 10000).setCode("-1");
+        } catch (GeneralException e) {
+            assertEquals("-1", e.getCode());
+            assertEquals("userId: 10000, `phone` must be non-empty! ", e.getMessage());
+        }
+    }
 }
