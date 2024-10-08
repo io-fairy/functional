@@ -335,6 +335,41 @@ public final class O {
         return !equals(a, b);
     }
 
+    /**
+     * Compares given {@code value} to a Object vararg of {@code searchValues},
+     * returning {@code true} if the {@code value} is equal to any of the {@code searchValues}. <br><br>
+     * <b>Examples:</b>
+     * <blockquote><pre>{@code
+     * O.equalsAny(null, null);                              // returns false;
+     * O.equalsAny(null, (Object[]) null);                   // returns false;
+     * O.equalsAny(null, (Object) null);                     // returns true;
+     * O.equalsAny(null, null, null);                        // returns true;
+     * O.equalsAny(null, new Object[]{});                    // returns false;
+     * O.equalsAny(null, new Object[]{null});                // returns true;
+     * O.equalsAny(new BigInteger("5669887456526599999"), 2, 3, 5669887456526599999L);   // returns true;
+     * O.equalsAny(1, 2, 3, 1.0f);                           // returns false;
+     * O.equalsAny("ab", 2, "", 1.0f);                       // returns false;
+     * O.equalsAny("ab", 2, "ab", 1.0f);                     // returns true;
+     * O.equalsAny("ab", 2, "aB", 1.0f);                     // returns false;
+     * O.equalsAny(new BigDecimal("1.8960"), 2, 3, 1.896f);  // returns true;
+     * }</pre></blockquote>
+     *
+     * @param value        the value to find a match for
+     * @param searchValues the values to search for a match
+     * @return {@code true} if the {@code value} is equal to any other element of {@code searchValues} and {@code false} otherwise
+     * @since 0.5.11
+     */
+    public static boolean equalsAny(Object value, Object... searchValues) {
+        if (G.isNotEmpty(searchValues)) {
+            for (final Object searchValue : searchValues) {
+                if (equals(value, searchValue)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     /*###################################################################################
      ************************************************************************************

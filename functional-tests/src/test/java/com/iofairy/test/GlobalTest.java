@@ -1888,6 +1888,48 @@ public class GlobalTest {
     }
 
     @Test
+    public void testEqualsAny() {
+        boolean equalsAny01 = O.equalsAny(null, null);                              // false
+        boolean equalsAny02 = O.equalsAny(null, (Object[]) null);                   // false
+        boolean equalsAny03 = O.equalsAny(null, (Object) null);                     // true
+        boolean equalsAny04 = O.equalsAny(null, null, null);                        // true
+        boolean equalsAny05 = O.equalsAny(null, new Object[]{});                    // false
+        boolean equalsAny06 = O.equalsAny(null, new Object[]{null});                // true
+        boolean equalsAny07 = O.equalsAny(new BigInteger("5669887456526599999"), 2, 3, 5669887456526599999L);   // true
+        boolean equalsAny08 = O.equalsAny(1, 2, 3, 1.0f);                           // false
+        boolean equalsAny09 = O.equalsAny("ab", 2, "", 1.0f);                       // false
+        boolean equalsAny10 = O.equalsAny("ab", 2, "ab", 1.0f);                     // true
+        boolean equalsAny11 = O.equalsAny("ab", 2, "aB", 1.0f);                     // false
+        boolean equalsAny12 = O.equalsAny(new BigDecimal("1.8960"), 2, 3, 1.896f);  // true
+
+        System.out.println("equalsAny01: " + equalsAny01);          // equalsAny01: false
+        System.out.println("equalsAny02: " + equalsAny02);          // equalsAny02: false
+        System.out.println("equalsAny03: " + equalsAny03);          // equalsAny03: true
+        System.out.println("equalsAny04: " + equalsAny04);          // equalsAny04: true
+        System.out.println("equalsAny05: " + equalsAny05);          // equalsAny05: false
+        System.out.println("equalsAny06: " + equalsAny06);          // equalsAny06: true
+        System.out.println("equalsAny07: " + equalsAny07);          // equalsAny07: true
+        System.out.println("equalsAny08: " + equalsAny08);          // equalsAny08: false
+        System.out.println("equalsAny09: " + equalsAny09);          // equalsAny09: false
+        System.out.println("equalsAny10: " + equalsAny10);          // equalsAny10: true
+        System.out.println("equalsAny11: " + equalsAny11);          // equalsAny11: false
+        System.out.println("equalsAny12: " + equalsAny12);          // equalsAny12: true
+
+        assertFalse(equalsAny01);
+        assertFalse(equalsAny02);
+        assertTrue(equalsAny03);
+        assertTrue(equalsAny04);
+        assertFalse(equalsAny05);
+        assertTrue(equalsAny06);
+        assertTrue(equalsAny07);
+        assertFalse(equalsAny08);
+        assertFalse(equalsAny09);
+        assertTrue(equalsAny10);
+        assertFalse(equalsAny11);
+        assertTrue(equalsAny12);
+    }
+
+    @Test
     public void testSneakyThrow() {
         try {
             sneakyThrow(new IOException());
