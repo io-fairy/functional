@@ -848,6 +848,19 @@ public final class O {
     }
 
     /**
+     * Whether the number is an integer
+     *
+     * @param number number
+     * @return true if the number is an integer, false otherwise
+     * @since 0.5.11
+     */
+    public static boolean isAnInteger(Number number) {
+        if (isInteger(number)) return true;
+        if (number instanceof BigDecimal) return ((BigDecimal) number).remainder(BigDecimal.ONE).stripTrailingZeros().equals(BigDecimal.ZERO);
+        return number.doubleValue() % 1 == 0;
+    }
+
+    /**
      * Getting index of maximum value in {@link Number} array.
      *
      * @param numbers {@link Number} array

@@ -1930,6 +1930,42 @@ public class GlobalTest {
     }
 
     @Test
+    public void testIsAnInteger() {
+        double d1 = 15.0d;
+        double d2 = 50.46542d;
+        float f1 = 2.0f;
+        float f2 = 2.00001f;
+        BigDecimal bd1 = new BigDecimal("100.00000");
+        BigDecimal bd2 = new BigDecimal("100.00000001");
+        BigInteger bi = new BigInteger("100");
+
+        boolean isAnInteger01 = O.isAnInteger(d1);  // true
+        boolean isAnInteger02 = O.isAnInteger(d2);  // false
+        boolean isAnInteger03 = O.isAnInteger(f1);  // true
+        boolean isAnInteger04 = O.isAnInteger(f2);  // false
+        boolean isAnInteger05 = O.isAnInteger(bd1); // true
+        boolean isAnInteger06 = O.isAnInteger(bd2); // false
+        boolean isAnInteger07 = O.isAnInteger(bi);  // true
+
+        System.out.println(isAnInteger01);
+        System.out.println(isAnInteger02);
+        System.out.println(isAnInteger03);
+        System.out.println(isAnInteger04);
+        System.out.println(isAnInteger05);
+        System.out.println(isAnInteger06);
+        System.out.println(isAnInteger07);
+
+        assertTrue(isAnInteger01);
+        assertFalse(isAnInteger02);
+        assertTrue(isAnInteger03);
+        assertFalse(isAnInteger04);
+        assertTrue(isAnInteger05);
+        assertFalse(isAnInteger06);
+        assertTrue(isAnInteger07);
+
+    }
+
+    @Test
     public void testSneakyThrow() {
         try {
             sneakyThrow(new IOException());
