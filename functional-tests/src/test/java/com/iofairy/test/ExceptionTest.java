@@ -2,6 +2,7 @@ package com.iofairy.test;
 
 import com.iofairy.except.ConditionsNotMetException;
 import com.iofairy.except.GeneralException;
+import com.iofairy.except.IDGenerateException;
 import com.iofairy.except.OutOfBoundsException;
 import com.iofairy.top.G;
 import org.junit.jupiter.api.Test;
@@ -135,4 +136,15 @@ public class ExceptionTest {
             assertEquals("userId: 10000, `phone` must be non-empty! ", e.getMessage());
         }
     }
+
+    @Test
+    public void testIDGenerationException() {
+        try {
+            throw new IDGenerateException("userId: ${_}, `phone` must be non-empty! ", 10000).setCode("-1");
+        } catch (IDGenerateException e) {
+            assertEquals("-1", e.getCode());
+            assertEquals("userId: 10000, `phone` must be non-empty! ", e.getMessage());
+        }
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.iofairy.test;
 
 import static com.iofairy.range.IntervalType.*;
+
 import com.iofairy.range.Range;
 import com.iofairy.tcf.Try;
 import com.iofairy.top.G;
@@ -139,4 +140,77 @@ public class RangeTest {
         assertTrue(range06.isEmpty);
         assertFalse(range07.isEmpty);
     }
+
+    @Test
+    public void testRangeHash() {
+        Range<Comparable<?>> range01 = Range.open(null, null);
+        Range<Comparable<?>> range02 = Range.openClosed(null, null);
+        Range<Comparable<?>> range03 = Range.closedOpen(null, null);
+        Range<Comparable<?>> range04 = Range.closed(null, null);
+        Range<Integer> range05 = Range.open(1, null);
+        Range<Integer> range06 = Range.openClosed(1, null);
+        Range<Integer> range07 = Range.closedOpen(1, null);
+        Range<Integer> range08 = Range.closed(1, null);
+        Range<Integer> range09 = Range.open(null, 1);
+        Range<Integer> range10 = Range.openClosed(null, 1);
+        Range<Integer> range11 = Range.closedOpen(null, 1);
+        Range<Integer> range12 = Range.closed(null, 1);
+        Range<Integer> range13 = Range.open(null, 0);
+        Range<Integer> range14 = Range.openClosed(null, 0);
+        Range<Integer> range15 = Range.closedOpen(null, 0);
+        Range<Integer> range16 = Range.closed(null, 0);
+        int hashCode01 = range01.hashCode();
+        int hashCode02 = range02.hashCode();
+        int hashCode03 = range03.hashCode();
+        int hashCode04 = range04.hashCode();
+        int hashCode05 = range05.hashCode();
+        int hashCode06 = range06.hashCode();
+        int hashCode07 = range07.hashCode();
+        int hashCode08 = range08.hashCode();
+        int hashCode09 = range09.hashCode();
+        int hashCode10 = range10.hashCode();
+        int hashCode11 = range11.hashCode();
+        int hashCode12 = range12.hashCode();
+        int hashCode13 = range13.hashCode();
+        int hashCode14 = range14.hashCode();
+        int hashCode15 = range15.hashCode();
+        int hashCode16 = range16.hashCode();
+
+        // System.out.println(hashCode01);
+        // System.out.println(hashCode02);
+        // System.out.println(hashCode03);
+        // System.out.println(hashCode04);
+        // System.out.println(hashCode05);
+        // System.out.println(hashCode06);
+        // System.out.println(hashCode07);
+        // System.out.println(hashCode08);
+        // System.out.println(hashCode09);
+        // System.out.println(hashCode10);
+        // System.out.println(hashCode11);
+        // System.out.println(hashCode12);
+        // System.out.println(hashCode13);
+        // System.out.println(hashCode14);
+        // System.out.println(hashCode15);
+        // System.out.println(hashCode16);
+
+        assertEquals(hashCode01, 1236122003);
+        assertEquals(hashCode02, 1236122003);
+        assertEquals(hashCode03, 1236122003);
+        assertEquals(hashCode04, 1236122003);
+        assertEquals(hashCode05, 1236122964);
+        assertEquals(hashCode06, 1236122964);
+        assertEquals(hashCode07, -1598757631);
+        assertEquals(hashCode08, -1598757631);
+        assertEquals(hashCode09, 1236122034);
+        assertEquals(hashCode10, 1236122086);
+        assertEquals(hashCode11, 1236122034);
+        assertEquals(hashCode12, 1236122086);
+        assertEquals(hashCode13, 1236122003);
+        assertEquals(hashCode14, 1236122055);
+        assertEquals(hashCode15, 1236122003);
+        assertEquals(hashCode16, 1236122055);
+
+    }
+
+
 }

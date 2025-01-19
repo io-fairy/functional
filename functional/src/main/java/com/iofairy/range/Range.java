@@ -19,10 +19,7 @@ import com.iofairy.annos.Beta;
 import com.iofairy.top.G;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Range<br>
@@ -231,6 +228,16 @@ public class Range<T extends Comparable> implements Serializable {
         else if (lowerBound == null) intervalType = intervalType.isRightClose() ? IntervalType.OPEN_CLOSED : IntervalType.OPEN;
         else if (upperBound == null) intervalType = intervalType.isLeftClose() ? IntervalType.CLOSED_OPEN : IntervalType.OPEN;
         return intervalType;
+    }
+
+    /**
+     * A hash code value for this Range
+     *
+     * @return a hash code value for this Range.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(lowerBound, upperBound, intervalType == null ? 0 : intervalType.value);
     }
 
     @Override
