@@ -22,6 +22,9 @@
     <properties>
         <maven.compiler.source>9</maven.compiler.source>
         <maven.compiler.target>9</maven.compiler.target>
+        <maven.compiler.testRelease>9</maven.compiler.testRelease>
+        <maven.compiler.testSource>9</maven.compiler.testSource>
+        <maven.compiler.testTarget>9</maven.compiler.testTarget>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
