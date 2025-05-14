@@ -31,6 +31,7 @@ module iofairy.functional {
     exports com.iofairy.string;
     exports com.iofairy.tcf;
     exports com.iofairy.top;
+    exports com.iofairy.top.base;
     exports com.iofairy.tuple;
 
 }

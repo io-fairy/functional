@@ -1,8 +1,10 @@
 package com.iofairy.test;
 
 import com.iofairy.except.UnexpectedParameterException;
+import com.iofairy.range.Range;
 import com.iofairy.tcf.Try;
 import com.iofairy.top.*;
+import com.iofairy.top.base.PaddingStrategy;
 import com.iofairy.tuple.Tuple2;
 import org.junit.jupiter.api.Test;
 
@@ -280,36 +282,6 @@ public class GlobalTest {
         } catch (Exception e) {
             throw new Exception(e);
         }
-    }
-
-    @Test
-    public void testSplitOnce() {
-        Tuple2<String, String> t00 = S.splitOnce(":", ": ");
-        Tuple2<String, String> t01 = S.splitOnce(null, ": ");
-        Tuple2<String, String> t02 = S.splitOnce(": ", null);
-        Tuple2<String, String> t03 = S.splitOnce(": ", ": ");
-        Tuple2<String, String> t04 = S.splitOnce(": 1", ": ");
-        Tuple2<String, String> t05 = S.splitOnce("a: ", ": ");
-        Tuple2<String, String> t06 = S.splitOnce("a: 1", ": ");
-        Tuple2<String, String> t07 = S.splitOnce(" :  ", ": ");
-        Tuple2<String, String> t08 = S.splitOnce(" : : ", ": ");
-        Tuple2<String, String> t09 = S.splitOnce(" :abc ", ": ");
-        Tuple2<String, String> t10 = S.splitOnce("", "");
-        Tuple2<String, String> t11 = S.splitOnce(null, null);
-
-        assertEquals(t00._1 + "||" + t00._2, ":||null");
-        assertEquals(t01._1 + "||" + t01._2, "null||null");
-        assertEquals(t02._1 + "||" + t02._2, ": ||null");
-        assertEquals(t03._1 + "||" + t03._2, "||");
-        assertEquals(t04._1 + "||" + t04._2, "||1");
-        assertEquals(t05._1 + "||" + t05._2, "a||");
-        assertEquals(t06._1 + "||" + t06._2, "a||1");
-        assertEquals(t07._1 + "||" + t07._2, " || ");
-        assertEquals(t08._1 + "||" + t08._2, " ||: ");
-        assertEquals(t09._1 + "||" + t09._2, " :abc ||null");
-        assertEquals(t10._1 + "||" + t10._2, "||null");
-        assertEquals(t11._1 + "||" + t11._2, "null||null");
-
     }
 
     @Test
@@ -1113,6 +1085,129 @@ public class GlobalTest {
         assertEquals(i4, "10#");
     }
 
+
+    @Test
+    public void testPadBothSidesChars() {
+        String s0 = null;
+        String s1 = "";
+        String s2 = "abcd";
+        float f = 10.10f;
+
+        String s00 = S.padBothSidesChars(s0, '0', 0, true);
+        String s01 = S.padBothSidesChars(s0, '#', 3, true);
+        String s02 = S.padBothSidesChars(s0, '0', 5, true);
+        String s03 = S.padBothSidesChars(s0, '0', 5, false);
+        String s04 = S.padBothSidesChars(s0, '0', 6, true);
+        String s05 = S.padBothSidesChars(s0, '0', 6, false);
+        String s06 = S.padBothSidesChars(s1, '0', 0, false);
+        String s07 = S.padBothSidesChars(s1, '#', 3, false);
+        String s08 = S.padBothSidesChars(s1, '0', 5, true);
+        String s09 = S.padBothSidesChars(s1, '0', 5, false);
+        String s10 = S.padBothSidesChars(s1, '0', 6, true);
+        String s11 = S.padBothSidesChars(s1, '0', 6, false);
+        String s12 = S.padBothSidesChars(s2, '0', 0, true);
+        String s13 = S.padBothSidesChars(s2, '#', 3, true);
+        String s14 = S.padBothSidesChars(s2, '0', 5, true);
+        String s15 = S.padBothSidesChars(s2, '0', 5, false);
+        String s16 = S.padBothSidesChars(s2, '0', 6, true);
+        String s17 = S.padBothSidesChars(s2, '0', 6, false);
+        String f01 = S.padBothSidesChars(f, '0', 0, true);
+        String f02 = S.padBothSidesChars(f, '0', 0, false);
+        String f03 = S.padBothSidesChars(f, '0', 1, true);
+        String f04 = S.padBothSidesChars(f, '0', 1, false);
+        String f05 = S.padBothSidesChars(f, '#', 3, true);
+        String f06 = S.padBothSidesChars(f, '#', 3, false);
+        String f07 = S.padBothSidesChars(f, ' ', 9, true);
+        String f08 = S.padBothSidesChars(f, ' ', 9, false);
+        String f09 = S.padBothSidesChars(f, '#', 10, true);
+        String f10 = S.padBothSidesChars(f, '#', 10, false);
+        String f11 = S.padChars(f, '#', 9, PaddingStrategy.LEFT);
+        String f12 = S.padChars(f, '#', 9, PaddingStrategy.RIGHT);
+        String f13 = S.padChars(f, '#', 9, PaddingStrategy.LEFT_MORE);
+        String f14 = S.padChars(f, '#', 9, PaddingStrategy.RIGHT_MORE);
+        String f15 = S.padChars(f, '#', 10, PaddingStrategy.LEFT);
+        String f16 = S.padChars(f, '#', 10, PaddingStrategy.RIGHT);
+        String f17 = S.padChars(f, '#', 10, PaddingStrategy.LEFT_MORE);
+        String f18 = S.padChars(f, '#', 10, PaddingStrategy.RIGHT_MORE);
+
+
+        System.out.println("s00: " + s00);
+        System.out.println("s01: " + s01);
+        System.out.println("s02: " + s02);
+        System.out.println("s03: " + s03);
+        System.out.println("s04: " + s04);
+        System.out.println("s05: " + s05);
+        System.out.println("s06: " + s06);
+        System.out.println("s07: " + s07);
+        System.out.println("s08: " + s08);
+        System.out.println("s09: " + s09);
+        System.out.println("s10: " + s10);
+        System.out.println("s11: " + s11);
+        System.out.println("s12: " + s12);
+        System.out.println("s13: " + s13);
+        System.out.println("s14: " + s14);
+        System.out.println("s15: " + s15);
+        System.out.println("s16: " + s16);
+        System.out.println("s17: " + s17);
+        System.out.println("f01: " + f01);
+        System.out.println("f02: " + f02);
+        System.out.println("f03: " + f03);
+        System.out.println("f04: " + f04);
+        System.out.println("f05: " + f05);
+        System.out.println("f06: " + f06);
+        System.out.println("f07: " + f07);
+        System.out.println("f08: " + f08);
+        System.out.println("f09: " + f09);
+        System.out.println("f10: " + f10);
+        System.out.println("f11: " + f11);
+        System.out.println("f12: " + f12);
+        System.out.println("f13: " + f13);
+        System.out.println("f14: " + f14);
+        System.out.println("f15: " + f15);
+        System.out.println("f16: " + f16);
+        System.out.println("f17: " + f17);
+        System.out.println("f18: " + f18);
+
+        assertNull(s00);
+        assertNull(s01);
+        assertNull(s02);
+        assertNull(s03);
+        assertNull(s04);
+        assertNull(s05);
+        assertEquals(s06, "");
+        assertEquals(s07, "###");
+        assertEquals(s08, "00000");
+        assertEquals(s09, "00000");
+        assertEquals(s10, "000000");
+        assertEquals(s11, "000000");
+        assertEquals(s12, "abcd");
+        assertEquals(s13, "abcd");
+        assertEquals(s14, "0abcd");
+        assertEquals(s15, "abcd0");
+        assertEquals(s16, "0abcd0");
+        assertEquals(s17, "0abcd0");
+        assertEquals(f01, "10.1");
+        assertEquals(f02, "10.1");
+        assertEquals(f03, "10.1");
+        assertEquals(f04, "10.1");
+        assertEquals(f05, "10.1");
+        assertEquals(f06, "10.1");
+        assertEquals(f07, "   10.1  ");
+        assertEquals(f08, "  10.1   ");
+        assertEquals(f09, "###10.1###");
+        assertEquals(f10, "###10.1###");
+        assertEquals(f11, "#####10.1");
+        assertEquals(f12, "10.1#####");
+        assertEquals(f13, "###10.1##");
+        assertEquals(f14, "##10.1###");
+        assertEquals(f15, "######10.1");
+        assertEquals(f16, "10.1######");
+        assertEquals(f17, "###10.1###");
+        assertEquals(f18, "###10.1###");
+
+    }
+
+
     @Test
     public void testEnclose() {
         String s1 = S.enclose("abc", '"');
@@ -1167,6 +1262,121 @@ public class GlobalTest {
         assertEquals(i8, 0);
 
     }
+
+    @Test
+    public void testIndexOfRegex() {
+        assertThrows(NullPointerException.class, () -> S.indexOfRegex(null, "", 1));
+        assertThrows(NullPointerException.class, () -> S.indexOfRegex("", (String) null, 1));
+        assertThrows(UnexpectedParameterException.class, () -> S.indexOfRegex("", "", 0));
+
+        String source = "aaa   bbb ccc ddd     eee   ";
+        Range<Integer> t01 = S.indexOfRegex(source, "", 3);
+        Range<Integer> t02 = S.indexOfRegex(source, "\\s+", 1);
+        Range<Integer> t03 = S.indexOfRegex(source, "\\s+", 2);
+        Range<Integer> t04 = S.indexOfRegex(source, "\\s+", 3);
+        Range<Integer> t05 = S.indexOfRegex(source, "\\s+", 4);
+        Range<Integer> t06 = S.indexOfRegex(source, "\\s+", 6);
+        Range<Integer> t07 = S.indexOfRegex(source, "\\s+", 7);
+
+        System.out.println(t01);
+        System.out.println(t02);
+        System.out.println(t03);
+        System.out.println(t04);
+        System.out.println(t05);
+        System.out.println(t06);
+        System.out.println(t07);
+
+        assertEquals(t01.toString(), "[2, 2)");
+        assertEquals(t02.toString(), "[3, 6)");
+        assertEquals(t03.toString(), "[9, 10)");
+        assertEquals(t04.toString(), "[13, 14)");
+        assertEquals(t05.toString(), "[17, 22)");
+        assertEquals(t06.toString(), "(-1, -1)");
+        assertEquals(t07.toString(), "(-1, -1)");
+
+    }
+
+
+    @Test
+    public void testSplitOnce() {
+        Tuple2<String, String> t00 = S.splitOnce(":", ": ");
+        Tuple2<String, String> t01 = S.splitOnce(null, ": ");
+        Tuple2<String, String> t02 = S.splitOnce(": ", null);
+        Tuple2<String, String> t03 = S.splitOnce(": ", ": ");
+        Tuple2<String, String> t04 = S.splitOnce(": 1", ": ");
+        Tuple2<String, String> t05 = S.splitOnce("a: ", ": ");
+        Tuple2<String, String> t06 = S.splitOnce("a: 1", ": ");
+        Tuple2<String, String> t07 = S.splitOnce(" :  ", ": ");
+        Tuple2<String, String> t08 = S.splitOnce(" : : ", ": ");
+        Tuple2<String, String> t09 = S.splitOnce(" :abc ", ": ");
+        Tuple2<String, String> t10 = S.splitOnce("", "");
+        Tuple2<String, String> t11 = S.splitOnce(null, null);
+        Tuple2<String, String> t12 = S.splitOnce("a b c d  ", " ", 2);
+        Tuple2<String, String> t13 = S.splitOnce("a b c d  ", " ", 5);
+        Tuple2<String, String> t14 = S.splitOnce("a b c d  ", " ", 6);
+        assertThrows(UnexpectedParameterException.class, () -> S.splitOnce("a b c d  ", " ", 0));
+
+        assertEquals(t00._1 + "||" + t00._2, ":||null");
+        assertEquals(t01._1 + "||" + t01._2, "null||null");
+        assertEquals(t02._1 + "||" + t02._2, ": ||null");
+        assertEquals(t03._1 + "||" + t03._2, "||");
+        assertEquals(t04._1 + "||" + t04._2, "||1");
+        assertEquals(t05._1 + "||" + t05._2, "a||");
+        assertEquals(t06._1 + "||" + t06._2, "a||1");
+        assertEquals(t07._1 + "||" + t07._2, " || ");
+        assertEquals(t08._1 + "||" + t08._2, " ||: ");
+        assertEquals(t09._1 + "||" + t09._2, " :abc ||null");
+        assertEquals(t10._1 + "||" + t10._2, "||null");
+        assertEquals(t11._1 + "||" + t11._2, "null||null");
+        assertEquals(t12._1 + "||" + t12._2, "a b||c d  ");
+        assertEquals(t13._1 + "||" + t13._2, "a b c d ||");
+        assertEquals(t14._1 + "||" + t14._2, "a b c d  ||null");
+
+    }
+
+    @Test
+    public void testSplitOnceByRegex() {
+        Tuple2<String, String> t1 = S.splitOnceByRegex(null, "", 1);
+        Tuple2<String, String> t2 = S.splitOnceByRegex("", (String) null, 1);
+        Tuple2<String, String> t3 = S.splitOnceByRegex("", "", 0);
+        Tuple2<String, String> t4 = S.splitOnceByRegex("abc", "", 1);
+        Tuple2<String, String> t5 = S.splitOnceByRegex("abc", "", 2);
+
+        String source = "aaa   bbb ccc ddd     eee   ";
+        assertThrows(UnexpectedParameterException.class, () -> S.splitOnceByRegex(source, "\\s+", 0));
+        Tuple2<String, String> t01 = S.splitOnceByRegex(source, "\\s+", 1);
+        Tuple2<String, String> t02 = S.splitOnceByRegex(source, "\\s+", 2);
+        Tuple2<String, String> t03 = S.splitOnceByRegex(source, "\\s+", 3);
+        Tuple2<String, String> t04 = S.splitOnceByRegex(source, "\\s+", 4);
+        Tuple2<String, String> t05 = S.splitOnceByRegex(source, "\\s+", 5);
+        Tuple2<String, String> t06 = S.splitOnceByRegex(source, "\\s+", 6);
+        Tuple2<String, String> t07 = S.splitOnceByRegex(source, "\\s+", 7);
+
+
+        System.out.println(t01);
+        System.out.println(t02);
+        System.out.println(t03);
+        System.out.println(t04);
+        System.out.println(t05);
+        System.out.println(t06);
+        System.out.println(t07);
+
+        assertEquals(t1._1 + ", " + t1._2, "null, null");
+        assertEquals(t2._1 + ", " + t2._2, ", null");
+        assertEquals(t3._1 + ", " + t3._2, ", null");
+        assertEquals(t4._1 + ", " + t4._2, ", abc");
+        assertEquals(t5._1 + ", " + t5._2, "a, bc");
+
+        assertEquals(t01._1 + ", " + t01._2, "aaa, bbb ccc ddd     eee   ");
+        assertEquals(t02._1 + ", " + t02._2, "aaa   bbb, ccc ddd     eee   ");
+        assertEquals(t03._1 + ", " + t03._2, "aaa   bbb ccc, ddd     eee   ");
+        assertEquals(t04._1 + ", " + t04._2, "aaa   bbb ccc ddd, eee   ");
+        assertEquals(t05._1 + ", " + t05._2, "aaa   bbb ccc ddd     eee, ");
+        assertEquals(t06._1 + ", " + t06._2, "aaa   bbb ccc ddd     eee   , null");
+        assertEquals(t07._1 + ", " + t07._2, "aaa   bbb ccc ddd     eee   , null");
+
+    }
+
 
     @Test
     public void testEndsWith() {

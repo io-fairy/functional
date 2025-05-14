@@ -16,6 +16,8 @@
 package com.iofairy.top;
 
 import com.iofairy.except.UnexpectedParameterException;
+import com.iofairy.range.Range;
+import com.iofairy.top.base.PaddingStrategy;
 import com.iofairy.tuple.Tuple;
 import com.iofairy.tuple.Tuple2;
 
@@ -24,6 +26,8 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Global Variables And Methods for {@link String} Operations. <br>
@@ -327,7 +331,7 @@ public final class S {
      * @param cs      input char sequence
      * @param padChar pad char
      * @param length  final length of returns string
-     * @return string
+     * @return Padded string (<b>returns</b> {@code null} if input is null)
      * @since 0.3.7
      */
     public static String padLeftChars(CharSequence cs, char padChar, int length) {
@@ -349,7 +353,7 @@ public final class S {
      * @param number  input number
      * @param padChar pad char
      * @param length  final length of returns string
-     * @return string
+     * @return Padded string (<b>returns</b> {@code null} if input is null)
      * @since 0.3.7
      */
     public static String padLeftChars(Number number, char padChar, int length) {
@@ -365,7 +369,7 @@ public final class S {
      * @param cs      input char sequence
      * @param padChar pad char
      * @param length  final length of returns string
-     * @return string
+     * @return Padded string
      * @since 0.4.15
      */
     public static String padRightChars(CharSequence cs, char padChar, int length) {
@@ -387,13 +391,119 @@ public final class S {
      * @param number  input number
      * @param padChar pad char
      * @param length  final length of returns string
-     * @return string
+     * @return Padded string (<b>returns</b> {@code null} if input is null)
      * @since 0.4.15
      */
     public static String padRightChars(Number number, char padChar, int length) {
         if (number == null) return null;
         String numberStr = G.toString(number);
         return padRightChars(numberStr, padChar, length);
+    }
+
+    /**
+     * Pads a string with specified characters on both sides (prioritizes centering,
+     * allows specifying side preference for odd padding amounts) <br>
+     * 在字符串两侧填充指定字符（优先居中，奇数填充时可指定侧重方向）
+     *
+     * @param cs       input char sequence
+     * @param padChar  pad char
+     * @param length   final length of returns string
+     * @param leftMore {@code true}, left more; otherwise, right more
+     * @return Padded string (<b>returns</b> {@code null} if input is null)
+     * @since 0.5.12
+     */
+    public static String padBothSidesChars(CharSequence cs, char padChar, int length, boolean leftMore) {
+        if (cs == null) return null;
+        int padding = length - cs.length();
+        if (padding <= 0) {
+            return cs.toString();
+        }
+
+        int leftPad = padding / 2;
+        int rightPad = leftPad;
+
+        // Handle the odd-numbered padding strategy
+        if (padding % 2 != 0) {
+            if (leftMore) {
+                leftPad++;
+            } else {
+                rightPad++;
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < leftPad; i++) {
+            sb.append(padChar);
+        }
+        sb.append(cs);
+        for (int i = 0; i < rightPad; i++) {
+            sb.append(padChar);
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * Pads a number with specified characters on both sides (prioritizes centering,
+     * allows specifying side preference for odd padding amounts) <br>
+     * 在一个数字两侧填充指定字符（优先居中，奇数填充时可指定侧重方向）
+     *
+     * @param number   input number
+     * @param padChar  pad char
+     * @param length   final length of returns string
+     * @param leftMore {@code true}, left more; otherwise, right more
+     * @return Padded string (<b>returns</b> {@code null} if input is null)
+     * @since 0.5.12
+     */
+    public static String padBothSidesChars(Number number, char padChar, int length, boolean leftMore) {
+        if (number == null) return null;
+        String numberStr = G.toString(number);
+        return padBothSidesChars(numberStr, padChar, length, leftMore);
+    }
+
+    /**
+     * Pads the input string with specified characters according to the padding strategy <br>
+     * 根据填充策略填充字符串，使字符串达到指定的长度
+     *
+     * @param cs              Input CharSequence to be padded
+     * @param padChar         Padding character (single character)
+     * @param length          Target length
+     * @param paddingStrategy Padding strategy (<b>LEFT/RIGHT/LEFT_MORE/RIGHT_MORE</b>). 填充策略（<b>左填充/右填充/左侧优先填充/右侧优先填充</b>）
+     * @return Padded string (<b>returns</b> {@code null} if input is null)
+     * @since 0.5.12
+     */
+    public static String padChars(CharSequence cs, char padChar, int length, PaddingStrategy paddingStrategy) {
+        if (cs == null) return null;
+        if (paddingStrategy == null) {
+            paddingStrategy = PaddingStrategy.LEFT;
+        }
+        switch (paddingStrategy) {
+            case RIGHT:
+                return padRightChars(cs, padChar, length);
+            case LEFT_MORE:
+                return padBothSidesChars(cs, padChar, length, true);
+            case RIGHT_MORE:
+                return padBothSidesChars(cs, padChar, length, false);
+            default: // LEFT
+                return padLeftChars(cs, padChar, length);
+        }
+    }
+
+    /**
+     * Pads the input number with specified characters according to the padding strategy <br>
+     * 根据填充策略填充数字，使数字达到指定的长度
+     *
+     * @param number          Input number to be padded
+     * @param padChar         Padding character (single character)
+     * @param length          Target length
+     * @param paddingStrategy Padding strategy (<b>LEFT/RIGHT/LEFT_MORE/RIGHT_MORE</b>). 填充策略（<b>左填充/右填充/左侧优先填充/右侧优先填充</b>）
+     * @return Padded string (<b>returns</b> {@code null} if input is null)
+     * @since 0.5.12
+     */
+    public static String padChars(Number number, char padChar, int length, PaddingStrategy paddingStrategy) {
+        if (number == null) return null;
+        String numberStr = G.toString(number);
+        return padChars(numberStr, padChar, length, paddingStrategy);
     }
 
     /**
@@ -591,14 +701,29 @@ public final class S {
      * Split by the place where the delimiter first appears, only split once. <br>
      * 在分隔符第一次出现的地方切分字符串，将一个字符串分隔成两个字符串
      *
-     * @param source    will be split
+     * @param source    string will be split
      * @param delimiter delimiter
-     * @return Tuple2&lt;String, String&gt; -- first substring and second substring
+     * @return Tuple {@code (substring before the first delimiter, substring after the first delimiter)}, returns {@code (original source, null)} if the delimiter is not found
      * @since 0.2.0
      */
     public static Tuple2<String, String> splitOnce(String source, String delimiter) {
+        return splitOnce(source, delimiter, 1);
+    }
+
+    /**
+     * Split by the place where the delimiter nth appears, only split once. <br>
+     * 在分隔符第n次出现的地方切分字符串，将一个字符串分隔成两个字符串
+     *
+     * @param source    string will be split
+     * @param delimiter delimiter
+     * @param atNth     The nth delimiter to split (starting from 1). 分隔符出现的次序（第几次出现），从 1 开始计数。
+     * @return Tuple {@code (substring before the nth delimiter, substring after the nth delimiter)}, returns {@code (original source, null)} if the delimiter is not found
+     * @since 0.5.12
+     */
+    public static Tuple2<String, String> splitOnce(String source, String delimiter, int atNth) {
         if (hasEmpty(source, delimiter)) return Tuple.of(source, null);
-        int index = source.indexOf(delimiter);
+
+        int index = indexOf(source, delimiter, atNth);
         if (index > -1) {
             return Tuple.of(source.substring(0, index), source.substring(index + delimiter.length()));
         } else {
@@ -607,12 +732,50 @@ public final class S {
     }
 
     /**
+     * Split by the place where the delimiter nth appears, only split once. <br>
+     * 在分隔符第n次出现的地方切分字符串，将一个字符串分隔成两个字符串
+     *
+     * @param source  string will be split
+     * @param pattern delimiter pattern
+     * @param atNth   The nth delimiter to split (starting from 1). 分隔符出现的次序（第几次出现），从 1 开始计数。
+     * @return Tuple {@code (substring before the nth delimiter, substring after the nth delimiter)}, returns {@code (original source, null)} if the delimiter is not found
+     * @since 0.5.12
+     */
+    public static Tuple2<String, String> splitOnceByRegex(String source, String pattern, int atNth) {
+        if (pattern == null) return Tuple.of(source, null);
+        if (isEmpty(source)) return Tuple.of(source, null);
+        return splitOnceByRegex(source, Pattern.compile(pattern), atNth);
+    }
+
+    /**
+     * Split by the place where the delimiter nth appears, only split once. <br>
+     * 在分隔符第n次出现的地方切分字符串，将一个字符串分隔成两个字符串
+     *
+     * @param source  string will be split
+     * @param pattern delimiter pattern
+     * @param atNth   The nth delimiter to split (starting from 1). 分隔符出现的次序（第几次出现），从 1 开始计数。
+     * @return Tuple {@code (substring before the nth delimiter, substring after the nth delimiter)}, returns {@code (original source, null)} if the delimiter is not found
+     * @since 0.5.12
+     */
+    public static Tuple2<String, String> splitOnceByRegex(String source, Pattern pattern, int atNth) {
+        if (pattern == null) return Tuple.of(source, null);
+        if (isEmpty(source)) return Tuple.of(source, null);
+
+        Range<Integer> startEnd = indexOfRegex(source, pattern, atNth);
+        if (startEnd.start > -1) {
+            return Tuple.of(source.substring(0, startEnd.start), source.substring(startEnd.end));
+        } else {
+            return Tuple.of(source, null);
+        }
+    }
+
+    /**
      * The index within this string of the specified occurrence order of the specified substring. <br>
-     * 获取指定的子字符串的指定出现次序在原字符串中的位置序号
+     * 获取指定的子字符串在原字符串中第n次出现的位置序号
      *
      * @param source          原字符串
      * @param subStr          要匹配的子字符串
-     * @param appearanceOrder 出现的次序（第几次出现），从 1 开始计数
+     * @param appearanceOrder The nth delimiter to split (starting from 1). 分隔符出现的次序（第几次出现），从 1 开始计数。
      * @return index
      * @throws NullPointerException         if {@code source} or {@code subStr} is null
      * @throws UnexpectedParameterException if {@code appearanceOrder} less than 1.
@@ -631,6 +794,55 @@ public final class S {
             }
         }
         return -1;
+    }
+
+    /**
+     * The start index and end index within this string of the specified occurrence order of the specified regex pattern. <br>
+     * 获取指定的正则表达式在原字符串中第n次匹配的位置序号
+     *
+     * @param source          原字符串
+     * @param pattern         要匹配的正则表达式
+     * @param appearanceOrder The nth delimiter to split (starting from 1). 分隔符出现的次序（第几次出现），从 1 开始计数。
+     * @return {@code (startIndex, endIndex)}, returns {@code (-1, -1)} when not found
+     * @throws NullPointerException         if {@code source} or {@code pattern} is null
+     * @throws UnexpectedParameterException if {@code appearanceOrder} less than 1.
+     * @since 0.5.12
+     */
+    public static Range<Integer> indexOfRegex(String source, Pattern pattern, int appearanceOrder) {
+        if (source == null || pattern == null) throw new NullPointerException("Parameters `source`, `pattern` must be non-null!");
+        if (appearanceOrder < 1) throw new UnexpectedParameterException("Parameter `appearanceOrder` must be greater than 0");
+
+        int count = 0;
+        Matcher matcher = pattern.matcher(source);
+        while (matcher.find()) {
+            count++;
+            if (count == appearanceOrder) {
+                int start = matcher.start();
+                int end = matcher.end();
+                return Range.closedOpen(start, end);
+            }
+        }
+
+        return Range.open(-1, -1);
+    }
+
+    /**
+     * The start index and end index within this string of the specified occurrence order of the specified regex pattern. <br>
+     * 获取指定的正则表达式在原字符串中第n次匹配的位置序号
+     *
+     * @param source          原字符串
+     * @param pattern         要匹配的正则表达式
+     * @param appearanceOrder The nth delimiter to split (starting from 1). 出现的次序（第几次出现），从 1 开始计数。
+     * @return {@code (startIndex, endIndex)}, returns {@code (-1, -1)} when not found
+     * @throws NullPointerException         if {@code source} or {@code pattern} is null
+     * @throws UnexpectedParameterException if {@code appearanceOrder} less than 1.
+     * @since 0.5.12
+     */
+    public static Range<Integer> indexOfRegex(String source, String pattern, int appearanceOrder) {
+        if (source == null || pattern == null) throw new NullPointerException("Parameters `source`, `pattern` must be non-null!");
+        if (appearanceOrder < 1) throw new UnexpectedParameterException("Parameter `appearanceOrder` must be greater than 0");
+
+        return indexOfRegex(source, Pattern.compile(pattern), appearanceOrder);
     }
 
 
