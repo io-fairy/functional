@@ -113,7 +113,9 @@ public final class G {
 
     /**
      * Whether object array contains {@code null} value or object array is {@code null}. <br>
-     * 数组中是否包含{@code null}值或数组本身就是{@code null}，则返回{@code true}
+     * Especially, when <b>length of Object array is 0</b> ({@code objects.length == 0}), return {@code false}. <br>
+     * 数组中是否包含{@code null}值或数组本身就是{@code null}，则返回{@code true}。<br>
+     * <b>特别地，当数组本身长度等于0时，返回{@code false}。</b>
      *
      * @param objects object array
      * @return {@code true} or {@code false}
@@ -134,7 +136,9 @@ public final class G {
 
     /**
      * {@code true} if all array values are {@code null} or object array is {@code null}. <br>
-     * 数组中所有的值都是{@code null}或数组本身就是{@code null}，则返回{@code true}
+     * Especially, when <b>length of Object array is 0</b> ({@code objects.length == 0}), return {@code false}. <br>
+     * 数组中所有的值都是{@code null}或数组本身就是{@code null}，则返回{@code true}。<br>
+     * <b>特别地，当数组本身长度等于0时，也返回{@code false}。</b>
      *
      * @param objects object array
      * @return {@code true} or {@code false}
@@ -155,7 +159,9 @@ public final class G {
 
     /**
      * Whether object Collection contains {@code null} value or object Collection is {@code null}. <br>
-     * Collection中是否包含{@code null}值或Collection本身就是{@code null}，则返回{@code true}
+     * Especially, when <b>length of Object List is 0</b> ({@code objects.size() == 0}), return {@code false}. <br>
+     * Collection中是否包含{@code null}值或Collection本身就是{@code null}，则返回{@code true}。<br>
+     * <b>特别地，当集合本身长度等于0时，也返回{@code false}。</b>
      *
      * @param objects object Collection
      * @return {@code true} or {@code false}
@@ -176,7 +182,9 @@ public final class G {
 
     /**
      * {@code true} if all Collection values are {@code null} or object Collection is {@code null}. <br>
-     * Collection中所有的值都是{@code null}或Collection本身就是{@code null}，则返回{@code true}
+     * Especially, when <b>length of Object List is 0</b> ({@code objects.size() == 0}), return {@code false}. <br>
+     * Collection中所有的值都是{@code null}或Collection本身就是{@code null}，则返回{@code true}。<br>
+     * <b>特别地，当集合本身长度等于0时，也返回{@code false}。</b>
      *
      * @param objects object Collection
      * @return {@code true} or {@code false}
@@ -254,6 +262,90 @@ public final class G {
     public static boolean isNotEmpty(Object o) {
         return !isEmpty(o);
     }
+
+
+    /**
+     * Whether Object array contains {@code null} or empty or Object array is {@code null}. <br>
+     * Especially, when <b>length of Object array is 0</b> ({@code objects.length == 0}), return {@code true}. <br>
+     * 数组中包含{@code null}值或者空对象（如：字符串{@code ""}、空数组、空集合等等）或者Object数组本身就为{@code null}，则返回{@code true}。<br>
+     * <b>特别地，当数组本身长度等于0时，也返回{@code true}。</b>
+     *
+     * @param objects Object array
+     * @return {@code true} or {@code false}
+     * @since 0.5.12
+     */
+    public static boolean hasEmpty(Object... objects) {
+        if (objects == null) return true;
+        if (objects.length == 0) return true;
+        boolean hasEmpty = false;
+        for (Object obj : objects) {
+            if (isEmpty(obj)) {
+                hasEmpty = true;
+                break;
+            }
+        }
+        return hasEmpty;
+    }
+
+    /**
+     * {@code true} if all array values are {@code null} or empty {@code ""} value
+     * or Object array is {@code null}.  <br>
+     * Especially, when <b>length of Object array is 0</b> ({@code objects.length == 0}), return {@code true}. <br>
+     * 数组中所有的值都是{@code null}或者空对象（如：字符串{@code ""}、空数组、空集合等等）或者Object数组本身就为{@code null}，则返回{@code true}。<br>
+     * <b>特别地，当数组本身长度等于0时，也返回{@code true}。</b>
+     *
+     * @param objects Object array
+     * @return {@code true} or {@code false}
+     * @since 0.5.12
+     */
+    public static boolean allEmpty(Object... objects) {
+        if (objects == null) return true;
+        if (objects.length == 0) return true;
+        return Arrays.stream(objects).allMatch(G::isEmpty);
+    }
+
+
+    /**
+     * Whether Object List contains {@code null} or empty {@code ""}
+     * or Object List is {@code null}. <br>
+     * Especially, when <b>length of Object List is 0</b> ({@code objects.size() == 0}), return {@code true}. <br>
+     * 列表中包含{@code null}值或者空对象（如：字符串{@code ""}、空数组、空集合等等）或者Object列表本身就为{@code null}，则返回{@code true}。<br>
+     * <b>特别地，当列表本身长度等于0时，也返回{@code true}。</b>
+     *
+     * @param objects Object Collection
+     * @return {@code true} or {@code false}
+     * @since 0.5.12
+     */
+    public static boolean hasEmpty(Collection<?> objects) {
+        if (objects == null) return true;
+        if (objects.isEmpty()) return true;
+        boolean hasEmpty = false;
+        for (Object obj : objects) {
+            if (isEmpty(obj)) {
+                hasEmpty = true;
+                break;
+            }
+        }
+        return hasEmpty;
+    }
+
+    /**
+     * {@code true} if all List values are {@code null} or empty {@code ""} value or Object List is {@code null}.  <br>
+     * Especially, when <b>length of Object List is 0</b> ({@code objects.size() == 0}), return {@code true}. <br>
+     * 列表中所有的值都是{@code null}或者空对象（如：字符串{@code ""}、空数组、空集合等等）或者Object列表本身就为{@code null}，则返回{@code true}。<br>
+     * <b>特别地，当列表本身长度等于0时，也返回true。</b>
+     *
+     * @param objects Object Collection
+     * @return {@code true} or {@code false}
+     * @since 0.5.12
+     */
+    public static boolean allEmpty(Collection<?> objects) {
+        if (objects == null) return true;
+        if (objects.isEmpty()) return true;
+        return objects.stream().allMatch(G::isEmpty);
+    }
+
+
 
     /**
      * Gets the full exception stack trace from {@link Throwable} object. <br>

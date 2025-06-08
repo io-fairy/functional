@@ -47,6 +47,7 @@ public class GlobalTest {
         List<String> list = Arrays.asList("a", "b");
         Map<Object, Object> map = Map.of();
 
+
         assertFalse(G.hasNull());
         assertTrue(S.hasEmpty());
         assertFalse(G.allNull());
@@ -72,6 +73,16 @@ public class GlobalTest {
         assertTrue(G.isEmpty(cArr));
         assertFalse(G.isEmpty(list));
         assertTrue(G.isEmpty(map));
+        assertTrue(G.hasEmpty("", ss1, ss2, map));
+        assertTrue(G.hasEmpty(Arrays.asList("", ss1, ss2, map)));
+        assertTrue(G.hasEmpty((String[]) null));
+        assertTrue(G.hasEmpty((Collection<?>) null));
+        assertFalse(G.allEmpty("", ss1, ss2, map));
+        assertFalse(G.allEmpty(Arrays.asList("", ss1, ss2, map)));
+        assertTrue(G.allEmpty("", ss1, nullSs, map));
+        assertTrue(G.allEmpty(Arrays.asList("", ss1, nullSs, map)));
+        assertTrue(G.allEmpty((String[]) null));
+        assertTrue(G.allEmpty((Collection<?>) null));
         // ----------------------
         assertTrue(isEmptyForVarargs());
         assertTrue(isEmptyForVarargs(null));
