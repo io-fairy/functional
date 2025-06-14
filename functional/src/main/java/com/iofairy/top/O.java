@@ -16,6 +16,8 @@
 package com.iofairy.top;
 
 import com.iofairy.except.UnexpectedTypeException;
+import com.iofairy.tuple.Tuple;
+import com.iofairy.tuple.Tuple2;
 
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
@@ -164,7 +166,7 @@ public final class O {
      * Gets the first object that is not {@code null}. <br>
      * 获取第一个不为 {@code null} 的值
      *
-     * @param rs  object array
+     * @param rs  list of elements to check
      * @param <R> return type
      * @return first non {@code null} object
      * @since 0.0.7
@@ -178,6 +180,106 @@ public final class O {
         return null;
     }
 
+    /**
+     * Gets the first not {@code null} object and index {@code (object, index)}. <br>
+     * 获取第一个不为 {@code null} 的值及序号{@code (对象, 序号)}
+     *
+     * @param rs  list of elements to check
+     * @param <R> return type
+     * @return first not {@code null} object and index {@code (object, index)}
+     * @since 0.5.15
+     */
+    @SafeVarargs
+    public static <R> Tuple2<R, Integer> firstNonNullWithIndex(R... rs) {
+        if (G.isEmpty(rs)) return null;
+        for (int i = 0; i < rs.length; i++) {
+            R r = rs[i];
+            if (r != null) return Tuple.of(r, i);
+        }
+        return null;
+    }
+
+    /**
+     * Gets the first not <b>excludeValue</b> object. <br>
+     * 获取第一个不为 <b>excludeValue</b> 的值
+     *
+     * @param excludeValue exclude value
+     * @param rs           list of elements to check
+     * @param <R>          return type
+     * @return first not <b>excludeValue</b> object
+     * @since 0.5.15
+     */
+    @SafeVarargs
+    public static <R> R firstNonValue(R excludeValue, R... rs) {
+        if (G.isEmpty(rs)) return null;
+        for (R r : rs) {
+            if (notEqual(excludeValue, r)) return r;
+        }
+        return null;
+    }
+
+
+    /**
+     * Gets the first not <b>excludeValue</b> object and index {@code (object, index)}. <br>
+     * 获取第一个不为 <b>excludeValue</b> 的值及序号{@code (对象, 序号)}
+     *
+     * @param excludeValue exclude value
+     * @param rs           list of elements to check
+     * @param <R>          return type
+     * @return first not <b>excludeValue</b> object and index {@code (object, index)}
+     * @since 0.5.15
+     */
+    @SafeVarargs
+    public static <R> Tuple2<R, Integer> firstNonValueWithIndex(R excludeValue, R... rs) {
+        if (G.isEmpty(rs)) return null;
+        for (int i = 0; i < rs.length; i++) {
+            R r = rs[i];
+            if (notEqual(excludeValue, r)) return Tuple.of(r, i);
+        }
+        return null;
+    }
+
+    /**
+     * Gets the first not in <b>excludeValues</b> object. <br>
+     * 获取第一个不在 <b>excludeValues</b> 中的值
+     *
+     * @param excludeValues exclude values
+     * @param rs            list of elements to check
+     * @param <R>           return type
+     * @return first not in <b>excludeValues</b> object
+     * @since 0.5.15
+     */
+    @SafeVarargs
+    public static <R> R firstNotInValues(R[] excludeValues, R... rs) {
+        if (G.isEmpty(rs)) return null;
+        if (G.isEmpty(excludeValues)) return rs[0];
+        for (R r : rs) {
+            if (!Arrays.asList(excludeValues).contains(r)) return r;
+        }
+        return null;
+    }
+
+
+    /**
+     * Gets the first not in <b>excludeValues</b> object and index {@code (object, index)}. <br>
+     * 获取第一个不在 <b>excludeValues</b> 中的值及序号{@code (对象, 序号)}
+     *
+     * @param excludeValues exclude values
+     * @param rs            list of elements to check
+     * @param <R>           return type
+     * @return first not in <b>excludeValues</b> object and index {@code (object, index)}
+     * @since 0.5.15
+     */
+    @SafeVarargs
+    public static <R> Tuple2<R, Integer> firstNotInValuesWithIndex(R[] excludeValues, R... rs) {
+        if (G.isEmpty(rs)) return null;
+        if (G.isEmpty(excludeValues)) return Tuple.of(rs[0], 0);
+        for (int i = 0; i < rs.length; i++) {
+            R r = rs[i];
+            if (!Arrays.asList(excludeValues).contains(r)) return Tuple.of(r, i);
+        }
+        return null;
+    }
 
     /**
      * Validate the key-value pair array when creating a map
@@ -212,36 +314,15 @@ public final class O {
     }
 
     /**
-     * Convert dynamic arguments of type {@link Object} to an array of Objects.<br>
+     * Convert dynamic arguments of type Object to an array of Objects.<br>
      *
-     * @param objs Variable arguments of type {@link Object}
-     * @return An {@link Object} array
-     * @since 0.5.0
+     * @param ts Variable arguments of type Object
+     * @return An Object array
+     * @since 0.5.15
      */
-    public static Object[] args(Object... objs) {
-        return objs;
-    }
-
-    /**
-     * Convert dynamic arguments of type {@link CharSequence} to an array of CharSequences.<br>
-     *
-     * @param cs Variable arguments of type {@link CharSequence}
-     * @return An {@link CharSequence} array
-     * @since 0.5.1
-     */
-    public static CharSequence[] args(CharSequence... cs) {
-        return cs;
-    }
-
-    /**
-     * Convert dynamic arguments of type {@link String} to an array of Strings.<br>
-     *
-     * @param ss Variable arguments of type {@link String}
-     * @return An {@link String} array
-     * @since 0.5.1
-     */
-    public static String[] args(String... ss) {
-        return ss;
+    @SafeVarargs
+    public static <T> T[] args(T... ts) {
+        return ts;
     }
 
     /**

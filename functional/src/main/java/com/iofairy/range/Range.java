@@ -60,37 +60,64 @@ public class Range<T extends Comparable> implements Serializable {
     public static final String INFINITY = "∞";
     public static final String SET_OF_REAL_NUMBERS = "R";
 
-    /*
-     * lowerBound and upperBound
-     */
     /**
-     * Lower Bound. It represents <b>-∞</b> if {@code lowerBound} is null
+     * lowerBound and upperBound. It represents <b>-∞</b> if value is null
      */
-    public final T lowerBound;
+    public final T lowerBound, upperBound;
     /**
-     * Upper Bound. It represents <b>+∞</b> if {@code upperBound} is null
-     */
-    public final T upperBound;
-    /*
      * start and end
      */
-    public final T start;
-    public final T end;
-    /*
-     * infimum and supremum
-     */
-    public final T infimum;
-    public final T supremum;
-    /*
+    public final T start, end;
+    /**
      * min and max
      */
-    public final T min;
-    public final T max;
-    /*
+    public final T min, max;
+    /**
+     * from and to
+     */
+    public final T from, to;
+    /**
+     * earliest and latest
+     */
+    public final T earliest, latest;
+    /**
      * left and right
      */
-    public final T left;
-    public final T right;
+    public final T left, right;
+    /**
+     * infimum and supremum
+     */
+    public final T infimum, supremum;
+    /**
+     * head and tail
+     */
+    public final T head, tail;
+    /**
+     * begin and finish
+     */
+    public final T begin, finish;
+    /**
+     * first and last
+     */
+    public final T first, last;
+    /**
+     * origin and destination
+     */
+    public final T origin, destination;
+    /**
+     * source and target
+     */
+    public final T source, target;
+    /**
+     * bottom and top
+     */
+    public final T bottom, top;
+    /**
+     * floor and ceiling
+     */
+    public final T floor, ceiling;
+
+
     /**
      * IntervalType
      */
@@ -129,6 +156,9 @@ public class Range<T extends Comparable> implements Serializable {
 
             isEmpty = this.intervalType != IntervalType.CLOSED && i == 0;
 
+            /*
+             lowerBound 如果比 upperBound 大，则交换位置
+             */
             if (i > 0) {
                 T tmpLowerBound = lowerBound;
                 lowerBound = upperBound;
@@ -146,6 +176,25 @@ public class Range<T extends Comparable> implements Serializable {
         this.max = upperBound;
         this.left = lowerBound;
         this.right = upperBound;
+        this.from = lowerBound;
+        this.to = upperBound;
+        this.head = lowerBound;
+        this.tail = upperBound;
+        this.begin = lowerBound;
+        this.finish = upperBound;
+        this.first = lowerBound;
+        this.last = upperBound;
+        this.origin = lowerBound;
+        this.destination = upperBound;
+        this.source = lowerBound;
+        this.target = upperBound;
+        this.earliest = lowerBound;
+        this.latest = upperBound;
+        this.bottom = lowerBound;
+        this.top = upperBound;
+        this.floor = lowerBound;
+        this.ceiling = upperBound;
+
         this.isEmpty = isEmpty;
         this.hasInfinity = lowerBound == null || upperBound == null;
     }

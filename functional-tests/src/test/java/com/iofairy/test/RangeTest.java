@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -139,6 +139,44 @@ public class RangeTest {
         assertFalse(range05.isEmpty);
         assertTrue(range06.isEmpty);
         assertFalse(range07.isEmpty);
+    }
+
+    @Test
+    public void testRange1() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date1 = Try.tcfs(() -> sdf.parse("2024-02-01 10:20:05"));
+        Date date2 = Try.tcfs(() -> sdf.parse("2024-01-30 10:55:05"));
+
+        Range<BigDecimal> r1 = Range.of(new BigDecimal("10.5"), new BigDecimal("-0.15"), CLOSED_OPEN);
+        Range<Date> r2 = Range.of(date1, date2, CLOSED_OPEN);
+        System.out.println("Range<BigDecimal>: " + r1);
+        System.out.println("Range<Date>      : " + r2);
+
+        List<BigDecimal> lowerBounds1 = Arrays.asList(new BigDecimal("-0.15"),
+                r1.lowerBound, r1.start, r1.min, r1.from, r1.earliest, r1.left, r1.infimum,
+                r1.head, r1.begin, r1.first, r1.origin, r1.source, r1.bottom, r1.floor);
+        List<BigDecimal> upperBounds1 = Arrays.asList(new BigDecimal("10.5"),
+                r1.upperBound, r1.end, r1.max, r1.to, r1.latest, r1.right, r1.supremum,
+                r1.tail, r1.finish, r1.last, r1.destination, r1.target, r1.top, r1.ceiling);
+        long count1 = lowerBounds1.stream().distinct().count();
+        long count2 = upperBounds1.stream().distinct().count();
+        assertEquals(1, count1);
+        assertEquals(1, count2);
+
+        List<Date> lowerBounds2 = Arrays.asList(date2,
+                r2.lowerBound, r2.start, r2.min, r2.from, r2.earliest, r2.left, r2.infimum,
+                r2.head, r2.begin, r2.first, r2.origin, r2.source, r2.bottom, r2.floor);
+        List<Date> upperBounds2 = Arrays.asList(date1,
+                r2.upperBound, r2.end, r2.max, r2.to, r2.latest, r2.right, r2.supremum,
+                r2.tail, r2.finish, r2.last, r2.destination, r2.target, r2.top, r2.ceiling);
+        Set<Date> datesSet1 = new HashSet<>(lowerBounds2);
+        Set<Date> datesSet2 = new HashSet<>(upperBounds2);
+        System.out.println("datesSet1: " + G.toString(datesSet1));
+        System.out.println("datesSet2: " + G.toString(datesSet2));
+
+        assertEquals("[2024-01-30 10:55:05.000]", G.toString(datesSet1));
+        assertEquals("[2024-02-01 10:20:05.000]", G.toString(datesSet2));
+
     }
 
     @Test

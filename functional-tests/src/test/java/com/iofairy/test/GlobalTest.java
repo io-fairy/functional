@@ -240,6 +240,21 @@ public class GlobalTest {
         String s3 = O.firstNonNull((String[]) null);
         String s4 = O.firstNonNull(a, d, c);
         Object o1 = O.firstNonNull(a, d, c, o);
+        String s5 = O.firstNonValue(null, null, "a", null, "b");
+        String s6 = O.firstNonValue("a", null, "a", null, "b");
+        Tuple2<String, Integer> s7 = O.firstNonValueWithIndex(null, null, "a", null, "b");
+        Tuple2<String, Integer> s8 = O.firstNonValueWithIndex("a", null, "a", null, "b");
+        String s9 = O.firstNotInValues(O.args(), "abc", "a", null, "b");
+        String s10 = O.firstNotInValues(null, "c", "a", null, "b");
+        Tuple2<String, Integer> s11 = O.firstNotInValuesWithIndex(O.args(), "abc", "a", null, "b");
+        Tuple2<String, Integer> s12 = O.firstNotInValuesWithIndex(null, "c", "a", null, "b");
+        Tuple2<String, Integer> s13 = O.firstNotInValuesWithIndex(O.args());
+        Tuple2<String, Integer> s14 = O.firstNotInValuesWithIndex(null);
+        String s15 = O.firstNotInValues(O.args((String) null), null, "abc", "a", null, "b");
+        String s16 = O.firstNotInValues(O.args(null, "abc"), "abc", "abc", null, "a", null, "b");
+        Tuple2<String, Integer> s17 = O.firstNotInValuesWithIndex(O.args(null), null, "abc", "a", null, "b");
+        Tuple2<String, Integer> s18 = O.firstNotInValuesWithIndex(O.args(null, "abc"), "abc", "abc", null, "a", null, "b");
+
 
         assertEquals("", s);
         assertNull(s1);
@@ -247,6 +262,20 @@ public class GlobalTest {
         assertNull(s3);
         assertEquals("abc", s4);
         assertEquals("abc", o1);
+        assertEquals(s5, "a");
+        assertNull(s6);
+        assertEquals(s7.toString(), "(\"a\", 1)");
+        assertEquals(s8.toString(), "(null, 0)");
+        assertEquals(s9.toString(), "abc");
+        assertEquals(s10, "c");
+        assertEquals(s11.toString(), "(\"abc\", 0)");
+        assertEquals(s12.toString(), "(\"c\", 0)");
+        assertNull(s13);
+        assertNull(s14);
+        assertEquals(s15, "abc");
+        assertEquals(s16, "a");
+        assertEquals(s17.toString(), "(null, 0)");
+        assertEquals(s18.toString(), "(\"a\", 3)");
 
     }
 
