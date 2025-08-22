@@ -22,6 +22,7 @@ module iofairy.functional {
     exports com.iofairy.except;
     exports com.iofairy.except.ai;
     exports com.iofairy.lambda;
+    exports com.iofairy.os;
     exports com.iofairy.pattern;
     exports com.iofairy.pattern.mapping;
     exports com.iofairy.pattern.matcher;
@@ -33,5 +34,6 @@ module iofairy.functional {
     exports com.iofairy.top;
     exports com.iofairy.top.base;
     exports com.iofairy.tuple;
+    exports com.iofairy.validator;
 
 }
