@@ -16,6 +16,7 @@
 package com.iofairy.top;
 
 import com.iofairy.tcf.Try;
+import com.iofairy.time.DateTimes;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -68,24 +69,6 @@ public final class G {
         // JDK 9+
         public final static String IMMUTABLECOLLECTIONS$MAP1 = "java.util.ImmutableCollections$Map1";
         public final static String IMMUTABLECOLLECTIONS$MAPN = "java.util.ImmutableCollections$MapN";
-    }
-
-    /**
-     * DateTime Formatters
-     *
-     * @since 0.2.3
-     */
-    private static class DTFormatters {
-        public final static ZoneId DEFAULT_ZONE = Try.tcf(() -> ZoneId.systemDefault(), false);
-        /*############################################
-         ************* DateTime Formatter ************
-         ############################################*/
-        public final static DateTimeFormatter SIMPLE_DTF          = DateTimeFormatter.ofPattern("y-MM-dd HH:mm:ss.SSS");
-        public final static DateTimeFormatter CONCISE_DTF         = DateTimeFormatter.ofPattern("y-MM-dd HH:mm:ss.SSS '['VV xxx']'");
-        public final static DateTimeFormatter CONCISE_OFFSET_DTF  = DateTimeFormatter.ofPattern("y-MM-dd HH:mm:ss.SSS '['xxx']'");
-        public final static DateTimeFormatter DETAILED_DTF        = DateTimeFormatter.ofPattern("y-MM-dd HH:mm:ss.SSSSSSSSS '['E']'");
-        public final static DateTimeFormatter DETAILED_ZONED_DTF  = DateTimeFormatter.ofPattern("y-MM-dd HH:mm:ss.SSSSSSSSS '['VV xxx O E']'");
-        public final static DateTimeFormatter DETAILED_OFFSET_DTF = DateTimeFormatter.ofPattern("y-MM-dd HH:mm:ss.SSSSSSSSS '['xxx O E']'");
     }
 
     /**
@@ -442,11 +425,7 @@ public final class G {
      * @since 0.2.3
      */
     public static String dtSimple(Date date) {
-        if (date == null) return "null";
-        String className = date.getClass().getName();
-        if (Objects.equals(className, "java.sql.Date") || Objects.equals(className, "java.sql.Time")) return date.toString();
-
-        return dtSimple(date.toInstant());
+        return DateTimes.dtSimple(date);
     }
 
     /**
@@ -457,8 +436,7 @@ public final class G {
      * @since 0.2.3
      */
     public static String dtSimple(Calendar calendar) {
-        if (calendar == null) return "null";
-        return dtSimple(ZonedDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()));
+        return DateTimes.dtSimple(calendar);
     }
 
     /**
@@ -470,27 +448,7 @@ public final class G {
      * @since 0.2.3
      */
     public static String dtSimple(Temporal temporal) {
-        if (temporal == null) return "null";
-
-        if (temporal instanceof LocalDateTime) return ((LocalDateTime) temporal).format(DTFormatters.SIMPLE_DTF);
-
-        if (temporal instanceof OffsetDateTime) {
-            Integer defaultOffsetSeconds = Try.tcf(() -> OffsetDateTime.now().getOffset().getTotalSeconds(), false);
-            OffsetDateTime offsetDT = (OffsetDateTime) temporal;
-            int totalSeconds = offsetDT.getOffset().getTotalSeconds();
-            return Objects.equals(totalSeconds, defaultOffsetSeconds)
-                    ? offsetDT.format(DTFormatters.SIMPLE_DTF)
-                    : offsetDT.format(DTFormatters.CONCISE_OFFSET_DTF);
-        }
-
-        ZonedDateTime zonedDT = temporalToZonedDT(temporal);
-        if (zonedDT != null) {
-            return Objects.equals(zonedDT.getZone(), DTFormatters.DEFAULT_ZONE)
-                    ? zonedDT.format(DTFormatters.SIMPLE_DTF)
-                    : zonedDT.format(DTFormatters.CONCISE_DTF);
-        }
-
-        return temporal.toString();
+        return DateTimes.dtSimple(temporal);
     }
 
     /**
@@ -501,11 +459,7 @@ public final class G {
      * @since 0.2.3
      */
     public static String dtDetail(Date date) {
-        if (date == null) return "null";
-        String className = date.getClass().getName();
-        if (Objects.equals(className, "java.sql.Date") || Objects.equals(className, "java.sql.Time")) return date.toString();
-
-        return dtDetail(date.toInstant());
+        return DateTimes.dtDetail(date);
     }
 
     /**
@@ -516,8 +470,7 @@ public final class G {
      * @since 0.2.3
      */
     public static String dtDetail(Calendar calendar) {
-        if (calendar == null) return "null";
-        return dtDetail(ZonedDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()));
+        return DateTimes.dtDetail(calendar);
     }
 
     /**
@@ -529,29 +482,7 @@ public final class G {
      * @since 0.2.3
      */
     public static String dtDetail(Temporal temporal) {
-        if (temporal == null) return "null";
-
-        if (temporal instanceof LocalDateTime) return ((LocalDateTime) temporal).format(DTFormatters.DETAILED_DTF);
-
-        ZonedDateTime zonedDT = temporalToZonedDT(temporal);
-        return temporal instanceof OffsetDateTime
-                ? ((OffsetDateTime) temporal).format(DTFormatters.DETAILED_OFFSET_DTF)
-                : (zonedDT != null ? zonedDT.format(DTFormatters.DETAILED_ZONED_DTF) : temporal.toString());
-    }
-
-    /**
-     * Convert temporal to ZonedDateTime if temporal <b>{@code instanceof}</b> LocalDateTime or
-     * <b>{@code instanceof}</b> Instant or <b>{@code instanceof}</b> ZonedDateTime, otherwise,
-     * return <b>{@code null}</b>.
-     *
-     * @param temporal temporal
-     * @return ZonedDateTime or null
-     * @since 0.2.3
-     */
-    private static ZonedDateTime temporalToZonedDT(Temporal temporal) {
-        return temporal instanceof Instant
-                ? ZonedDateTime.ofInstant((Instant) temporal, DTFormatters.DEFAULT_ZONE)
-                : (temporal instanceof ZonedDateTime ? (ZonedDateTime) temporal : null);
+        return DateTimes.dtDetail(temporal);
     }
 
     /**

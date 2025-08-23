@@ -13,16 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * @author GG
- */
-module functional.test {
-    requires iofairy.functional;
-    requires org.junit.jupiter.api;
-    requires java.sql;
+package com.iofairy.time;
 
-    exports com.iofairy.test to org.junit.platform.commons;
-    exports com.iofairy.test.nullpattern to org.junit.platform.commons;
-    exports com.iofairy.test.time to org.junit.platform.commons;
+/**
+ * Rounding date time.<br>
+ * 对日期取整
+ *
+ * @since 0.6.0
+ */
+public enum RoundingDT {
+    /**
+     * 对日期向上取整
+     */
+    CEILING,
+    /**
+     * 对日期向下取整
+     */
+    FLOOR,
+    /**
+     * 对日期四舍五入（从最小日期开始）
+     */
+    HALF_UP
 
 }

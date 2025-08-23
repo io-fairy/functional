@@ -21,6 +21,7 @@ module iofairy.functional {
     exports com.iofairy.base;
     exports com.iofairy.except;
     exports com.iofairy.except.ai;
+    exports com.iofairy.id;
     exports com.iofairy.lambda;
     exports com.iofairy.os;
     exports com.iofairy.pattern;
@@ -31,6 +32,7 @@ module iofairy.functional {
     exports com.iofairy.si;
     exports com.iofairy.string;
     exports com.iofairy.tcf;
+    exports com.iofairy.time;
     exports com.iofairy.top;
     exports com.iofairy.top.base;
     exports com.iofairy.tuple;
