@@ -61,9 +61,18 @@ public class StringExtractor {
                     sts.add(new StringToken(StringType.STRING, value, value));
                 }
 
+                /*
+                 如果 默认值 与 格式化pattern 同时出现，则默认值在前，格式化pattern在后，如：${date: 2025-01-01:~ yyyyMMdd}
+                 */
                 String strInBrace = matchStr.substring(2, matchStr.length() - 1);   // 获取${}中的内容
-                Tuple2<String, String> keyDefault = S.splitOnce(strInBrace, DEFAULT_VALUE_DELIMITER);
-                sts.add(new StringToken(StringType.VARIABLE, keyDefault._1, keyDefault._2 == null ? matchStr : keyDefault._2));
+                Tuple2<String, String> keyAndPattern = S.splitOnce(strInBrace, DATE_PATTERN_DELIMITER);
+                Tuple2<String, String> keyDefault = S.splitOnce(keyAndPattern._1, DEFAULT_VALUE_DELIMITER);
+
+                String pattern = S.isBlank(keyAndPattern._2) ? null : keyAndPattern._2;
+                String originValue = keyDefault._2 == null ? matchStr : keyDefault._2;
+                String defaultValue = keyDefault._2 == null ? null : keyDefault._2;
+                sts.add(new StringToken(StringType.VARIABLE, keyDefault._1, originValue, defaultValue, pattern));
+
             }
             startIndex = end;
         }

@@ -137,6 +137,10 @@ public class DateTime implements Temporal, Comparable<DateTime>, Serializable {
 
 
     public static DateTime of(Object dateTime) {
+        if (dateTime instanceof String) return of((String) dateTime);
+        if (dateTime instanceof LocalDate) return of((LocalDate) dateTime);
+        if (dateTime instanceof Long) return of((long) dateTime);
+
         return new DateTime(dateTime, true);
     }
 

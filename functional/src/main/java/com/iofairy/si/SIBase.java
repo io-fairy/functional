@@ -28,9 +28,14 @@ public class SIBase {
      */
     public final static String $__ = "${}";
     public final static String $ = "$";
+    /** Default Value Delimiter */
     public final static String DEFAULT_VALUE_DELIMITER = ": ";
-    // DEFAULT_VALUE_DELIMITER (DVD) LENGTH
+    /** DEFAULT_VALUE_DELIMITER (DVD) LENGTH */
     public final static int DVD_LENGTH = DEFAULT_VALUE_DELIMITER.length();
+    /** Date Pattern Delimiter */
+    public final static String DATE_PATTERN_DELIMITER = ":~ ";
+    /** DATE_PATTERN_DELIMITER (DPD) LENGTH */
+    public final static int DPD_LENGTH = DATE_PATTERN_DELIMITER.length();
 
     public final static String PREFIX = "${";
     public final static String SUFFIX = "}";

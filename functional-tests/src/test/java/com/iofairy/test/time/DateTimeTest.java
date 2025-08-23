@@ -57,29 +57,15 @@ public class DateTimeTest {
         assertEquals("2022-02-27 08:00:10.000", G.dtSimple(date04));
         assertEquals("2022-02-27 08:00:10.000", G.dtSimple(date05));
 
-        // toDate 带时区的 toDate，已经删除，没有意义
-        // Date date01 = DateTime.of(zdt).toDate(TZ.UTC);
-        // Date date02 = DateTime.of(zdt1).toDate(TZ.UTC);
-        // Date date03 = DateTime.of(odt1).toDate(TZ.UTC);
-        // Date date04 = DateTime.of(calendar1).toDate(TZ.UTC);
-        // Date date05 = DateTime.of(instant1).toDate(TZ.UTC);
-        // Date date06 = DateTime.of(zdt).toDate(null);
-        // Date date07 = DateTime.of(zdt1).toDate(null);
-        // Date date08 = DateTime.of(odt1).toDate(null);
-        // Date date09 = DateTime.of(calendar1).toDate(null);
-        // Date date10 = DateTime.of(instant1).toDate(null);
-        //
-        // System.out.println(G.dtSimple(date));   // 2022-02-27 08:00:10.000
-        // System.out.println(G.dtSimple(date01)); // 2022-02-27 08:00:10.000
-        // System.out.println(G.dtSimple(date02)); // 2022-02-27 08:00:10.000
-        // System.out.println(G.dtSimple(date03)); // 2022-02-27 08:00:10.000
-        // System.out.println(G.dtSimple(date04)); // 2022-02-27 08:00:10.000
-        // System.out.println(G.dtSimple(date05)); // 2022-02-27 08:00:10.000
-        // System.out.println(G.dtSimple(date06)); // 2022-02-27 08:00:10.000
-        // System.out.println(G.dtSimple(date07)); // 2022-02-27 08:00:10.000
-        // System.out.println(G.dtSimple(date08)); // 2022-02-27 08:00:10.000
-        // System.out.println(G.dtSimple(date09)); // 2022-02-27 08:00:10.000
-        // System.out.println(G.dtSimple(date10)); // 2022-02-27 08:00:10.000
+        Object o1 = "20220227080010056";
+        Object o2 = 1755964208695L;
+        Object o3 = LocalDate.of(2025, 8, 23);
+        DateTime dateTime1 = DateTime.of(o1);
+        DateTime dateTime2 = DateTime.of(o2);
+        DateTime dateTime3 = DateTime.of(o3);
+        assertEquals(dateTime1.dtDetail(), "2022-02-27 08:00:10.056000000 [Asia/Shanghai +08:00 GMT+8 周日]");
+        assertEquals(dateTime2.dtDetail(), "2025-08-23 23:50:08.695000000 [Asia/Shanghai +08:00 GMT+8 周六]");
+        assertEquals(dateTime3.dtDetail(), "2025-08-23 00:00:00.000000000 [Asia/Shanghai +08:00 GMT+8 周六]");
 
     }
 

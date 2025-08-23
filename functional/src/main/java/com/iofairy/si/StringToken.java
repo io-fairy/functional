@@ -24,6 +24,9 @@ public class StringToken {
     StringType type;
     String value;
     String originValue;
+    String defaultValue;
+    /** date time format pattern */
+    String pattern;
 
     public StringToken() {
     }
@@ -32,6 +35,16 @@ public class StringToken {
         this.type = type;
         this.value = value;
         this.originValue = originValue;
+        this.defaultValue = null;
+        this.pattern = null;
+    }
+
+    public StringToken(StringType type, String value, String originValue, String defaultValue, String pattern) {
+        this.type = type;
+        this.value = value;
+        this.originValue = originValue;
+        this.defaultValue = defaultValue;
+        this.pattern = pattern;
     }
 
     public StringType getType() {
@@ -58,12 +71,30 @@ public class StringToken {
         this.originValue = originValue;
     }
 
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
+    public String getPattern() {
+        return pattern;
+    }
+
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
+    }
+
     @Override
     public String toString() {
         return "StringToken{" +
                 "type=" + type +
                 ", value='" + value + '\'' +
                 ", originValue='" + originValue + '\'' +
+                ", defaultValue='" + defaultValue + '\'' +
+                ", pattern='" + pattern + '\'' +
                 '}';
     }
 }

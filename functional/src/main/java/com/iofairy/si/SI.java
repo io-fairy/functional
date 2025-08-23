@@ -19,6 +19,7 @@ import com.iofairy.except.CircularReferencesException;
 import com.iofairy.except.UndefinedVariableException;
 import com.iofairy.except.UnexpectedParameterException;
 import com.iofairy.except.UnexpectedTypeException;
+import com.iofairy.time.DateTime;
 import com.iofairy.top.G;
 import com.iofairy.top.O;
 import com.iofairy.top.S;
@@ -288,7 +289,21 @@ public class SI {
                 if (enableUndefinedVariableException && token.type == StringType.VARIABLE && !valueMap.containsKey(value)) {
                     throw new UndefinedVariableException("Cannot resolve variable `${value}` in \"${sourceString}\". ", value, sourceString);
                 }
-                interpolated.append(token.type == StringType.STRING ? value : valueMap.getOrDefault(value, token.originValue));
+
+                Object valueWillBeInterpolated = token.originValue;
+                if (S.isNotBlank(token.pattern)) {
+                    if (valueMap.containsKey(value)) {
+                        Object o = valueMap.get(value);
+                        valueWillBeInterpolated = o == null ? null : DateTime.of(o).format(token.pattern);
+                    } else if (token.defaultValue != null) {
+                        valueWillBeInterpolated = DateTime.of(token.defaultValue).format(token.pattern);
+                    }
+                } else {
+                    if (valueMap.containsKey(value)) {
+                        valueWillBeInterpolated = valueMap.get(value);
+                    }
+                }
+                interpolated.append(token.type == StringType.STRING ? value : valueWillBeInterpolated);
             }
         }
 
@@ -408,10 +423,19 @@ public class SI {
                 parsed.append(value);
             } else {
                 if (placeholderCount < length) {
-                    parsed.append(arguments[placeholderCount]);
+                    Object argument = arguments[placeholderCount];
+                    if (S.isNotBlank(token.pattern)) {
+                        parsed.append(argument == null ? null : DateTime.of(argument).format(token.pattern));
+                    } else {
+                        parsed.append(argument);
+                    }
                     placeholderCount++;
                 } else {
-                    parsed.append(token.originValue);
+                    if (token.defaultValue != null && S.isNotBlank(token.pattern)) {
+                        parsed.append(DateTime.of(token.defaultValue).format(token.pattern));
+                    } else {
+                        parsed.append(token.originValue);
+                    }
                 }
             }
         }

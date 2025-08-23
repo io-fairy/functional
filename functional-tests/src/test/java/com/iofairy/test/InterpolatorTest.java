@@ -802,6 +802,26 @@ public class InterpolatorTest {
 
     }
 
+    @Test
+    public void testInterpolatorPattern() {
+        String tpl = "ip: ${ip}---create_time1: ${create_time} ---port: ${port}---create_time2: ${create_time:~ yyyy/MM/dd'T'HH:mm:ss.SSS}";
+        SI si = Tuple.of("127.0.0.1", "22", "2025/08/2 10:05:01").alias("ip", "port", "create_time").toSI();
+        String result = si.$(tpl);
+        System.out.println(result);
+        assertEquals(result, "ip: 127.0.0.1---create_time1: 2025/08/2 10:05:01 ---port: 22---create_time2: 2025/08/02T10:05:01.000");
+
+        tpl = "ip: ${ip}---create_time1: ${create_time} ---port: ${port}---create_time2: ${create_time: 2025/08/2 10:05:01:~ yyyy/MM/dd'T'HH:mm:ss.SSS}";
+        si = Tuple.of("127.0.0.1", "22").alias("ip", "port").toSI();
+        result = si.$(tpl);
+        System.out.println(result);
+        assertEquals(result, "ip: 127.0.0.1---create_time1: ${create_time} ---port: 22---create_time2: 2025/08/02T10:05:01.000");
+
+        tpl = "ip: ${ip}---create_time1: ${create_time:~ yyyy/MM/dd'T'HH:mm:ss.SSS}---create_time2: ${create_time: 20250802100501:~ yyyy/MM/dd'T'HH:mm:ss.SSS '['xxx']'} ---port: ${port}---create_time3: ${create_time: 2025/08/2 10:05:01:~ yyyy/MM/dd'T'HH:mm:ss.SSS}";
+        result = SI.$(tpl, "127.0.0.1", null, "2025-08-15 20:30:01 [+00:00]");
+        System.out.println(result);
+        assertEquals(result, "ip: 127.0.0.1---create_time1: null---create_time2: 2025/08/15T20:30:01.000 [+00:00] ---port: ${port}---create_time3: 2025/08/02T10:05:01.000");
+    }
+
     private void throwException() {
         throw new RuntimeException();
     }
