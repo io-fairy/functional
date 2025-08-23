@@ -1,9 +1,22 @@
 # 📚Functional
-提供更简单更好用的Java函数式编程接口 (Java Functional Interface that more simpler and easier to use)；  
-增强版switch（简单的模式匹配）(Enhanced switch or simple pattern matching supported)；  
-字符串插值(String Interpolation)；  
-提供元组（tuple）类型支持；  
-**兼容Java 8及Java 9+模块化系统**；  
+Functional是一个强大的Java工具类库，提供了多种便捷的函数式编程工具类。如下：  
++ 🔥提供更简单更好用的Java函数式编程接口 (Java Functional Interface that more simpler and easier to use)  
++ 🔥增强版switch（简单的模式匹配）(Enhanced switch or simple pattern matching supported)  
++ 🔥字符串插值(String Interpolation)  
++ 🔥提供元组（tuple）类型支持  
++ 🔥<u>**不可变且线程安全**</u>的**时间处理类**`DateTime`，提供**统一**的时间API
+    - 🔺强大的时间处理API
+        - **自动识别**解析多种时间格式串
+        - 指定时间单位的**取整操作**（四舍五入、向上/下取整）
+        - 时间偏移（指定时间单位的增减）
+        - 计算两个时间间隔
+        - 时间格式化
+        - 获取并格式化**周信息**
+        - 各种时间类的互相转换
+    - 🔺支持多种时间类型：`Date`, `Calendar`, `LocalDateTime`, `ZonedDateTime`, `OffsetDateTime`, `Instant`
++ 💡便捷的**秒表**`Stopwatch`工具类，方便测试各个代码片段或任意多个连续代码片段的执行时间
++ 💡**兼容Java 8及Java 9+模块化系统**  
++ **……**  
 💡💡💡  
 **旧项目地址：**[https://github.com/GG-A/JFunctional](https://github.com/GG-A/JFunctional)   
 
@@ -19,13 +32,13 @@
 <dependency>
   <groupId>com.iofairy</groupId>
   <artifactId>functional</artifactId>
-  <version>0.5.12</version>
+  <version>0.6.0</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-implementation 'com.iofairy:functional:0.5.12'
+implementation 'com.iofairy:functional:0.6.0'
 ```
 
 
@@ -49,6 +62,13 @@ implementation 'com.iofairy:functional:0.5.12'
 - [📘Tuple（元组）](#tuple元组)
   - [Tuple（元组）使用](#tuple元组使用)
   - [EasyTuple 使用](#easytuple-使用)
+- [🔥强大的时间处理API](#强大的时间处理API)
+    - [自动识别时间字符串](#自动识别时间字符串)
+    - [时间取整操作](#时间取整操作)
+    - [时间偏移(时间加减)](#时间偏移时间加减)
+    - [计算两个时间间隔](#计算两个时间间隔)
+- [🔥秒表`Stopwatch`](#秒表Stopwatch)
+
 
 ## 📘增强版switch（简单的模式匹配）
 **增强版switch**不仅支持[传统switch语句匹配的类型](https://docs.oracle.com/javase/tutorial/java/nutsandbolts/switch.html)（`byte`, `short`, `char`,  `int`, `enum` and `String`），还支持：
@@ -633,6 +653,153 @@ for (int i = 0; i < et8.arity(); i++) {
     System.out.println("t2(" + i + "): " + t2);
 }
 ```
+
+## 🔥强大的时间处理API
+### 自动识别时间字符串
+```java
+DateTime dt00 = DateTime.parse("2022-8-01 10:5:15", TZ.UTC);
+DateTime dt01 = DateTime.parse("2022/8/01T10:5:15.987");
+DateTime dt02 = DateTime.parse("2022");
+DateTime dt03 = DateTime.parse("999");
+DateTime dt04 = DateTime.parse("2点5分", TZ.NEW_YORK);
+DateTime dt05 = DateTime.parse("20220810T170650666");
+DateTime dt06 = DateTime.parse("2022-8-01 10:5:15");
+DateTime dt07 = DateTime.parse("2022-8-01T10:5:15.987");
+DateTime dt08 = DateTime.parse("2022");
+DateTime dt09 = DateTime.parse("999");
+DateTime dt10 = DateTime.parse("10点5分");
+DateTime dt11 = DateTime.parse("2022-8-01T10:5:15.98");
+DateTime dt12 = DateTime.parse("202208");
+DateTime dt13 = DateTime.parse("20220810");
+DateTime dt14 = DateTime.parse("20220810170650");
+DateTime dt15 = DateTime.parse("20220810170650666");
+
+System.out.println(dt00.dtDetail());    // 2022-08-01 10:05:15.000000000 [UTC +00:00 GMT 周一]
+System.out.println(dt01.dtDetail());    // 2022-08-01 10:05:15.987000000 [Asia/Shanghai +08:00 GMT+8 周一]
+System.out.println(dt02.dtDetail());    // 2022-01-01 00:00:00.000000000 [Asia/Shanghai +08:00 GMT+8 周六]
+System.out.println(dt03.dtDetail());    // 999-01-01 00:00:00.000000000 [Asia/Shanghai +08:05 GMT+8:05:43 周二]
+System.out.println(dt04.dtDetail());    // 1970-01-01 02:05:00.000000000 [America/New_York -05:00 GMT-5 周四]
+System.out.println(dt05.dtDetail());    // 2022-08-10 17:06:50.666000000 [Asia/Shanghai +08:00 GMT+8 周三]
+System.out.println(dt06.dtDetail());    // 2022-08-01 10:05:15.000000000 [Asia/Shanghai +08:00 GMT+8 周一]
+System.out.println(dt07.dtDetail());    // 2022-08-01 10:05:15.987000000 [Asia/Shanghai +08:00 GMT+8 周一]
+System.out.println(dt08.dtDetail());    // 2022-01-01 00:00:00.000000000 [Asia/Shanghai +08:00 GMT+8 周六]
+System.out.println(dt09.dtDetail());    // 999-01-01 00:00:00.000000000 [Asia/Shanghai +08:05 GMT+8:05:43 周二]
+System.out.println(dt10.dtDetail());    // 1970-01-01 10:05:00.000000000 [Asia/Shanghai +08:00 GMT+8 周四]
+System.out.println(dt11.dtDetail());    // 2022-08-01 10:05:15.980000000 [Asia/Shanghai +08:00 GMT+8 周一]
+System.out.println(dt12.dtDetail());    // 2022-08-01 00:00:00.000000000 [Asia/Shanghai +08:00 GMT+8 周一]
+System.out.println(dt13.dtDetail());    // 2022-08-10 00:00:00.000000000 [Asia/Shanghai +08:00 GMT+8 周三]
+System.out.println(dt14.dtDetail());    // 2022-08-10 17:06:50.000000000 [Asia/Shanghai +08:00 GMT+8 周三]
+System.out.println(dt15.dtDetail());    // 2022-08-10 17:06:50.666000000 [Asia/Shanghai +08:00 GMT+8 周三]
+```
+
+### 时间取整操作
+```java
+/*
+ 各种原始时间类型
+ */
+LocalDateTime ldt = LocalDateTime.of(2022, 2, 27, 8, 0, 10, 100);
+ZonedDateTime zdt = ldt.atZone(TZ.DEFAULT_ZONE);
+Instant instant = zdt.toInstant();
+OffsetDateTime odt = zdt.toOffsetDateTime();
+Calendar calendar = Calendar.getInstance();
+calendar.setTime(Date.from(zdt.toInstant()));
+Date date = calendar.getTime();
+/*
+ 将各种原始时间转换为 DateTime 类型
+ */
+DateTime dt1 = DateTime.of(ldt);        // 2022-02-27 08:00:10.000
+DateTime dt2 = DateTime.of(zdt);        // 2022-02-27 08:00:10.000
+DateTime dt3 = DateTime.of(instant);    // 2022-02-27 08:00:10.000
+DateTime dt4 = DateTime.of(odt);        // 2022-02-27 08:00:10.000 [+08:00 +08:00]
+DateTime dt5 = DateTime.of(calendar);   // 2022-02-27 08:00:10.000
+DateTime dt6 = DateTime.of(date);       // 2022-02-27 08:00:10.000
+/*
+ 各种时间类型取整操作
+ */
+System.out.println(dt1.round(ChronoUnit.DAYS, RoundingDT.FLOOR));       // 2022-02-27 00:00:00.000
+System.out.println(dt2.round(ChronoUnit.DAYS, RoundingDT.CEILING));     // 2022-02-28 00:00:00.000
+System.out.println(dt3.round(ChronoUnit.MONTHS, RoundingDT.HALF_UP));   // 2022-03-01 00:00:00.000
+System.out.println(dt4.round(ChronoUnit.MINUTES, RoundingDT.CEILING));  // 2022-02-27 08:01:00.000 [+08:00 +08:00]
+System.out.println(dt5.round(ChronoUnit.HOURS, RoundingDT.CEILING));    // 2022-02-27 09:00:00.000
+System.out.println(dt6.round(ChronoUnit.HOURS, RoundingDT.HALF_UP));    // 2022-02-27 08:00:00.000
+```
+
+### 时间偏移(时间加减)
+```java
+/*
+ 各种原始时间类型
+ */
+LocalDateTime ldt = LocalDateTime.of(2022, 2, 27, 8, 0, 10, 100);
+ZonedDateTime zdt = ldt.atZone(TZ.DEFAULT_ZONE);
+Instant instant = zdt.toInstant();
+OffsetDateTime odt = zdt.toOffsetDateTime();
+Calendar calendar = Calendar.getInstance();
+calendar.setTime(Date.from(zdt.toInstant()));
+Date date = calendar.getTime();
+/*
+ 将各种时间转换为 DateTime 类型
+ */
+DateTime dt1 = DateTime.of(ldt);        // 2022-02-27 08:00:10.000
+DateTime dt2 = DateTime.of(zdt);        // 2022-02-27 08:00:10.000
+DateTime dt3 = DateTime.of(instant);    // 2022-02-27 08:00:10.000
+DateTime dt4 = DateTime.of(odt);        // 2022-02-27 08:00:10.000 [+08:00 +08:00]
+DateTime dt5 = DateTime.of(calendar);   // 2022-02-27 08:00:10.000
+DateTime dt6 = DateTime.of(date);       // 2022-02-27 08:00:10.000
+/*
+ 各种时间类型偏移（加减）操作
+ */
+System.out.println(dt1.minusHours(5).plusDays(2));  // 2022-03-01 03:00:10.000
+System.out.println(dt2.minusMillis(-10000));        // 2022-02-27 08:00:20.000
+System.out.println(dt3.plusDays(2));                // 2022-03-01 08:00:10.000
+System.out.println(dt4.plusMonths(1));              // 2022-03-27 08:00:10.000 [+08:00 +08:00]
+System.out.println(dt5.plusDays(-5));               // 2022-02-22 08:00:10.000
+System.out.println(dt6.minusMinutes(100));          // 2022-02-27 06:20:10.000
+```
+### 计算两个时间间隔
+```java
+LocalDateTime fromLDT = LocalDateTime.of(2020, 8, 15, 10, 56, 43, 10000000);
+DateTime toDT = DateTime.parse("2022/06/20 20:10:56.200");
+SignedInterval interval1 = SignedInterval.between(toDT, fromLDT);
+Interval interval2 = Interval.between(fromLDT, toDT);
+System.out.println(interval1);      // -1年-10月-5天-9时-14分-13秒-190毫秒
+System.out.println(interval2);      // 1年10月5天9时14分13秒190毫秒
+```
+
+
+## 🔥秒表`Stopwatch`
+**秒表**`Stopwatch`：方便<u>测试各个代码片段或任意多个连续代码片段的执行时间</u>。一个独立的秒表从运行开始到结束之前，便具有**分段记录**、**持续记录**与**实时记录**的功能  
+秒表中的**标记**`Stopwatch.mark()`：可在每个代码片段（业务）开始或结束时打个标记。 一方面是<u>代码片段（业务）间的分界点</u>；同时，也类似于savepoint（保存点），保存当时的时间
+```java
+/*
+ elapsedLastStringAndMark 方法：返回秒表距离上次标记处耗时，并打上新的标记
+ 等同于：
+ stopwatch.elapsedLastString();
+ stopwatch.mark();
+ */
+Stopwatch stopwatch = Stopwatch.run();
+
+// >> 开始业务1
+Try.sleep(1000);  // ... 执行一些操作
+// << 结束业务1
+ System.out.println("sleep(1000)。秒表总耗时：" + stopwatch + "---" + "秒表距离上次标记处耗时1：" + stopwatch.elapsedLastStringAndMark()); // 输出：sleep(1000)。秒表总耗时：1.003(秒)---秒表距离上次标记处耗时1：1.01(秒)
+
+// >> 开始业务2
+Try.sleep(500);  // ... 执行一些操作
+// << 结束业务2
+System.out.println("sleep(500)。秒表总耗时：" + stopwatch + "---" + "秒表距离上次标记处耗时2：" + stopwatch.elapsedLastString()); // 输出：sleep(500)。秒表总耗时：1.518(秒)---秒表距离上次标记处耗时2：507.527(毫秒)
+
+stopwatch.mark();  // 业务开始时打个标记
+// >> 开始业务3
+Try.sleep(1500);  // ... 执行一些操作
+// << 结束业务3
+System.out.println("sleep(1500)。秒表总耗时：" + stopwatch + "---" + "秒表距离上次标记处耗时3：" + stopwatch.elapsedLastStringAndMark()); // 输出：sleep(1500)。秒表总耗时：3.034(秒)---秒表距离上次标记处耗时3：1.516(秒)
+
+// 业务1开始到业务3完成所耗时间
+Stopwatch.Elapsed elapsed = stopwatch.elapsed(0, 3);
+System.out.println("业务1开始到业务3完成所耗时间：" + elapsed + "---" + elapsed.toFullString()); // 输出：业务1开始到业务3完成所耗时间：3.034(秒)---3.034(秒) (index: 0 -> 3, mark: START -> MARK3)
+
+```
+
 
 
 ## 💡IntelliJ IDEA 智能提示
