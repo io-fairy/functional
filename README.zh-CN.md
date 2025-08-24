@@ -1,4 +1,4 @@
-<h1 style="text-align:center; color:black;">📚Functional</h1>
+<h1 align="center">📚Functional</h1>
 
 简体中文 | [English](./README.md)
 
@@ -811,9 +811,9 @@ System.out.println("业务1开始到业务3完成所耗时间：" + elapsed + "-
 由于接口名过于简单，导致 IntelliJ IDEA 智能提示不是很友好，对于**只有一个字母的接口名**，可能无法智能提示，解决办法：  
 1. 使用智能补全快捷键（设置方法，进入IDEA快捷键设置Keymap：**Main menu > Code > Completion > Basic**），我设置的快捷键是：**alt + /** ，以 **V1** 为例：  
 a. 输入 v1，会发现没有 **V1 接口**的提示  
-![IDEA 智能提示](https://github.com/io-fairy/functional/blob/main/images/IDEA%20Smart%20tips%201.png)  
+![IDEA 智能提示](./images/IDEA%20Smart%20tips%201.png)  
 b. 此时，按下 **alt + /**，就会有 **V1 接口**的提示  
-![IDEA 智能提示](https://github.com/io-fairy/functional/blob/main/images/IDEA%20Smart%20tips%202.png)  
+![IDEA 智能提示](./images/IDEA%20Smart%20tips%202.png)  
 
 2. 手动导入`lambda`下的所有接口（但是对于**只有一个字母的接口名**依然无法智能提示，只是手动输入的时候，可以避免出现 由于没有导包导致的错误）  
 `import com.iofairy.lambda.*;`

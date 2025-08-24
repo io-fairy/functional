@@ -1,4 +1,4 @@
-<h1 style="text-align:center; color:black;">📚Functional</h1>
+<h1 align="center">📚Functional</h1>
 
 English | [简体中文](./README.zh-CN.md)
 
@@ -92,11 +92,11 @@ For value equality checks (requires static import: `import static com.iofairy.pa
 import static com.iofairy.pattern.Pattern.*;
 
 String s = "5";
-// 带返回值
+// with return value
 String result = match(s)
         .when("1", v -> v + v)
         .when("2", v -> v + "a")
-        .when(in("3", "4", "5", "6"), v -> v + " - abcd")    // in方法用于一次匹配多个值
+        .when(in("3", "4", "5", "6"), v -> v + " - abcd")    // The in() is used to match multiple values at once.
         .orElse(v -> "no match");
 
 /*
@@ -126,14 +126,14 @@ switch (s) {
 import static com.iofairy.pattern.Pattern.*;
 
 int i = 10;
-// 返回值为null
+// returns null
 Void nullValue = match(i)
         .when(1,
                 /*
                  * if you want to match `when(V matchValue, V1<V> action)` not `when(V matchValue, R1<V, R> action)`,
                  * you need add `{ }`, see: void-compatible and value-compatible
                  */
-                v -> { System.out.println("match value：" + v); })  // add {} to void-compatible. 添加 {} 表示lambda无返回值，解决方法调用歧义（Ambiguous）问题
+                v -> { System.out.println("match value：" + v); })  // add {} to void-compatible. 
         .whenNext(10,
                 v -> System.out.println("match value：" + v + " whenNext continue..."))
         .when(20,
@@ -200,7 +200,7 @@ assertEquals("null value", res);
 import static com.iofairy.pattern.Pattern.*;
 
 Object o = Tuple.of("zs", 20);
-// add `TYPE` to match Class<?>. 这里需要加个TYPE，表示按类型匹配。
+// add `TYPE` to match Class<?>. 
 Integer result = match(o, TYPE)  
         .when(Integer.class, v -> v + 10)
         .when(Tuple2.class,  v -> v.arity())
@@ -303,15 +303,15 @@ int id = 12345;
 String name = "zhangsan";
 float height = 180.5f; 
 
-// 使用 + 号拼接
+// use `+` concatenation
 String res1 = "id: " + id + "  名字：" + name + "  身高(cm): " + height;
 System.out.println(res1);
 
-// 使用 MessageFormat.format
+// use MessageFormat.format
 String res2 = MessageFormat.format("id: {0}  名字：{1}  身高(cm): {2}", id, name, height);
 System.out.println(res2);
 
-// 使用 String.format
+// use String.format
 String res3 = String.format("id: %d  名字：%s  身高(cm): %.1f", id, name, height);
 System.out.println(res3);
 ```
@@ -455,7 +455,7 @@ Below are the interface specifications for the 4 categories:
 ```java
 public void testV2(){
     /*
-     Java 8之前：使用匿名内部类，调用v2AsParams
+     Using Anonymous Inner Classes to Call "v2AsParams" in Java 8 and Earlier
      */
     v2AsParams(new V2<String, String>() {
         @Override
@@ -466,13 +466,13 @@ public void testV2(){
 
 
     /*
-     Java 8 及以后：使用 Lambda 表达式，调用v2AsParams
+     Using Lambda Expressions to Call "v2AsParams" in Java 8 and Later
      */
     v2AsParams((s1, s2) -> System.out.println(s1 + " -- " + s2));
 
 }
 
-// 当一个函数需要接收一个 `两个参数无返回值的函数接口` 时，可以使用现有的 V2<T1, T2>，而不用重新构造一个接口
+// When a function needs to accept a "2 parameters and void-returning functional interface", the existing V2<T1, T2> can be used instead of reconstructing a new interface.
 private void v2AsParams(V2<String, String> v2) {
     v2.$("abcd", "1234");
 }
@@ -483,7 +483,7 @@ private void v2AsParams(V2<String, String> v2) {
 public void testR1() {
     List<String> ls = Arrays.asList("1", "2", "3", "4");
     /*
-     Java 8之前：使用匿名内部类，调用 map
+     Using Anonymous Inner Classes to Call "map" in Java 8 and Earlier
      */
     List<Integer> intList = map(ls, new R1<String, Integer>() {
         @Override
@@ -494,15 +494,15 @@ public void testR1() {
     System.out.println(intList);      // output: [11, 12, 13, 14]
 
     /*
-    Java 8 及以后：使用 Lambda 表达式，调用 map
+    Using Lambda Expressions to Call "map" in Java 8 and Later
      */
     List<Integer> map = map(ls, s -> Integer.valueOf(s) + 20);
     System.out.println(map);         // output: [21, 22, 23, 24]
 
 }
 
-// 当一个函数需要接收一个 `接收一个参数，并返回值的函数接口` 时，可以使用 R1<T, R>，不用重新构造一个接口，
-// 如：java.util.stream.Stream 中的 map 函数
+// When a function needs to accept a "one-parameter value-returning functional interface", R1<T, R> can be used without needing to redefine a new interface
+// For example: the map function in java.util.stream.Stream
 private <T, R> List<R> map(List<T> ls, R1<T, R> r1) {
     ArrayList<R> rs = new ArrayList<>();
     for (T l : ls)
@@ -515,12 +515,12 @@ private <T, R> List<R> map(List<T> ls, R1<T, R> r1) {
 - `R2` Interface (**without exception throwing support**) Exception Handling Example
 ```java
 public void testR2Exception(){
-    // 必须在 lambda 表达式中使用 try-catch 块处理，无法将异常继续向外抛出
+    // Exceptions must be handled with try-catch blocks in lambda expressions, and cannot be propagated outside
     R2<String, Integer, String> r2 = (s, i) -> {
         if (i == 5) {
             try {
-                // 必须使用 try-catch 处理，否则报错
-                throw new IOException("抛出异常");
+                // they must be handled with try-catch, otherwise an error will occur
+                throw new IOException("throw a io exception");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -529,7 +529,7 @@ public void testR2Exception(){
         return s + i;
     };
 
-    // 由于R2不支持抛出异常，所以调用 $函数没有异常
+    // since R2 does not support throwing exceptions, calling the $ function does not throw exceptions
     String s = r2.$("abcd", 1);
 }
 ```
@@ -538,12 +538,12 @@ public void testR2Exception(){
 ```java
 public void testRT2Exception() throws IOException { 
     RT2<String, Integer, String, IOException> rt2 = (s, i) -> {
-        // 使用 RT2 在lambda 表达式中，不用处理异常，等到调用 $ 函数时再处理
-        if (i == 5) throw new IOException("抛出异常");
+        // Using RT2 in lambda expressions, there's no need to handle exceptions, they can be handled when calling the $ function
+        if (i == 5) throw new IOException("throw a io exception");
         return s + i;
     };
     /*
-    第一种方式：使用 try-catch 处理异常
+    First approach: handle exceptions using try-catch
      */
     try {
         String s = rt2.$("abcd", 1);
@@ -552,7 +552,8 @@ public void testRT2Exception() throws IOException {
     }
 
     /*
-     第二种方式：继续向外抛出异常，在函数上申明异常：  public void rt2_exception() throws IOException
+     Second approach: propagate exceptions outward and declare them on the function:
+       public void rt2_exception() throws IOException
      */
     // String s1 = rt2.$("1234", 5);
     String s2 = rt2.$("1234", 56);
@@ -579,7 +580,9 @@ System.out.println(t3._3);    // output: ("123", "abc")
 
 - Aliasing tuple elements and accessing via aliases  
 ```java
-// 方式一（推荐）
+/*
+ First approach
+ */
 // MyTupleAlias.java
 package mypackage;
 import com.iofairy.tuple.TupleAlias;
@@ -597,14 +600,16 @@ import static mypackage.MyTupleAlias.*;
 
 Tuple3<Integer, String, Integer> userInfo = new Tuple3<>(1, "Tom", 20);
 userInfo.alias(ID, NAME, AGE);
-Integer id  = userInfo.__(ID);     // （推荐）使用枚举值取tuple中的元素
-String name = userInfo.__("NAME");   // （不推荐）使用枚举值对应的字符串取tuple中的元素
+Integer id  = userInfo.__(ID);     // (Recommended) Access elements of a tuple using enum values
+String name = userInfo.__("NAME");   // (Not Recommended) Access elements of a tuple using the string corresponding to the enum value
 System.out.println("ID: " + id + "  name: " + name);    // output：ID: 1  name: Tom
 
-// 方式二
+/*
+ Second approach
+ */
 Tuple2<String, Integer> t2 = new Tuple2<>("abc", 20).alias("name", "age");
-String name = (String)t2.__("name");    // 不使用泛型参数
-Integer age = t2.<Integer>__("age");    // 使用泛型参数
+String name = (String)t2.__("name");    // Without using generic parameters
+Integer age = t2.<Integer>__("age");    // Using generic parameters
 System.out.println(name);               // output: abc
 System.out.println(age);                // output: 20
 
@@ -614,10 +619,10 @@ System.out.println(age);                // output: 20
 ```java
 Tuple2<String, Integer> t2 = new Tuple2<>("zs", 20).alias("name", "age");
 for (int i = 0; i < t2.arity(); i++) {
-    Object element = t2.element(i);                                     // 不带别名
-    System.out.println(element);                                        // output: zs  和   20
-    Tuple2<String, Object> elementWithAlias = t2.elementWithAlias(i);   // 带别名
-    System.out.println(elementWithAlias);                               // output: ("name", "zs")   和  ("age", 20)
+    Object element = t2.element(i);                                     // without alias
+    System.out.println(element);                                        // output: zs  and   20
+    Tuple2<String, Object> elementWithAlias = t2.elementWithAlias(i);   // with alias
+    System.out.println(elementWithAlias);                               // output: ("name", "zs")   and  ("age", 20)
 }
 ```
 
@@ -627,16 +632,16 @@ public Tuple2<String, Integer> returnMultipleValue(){
     String name = "zs";
     Integer age = 20;
     
-    return new Tuple2<>(name, age);   // 把 String 和 Integer 的数据一起返回
+    return new Tuple2<>(name, age);   // return String and Integer data together
 }
 ```
 
 - Use **Auto Type Inferring** in Java 10 for `Tuple` type  
 ```java
-// Java 8 语法
+// Java 8
 Tuple9<String, Integer, Tuple1<String>, String, Integer, String, Integer, Tuple2<String, String>, String> tuple91 = new Tuple9<>("abcdefg", 20, new Tuple1<>("10000").alias("id"), (String) null, 29, "tupel6", 666, new Tuple2<>("123", "abc"), "tuple9");
 
-// Java 10及以上语法(var)
+// Java 10+(var)
 var tuple9 = new Tuple9<>("abcdefg", 20, new Tuple1<>("10000").alias("id"), (String)null, 29, "tupel6", 666, new Tuple2<>("123", "abc"), "tuple9");
 ```
 
@@ -817,7 +822,7 @@ and may fail to trigger suggestions. Solutions:
 My configured shortcut is: **alt + /**. For example, with V1:  
 a. Typing **"v1"** will show no suggestions for the `V1` interface  
 ![IDEA Smart Prompt](./images/IDEA%20Smart%20tips%201.png)  
-b. pressing **alt + /** will display suggestions for the V1 interface  
+b. pressing **alt + /** will display suggestions for the `V1` interface  
 ![IDEA Smart Prompt](./images/IDEA%20Smart%20tips%202.png)  
 
 2. Manually import all interfaces under lambda(though smart completion still won't work for **single-letter names**, it prevents package import errors during manual entry):  
@@ -826,7 +831,7 @@ b. pressing **alt + /** will display suggestions for the V1 interface
 
 
 ## ⭐Star
-If you find **Functional** useful! Please give a **Star**⭐ to support us. Thank you.  
+If you find **Functional** useful! Please give a **Star**⭐ to support. Thank you!    
 
 ## 📜Copyright
 
