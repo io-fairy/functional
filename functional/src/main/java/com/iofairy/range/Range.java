@@ -24,6 +24,7 @@ import com.iofairy.top.S;
 import java.io.Serializable;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
+import java.time.temporal.UnsupportedTemporalTypeException;
 import java.util.*;
 
 /**
@@ -337,21 +338,14 @@ public class Range<T extends Comparable> implements Serializable {
         StringBuilder sb = new StringBuilder();
         String lower;
         String upper;
-        if (lowerBound instanceof Temporal || upperBound instanceof Temporal
-                || lowerBound instanceof Calendar || upperBound instanceof Calendar
-                || lowerBound instanceof Date || upperBound instanceof Date) {
-            if (lowerBound == null) {
-                lower = "-" + INFINITY;
-            } else {
-                DateTime lowerDateTime = DateTime.of(lowerBound);
-                lower = useTimestamp ? "" + lowerDateTime.toEpochMilli() : "'" + lowerDateTime.format(formatter) + "'";
-            }
-            if (lowerBound == null) {
-                upper = "+" + INFINITY;
-            } else {
-                DateTime upperDateTime = DateTime.of(upperBound);
-                upper = useTimestamp ? "" + upperDateTime.toEpochMilli() : "'" + upperDateTime.format(formatter) + "'";
-            }
+        if (lowerBound == null && upperBound == null) {
+            lower = "-" + INFINITY;
+            upper = "+" + INFINITY;
+        } else if ((lowerBound instanceof Temporal || upperBound instanceof Temporal)
+                || (lowerBound instanceof Calendar || upperBound instanceof Calendar)
+                || (lowerBound instanceof Date || upperBound instanceof Date)) {
+            lower = formatDateBound(lowerBound, "-", useTimestamp, formatter);
+            upper = formatDateBound(upperBound, "+", useTimestamp, formatter);
         } else if (lowerBound instanceof Number || upperBound instanceof Number) {
             lower = lowerBound == null ? "-" + INFINITY : G.toString((Number) lowerBound, 10);
             upper = upperBound == null ? "+" + INFINITY : G.toString((Number) upperBound, 10);
@@ -371,9 +365,24 @@ public class Range<T extends Comparable> implements Serializable {
         return sb.toString();
     }
 
-
     public String toSimpleString() {
         return isEmpty ? EMPTY_SET : toString();
+    }
+
+
+    private String formatDateBound(T bound, String sign, boolean useTimestamp, DateTimeFormatter formatter) {
+        String boundStr;
+        if (bound == null) {
+            boundStr = sign + INFINITY;
+        } else {
+            try {
+                DateTime dateTime = DateTime.of(bound);
+                boundStr = useTimestamp ? ("" + dateTime.toEpochMilli()) : ("'" + dateTime.format(formatter) + "'");
+            } catch (UnsupportedTemporalTypeException e) {
+                boundStr = bound.toString();
+            }
+        }
+        return boundStr;
     }
 
 }

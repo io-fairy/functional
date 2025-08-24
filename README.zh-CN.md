@@ -1,67 +1,37 @@
 <h1 style="text-align:center; color:black;">📚Functional</h1>
 
-English | [简体中文](./README.zh-CN.md)
+简体中文 | [English](./README.md)
 
 ---
 
-**Functional** is a powerful Java utility library providing various functional programming tools:
-+ 🔥 Provides simpler and better Java functional programming interfaces
-+ 🔥 Enhanced switch statement (simple pattern matching support)
-+ 🔥 String interpolation (`SI`)
-+ 🔥 `Tuple` type support
-+ 🕒 **Immutable and thread-safe** `DateTime` datetime utility class with unified temporal API
-    - 🔺 Powerful datetime API
-        - **Automatic parsing** of multiple datetime formats
-        - Time unit-based **rounding** operations (round, ceil, floor)
-        - Temporal offset calculations
-        - Temporal Interval calculations
-        - Custom datetime formatting
-        - Week information retrieval and formatting
-        - Conversion between temporal types
-    - 🔺 Supports multiple temporal types: `Date`, `Calendar`, `LocalDateTime`, `ZonedDateTime`, `OffsetDateTime`, `Instant`, `LocalDate`
-+ 🕒 Convenient `Stopwatch` utility for benchmarking code execution times
-+ 💡 **Compatibility with Java 8+ and Java 9+ module systems**
-+ **...**
+Functional是一个强大的Java工具类库，提供了多种便捷的函数式编程工具类。如下：  
++ 🔥提供更简单更好用的Java函数式编程接口 (Java Functional Interface that more simpler and easier to use)  
++ 🔥增强版switch（简单的模式匹配）(Enhanced switch or simple pattern matching supported)  
++ 🔥字符串插值(String Interpolation)  
++ 🔥提供元组（tuple）类型支持  
++ 🕒<u>**不可变且线程安全**</u>的**时间处理类**`DateTime`，提供**统一**的时间API
+    - 🔺强大的时间处理API
+        - **自动识别**解析多种时间格式串
+        - 指定时间单位的**取整操作**（四舍五入、向上/下取整）
+        - 时间偏移（指定时间单位的增减）
+        - 计算两个时间间隔
+        - 时间格式化
+        - 获取并格式化**周信息**
+        - 各种时间类的互相转换
+    - 🔺支持多种时间类型：`Date`, `Calendar`, `LocalDateTime`, `ZonedDateTime`, `OffsetDateTime`, `Instant`
++ 🕒便捷的**秒表**`Stopwatch`工具类，方便测试各个代码片段或任意多个连续代码片段的执行时间
++ 💡**兼容Java 8及Java 9+模块化系统**  
++ **……**  
+💡💡💡  
+**旧项目地址：**[https://github.com/GG-A/JFunctional](https://github.com/GG-A/JFunctional)   
 
 
-
-# 🗺️ Overview
-- [📘Enhanced Switch (Pattern Matching)](#enhanced-switch-pattern-matching)
-  - [Object Value Matching](#object-value-matching)
-  - [Null Value Handling](#null-value-handling)
-  - [Type-based Matching (alternative to instanceof)](#type-based-matching)
-  - [String Pattern Matching](#string-pattern-matching)
-  - [Conditional Matching (alternative to if-else)](#conditional-matching-alternative-to-if-else)
-- [🔥String Interpolator](#string-interpolator)
-  - [What can do?](#what-can-do)
-  - [Basic Interpolation](#basic-interpolation)
-  - [Multi-parameter Interpolation](#multi-parameter-interpolation)
-  - [Default Values](#default-values)
-  - [`${}` metachar](#-metachar)
-  - [Add-Del-Set Operations](#add-del-set-operations)
-- [📘Functional Interfaces](#functional-interfaces)
-  - [Java Functional Interface Specification](#java-functional-interface-specification)
-  - [Functional Interface Implementation](#functional-interface-implementation)
-- [📘Tuple](#tuple)
-  - [Tuple Usage](#tuple-usage)
-  - [EasyTuple Usage](#easytuple-usage)
-- [🕒Powerful Temporal API](#powerful-temporal-api)
-    - [Auto-parsing Time Strings](#auto-parsing-time-strings)
-    - [Time Rounding Operations](#time-rounding-operations)
-    - [Time Offset Calculations](#time-offset-calculations)
-    - [Time Interval Calculation](#time-interval-calculation)
-- [🕒Stopwatch](#stopwatch)
-
-
-# 🚀Quick Start
-
-## 🛠️Environment
-+ JDK 9.0.4 **(Compatibility with Java 8+ and Java 9+ module systems)**
+## 🛠️Environment（开发环境）  
++ JDK 9.0.4 **（兼容Java 8及Java 9+模块化系统）**
 + Apache maven 3.6.1
 
 
-## 💿 Integration
-
+## 💿集成方式（兼容Java 8及Java 9+模块化系统）
 ### Maven
 ```xml
 <dependency>
@@ -77,17 +47,44 @@ implementation 'com.iofairy:functional:0.6.0'
 ```
 
 
-## 📘Enhanced Switch (Pattern Matching)
-**Enhanced switch** supports:
-+ Traditional switch-compatible types (`byte`, `short`, `char`, `int`, `enum`, `String`)
-+ **Arbitrary type matching**
-+ **Object type checks** (replaces `instanceof`)
-+ **Conditional branching** (replaces `if-else`)
+## 🗺️使用指南（User Guide）
+- [📘增强版switch（简单的模式匹配）](#增强版switch简单的模式匹配)
+  - [匹配对象的值](#匹配对象的值)
+  - [null值匹配](#null值匹配)
+  - [按类型匹配（替代instanceof）](#按类型匹配替代instanceof)
+  - [String匹配](#string匹配)
+  - [按条件匹配（替代if语句）](#按条件匹配替代if语句)
+- [🔥String Interpolator（字符串插值器）](#string-interpolator字符串插值器)
+  - [能做什么](#能做什么)
+  - [字符串插值（参数少时）](#字符串插值参数少时)
+  - [字符串插值（参数多时）](#字符串插值参数多时)
+  - [default-value（设置默认值）](#default-value设置默认值)
+  - [`${}` metachar（元字符）](#-metachar元字符)
+  - [add-del-set](#add-del-set)
+- [📘Functional与函数式接口](#functional与函数式接口)
+  - [Java函数式接口说明](#java函数式接口说明)
+  - [Functional函数式接口使用](#functional函数式接口使用)
+- [📘Tuple（元组）](#tuple元组)
+  - [Tuple（元组）使用](#tuple元组使用)
+  - [EasyTuple 使用](#easytuple-使用)
+- [🕒强大的时间处理API](#强大的时间处理API)
+    - [自动识别时间字符串](#自动识别时间字符串)
+    - [时间取整操作](#时间取整操作)
+    - [时间偏移(时间加减)](#时间偏移时间加减)
+    - [计算两个时间间隔](#计算两个时间间隔)
+- [🕒秒表`Stopwatch`](#秒表Stopwatch)
 
 
-### Object Value Matching
-For value equality checks (requires static import: `import static com.iofairy.pattern.Pattern.*;`)
-- Value-returning pattern matching
+## 📘增强版switch（简单的模式匹配）
+**增强版switch**不仅支持[传统switch语句匹配的类型](https://docs.oracle.com/javase/tutorial/java/nutsandbolts/switch.html)（`byte`, `short`, `char`,  `int`, `enum` and `String`），还支持：
++ 任意类型的匹配
++ 对象类型匹配（替代 instanceof）
++ 条件匹配（替代if语句）
+
+
+### 匹配对象的值
+用于匹配两个值或对象是否相等，注意静态导入（`import static com.iofairy.pattern.Pattern.*;`）
+- 带返回值的匹配
 ```java
 import static com.iofairy.pattern.Pattern.*;
 
@@ -101,6 +98,7 @@ String result = match(s)
 
 /*
  * it is equivalent to the code below.
+ * 上面代码等同于如下switch代码
  */
 String switchResult;
 switch (s) {
@@ -120,8 +118,7 @@ switch (s) {
         switchResult = "no match";
 }
 ```
-
-- Void-returning pattern matching
+- 不带返回值的匹配
 ```java
 import static com.iofairy.pattern.Pattern.*;
 
@@ -146,12 +143,12 @@ Void nullValue = match(i)
  * --orElse--
  */
 ```
-🔔️Note: Lambda expressions [void-compatible or value-compatible](https://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.27.2)。
+🔔️注意：Lambda表达式的[void兼容块与值兼容块](https://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.27.2)。
 
 
-### Null Value Handling
-Can match `null` values, eliminating the need for verbose `null` checks like:`if(xxx == null){...} else {...}`   
-🔔️ **Recommendation**: **Prioritize null matching** to prevent `NullPointerException` - if a variable is `null`, subsequent branches are skipped automatically.  
+### null值匹配
+可以匹配`null`值，可以不用使用 `if(xxx == null){...} else {...}`来进行`null`值的判断。   
+🔔️建议将 `null` 值**优先匹配**， 这样如果变量为`null`，则不会再执行后续的分支语句，很大程度避免 `NullPointerException`的异常。
 ```java
 import static com.iofairy.pattern.Pattern.*;
 
@@ -195,7 +192,7 @@ assertEquals("null value", res);
 ```
 
 
-### Type-based Matching
+### 按类型匹配（替代instanceof）
 ```java
 import static com.iofairy.pattern.Pattern.*;
 
@@ -210,6 +207,7 @@ Integer result = match(o, TYPE)
 
 /*
  * it is equivalent to the code below.
+ * 上面代码等同于如下instanceof代码
  */
 Integer ifResult;
 if (o instanceof Integer) {
@@ -223,7 +221,7 @@ if (o instanceof Integer) {
 }
 ```
 
-### String Pattern Matching
+### String匹配
 ```java
 import static com.iofairy.pattern.Pattern.*;
 
@@ -261,7 +259,7 @@ String matchRes5 = match(str, ICSUFFIX)
 assertEquals("fGHIj", matchRes5);
 ```
 
-### Conditional Matching (alternative to if-else)
+### 按条件匹配（替代if语句）
 ```java
 import static com.iofairy.pattern.Pattern.*;
 
@@ -280,6 +278,7 @@ System.out.println("match result：" + result);
 
 /*
  * it is equivalent to the code below
+ * 上面代码等同于如下if代码
  */
 String ifResult;
 if (i == 0) {
@@ -293,11 +292,10 @@ if (i == 0) {
 }
 ```
 
-## 🔥String Interpolator
-### What can do?
-Replaces cumbersome `+` concatenation and **Java's built-in** interpolators (`MessageFormat.format()` or `String.format()`)  
-
-- **Built-in Java**  
+## 🔥String Interpolator（字符串插值器）  
+### 能做什么 
+取代不够优雅、可读性差的`+`号拼接字符串的方式以及Java内置字符串插值器`MessageFormat.format()`和`String.format()`  
+- **使用Java内置**  
 ```java
 int id = 12345;
 String name = "zhangsan";
@@ -315,20 +313,20 @@ System.out.println(res2);
 String res3 = String.format("id: %d  名字：%s  身高(cm): %.1f", id, name, height);
 System.out.println(res3);
 ```
-- **use string interpolator**
+- **使用string interpolator（可读性强）**
 ```java
 SI si = Tuple.of(id, name, height).alias("id", "name", "height").toSI();
 String s = si.$("id: ${id}  名字：${name}  身高(cm): ${height}");
 System.out.println(s);
 ```
 
-### Basic Interpolation
+### 字符串插值（参数少时）  
 ```java
 SI si = Tuple.of("zs", 20, "tom", 190.5, 123456).alias("name", "age", "nickName", "height", "id").toSI();
 String parse = si.$("${name}--${age}--${nickName}--${id}--${height}");  // result: zs--20--tom--123456--190.5
 ```
 
-### Multi-parameter Interpolation
+### 字符串插值（参数多时）  
 ```java
 SI si = SI.init("         ip -> ", "127.0.0.1",
                 "         db -> ", "testdb",
@@ -340,7 +338,7 @@ SI si = SI.init("         ip -> ", "127.0.0.1",
 String dbInfo = si.$("ip: ${ip}---port: ${port}---db: ${db}---otherInfo: ${other_info}");
 ```
 
-### Default Values
+### default-value（设置默认值）  
 ```java
 // use ": " (: + space) set default value
 String source = "${NAME}--${NAME: tom}--${age: 20}--${ID1:}--${ ID1 }--${ID1: }--${id1}--" +
@@ -350,7 +348,7 @@ String parse = SI.of(t1).$(source);
 System.out.println(parse);   // output: zs--zs--20--${ID1:}--${ ID1 }----${id1}--${age::20}--null-- --null
 ```
 
-### `${}` metachar
+### `${}` metachar（元字符）  
 ```java
 SI si = Tuple.of("zs", 123456).alias("NAME", "ID").toSI();
 // ${} will be parsed $
@@ -358,7 +356,7 @@ String parse = si.$("${NAME}--$${ID}--$$$${ID}--${}{ID}--${}");   // output: zs-
 ```
 
 
-### Add-Del-Set Operations
+### add-del-set  
 ```java
 String source = "${NAME}--${age: 18}--${nickName}--${ID}--${height}--${_1}--${_2}";
 
@@ -390,68 +388,69 @@ assertEquals("${NAME}--20--tom--${ID}--${height}--${_1}--${_2}", parse);
 
 
 
-## 📘Functional Interfaces
+## 📘Functional与函数式接口
 
-### Java Functional Interface Specification
-Java 8 introduced **functional interfaces** in the `java.util.function` package to streamline lambda expression usage. These interfaces are categorized based on their operational characteristics:   
+### Java函数式接口说明
+关于**函数式接口**，Java 8标准中也有提供，在`java.util.function`下，总共包含43个接口，这些接口是为了让**Lamdba函数表达式**使用的更加简便。总共包含以下几类接口：
 
-| Interface Type | Description                                                |
-|:---------------|:-----------------------------------------------------------|
-| **Consumer**         | Accepts input, returns void                                |
-| **Function**         | Accepts input, returns result                              |
-| **Predicate**        | Accepts input, returns boolean                             |
-| **Supplier**         | Returns result without input                               |
-| **Operator**         | Accepts input, returns same type |
+| 接口类型 | 表示 |
+| :-----| :----- |
+| **Consumer** | 有输入参数，但无返回结果的函数 | 
+| **Function** | 有输入参数，并返回结果的函数 | 
+| **Predicate** | 有输入参数，并返回boolean类型的结果的函数 | 
+| **Supplier** | 不提供参数，但返回结果的函数 | 
+| **Operator** | 有输入参数，并返回与参数类型一致的结果 | 
 
-While Java 8's 43 **functional interfaces** in `java.util.function` improve lambda usability, they have limitations:
-1. **Overly fragmented**: spread across multiple categories (`Consumer`, `Function`, `Predicate`, etc.), with inconsistent naming conventions
-2. **Limited arity**: Most support only 1-2 parameters
-3. **No exception handling**: Checked exceptions must be caught within lambdas or wrapped in unchecked exceptions, can't be propagated outside of lambda expressions
+可以看到Java 8标准中提供的函数式接口还是挺丰富的，但是个人感觉使用起来有三个不便的地方：
+1. 类别太多，且每个类别下又有几个或者十几个接口，命名不一，不方便记忆
+2. 如果有仔细观察过这些函数式接口，会发现这些接口所表示的函数最多只有两个参数，如果要使用3个及以上的函数，就要自己构造
+3. 对于抛出异常的函数或Lambda表达式无法很好的支持，必须使用try catch才能正常使用，而不能继续向外抛出异常
+
+#### 而Functional提供了4种类别、40个基础的函数式接口，涵盖了以上5种类别所提供的所有函数，且将原本仅支持 2个参数 扩展到多达 9个参数 的函数，并扩展了支持抛出异常的函数式接口。
+**4种类别：**
+
++ **V** (**V**oid)系：表示无返回值的函数
+
++ **R** (**R**eturn)系：表示有返回值的函数
+
++ **VT** (**V**oid and **T**hrow exception)系：表示无返回值且抛出异常的函数
+
++ **RT** (**R**eturn and **T**hrow exception)系：表示有返回值且抛出异常的函数
+
+采用数字结尾，数字表示的是函数的参数个数，分别提供 **0 ~ 9** 个参数的函数，方便记忆。
+以下是4种类别的接口说明：
+
+| Vn | 含义 |
+| :----:| :----: |
+| **V0** | 无参数，无返回值 (a function that accepts 0 argument and returns no result) | 
+| **V1** | 1个参数，无返回值 (a function that accepts 1 argument and returns no result) | 
+| **...** | ...... | 
+| **V9** | 9个参数，无返回值 (a function that accepts 9 arguments and returns no result) | 
+
+| Rn | 含义 |
+| :----:| :----: |
+| **R0** | 无参数，但有返回值 (a function that accepts 0 argument and produces a result) | 
+| **R1** | 1个参数，且有返回值 (a function that accepts 1 argument and produces a result) | 
+| **...** | ...... | 
+| **R9** | 9个参数，且有返回值 (a function that accepts 9 arguments and produces a result) | 
+
+| VTn | 含义 |
+| :----:| :----: |
+| **VT0** | 无参数，无返回值且抛出异常 (accepts 0 argument and returns no result, and will throw exception) | 
+| **VT1** | 1个参数，无返回值且抛出异常 (accepts 1 argument and returns no result, and will throw exception) | 
+| **...** | ...... | 
+| **VT9** | 9个参数，无返回值且抛出异常 (accepts 9 arguments and returns no result, and will throw exception) | 
+
+| RTn | 含义 |
+| :----:| :----: |
+| **RT0** | 无参数，但有返回值且抛出异常 (accepts 0 argument and produces a result, and will throw exception) | 
+| **RT1** | 1个参数，有返回值且抛出异常 (accepts 1 argument and produces a result, and will throw exception) | 
+| **...** | ...... | 
+| **RT9** | 9个参数，有返回值且抛出异常 (accepts 9 arguments and produces a result, and will throw exception) | 
 
 
-#### This Functional provides 4 categories and 40 basic functional interfaces, covering all functions from the aforementioned 5 categories. It extends support from 2-parameter functions to up to 9-parameter functions and expanded handle exceptions.  
-**4 Interface Categories**
-
-+ **V** (**V**oid): a function without return value
-+ **R** (**R**eturn): a function with return value
-+ **VT** (**V**oid and **T**hrow exception): a function without return value + exception
-+ **RT** (**R**eturn and **T**hrow exception): a function with return value + exception  
-
-They use **numeric suffixes**, where the number indicates the number of function parameters, providing functions with **0 ~ 9** parameters respectively for easier memorization.  
-Below are the interface specifications for the 4 categories:  
-
-
-| Vn |                          Meaning                          |
-| :----:|:---------------------------------------------------------:|
-| **V0** |  a function that accepts 0 argument and returns no result | 
-| **V1** |  a function that accepts 1 argument and returns no result | 
-| **...** |                           ......                          | 
-| **V9** | a function that accepts 9 arguments and returns no result | 
-
-| Rn |                               Meaning                               |
-| :----:|:-------------------------------------------------------------------:|
-| **R0** |      a function that accepts 0 argument and produces a result       | 
-| **R1** |      a function that accepts 1 argument and produces a result       | 
-| **...** |                               ......                                | 
-| **R9** |      a function that accepts 9 arguments and produces a result      | 
-
-| VTn |                               Meaning                               |
-| :----:|:-------------------------------------------------------------------:|
-| **VT0** |  accepts 0 argument and returns no result, and will throw exception | 
-| **VT1** |  accepts 1 argument and returns no result, and will throw exception | 
-| **...** |                                ......                               | 
-| **VT9** | accepts 9 arguments and returns no result, and will throw exception | 
-
-| RTn |                                      Meaning                                      |
-| :----:|:---------------------------------------------------------------------------------:|
-| **RT0** |        accepts 0 argument and produces a result, and will throw exception         | 
-| **RT1** |        accepts 1 argument and produces a result, and will throw exception         | 
-| **...** |                                      ......                                       | 
-| **RT9** |        accepts 9 arguments and produces a result, and will throw exception        | 
-
-
-### Functional Interface Implementation
-- `V2` interface example   
+### Functional函数式接口使用  
+- V2接口示例  
 ```java
 public void testV2(){
     /*
@@ -478,7 +477,7 @@ private void v2AsParams(V2<String, String> v2) {
 }
 ```
 
-- `R1` interface example
+- R1接口示例  
 ```java
 public void testR1() {
     List<String> ls = Arrays.asList("1", "2", "3", "4");
@@ -491,13 +490,13 @@ public void testR1() {
             return Integer.valueOf(s) + 10;
         }
     });
-    System.out.println(intList);      // output: [11, 12, 13, 14]
+    System.out.println(intList);      // 输出：[11, 12, 13, 14]
 
     /*
     Java 8 及以后：使用 Lambda 表达式，调用 map
      */
     List<Integer> map = map(ls, s -> Integer.valueOf(s) + 20);
-    System.out.println(map);         // output: [21, 22, 23, 24]
+    System.out.println(map);         // 输出：[21, 22, 23, 24]
 
 }
 
@@ -512,7 +511,7 @@ private <T, R> List<R> map(List<T> ls, R1<T, R> r1) {
 }
 ```
 
-- `R2` Interface (**without exception throwing support**) Exception Handling Example
+- R2接口（不支持抛出异常） 处理异常示例  
 ```java
 public void testR2Exception(){
     // 必须在 lambda 表达式中使用 try-catch 块处理，无法将异常继续向外抛出
@@ -534,7 +533,7 @@ public void testR2Exception(){
 }
 ```
 
-- `RT2` Interface (**with exception throwing support**) Exception Handling Example  
+- RT2接口（支持抛出异常） 处理异常示例  
 ```java
 public void testRT2Exception() throws IOException { 
     RT2<String, Integer, String, IOException> rt2 = (s, i) -> {
@@ -561,23 +560,23 @@ public void testRT2Exception() throws IOException {
 
 
 
-## 📘Tuple
-Tuple is a data structure used to represent a collection of elements. Similar to List, but with fundamental differences:  
-1. Tuples can store elements of different types, while Lists are restricted to homogeneous types  
-2. Tuple values are immutable once initialized and cannot be modified  
+## 📘Tuple（元组）
+元组（Tuple）是用来表示一组数据的集合。与列表（List）类似，但与列表有着本质的区别：
+1. 元组可以存放不同类型的数据，而列表只能存放相同类型的数据
+2. 元组的值一经初始化，无法修改，只能查看
 
-Java's lack of native tuple support often complicates simple scenarios, especially when **methods need to return multiple values of differing types**. Functional provides **Tuple0 to Tuple9** implementations to address this need.  
+Java中一直没有提供元组（Tuple）类型的支持，导致有些时候，简单的问题复杂化，特别是当**一个方法需要返回多个值，且这些值的类型不一致**时，采用元组（Tuple）可以提供极大的便利。为此，Functional 提供 **Tuple0 ~ Tuple9** 这 10 种 Tuple 类型。
 
-### Tuple Usage
-- Creating and accessing tuple elements  
+### Tuple（元组）使用
+- 创建元组与取出元组中的元素
 ```java
 Tuple3<String, Integer, Tuple2<String, String>> t3 = new Tuple3<>("zs", 20, new Tuple2<String, String>("123", "abc"));
-System.out.println(t3._1);    // output: zs
-System.out.println(t3._2);    // output: 20
-System.out.println(t3._3);    // output: ("123", "abc")
+System.out.println(t3._1);    // 输出: zs
+System.out.println(t3._2);    // 输出: 20
+System.out.println(t3._3);    // 输出: ("123", "abc")
 ```
 
-- Aliasing tuple elements and accessing via aliases  
+- 为元组中的元素起别名以及通过别名取元素
 ```java
 // 方式一（推荐）
 // MyTupleAlias.java
@@ -605,23 +604,23 @@ System.out.println("ID: " + id + "  name: " + name);    // output：ID: 1  name:
 Tuple2<String, Integer> t2 = new Tuple2<>("abc", 20).alias("name", "age");
 String name = (String)t2.__("name");    // 不使用泛型参数
 Integer age = t2.<Integer>__("age");    // 使用泛型参数
-System.out.println(name);               // output: abc
-System.out.println(age);                // output: 20
+System.out.println(name);               // 输出: abc
+System.out.println(age);                // 输出: 20
 
 ```
 
-- Iterating through tuple elements  
+- 遍历元组中的元素
 ```java
 Tuple2<String, Integer> t2 = new Tuple2<>("zs", 20).alias("name", "age");
 for (int i = 0; i < t2.arity(); i++) {
     Object element = t2.element(i);                                     // 不带别名
-    System.out.println(element);                                        // output: zs  和   20
+    System.out.println(element);                                        // 输出：zs  和   20
     Tuple2<String, Object> elementWithAlias = t2.elementWithAlias(i);   // 带别名
-    System.out.println(elementWithAlias);                               // output: ("name", "zs")   和  ("age", 20)
+    System.out.println(elementWithAlias);                               // 输出：("name", "zs")   和  ("age", 20)
 }
 ```
 
-- Returning multiple values from methods  
+- 方法中返回多个值
 ```java
 public Tuple2<String, Integer> returnMultipleValue(){
     String name = "zs";
@@ -631,7 +630,7 @@ public Tuple2<String, Integer> returnMultipleValue(){
 }
 ```
 
-- Use **Auto Type Inferring** in Java 10 for `Tuple` type  
+- 配合 Java10 的局部变量自动类型推断(Auto Type Inferring)会更好哦
 ```java
 // Java 8 语法
 Tuple9<String, Integer, Tuple1<String>, String, Integer, String, Integer, Tuple2<String, String>, String> tuple91 = new Tuple9<>("abcdefg", 20, new Tuple1<>("10000").alias("id"), (String) null, 29, "tupel6", 666, new Tuple2<>("123", "abc"), "tuple9");
@@ -640,16 +639,14 @@ Tuple9<String, Integer, Tuple1<String>, String, Integer, String, Integer, Tuple2
 var tuple9 = new Tuple9<>("abcdefg", 20, new Tuple1<>("10000").alias("id"), (String)null, 29, "tupel6", 666, new Tuple2<>("123", "abc"), "tuple9");
 ```
 
-### EasyTuple Usage
-`EasyTuple` is a simplified version of `Tuple`, used when **all elements are of the same type**, 
-similar to List but more convenient for specific scenarios 
-
+### EasyTuple 使用
+EasyTuple是简单版的Tuple，在**所有元素都是相同类型**的情境下使用，和列表（List）很像，但是使用起来比列表（List）更方便一些  
 
 ```java
 EasyTuple8<String> et8 = new EasyTuple8<>("abcdefg", "abc", "bcd", null, "29", "tupel6", "666", "tuple8");
-System.out.println(et8);  // output: ("abcdefg", "abc", "bcd", null, "29", "tupel6", "666", "tuple8")
+System.out.println(et8);  // 输出: ("abcdefg", "abc", "bcd", null, "29", "tupel6", "666", "tuple8")
 EasyTuple8<String> alias = et8.alias(null, "", "testTuple", "abc", "5", "第6个", "7", "8");
-System.out.println(alias);  // output: (null: "abcdefg", : "abc", testTuple: "bcd", abc: null, 5: "29", 第6个: "tupel6", 7: "666", 8: "tuple8")
+System.out.println(alias);  // 输出: (null: "abcdefg", : "abc", testTuple: "bcd", abc: null, 5: "29", 第6个: "tupel6", 7: "666", 8: "tuple8")
 String s = et8.__((String) null);
 System.out.println(s);
 String s1 = et8.__("");
@@ -662,8 +659,8 @@ for (int i = 0; i < et8.arity(); i++) {
 }
 ```
 
-## 🕒Powerful Temporal API
-### Auto-parsing Time Strings
+## 🕒强大的时间处理API
+### 自动识别时间字符串
 ```java
 DateTime dt00 = DateTime.parse("2022-8-01 10:5:15", TZ.UTC);
 DateTime dt01 = DateTime.parse("2022/8/01T10:5:15.987");
@@ -700,10 +697,10 @@ System.out.println(dt14.dtDetail());    // 2022-08-10 17:06:50.000000000 [Asia/S
 System.out.println(dt15.dtDetail());    // 2022-08-10 17:06:50.666000000 [Asia/Shanghai +08:00 GMT+8 周三]
 ```
 
-### Time Rounding Operations
+### 时间取整操作
 ```java
 /*
- Various Temporal types 
+ 各种原始时间类型
  */
 LocalDateTime ldt = LocalDateTime.of(2022, 2, 27, 8, 0, 10, 100);
 ZonedDateTime zdt = ldt.atZone(TZ.DEFAULT_ZONE);
@@ -713,7 +710,7 @@ Calendar calendar = Calendar.getInstance();
 calendar.setTime(Date.from(zdt.toInstant()));
 Date date = calendar.getTime();
 /*
- Converting Various Temporal types to `DateTime` type
+ 将各种原始时间转换为 DateTime 类型
  */
 DateTime dt1 = DateTime.of(ldt);        // 2022-02-27 08:00:10.000
 DateTime dt2 = DateTime.of(zdt);        // 2022-02-27 08:00:10.000
@@ -722,7 +719,7 @@ DateTime dt4 = DateTime.of(odt);        // 2022-02-27 08:00:10.000 [+08:00 +08:0
 DateTime dt5 = DateTime.of(calendar);   // 2022-02-27 08:00:10.000
 DateTime dt6 = DateTime.of(date);       // 2022-02-27 08:00:10.000
 /*
- Rounding operations for Temporal types
+ 各种时间类型取整操作
  */
 System.out.println(dt1.round(ChronoUnit.DAYS, RoundingDT.FLOOR));       // 2022-02-27 00:00:00.000
 System.out.println(dt2.round(ChronoUnit.DAYS, RoundingDT.CEILING));     // 2022-02-28 00:00:00.000
@@ -732,10 +729,10 @@ System.out.println(dt5.round(ChronoUnit.HOURS, RoundingDT.CEILING));    // 2022-
 System.out.println(dt6.round(ChronoUnit.HOURS, RoundingDT.HALF_UP));    // 2022-02-27 08:00:00.000
 ```
 
-### Time Offset Calculations
+### 时间偏移(时间加减)
 ```java
 /*
- Various Temporal types 
+ 各种原始时间类型
  */
 LocalDateTime ldt = LocalDateTime.of(2022, 2, 27, 8, 0, 10, 100);
 ZonedDateTime zdt = ldt.atZone(TZ.DEFAULT_ZONE);
@@ -745,7 +742,7 @@ Calendar calendar = Calendar.getInstance();
 calendar.setTime(Date.from(zdt.toInstant()));
 Date date = calendar.getTime();
 /*
- Converting Various Temporal types to `DateTime` type
+ 将各种时间转换为 DateTime 类型
  */
 DateTime dt1 = DateTime.of(ldt);        // 2022-02-27 08:00:10.000
 DateTime dt2 = DateTime.of(zdt);        // 2022-02-27 08:00:10.000
@@ -754,7 +751,7 @@ DateTime dt4 = DateTime.of(odt);        // 2022-02-27 08:00:10.000 [+08:00 +08:0
 DateTime dt5 = DateTime.of(calendar);   // 2022-02-27 08:00:10.000
 DateTime dt6 = DateTime.of(date);       // 2022-02-27 08:00:10.000
 /*
- Offset (addition/subtraction) operations for Temporal types
+ 各种时间类型偏移（加减）操作
  */
 System.out.println(dt1.minusHours(5).plusDays(2));  // 2022-03-01 03:00:10.000
 System.out.println(dt2.minusMillis(-10000));        // 2022-02-27 08:00:20.000
@@ -763,7 +760,7 @@ System.out.println(dt4.plusMonths(1));              // 2022-03-27 08:00:10.000 [
 System.out.println(dt5.plusDays(-5));               // 2022-02-22 08:00:10.000
 System.out.println(dt6.minusMinutes(100));          // 2022-02-27 06:20:10.000
 ```
-### Time Interval Calculation
+### 计算两个时间间隔
 ```java
 LocalDateTime fromLDT = LocalDateTime.of(2020, 8, 15, 10, 56, 43, 10000000);
 DateTime toDT = DateTime.parse("2022/06/20 20:10:56.200");
@@ -774,59 +771,57 @@ System.out.println(interval2);      // 1年10月5天9时14分13秒190毫秒
 ```
 
 
-## 🕒`Stopwatch`
-**Stopwatch**: Facilitates testing the execution time of **code segments** or **multiple consecutive code blocks**. A standalone stopwatch provides **segmented recording**, **continuous recording**, and **real-time recording** capabilities from start to end.  
-**Markers** in the stopwatch (`Stopwatch.mark()`): Allows marking points at the beginning or end of code segments (business logic). These serve as **boundaries between code segments** while also functioning like *savepoints* to capture timestamps at specific moments.
+## 🕒秒表`Stopwatch`
+**秒表**`Stopwatch`：方便<u>测试各个代码片段或任意多个连续代码片段的执行时间</u>。一个独立的秒表从运行开始到结束之前，便具有**分段记录**、**持续记录**与**实时记录**的功能  
+秒表中的**标记**`Stopwatch.mark()`：可在每个代码片段（业务）开始或结束时打个标记。 一方面是<u>代码片段（业务）间的分界点</u>；同时，也类似于savepoint（保存点），保存当时的时间
 ```java
 /*
- elapsedLastStringAndMark()      - Return Stopwatch elapsed time since last mark and create new mark
- Equivalent to:  
+ elapsedLastStringAndMark 方法：返回秒表距离上次标记处耗时，并打上新的标记
+ 等同于：
  stopwatch.elapsedLastString();
  stopwatch.mark();
  */
 Stopwatch stopwatch = Stopwatch.run();
 
-// >> start business1
-Try.sleep(1000);  // ... execute some operations
-// << stop business1
- System.out.println("sleep(1000)。Total elapsed time: " + stopwatch + "---" + "Elapsed time since last mark1：" + stopwatch.elapsedLastStringAndMark()); // output: sleep(1000)。Total elapsed time: 1.003(秒)---Elapsed time since last mark1：1.01(秒)
+// >> 开始业务1
+Try.sleep(1000);  // ... 执行一些操作
+// << 结束业务1
+ System.out.println("sleep(1000)。秒表总耗时：" + stopwatch + "---" + "秒表距离上次标记处耗时1：" + stopwatch.elapsedLastStringAndMark()); // 输出：sleep(1000)。秒表总耗时：1.003(秒)---秒表距离上次标记处耗时1：1.01(秒)
 
-// >> start business2
-Try.sleep(500);  // ... execute some operations
-// << stop business2
-System.out.println("sleep(500)。Total elapsed time: " + stopwatch + "---" + "Elapsed time since last mark2：" + stopwatch.elapsedLastString()); // output: sleep(500)。Total elapsed time: 1.518(秒)---Elapsed time since last mark2：507.527(毫秒)
+// >> 开始业务2
+Try.sleep(500);  // ... 执行一些操作
+// << 结束业务2
+System.out.println("sleep(500)。秒表总耗时：" + stopwatch + "---" + "秒表距离上次标记处耗时2：" + stopwatch.elapsedLastString()); // 输出：sleep(500)。秒表总耗时：1.518(秒)---秒表距离上次标记处耗时2：507.527(毫秒)
 
-stopwatch.mark();  // create new mark
-// >> start business3
-Try.sleep(1500);  // ... execute some operations
-// << stop business3
-System.out.println("sleep(1500)。Total elapsed time: " + stopwatch + "---" + "Elapsed time since last mark3：" + stopwatch.elapsedLastStringAndMark()); // output: sleep(1500)。Total elapsed time: 3.034(秒)---Elapsed time since last mark3：1.516(秒)
+stopwatch.mark();  // 业务开始时打个标记
+// >> 开始业务3
+Try.sleep(1500);  // ... 执行一些操作
+// << 结束业务3
+System.out.println("sleep(1500)。秒表总耗时：" + stopwatch + "---" + "秒表距离上次标记处耗时3：" + stopwatch.elapsedLastStringAndMark()); // 输出：sleep(1500)。秒表总耗时：3.034(秒)---秒表距离上次标记处耗时3：1.516(秒)
 
-// Time elapsed from Business 1 start to Business 3 completion
+// 业务1开始到业务3完成所耗时间
 Stopwatch.Elapsed elapsed = stopwatch.elapsed(0, 3);
-System.out.println("Time elapsed from Business 1 start to Business 3 completion: " + elapsed + "---" + elapsed.toFullString()); // output: Time elapsed from Business 1 start to Business 3 completion: 3.034(秒)---3.034(秒) (index: 0 -> 3, mark: START -> MARK3)
+System.out.println("业务1开始到业务3完成所耗时间：" + elapsed + "---" + elapsed.toFullString()); // 输出：业务1开始到业务3完成所耗时间：3.034(秒)---3.034(秒) (index: 0 -> 3, mark: START -> MARK3)
 
 ```
 
 
 
-## 💡IntelliJ IDEA Smart Prompt
-Due to overly simplistic interface names, IntelliJ IDEA's smart prompt is less effective for **single-letter interface names** 
-and may fail to trigger suggestions. Solutions:
-1. Use the smart completion shortcut key (Configuration steps: Navigate to IDEA's Keymap settings: **Main menu > Code > Completion > Basic**). 
-My configured shortcut is: **alt + /**. For example, with V1:  
-a. Typing **"v1"** will show no suggestions for the `V1` interface  
-![IDEA Smart Prompt](./images/IDEA%20Smart%20tips%201.png)  
-b. pressing **alt + /** will display suggestions for the V1 interface  
-![IDEA Smart Prompt](./images/IDEA%20Smart%20tips%202.png)  
+## 💡IntelliJ IDEA 智能提示
+由于接口名过于简单，导致 IntelliJ IDEA 智能提示不是很友好，对于**只有一个字母的接口名**，可能无法智能提示，解决办法：  
+1. 使用智能补全快捷键（设置方法，进入IDEA快捷键设置Keymap：**Main menu > Code > Completion > Basic**），我设置的快捷键是：**alt + /** ，以 **V1** 为例：  
+a. 输入 v1，会发现没有 **V1 接口**的提示  
+![IDEA 智能提示](https://github.com/io-fairy/functional/blob/main/images/IDEA%20Smart%20tips%201.png)  
+b. 此时，按下 **alt + /**，就会有 **V1 接口**的提示  
+![IDEA 智能提示](https://github.com/io-fairy/functional/blob/main/images/IDEA%20Smart%20tips%202.png)  
 
-2. Manually import all interfaces under lambda(though smart completion still won't work for **single-letter names**, it prevents package import errors during manual entry):  
+2. 手动导入`lambda`下的所有接口（但是对于**只有一个字母的接口名**依然无法智能提示，只是手动输入的时候，可以避免出现 由于没有导包导致的错误）  
 `import com.iofairy.lambda.*;`
 
 
 
-## ⭐Star
-If you find **Functional** useful! Please give a **Star**⭐ to support us. Thank you.  
+## ⭐点个赞哟
+如果你喜欢 Functional，感觉 Functional 帮助到了你，可以点右上角 **Star** 支持一下哦，感谢感谢！
 
 ## 📜Copyright
 

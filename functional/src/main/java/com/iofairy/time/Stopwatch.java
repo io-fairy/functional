@@ -15,7 +15,6 @@
  */
 package com.iofairy.time;
 
-import com.iofairy.annos.Beta;
 import com.iofairy.os.OS;
 import com.iofairy.si.SI;
 import com.iofairy.top.G;
@@ -41,7 +40,6 @@ import static java.util.concurrent.TimeUnit.*;
  *
  * @since 0.6.0
  */
-@Beta
 public class Stopwatch {
     private long startTick;
     private long lastMarkTick;

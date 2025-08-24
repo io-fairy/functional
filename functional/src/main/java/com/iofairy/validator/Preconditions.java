@@ -31,7 +31,7 @@ import static com.iofairy.validator.ErrorMsgType.*;
  *
  * <b>NOTE: </b>You'd better import this class first using <b>static import</b>:
  * <blockquote><pre>{@code
- * import static com.iofairy.falcon.misc.Preconditions.*;
+ * import static com.iofairy.validator.Preconditions.*;
  * }</pre></blockquote>
  *
  * @since 0.6.0

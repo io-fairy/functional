@@ -2233,4 +2233,78 @@ public class GlobalTest {
     public void testIsZhLang() {
         System.out.println("是否中文环境：" + G.IS_ZH_LANG);
     }
+
+
+    @Test
+    public void testDivide() {
+        BigDecimal divide01 = O.divide(BigDecimal.valueOf(1), BigDecimal.valueOf(3));
+        BigDecimal divide02 = O.divide(BigDecimal.valueOf(1), BigDecimal.valueOf(1024L * 1024 * 1024 * 1024L), true);
+        BigDecimal divide03 = O.divide(BigDecimal.valueOf(1), BigDecimal.valueOf(1024L * 1024 * 1024 * 1024L), false);
+        BigDecimal divide04 = O.divide(BigInteger.valueOf(1), BigInteger.valueOf(33333333333333333L));
+        BigDecimal divide05 = O.divide(BigInteger.valueOf(1), BigInteger.valueOf(33333333333333333L), 30);
+        BigDecimal divide06 = O.divide(BigInteger.valueOf(1), BigInteger.valueOf(1024L * 1024 * 1024 * 1024L), 15, true);
+        BigDecimal divide07 = O.divide(BigInteger.valueOf(1), BigInteger.valueOf(1024L * 1024 * 1024 * 1024L), false);
+        BigDecimal divide08 = O.divide(1, BigDecimal.valueOf(3));
+        assertThrows(ArithmeticException.class, () -> O.divide(BigDecimal.valueOf(1), 0), "/ by zero");
+        assertThrows(NumberFormatException.class, () -> O.divide(BigDecimal.valueOf(1), Double.NaN), "The `number` is NaN or Infinity, can't convert to BigDecimal");
+        System.out.println(divide01.toPlainString());     // 0.333333
+        System.out.println(divide02.toPlainString());     // 0.000000
+        System.out.println(divide03.toPlainString());     // 0.0000000000009094947017729282379150390625
+        System.out.println(divide04.toPlainString());     // 0.000000
+        System.out.println(divide05.toPlainString());     // 0.000000000000000030000000000000
+        System.out.println(divide06.toPlainString());     // 0.000000000000909
+        System.out.println(divide07.toPlainString());     // 0.0000000000009094947017729282379150390625
+        System.out.println(divide08.toPlainString());     // 0.333333
+
+        assertEquals(divide01.toPlainString(), "0.333333");
+        assertEquals(divide02.toPlainString(), "0.000000");
+        assertEquals(divide03.toPlainString(), "0.0000000000009094947017729282379150390625");
+        assertEquals(divide04.toPlainString(), "0.000000");
+        assertEquals(divide05.toPlainString(), "0.000000000000000030000000000000");
+        assertEquals(divide06.toPlainString(), "0.000000000000909");
+        assertEquals(divide07.toPlainString(), "0.0000000000009094947017729282379150390625");
+        assertEquals(divide08.toPlainString(), "0.333333");
+    }
+
+    @Test
+    public void testDividePower() {
+        Number divide01 = O.dividePower(BigDecimal.valueOf(1), BigDecimal.valueOf(3));
+        Number divide02 = O.dividePower(BigDecimal.valueOf(1), BigDecimal.valueOf(1024L * 1024 * 1024 * 1024L), true);
+        Number divide03 = O.dividePower(BigDecimal.valueOf(1), BigDecimal.valueOf(1024L * 1024 * 1024 * 1024L), false);
+        Number divide04 = O.dividePower(BigInteger.valueOf(1), BigInteger.valueOf(33333333333333333L));
+        Number divide05 = O.dividePower(BigInteger.valueOf(1), BigInteger.valueOf(33333333333333333L), 30);
+        Number divide06 = O.dividePower(BigInteger.valueOf(1), BigInteger.valueOf(1024L * 1024 * 1024 * 1024L), 15, true);
+        Number divide07 = O.dividePower(BigInteger.valueOf(1), BigInteger.valueOf(1024L * 1024 * 1024 * 1024L), false);
+        Number divide08 = O.dividePower(1, 3);
+        Number divide09 = O.dividePower(1, 3.0);
+        Number divide10 = O.dividePower(-1, 0.0);
+        Number divide11 = O.dividePower(1, Double.NaN);
+        assertThrows(ArithmeticException.class, () -> O.dividePower(1, 0), "/ by zero");
+        assertThrows(ArithmeticException.class, () -> O.dividePower(BigDecimal.valueOf(1), 0), "/ by zero");
+        assertThrows(NumberFormatException.class, () -> O.dividePower(BigDecimal.valueOf(1), Double.NaN), "The `number` is NaN or Infinity, can't convert to BigDecimal");
+        System.out.println(G.toString(divide01));     // 0.333333
+        System.out.println(G.toString(divide02));     // 0.000000
+        System.out.println(G.toString(divide03, 50));     // 0.0000000000009094947017729282379150390625
+        System.out.println(G.toString(divide04));     // 0.000000
+        System.out.println(G.toString(divide05, 50));     // 0.000000000000000030000000000000
+        System.out.println(G.toString(divide06));     // 0.000000000000909
+        System.out.println(G.toString(divide07, 50));     // 0
+        System.out.println(G.toString(divide08));     // 0
+        System.out.println(G.toString(divide09));
+        System.out.println(G.toString(divide10));
+        System.out.println(G.toString(divide11));
+
+        assertEquals(G.toString(divide01), "0.333333");
+        assertEquals(G.toString(divide02), "0.0");
+        assertEquals(G.toString(divide03, 50), "0.0000000000009094947017729282379150390625");
+        assertEquals(G.toString(divide04), "0");
+        assertEquals(G.toString(divide05, 50), "0");
+        assertEquals(G.toString(divide06), "0");
+        assertEquals(G.toString(divide07, 50), "0");
+        assertEquals(G.toString(divide08), "0");
+        assertEquals(G.toString(divide09), "0.333333");
+        assertEquals(G.toString(divide10), "-∞");
+        assertEquals(G.toString(divide11), "NaN");
+    }
+
 }
