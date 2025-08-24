@@ -16,9 +16,14 @@
 package com.iofairy.range;
 
 import com.iofairy.annos.Beta;
+import com.iofairy.time.DateTime;
+import com.iofairy.time.DateTimes;
 import com.iofairy.top.G;
+import com.iofairy.top.S;
 
 import java.io.Serializable;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.Temporal;
 import java.util.*;
 
 /**
@@ -58,6 +63,9 @@ public class Range<T extends Comparable> implements Serializable {
 
     public static final String EMPTY_SET = "∅";
     public static final String INFINITY = "∞";
+    /**
+     * 实数集，对于数值类型的才有意义
+     */
     public static final String SET_OF_REAL_NUMBERS = "R";
 
     /**
@@ -154,16 +162,19 @@ public class Range<T extends Comparable> implements Serializable {
             @SuppressWarnings("unchecked")
             int i = lowerBound.compareTo(upperBound);
 
-            isEmpty = this.intervalType != IntervalType.CLOSED && i == 0;
+            isEmpty = (this.intervalType != IntervalType.CLOSED && i == 0) || i > 0;
 
             /*
-             lowerBound 如果比 upperBound 大，则交换位置
+             允许 lowerBound 比 upperBound 大，表示为 ∅
              */
-            if (i > 0) {
-                T tmpLowerBound = lowerBound;
-                lowerBound = upperBound;
-                upperBound = tmpLowerBound;
-            }
+            // /*
+            //  lowerBound 如果比 upperBound 大，则交换位置
+            //  */
+            // if (i > 0) {
+            //     T tmpLowerBound = lowerBound;
+            //     lowerBound = upperBound;
+            //     upperBound = tmpLowerBound;
+            // }
         }
 
         this.lowerBound = lowerBound;
@@ -205,6 +216,22 @@ public class Range<T extends Comparable> implements Serializable {
 
     public static <T extends Comparable<?>> Range<T> of(Range<T> range, IntervalType intervalType) {
         return new Range<>(range.lowerBound, range.upperBound, intervalType);
+    }
+
+    public static <T extends Comparable<?>> Range<T> autoSwap(T lowerBound, T upperBound, IntervalType intervalType) {
+        if (lowerBound != null && upperBound != null) {
+            @SuppressWarnings("unchecked")
+            int i = ((Comparable<T>) lowerBound).compareTo(upperBound);
+            /*
+             lowerBound 如果比 upperBound 大，则交换位置
+             */
+            if (i > 0) {
+                T tmpLowerBound = lowerBound;
+                lowerBound = upperBound;
+                upperBound = tmpLowerBound;
+            }
+        }
+        return new Range<>(lowerBound, upperBound, intervalType);
     }
 
     public static <T extends Comparable<?>> Range<T> open(T lowerBound, T upperBound) {
@@ -291,17 +318,62 @@ public class Range<T extends Comparable> implements Serializable {
 
     @Override
     public String toString() {
+        return toString(DateTimes.STD_DTF, false);
+    }
+
+    public String toString(String pattern) {
+        return toString(S.isBlank(pattern) ? DateTimes.STD_DTF : DateTimeFormatter.ofPattern(pattern));
+    }
+
+    public String toString(String pattern, boolean useTimestamp) {
+        return toString(S.isBlank(pattern) ? DateTimes.STD_DTF : DateTimeFormatter.ofPattern(pattern), useTimestamp);
+    }
+
+    public String toString(DateTimeFormatter formatter) {
+        return toString(formatter, false);
+    }
+
+    public String toString(DateTimeFormatter formatter, boolean useTimestamp) {
         StringBuilder sb = new StringBuilder();
-        String lower = lowerBound == null ? "-" + INFINITY : G.toString(lowerBound);
-        String upper = upperBound == null ? "+" + INFINITY : G.toString(upperBound);
+        String lower;
+        String upper;
+        if (lowerBound instanceof Temporal || upperBound instanceof Temporal
+                || lowerBound instanceof Calendar || upperBound instanceof Calendar
+                || lowerBound instanceof Date || upperBound instanceof Date) {
+            if (lowerBound == null) {
+                lower = "-" + INFINITY;
+            } else {
+                DateTime lowerDateTime = DateTime.of(lowerBound);
+                lower = useTimestamp ? "" + lowerDateTime.toEpochMilli() : "'" + lowerDateTime.format(formatter) + "'";
+            }
+            if (lowerBound == null) {
+                upper = "+" + INFINITY;
+            } else {
+                DateTime upperDateTime = DateTime.of(upperBound);
+                upper = useTimestamp ? "" + upperDateTime.toEpochMilli() : "'" + upperDateTime.format(formatter) + "'";
+            }
+        } else if (lowerBound instanceof Number || upperBound instanceof Number) {
+            lower = lowerBound == null ? "-" + INFINITY : G.toString((Number) lowerBound, 10);
+            upper = upperBound == null ? "+" + INFINITY : G.toString((Number) upperBound, 10);
+        } else if (lowerBound instanceof Character || upperBound instanceof Character) {
+            lower = lowerBound == null ? "-" + INFINITY : "'" + lowerBound + "'";
+            upper = upperBound == null ? "+" + INFINITY : "'" + upperBound + "'";
+        } else if (lowerBound instanceof CharSequence || upperBound instanceof CharSequence) {
+            lower = lowerBound == null ? "-" + INFINITY : "\"" + lowerBound + "\"";
+            upper = upperBound == null ? "+" + INFINITY : "\"" + upperBound + "\"";
+        } else {
+            lower = lowerBound == null ? "-" + INFINITY : G.toString(lowerBound);
+            upper = upperBound == null ? "+" + INFINITY : G.toString(upperBound);
+        }
 
         sb.append(intervalType.leftSign).append(lower).append(", ").append(upper).append(intervalType.rightSign);
 
         return sb.toString();
     }
 
+
     public String toSimpleString() {
-        return isEmpty ? EMPTY_SET : ((lowerBound == null && upperBound == null) ? SET_OF_REAL_NUMBERS : toString());
+        return isEmpty ? EMPTY_SET : toString();
     }
 
 }

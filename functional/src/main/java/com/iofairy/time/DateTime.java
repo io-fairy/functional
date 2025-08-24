@@ -38,7 +38,7 @@ import static com.iofairy.validator.Preconditions.*;
 
 /**
  * The {@code DateTime} class wraps a value of the {@link Date} or {@link Calendar} or {@link Instant}
- * or {@link LocalDateTime} or {@link OffsetDateTime} or {@link ZonedDateTime} type. <br>
+ * or {@link LocalDateTime} or {@link OffsetDateTime} or {@link ZonedDateTime} or {@link LocalDate} type. <br>
  *
  * @implSpec This class is <b>immutable</b> and <b>thread-safe</b>.
  * @since 0.6.0
@@ -1334,7 +1334,7 @@ public class DateTime implements Temporal, Comparable<DateTime>, Serializable {
      * @return the formatted date-time string, not null
      */
     public String format(String dtPattern) {
-        return format(S.isBlank(dtPattern) ? DateTimes.DTFormatters.SIMPLE_DTF : DateTimeFormatter.ofPattern(dtPattern));
+        return format(S.isBlank(dtPattern) ? DateTimes.SIMPLE_DTF : DateTimeFormatter.ofPattern(dtPattern));
     }
 
     /**
@@ -1353,7 +1353,7 @@ public class DateTime implements Temporal, Comparable<DateTime>, Serializable {
      * @return the formatted date-time string, not null
      */
     public String formatYMDHMS() {
-        return format(DateTimes.DTFormatters.STD_DTF);
+        return format(DateTimes.STD_DTF);
     }
 
     /**

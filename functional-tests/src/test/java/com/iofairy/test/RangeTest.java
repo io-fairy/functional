@@ -4,6 +4,8 @@ import static com.iofairy.range.IntervalType.*;
 
 import com.iofairy.range.Range;
 import com.iofairy.tcf.Try;
+import com.iofairy.time.DateTimes;
+import com.iofairy.time.TZ;
 import com.iofairy.top.G;
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @date 2024/1/31 13:30
  */
 public class RangeTest {
+
     @Test
     public void testRange() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -39,22 +42,40 @@ public class RangeTest {
         Range<BigDecimal> range05 = Range.of(new BigDecimal("10.0"), new BigDecimal("-0.0"), CLOSED_OPEN);
         Range<Date> range06 = Range.of(date1, date1, CLOSED_OPEN);
         Range<Date> range07 = Range.of(date1, date2, CLOSED_OPEN);
+        Range<Date> range08 = Range.of(date2, date1, CLOSED_OPEN);
+        Range<Character> range09 = Range.of('\'', 'A', CLOSED_OPEN);
+        Range<String> range10 = Range.of("hello", "world", CLOSED_OPEN);
+        Range<Date> range11 = Range.autoSwap(date1, date2, CLOSED_OPEN);
 
-        System.out.println(range01 + " --- " + range01.toSimpleString());
-        System.out.println(range02 + " --- " + range02.toSimpleString());
-        System.out.println(range03 + " --- " + range03.toSimpleString());
-        System.out.println(range04 + " --- " + range04.toSimpleString());
-        System.out.println(range05 + " --- " + range05.toSimpleString());
-        System.out.println(range06 + " --- " + range06.toSimpleString());
-        System.out.println(range07 + " --- " + range07.toSimpleString());
+        System.out.println("range01: " + range01 + " --- " + range01.toSimpleString());
+        System.out.println("range02: " + range02 + " --- " + range02.toSimpleString());
+        System.out.println("range03: " + range03 + " --- " + range03.toSimpleString());
+        System.out.println("range04: " + range04 + " --- " + range04.toSimpleString());
+        System.out.println("range05: " + range05 + " --- " + range05.toSimpleString());
+        System.out.println("range06: " + range06 + " --- " + range06.toSimpleString());
+        System.out.println("range07: " + range07 + " --- " + range07.toSimpleString());
+        System.out.println("range08: " + range08 + " --- " + range08.toSimpleString());
+        System.out.println("range08: " + range08 + " --- " + range08.toSimpleString());
+        System.out.println("range09: " + range09 + " --- " + range09.toSimpleString());
+        System.out.println("range10: " + range10 + " --- " + range10.toSimpleString());
+        System.out.println("range11: " + range11 + " --- " + range11.toSimpleString());
+        System.out.println("range11: " + range11 + " --- " + range11.toString(DateTimes.DETAILED_ZONED_DTF.withZone(TZ.UTC)));
+        System.out.println("range11: " + range11 + " --- " + range11.toString(DateTimes.DETAILED_ZONED_DTF.withZone(TZ.UTC), true));
 
-        assertEquals(range01 + " --- " + range01.toSimpleString(), "(-∞, +∞) --- R");
-        assertEquals(range02 + " --- " + range02.toSimpleString(), "(-∞, +∞) --- R");
+
+        assertEquals(range01 + " --- " + range01.toSimpleString(), "(-∞, +∞) --- (-∞, +∞)");
+        assertEquals(range02 + " --- " + range02.toSimpleString(), "(-∞, +∞) --- (-∞, +∞)");
         assertEquals(range03 + " --- " + range03.toSimpleString(), "(-∞, 0.0] --- (-∞, 0.0]");
         assertEquals(range04 + " --- " + range04.toSimpleString(), "(-∞, 0.0) --- (-∞, 0.0)");
-        assertEquals(range05 + " --- " + range05.toSimpleString(), "[0.0, 10.0) --- [0.0, 10.0)");
-        assertEquals(range06 + " --- " + range06.toSimpleString(), "[2024-02-01 10:20:05.000, 2024-02-01 10:20:05.000) --- ∅");
-        assertEquals(range07 + " --- " + range07.toSimpleString(), "[2024-01-30 10:20:05.000, 2024-02-01 10:20:05.000) --- [2024-01-30 10:20:05.000, 2024-02-01 10:20:05.000)");
+        assertEquals(range05 + " --- " + range05.toSimpleString(), "[10.0, 0.0) --- ∅");
+        assertEquals(range06 + " --- " + range06.toSimpleString(), "['2024-02-01 10:20:05', '2024-02-01 10:20:05') --- ∅");
+        assertEquals(range07 + " --- " + range07.toSimpleString(), "['2024-02-01 10:20:05', '2024-01-30 10:20:05') --- ∅");
+        assertEquals(range08 + " --- " + range08.toSimpleString(), "['2024-01-30 10:20:05', '2024-02-01 10:20:05') --- ['2024-01-30 10:20:05', '2024-02-01 10:20:05')");
+        assertEquals(range09 + " --- " + range09.toSimpleString(), "[''', 'A') --- [''', 'A')");
+        assertEquals(range10 + " --- " + range10.toSimpleString(), "[\"hello\", \"world\") --- [\"hello\", \"world\")");
+        assertEquals(range11 + " --- " + range11.toSimpleString(), "['2024-01-30 10:20:05', '2024-02-01 10:20:05') --- ['2024-01-30 10:20:05', '2024-02-01 10:20:05')");
+        assertEquals(range11 + " --- " + range11.toString(DateTimes.DETAILED_ZONED_DTF.withZone(TZ.UTC)), "['2024-01-30 10:20:05', '2024-02-01 10:20:05') --- ['2024-01-30 02:20:05.000000000 [UTC +00:00 GMT 周二]', '2024-02-01 02:20:05.000000000 [UTC +00:00 GMT 周四]')");
+        assertEquals(range11 + " --- " + range11.toString(DateTimes.DETAILED_ZONED_DTF.withZone(TZ.UTC), true), "['2024-01-30 10:20:05', '2024-02-01 10:20:05') --- [1706581205000, 1706754005000)");
         System.out.println("============================================================");
 
         boolean contains01 = range01.contains(new BigDecimal("-0.0"));
@@ -71,8 +92,8 @@ public class RangeTest {
         boolean contains12 = range06.contains(date4);
         boolean contains13 = range07.contains(date1);
         boolean contains14 = range07.contains(date2);
-        boolean contains15 = range07.contains(date3);
-        boolean contains16 = range07.contains(date4);
+        boolean contains15 = range08.contains(date3);
+        boolean contains16 = range08.contains(date4);
 
         // System.out.println("contains01: " + contains01);
         // System.out.println("contains02: " + contains02);
@@ -96,7 +117,7 @@ public class RangeTest {
         assertFalse(contains03);
         assertTrue(contains04);
         assertFalse(contains05);
-        assertTrue(contains06);
+        assertFalse(contains06);
         assertFalse(contains07);
         assertFalse(contains08);
         assertFalse(contains09);
@@ -104,7 +125,7 @@ public class RangeTest {
         assertFalse(contains11);
         assertFalse(contains12);
         assertFalse(contains13);
-        assertTrue(contains14);
+        assertFalse(contains14);
         assertTrue(contains15);
         assertFalse(contains16);
 
@@ -136,18 +157,18 @@ public class RangeTest {
         assertFalse(range02.isEmpty);
         assertFalse(range03.isEmpty);
         assertFalse(range04.isEmpty);
-        assertFalse(range05.isEmpty);
+        assertTrue(range05.isEmpty);
         assertTrue(range06.isEmpty);
-        assertFalse(range07.isEmpty);
+        assertTrue(range07.isEmpty);
     }
 
     @Test
     public void testRange1() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date1 = Try.tcfs(() -> sdf.parse("2024-02-01 10:20:05"));
-        Date date2 = Try.tcfs(() -> sdf.parse("2024-01-30 10:55:05"));
+        Date date1 = Try.tcfs(() -> sdf.parse("2024-01-30 10:55:05"));
+        Date date2 = Try.tcfs(() -> sdf.parse("2024-02-01 10:20:05"));
 
-        Range<BigDecimal> r1 = Range.of(new BigDecimal("10.5"), new BigDecimal("-0.15"), CLOSED_OPEN);
+        Range<BigDecimal> r1 = Range.of(new BigDecimal("-0.15"), new BigDecimal("10.5"), CLOSED_OPEN);
         Range<Date> r2 = Range.of(date1, date2, CLOSED_OPEN);
         System.out.println("Range<BigDecimal>: " + r1);
         System.out.println("Range<Date>      : " + r2);
@@ -163,10 +184,10 @@ public class RangeTest {
         assertEquals(1, count1);
         assertEquals(1, count2);
 
-        List<Date> lowerBounds2 = Arrays.asList(date2,
+        List<Date> lowerBounds2 = Arrays.asList(date1,
                 r2.lowerBound, r2.start, r2.min, r2.from, r2.earliest, r2.left, r2.infimum,
                 r2.head, r2.begin, r2.first, r2.origin, r2.source, r2.bottom, r2.floor);
-        List<Date> upperBounds2 = Arrays.asList(date1,
+        List<Date> upperBounds2 = Arrays.asList(date2,
                 r2.upperBound, r2.end, r2.max, r2.to, r2.latest, r2.right, r2.supremum,
                 r2.tail, r2.finish, r2.last, r2.destination, r2.target, r2.top, r2.ceiling);
         Set<Date> datesSet1 = new HashSet<>(lowerBounds2);
