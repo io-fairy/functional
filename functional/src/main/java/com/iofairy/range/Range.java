@@ -22,6 +22,7 @@ import com.iofairy.top.G;
 import com.iofairy.top.S;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
 import java.time.temporal.UnsupportedTemporalTypeException;
@@ -336,29 +337,8 @@ public class Range<T extends Comparable> implements Serializable {
 
     public String toString(DateTimeFormatter formatter, boolean useTimestamp) {
         StringBuilder sb = new StringBuilder();
-        String lower;
-        String upper;
-        if (lowerBound == null && upperBound == null) {
-            lower = "-" + INFINITY;
-            upper = "+" + INFINITY;
-        } else if ((lowerBound instanceof Temporal || upperBound instanceof Temporal)
-                || (lowerBound instanceof Calendar || upperBound instanceof Calendar)
-                || (lowerBound instanceof Date || upperBound instanceof Date)) {
-            lower = formatDateBound(lowerBound, "-", useTimestamp, formatter);
-            upper = formatDateBound(upperBound, "+", useTimestamp, formatter);
-        } else if (lowerBound instanceof Number || upperBound instanceof Number) {
-            lower = lowerBound == null ? "-" + INFINITY : G.toString((Number) lowerBound, 10);
-            upper = upperBound == null ? "+" + INFINITY : G.toString((Number) upperBound, 10);
-        } else if (lowerBound instanceof Character || upperBound instanceof Character) {
-            lower = lowerBound == null ? "-" + INFINITY : "'" + lowerBound + "'";
-            upper = upperBound == null ? "+" + INFINITY : "'" + upperBound + "'";
-        } else if (lowerBound instanceof CharSequence || upperBound instanceof CharSequence) {
-            lower = lowerBound == null ? "-" + INFINITY : "\"" + lowerBound + "\"";
-            upper = upperBound == null ? "+" + INFINITY : "\"" + upperBound + "\"";
-        } else {
-            lower = lowerBound == null ? "-" + INFINITY : G.toString(lowerBound);
-            upper = upperBound == null ? "+" + INFINITY : G.toString(upperBound);
-        }
+        String lower = boundToString(lowerBound, "-", useTimestamp, formatter);
+        String upper = boundToString(upperBound, "+", useTimestamp, formatter);
 
         sb.append(intervalType.leftSign).append(lower).append(", ").append(upper).append(intervalType.rightSign);
 
@@ -369,6 +349,25 @@ public class Range<T extends Comparable> implements Serializable {
         return isEmpty ? EMPTY_SET : toString();
     }
 
+    private String boundToString(T bound, String sign, boolean useTimestamp, DateTimeFormatter formatter) {
+        String boundStr;
+        if (bound == null) {
+            boundStr = sign + INFINITY;
+        } else if (bound instanceof LocalDate) {
+            boundStr = "'" + ((LocalDate) bound).format(DateTimes.YMD_DTF) + "'";
+        } else if (bound instanceof Temporal || bound instanceof Calendar || bound instanceof Date) {
+            boundStr = formatDateBound(bound, sign, useTimestamp, formatter);
+        } else if (bound instanceof Number) {
+            boundStr = G.toString((Number) bound, 10);
+        } else if (bound instanceof Character) {
+            boundStr = "'" + bound + "'";
+        } else if (bound instanceof CharSequence) {
+            boundStr = "\"" + bound + "\"";
+        } else {
+            boundStr = G.toString(bound);
+        }
+        return boundStr;
+    }
 
     private String formatDateBound(T bound, String sign, boolean useTimestamp, DateTimeFormatter formatter) {
         String boundStr;

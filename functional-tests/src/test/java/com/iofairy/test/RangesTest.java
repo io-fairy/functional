@@ -5,6 +5,7 @@ import com.iofairy.except.OutOfBoundsException;
 import com.iofairy.range.Range;
 import com.iofairy.range.Ranges;
 import com.iofairy.time.DateTime;
+import com.iofairy.time.DateTimes;
 import com.iofairy.time.TZ;
 import com.iofairy.top.G;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -121,6 +123,7 @@ public class RangesTest {
         Range<DateTime> dtRange2 = Ranges.parseRange("( '2025 7 6 18:50' ,  '2025 7 7 10:2' ]", DateTime.class, dtf);
         Range<DateTime> dtRange3 = Ranges.parseRange("('2025-07-06 18:50:20.000 [UTC +00:00]', '2025-07-07 10:02:16.000 [UTC +00:00]']", DateTime.class, null);
         Range<DateTime> dtRange4 = Ranges.parseRange("(1735660800000 ,  1755571819180]", DateTime.class, null);
+        Range<Calendar> dtRange5 = Ranges.parseRange("∅", Calendar.class);
         System.out.println(byteRange);
         System.out.println(biRange);
         System.out.println(charRange);
@@ -136,22 +139,24 @@ public class RangesTest {
         System.out.println(dtRange2);
         System.out.println(dtRange3);
         System.out.println(dtRange4);
+        System.out.println(dtRange5);
 
         assertEquals(byteRange.toString(), "(0, -1)");
         assertEquals(biRange.toString(), "(-∞, -1]");
         assertEquals(charRange.toString(), "(-∞, +∞)");
         assertEquals(charRange1.toString(), "(''', 'a']");
         assertTrue(charRange1.lowerBound == '\'');
-        assertEquals(dtRange.toString(), "('1970-01-01 08:00:00.000', '1970-01-01 08:00:00.000')");
+        assertEquals(dtRange.toString(), "('1970-01-01 08:00:00', '1970-01-01 08:00:00')");
         assertEquals(ldRange.toString(), "['2025-01-01', '2025-03-01')");
         assertEquals(doubleRange.toString(), "[-9032565856499999700.0, 1.5]");
         assertEquals(doubleRange1.toString(), "[-903256585.0, 1.0]");
         assertEquals(dbRange.toString(), "[-9032565856500000000.6942014456, 1.4654654649]");
         assertEquals(G.toString(dbRange.lowerBound, 30), "-9032565856500000000.69420144556655484565455");
-        assertEquals(dtRange1.toString(), "('2025-07-06 18:50:00.000', '2025-07-07 10:02:00.000']");
-        assertEquals(dtRange2.toString(), "('2025-07-06 18:50:00.000 [UTC +00:00]', '2025-07-07 10:02:00.000 [UTC +00:00]']");
-        assertEquals(dtRange3.toString(), "('2025-07-06 18:50:20.000 [UTC +00:00]', '2025-07-07 10:02:16.000 [UTC +00:00]']");
-        assertEquals(dtRange4.toString(), "('2025-01-01 00:00:00.000', '2025-08-19 10:50:19.180']");
+        assertEquals(dtRange1.toString(), "('2025-07-06 18:50:00', '2025-07-07 10:02:00']");
+        assertEquals(dtRange2.toString(DateTimes.CONCISE_DTF), "('2025-07-06 18:50:00.000 [UTC +00:00]', '2025-07-07 10:02:00.000 [UTC +00:00]']");
+        assertEquals(dtRange3.toString(DateTimes.CONCISE_DTF), "('2025-07-06 18:50:20.000 [UTC +00:00]', '2025-07-07 10:02:16.000 [UTC +00:00]']");
+        assertEquals(dtRange4.toString(), "('2025-01-01 00:00:00', '2025-08-19 10:50:19']");
+        assertEquals(dtRange5.toString(), "('1970-01-01 08:00:00', '1970-01-01 08:00:00')");
     }
 
     @Test

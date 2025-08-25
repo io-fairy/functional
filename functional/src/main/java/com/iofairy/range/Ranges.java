@@ -18,6 +18,7 @@ package com.iofairy.range;
 import com.iofairy.os.OS;
 import com.iofairy.tcf.Try;
 import com.iofairy.time.DateTime;
+import com.iofairy.time.DateTimes;
 import com.iofairy.top.S;
 import com.iofairy.tuple.Tuple;
 import com.iofairy.tuple.Tuple2;
@@ -25,11 +26,8 @@ import com.iofairy.tuple.Tuple2;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
-import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,7 +37,7 @@ import static com.iofairy.validator.Preconditions.*;
 
 
 /**
- * Range Utils
+ * Range工具类
  *
  * @since 0.6.0
  */
@@ -54,6 +52,24 @@ public class Ranges {
     public static Pattern CHAR_RANGE = Pattern.compile("^'(.)'\\s*,\\s+'(.)'$");
     public static Pattern STRING_RANGE = Pattern.compile("^'(.+)'\\s*,\\s+'(.+)'$");
 
+    /**
+     * 判断指定类型是否支持解析{@code Range}序列化后的字符串
+     *
+     * @param type 类型
+     * @return {@code true} 支持解析，否则不支持
+     */
+    public static boolean isSupportedParseRangeString(Class<?> type) {
+        return Number.class.isAssignableFrom(type)
+                || DateTimes.isDTSupported(type)
+                || byte.class == type
+                || char.class == type
+                || short.class == type
+                || int.class == type
+                || long.class == type
+                || float.class == type
+                || double.class == type
+                || Character.class == type;
+    }
 
     /**
      * 从{@code Range}的序列化字符串中，推断{@code Range}的类型参数的实际类型
@@ -211,34 +227,8 @@ public class Ranges {
                 @SuppressWarnings("unchecked")
                 Range<T> range = (Range<T>) Range.open(BigDecimal.ZERO, BigDecimal.ZERO);
                 return range;
-            } else if (Date.class == clazz) {
-                @SuppressWarnings("unchecked")
-                Range<T> range = (Range<T>) Range.open(DT.toDate(), DT.toDate());
-                return range;
-            } else if (Calendar.class == clazz) {
-                @SuppressWarnings("unchecked")
-                Range<T> range = (Range<T>) Range.open(DT.toDefaultCalendar(), DT.toDefaultCalendar());
-                return range;
-            } else if (LocalDateTime.class == clazz) {
-                @SuppressWarnings("unchecked")
-                Range<T> range = (Range<T>) Range.open(DT.toLocalDT(), DT.toLocalDT());
-                return range;
-            } else if (ZonedDateTime.class == clazz) {
-                @SuppressWarnings("unchecked")
-                Range<T> range = (Range<T>) Range.open(DT.toDefaultZonedDT(), DT.toDefaultZonedDT());
-                return range;
-            } else if (OffsetDateTime.class == clazz) {
-                @SuppressWarnings("unchecked")
-                Range<T> range = (Range<T>) Range.open(DT.toDefaultOffsetDT(), DT.toDefaultOffsetDT());
-                return range;
-            } else if (Instant.class == clazz) {
-                @SuppressWarnings("unchecked")
-                Range<T> range = (Range<T>) Range.open(DT.toInstant(), DT.toInstant());
-                return range;
-            } else if (DateTime.class.isAssignableFrom(clazz)) {
-                @SuppressWarnings("unchecked")
-                Range<T> range = (Range<T>) Range.open(DT, DT);
-                return range;
+            } else if (DateTimes.isDTSupported(clazz)) {
+                return Range.open(DT.toDT(clazz), DT.toDT(clazz));
             } else {
                 throw new IllegalArgumentException("Unsupported unit: " + clazz.getName());
             }
@@ -312,20 +302,13 @@ public class Ranges {
                     Range<T> range = (Range<T>) Range.of(tuple._1, tuple._2, intervalType);
                     return range;
                 }
-            } else if (Date.class == clazz || Calendar.class == clazz || LocalDateTime.class == clazz || ZonedDateTime.class == clazz
-                    || OffsetDateTime.class == clazz || Instant.class == clazz || LocalDate.class == clazz || DateTime.class.isAssignableFrom(clazz)) {
+            } else if (DateTimes.isDTSupported(clazz)) {
                 Tuple2<String, String> stringTuple = parseStringRange(centerSection);
                 if (stringTuple != null) {
                     DateTime lowerBound = stringTuple._1 != null ? (formatter == null ? DateTime.parse(stringTuple._1) : DateTime.parse(stringTuple._1, formatter)) : null;
                     DateTime upperBound = stringTuple._2 != null ? (formatter == null ? DateTime.parse(stringTuple._2) : DateTime.parse(stringTuple._2, formatter)) : null;
 
-                    if (DateTime.class.isAssignableFrom(clazz)) {
-                        @SuppressWarnings("unchecked")
-                        Range<T> range = (Range<T>) Range.of(lowerBound, upperBound, intervalType);
-                        return range;
-                    } else {
-                        return Range.of(lowerBound == null ? null : lowerBound.toDT(clazz), upperBound == null ? null : upperBound.toDT(clazz), intervalType);
-                    }
+                    return Range.of(lowerBound == null ? null : lowerBound.toDT(clazz), upperBound == null ? null : upperBound.toDT(clazz), intervalType);
                 } else {
                     /*
                      时间戳 转 时间
@@ -335,13 +318,7 @@ public class Ranges {
                         DateTime lowerBound = longTuple._1 != null ? DateTime.of(longTuple._1.longValue()) : null;
                         DateTime upperBound = longTuple._2 != null ? DateTime.of(longTuple._2.longValue()) : null;
 
-                        if (DateTime.class.isAssignableFrom(clazz)) {
-                            @SuppressWarnings("unchecked")
-                            Range<T> range = (Range<T>) Range.of(lowerBound, upperBound, intervalType);
-                            return range;
-                        } else {
-                            return Range.of(lowerBound == null ? null : lowerBound.toDT(clazz), upperBound == null ? null : upperBound.toDT(clazz), intervalType);
-                        }
+                        return Range.of(lowerBound == null ? null : lowerBound.toDT(clazz), upperBound == null ? null : upperBound.toDT(clazz), intervalType);
                     }
                 }
             } else {

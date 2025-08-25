@@ -2086,13 +2086,6 @@ public class DateTimeTest {
             assertEquals(e.getMessage(), "Only [java.util.Date, Calendar, LocalDateTime, ZonedDateTime, OffsetDateTime, Instant] is supported for `dateTime` parameter! ");
         }
         try {
-            new DateTime(LocalDate.of(2024, 1, 1));
-            throwException();
-        } catch (Exception e) {
-            assertSame(e.getClass(), UnsupportedTemporalTypeException.class);
-            assertEquals(e.getMessage(), "The `dateTime` is of type `LocalDate`, please call the `DateTime.of(LocalDate)` function! ");
-        }
-        try {
             DateTime.of(java.sql.Date.valueOf(LocalDate.of(2023, 1, 1)));
             throwException();
         } catch (Exception e) {

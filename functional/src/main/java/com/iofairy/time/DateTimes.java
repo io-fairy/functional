@@ -52,6 +52,7 @@ public final class DateTimes {
     /*############################################
      ************* DateTime Formatter ************
      ############################################*/
+    public final static DateTimeFormatter YMD_DTF             = DateTimeFormatter.ofPattern("y-MM-dd");
     public final static DateTimeFormatter STD_DTF             = DateTimeFormatter.ofPattern("y-MM-dd HH:mm:ss");
     public final static DateTimeFormatter SIMPLE_DTF          = DateTimeFormatter.ofPattern("y-MM-dd HH:mm:ss.SSS");
     public final static DateTimeFormatter CONCISE_DTF         = DateTimeFormatter.ofPattern("y-MM-dd HH:mm:ss.SSS '['VV xxx']'");
@@ -60,7 +61,7 @@ public final class DateTimes {
     public final static DateTimeFormatter DETAILED_ZONED_DTF  = DateTimeFormatter.ofPattern("y-MM-dd HH:mm:ss.SSSSSSSSS '['VV xxx O E']'");
     public final static DateTimeFormatter DETAILED_OFFSET_DTF = DateTimeFormatter.ofPattern("y-MM-dd HH:mm:ss.SSSSSSSSS '['xxx O E']'");
 
-    
+
     /**
      * 获取当前时间的 ZoneOffset 以及对应的 ZoneId 列表。
      * 由于有些地区有<b>夏令时</b>，不同时间结果会不一样。所以需要实时获取。
@@ -650,6 +651,19 @@ public final class DateTimes {
 
         return dayOfWeek.getDisplayName(textStyle, locale);
     }
+
+
+    /**
+     * Check if the Class Type can be converted to a {@code DateTime} type
+     *
+     * @param clazz Class Type
+     * @return {@code true} or {@code false}
+     */
+    public static boolean isDTSupported(Class<?> clazz) {
+        return Date.class == clazz || Calendar.class == clazz || LocalDateTime.class == clazz || ZonedDateTime.class == clazz
+                || OffsetDateTime.class == clazz || Instant.class == clazz || LocalDate.class == clazz || DateTime.class == clazz;
+    }
+
 
     /**
      * 如果时间格式串中包含"xxx毫秒"，且毫秒数不足3位，则补足3位，否则不做处理

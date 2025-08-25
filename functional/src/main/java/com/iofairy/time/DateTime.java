@@ -101,6 +101,19 @@ public class DateTime implements Temporal, Comparable<DateTime>, Serializable {
     }
 
     private DateTime(Object dateTime, boolean checkValue) {
+        if (dateTime instanceof LocalDate) {
+            dateTime = ((LocalDate) dateTime).atStartOfDay();
+            checkValue = false;
+        }
+        if (dateTime instanceof Long) {
+            dateTime = Instant.ofEpochMilli((long) dateTime);
+            checkValue = false;
+        }
+        if (dateTime instanceof CharSequence) {
+            dateTime = parse(dateTime.toString());
+            checkValue = false;
+        }
+
         if (dateTime instanceof DateTime) {
             DateTime dt = (DateTime) dateTime;
             this.localDateTime = dt.localDateTime;
@@ -111,12 +124,11 @@ public class DateTime implements Temporal, Comparable<DateTime>, Serializable {
             this.offsetDateTime = dt.offsetDateTime;
         } else {
             if (checkValue) {
+                final Class<?> dateTimeClass = dateTime.getClass();
                 checkNullNPE(dateTime, args("dateTime"));
-                checkTemporal(dateTime instanceof LocalDate,
-                        "The `dateTime` is of type `LocalDate`, please call the `DateTime.of(LocalDate)` function! ");
-                checkTemporal(SUPPORTED_DATETIME.stream().noneMatch(c -> c.isAssignableFrom(dateTime.getClass())),
+                checkTemporal(SUPPORTED_DATETIME.stream().noneMatch(c -> c.isAssignableFrom(dateTimeClass)),
                         "Only [${…}] is supported for `dateTime` parameter! ", SUPPORTED_DATETIME_STRING);
-                checkTemporal(EXCLUDED_CLASS_NAMES.contains(dateTime.getClass().getName()),
+                checkTemporal(EXCLUDED_CLASS_NAMES.contains(dateTimeClass.getName()),
                         "${…} are unsupported here, you can convert it to the `java.util.Date` first! ", EXCLUDED_CLASS_NAMES);
             }
 
@@ -137,10 +149,6 @@ public class DateTime implements Temporal, Comparable<DateTime>, Serializable {
 
 
     public static DateTime of(Object dateTime) {
-        if (dateTime instanceof String) return of((String) dateTime);
-        if (dateTime instanceof LocalDate) return of((LocalDate) dateTime);
-        if (dateTime instanceof Long) return of((long) dateTime);
-
         return new DateTime(dateTime, true);
     }
 
@@ -150,11 +158,11 @@ public class DateTime implements Temporal, Comparable<DateTime>, Serializable {
     }
 
     public static DateTime of(long epochMillis) {
-        return from(new Date(epochMillis));
+        return from(epochMillis);
     }
 
     public static DateTime ofEpochSecond(long epochSeconds) {
-        return of(epochSeconds * 1000);
+        return from(epochSeconds * 1000);
     }
 
     /**
@@ -163,7 +171,7 @@ public class DateTime implements Temporal, Comparable<DateTime>, Serializable {
      * @param dateStr date string
      * @return {@code DateTime}
      */
-    public static DateTime of(String dateStr) {
+    public static DateTime of(CharSequence dateStr) {
         return parse(dateStr);
     }
 
@@ -312,6 +320,10 @@ public class DateTime implements Temporal, Comparable<DateTime>, Serializable {
         } else if (LocalDate.class == clazz) {
             @SuppressWarnings("unchecked")
             DT dt = (DT) toLocalDate();
+            return dt;
+        } else if (DateTime.class == clazz) {
+            @SuppressWarnings("unchecked")
+            DT dt = (DT) this;
             return dt;
         } else {
             throw new UnsupportedTemporalTypeException("Unsupported type: [" + clazz + "]");
