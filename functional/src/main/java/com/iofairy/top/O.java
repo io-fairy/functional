@@ -190,7 +190,7 @@ public final class O {
      * @param rs  list of elements to check
      * @param <R> return type
      * @return first not {@code null} object and index {@code (object, index)}
-     * @since 0.5.15
+     * @since 0.6.0
      */
     @SafeVarargs
     public static <R> Tuple2<R, Integer> firstNonNullWithIndex(R... rs) {
@@ -210,7 +210,7 @@ public final class O {
      * @param rs           list of elements to check
      * @param <R>          return type
      * @return first not <b>excludeValue</b> object
-     * @since 0.5.15
+     * @since 0.6.0
      */
     @SafeVarargs
     public static <R> R firstNonValue(R excludeValue, R... rs) {
@@ -230,7 +230,7 @@ public final class O {
      * @param rs           list of elements to check
      * @param <R>          return type
      * @return first not <b>excludeValue</b> object and index {@code (object, index)}
-     * @since 0.5.15
+     * @since 0.6.0
      */
     @SafeVarargs
     public static <R> Tuple2<R, Integer> firstNonValueWithIndex(R excludeValue, R... rs) {
@@ -250,7 +250,7 @@ public final class O {
      * @param rs            list of elements to check
      * @param <R>           return type
      * @return first not in <b>excludeValues</b> object
-     * @since 0.5.15
+     * @since 0.6.0
      */
     @SafeVarargs
     public static <R> R firstNotInValues(R[] excludeValues, R... rs) {
@@ -271,7 +271,7 @@ public final class O {
      * @param rs            list of elements to check
      * @param <R>           return type
      * @return first not in <b>excludeValues</b> object and index {@code (object, index)}
-     * @since 0.5.15
+     * @since 0.6.0
      */
     @SafeVarargs
     public static <R> Tuple2<R, Integer> firstNotInValuesWithIndex(R[] excludeValues, R... rs) {
@@ -322,7 +322,7 @@ public final class O {
      * @param ts  Variable arguments of type Object
      * @param <T> parameter type
      * @return An Object array
-     * @since 0.5.15
+     * @since 0.6.0
      */
     @SafeVarargs
     public static <T> T[] args(T... ts) {

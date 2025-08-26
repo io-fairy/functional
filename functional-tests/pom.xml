@@ -5,14 +5,14 @@
     <parent>
         <artifactId>functional-parent</artifactId>
         <groupId>com.iofairy</groupId>
-        <version>0.5.12</version>
+        <version>0.6.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>functional-tests</artifactId>
 
     <properties>
-        <functional.version>0.5.12</functional.version>
+        <functional.version>0.6.0</functional.version>
     </properties>
 
     <dependencies>
@@ -32,6 +32,22 @@
 
     <build>
         <plugins>
+            <!--这个配置不要配，会导致所有模块都不会上传到maven仓库-->
+            <!--<plugin>-->
+            <!--    <groupId>org.sonatype.central</groupId>-->
+            <!--    <artifactId>central-publishing-maven-plugin</artifactId>-->
+            <!--    <version>0.8.0</version>-->
+            <!--    <extensions>true</extensions>-->
+            <!--    <configuration>-->
+            <!--        <publishingServerId>central</publishingServerId>-->
+            <!--        <ignorePublishedComponents>true</ignorePublishedComponents>-->
+            <!--        <skipPublishing>true</skipPublishing>-->
+            <!--        <excludeArtifacts>-->
+            <!--            <excludeArtifact>functional-tests</excludeArtifact>-->
+            <!--        </excludeArtifacts>-->
+            <!--    </configuration>-->
+            <!--</plugin>-->
+
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
@@ -57,6 +73,15 @@
                 <version>2.8.2</version>
                 <configuration>
                     <!-- 跳过部署 -->
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <configuration>
                     <skip>true</skip>
                 </configuration>
             </plugin>
