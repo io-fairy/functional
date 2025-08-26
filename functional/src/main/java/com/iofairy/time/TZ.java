@@ -186,27 +186,27 @@ public class TZ {
      */
     public static final ZoneId NASSAU = getZoneId("America/Nassau");
     /**
-     * <b>智利➤首都圣地亚哥(-03:00，夏令时：-04:00)</b> Time Zone
+     * <b>智利➤首都圣地亚哥(-04:00，夏令时：-03:00)</b> Time Zone
      */
     public static final ZoneId SANTIAGO = getZoneId("America/Santiago");
     /**
-     * <b>智利➤复活节岛(-05:00，夏令时：-06:00)</b> Time Zone
+     * <b>智利➤复活节岛(-06:00，夏令时：-05:00)</b> Time Zone
      */
     public static final ZoneId EASTERISLAND = getZoneId("Chile/EasterIsland");
     /**
-     * <b>智利➤复活节岛(-05:00，夏令时：-06:00)</b> Time Zone
+     * <b>智利➤复活节岛(-06:00，夏令时：-05:00)</b> Time Zone
      */
     public static final ZoneId EASTER = getZoneId("Pacific/Easter");
     /**
-     * <b>智利➤大陆(-03:00，夏令时：-04:00)</b> Time Zone
+     * <b>智利➤大陆(-04:00，夏令时：-03:00)</b> Time Zone
      */
     public static final ZoneId CONTINENTAL = getZoneId("Chile/Continental");
     /**
-     * <b>澳大利亚➤首都堪培拉(+11:00，夏令时：+10:00)</b> Time Zone
+     * <b>澳大利亚➤首都堪培拉(+10:00，夏令时：+11:00)</b> Time Zone
      */
     public static final ZoneId CANBERRA = getZoneId("Australia/Canberra");
     /**
-     * <b>澳大利亚➤悉尼(+11:00，夏令时：+10:00)</b> Time Zone
+     * <b>澳大利亚➤悉尼(+10:00，夏令时：+11:00)</b> Time Zone
      */
     public static final ZoneId SYDNEY = getZoneId("Australia/Sydney");
     /**
