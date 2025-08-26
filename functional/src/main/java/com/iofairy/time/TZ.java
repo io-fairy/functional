@@ -258,7 +258,7 @@ public class TZ {
      */
     public static final ZoneId SEOUL = getZoneId("Asia/Seoul");
     /**
-     * <b>朝鲜➤平壤(+09:00)</b> Time Zone
+     * <b>朝鲜➤平壤(+08:30)</b> Time Zone
      */
     public static final ZoneId PYONGYANG = getZoneId("Asia/Pyongyang");
     /**
@@ -270,15 +270,15 @@ public class TZ {
      */
     public static final ZoneId CALCUTTA = getZoneId("Asia/Calcutta");
     /**
-     * <b>越南➤胡志明市(+00:00)</b> Time Zone
+     * <b>越南➤胡志明市(+07:00)</b> Time Zone
      */
     public static final ZoneId HO_CHI_MINH = getZoneId("Asia/Ho_Chi_Minh");
     /**
-     * <b>蒙古➤乌兰巴托(+00:00)</b> Time Zone
+     * <b>蒙古➤乌兰巴托(+08:00)</b> Time Zone
      */
     public static final ZoneId ULAN_BATOR = getZoneId("Asia/Ulan_Bator");
     /**
-     * <b>蒙古➤乌兰巴托(+00:00)</b> Time Zone
+     * <b>蒙古➤乌兰巴托(+08:00)</b> Time Zone
      */
     public static final ZoneId ULAANBAATAR = getZoneId("Asia/Ulaanbaatar");
     /**
