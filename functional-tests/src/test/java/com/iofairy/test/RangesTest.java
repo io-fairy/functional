@@ -113,7 +113,7 @@ public class RangesTest {
         Range<Character> charRange1 = Ranges.parseRange("(''' ,  'a']", char.class);
         DateTime dt = DateTime.of("2025-07-05");
         Range<DateTime> dtRange = Ranges.parseRange("∅", (Class<DateTime>) dt.getClass());
-        Range<LocalDate> ldRange = Ranges.parseRange("[ '2025/01/01' ,   '2025/3/1')", LocalDate.class);
+        Range<LocalDate> ldRange = Ranges.parseRange("[ -∞ ,   '2025/3/1')", LocalDate.class);
         Range<Double> doubleRange = Ranges.parseRange("[-9032565856500000000.69420144556655484565455 ,  1.5]", double.class);
         Range<Double> doubleRange1 = Ranges.parseRange("[-903256585 ,  1]", double.class);
         Range<BigDecimal> dbRange = Ranges.parseRange("[-9032565856500000000.69420144556655484565455 ,  1.4654654649494616165]", BigDecimal.class);
@@ -147,10 +147,10 @@ public class RangesTest {
         assertEquals(charRange1.toString(), "(''', 'a']");
         assertTrue(charRange1.lowerBound == '\'');
         assertEquals(dtRange.toString(), "('1970-01-01 08:00:00', '1970-01-01 08:00:00')");
-        assertEquals(ldRange.toString(), "['2025-01-01', '2025-03-01')");
+        assertEquals(ldRange.toString(), "(-∞, '2025-03-01')");
         assertEquals(doubleRange.toString(), "[-9032565856499999700.0, 1.5]");
         assertEquals(doubleRange1.toString(), "[-903256585.0, 1.0]");
-        assertEquals(dbRange.toString(), "[-9032565856500000000.6942014456, 1.4654654649]");
+        assertEquals(dbRange.toString(), "[-9032565856500000000.69420144556655484565455, 1.4654654649494616165]");
         assertEquals(G.toString(dbRange.lowerBound, 30), "-9032565856500000000.69420144556655484565455");
         assertEquals(dtRange1.toString(), "('2025-07-06 18:50:00', '2025-07-07 10:02:00']");
         assertEquals(dtRange2.toString(DateTimes.CONCISE_DTF), "('2025-07-06 18:50:00.000 [UTC +00:00]', '2025-07-07 10:02:00.000 [UTC +00:00]']");

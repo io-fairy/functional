@@ -66,6 +66,10 @@ public class TZ {
      */
     public static final ZoneId MACAU = getZoneId("Asia/Macau");
     /**
+     * <b>澳门(+08:00)</b> Time Zone
+     */
+    public static final ZoneId MACAO = getZoneId("Asia/Macao");
+    /**
      * <b>台北(+08:00)</b> Time Zone
      */
     public static final ZoneId TAIPEI = getZoneId("Asia/Taipei");
@@ -82,31 +86,87 @@ public class TZ {
      */
     public static final ZoneId PRC = getZoneId("PRC");
     /**
-     * <b>英国伦敦(+00:00)</b> Time Zone
+     * <b>英国➤伦敦(+00:00)</b> Time Zone
      */
     public static final ZoneId LONDON = getZoneId("Europe/London");
     /**
-     * <b>爱尔兰都柏林(+00:00)</b> Time Zone
+     * <b>爱尔兰➤都柏林(+00:00)</b> Time Zone
      */
     public static final ZoneId DUBLIN = getZoneId("Europe/Dublin");
     /**
-     * <b>德国柏林(+01:00，夏令时：+02:00)</b> Time Zone
+     * <b>冰岛(+00:00)</b> Time Zone
+     */
+    public static final ZoneId ICELAND = getZoneId("Iceland");
+    /**
+     * <b>冰岛➤雷克雅未克(+00:00)</b> Time Zone
+     */
+    public static final ZoneId REYKJAVIK = getZoneId("Atlantic/Reykjavik");
+    /**
+     * <b>德国➤柏林(+01:00，夏令时：+02:00)</b> Time Zone
      */
     public static final ZoneId BERLIN = getZoneId("Europe/Berlin");
     /**
-     * <b>俄罗斯莫斯科(+03:00)</b> Time Zone
+     * <b>俄罗斯➤莫斯科(+03:00)</b> Time Zone
      */
     public static final ZoneId MOSCOW = getZoneId("Europe/Moscow");
     /**
-     * <b>法国巴黎(+01:00，夏令时：+02:00)</b> Time Zone
+     * <b>法国➤巴黎(+01:00，夏令时：+02:00)</b> Time Zone
      */
     public static final ZoneId PARIS = getZoneId("Europe/Paris");
     /**
-     * <b>美国纽约(-05:00，夏令时：-04:00)</b> Time Zone
+     * <b>梵蒂冈(+01:00，夏令时：+02:00)</b> Time Zone
+     */
+    public static final ZoneId VATICAN = getZoneId("Europe/Vatican");
+    /**
+     * <b>希腊➤雅典(+02:00，夏令时：+03:00)</b> Time Zone
+     */
+    public static final ZoneId ATHENS = getZoneId("Europe/Athens");
+    /**
+     * <b>意大利➤首都罗马(+01:00，夏令时：+02:00)</b> Time Zone
+     */
+    public static final ZoneId ROME = getZoneId("Europe/Rome");
+    /**
+     * <b>捷克➤首都布拉格(+01:00，夏令时：+02:00)</b> Time Zone
+     */
+    public static final ZoneId PRAGUE = getZoneId("Europe/Prague");
+    /**
+     * <b>荷兰➤首都阿姆斯特丹(+01:00，夏令时：+02:00)</b> Time Zone
+     */
+    public static final ZoneId AMSTERDAM = getZoneId("Europe/Amsterdam");
+    /**
+     * <b>奥地利➤维也纳(+01:00，夏令时：+02:00)</b> Time Zone
+     */
+    public static final ZoneId VIENNA = getZoneId("Europe/Vienna");
+    /**
+     * <b>瑞士➤苏黎世(+01:00，夏令时：+02:00)</b> Time Zone
+     */
+    public static final ZoneId ZURICH = getZoneId("Europe/Zurich");
+    /**
+     * <b>白俄罗斯➤首都明斯克(+03:00)</b> Time Zone
+     */
+    public static final ZoneId MINSK = getZoneId("Europe/Minsk");
+    /**
+     * <b>波兰(+01:00，夏令时：+02:00)</b> Time Zone
+     */
+    public static final ZoneId POLAND = getZoneId("Poland");
+    /**
+     * <b>土耳其(+03:00)</b> Time Zone
+     */
+    public static final ZoneId TURKEY = getZoneId("Turkey");
+    /**
+     * <b>土耳其➤伊斯坦布尔(+03:00)</b> Time Zone
+     */
+    public static final ZoneId ISTANBUL_EUROPE = getZoneId("Europe/Istanbul");
+    /**
+     * <b>土耳其➤伊斯坦布尔(+03:00)</b> Time Zone
+     */
+    public static final ZoneId ISTANBUL = getZoneId("Asia/Istanbul");
+    /**
+     * <b>美国➤纽约(-05:00，夏令时：-04:00)</b> Time Zone
      */
     public static final ZoneId NEW_YORK = getZoneId("America/New_York");
     /**
-     * <b>美国洛杉矶(-08:00，夏令时：-07:00)</b> Time Zone
+     * <b>美国➤洛杉矶(-08:00，夏令时：-07:00)</b> Time Zone
      */
     public static final ZoneId LOS_ANGELES = getZoneId("America/Los_Angeles");
     /**
@@ -114,67 +174,151 @@ public class TZ {
      */
     public static final ZoneId HONOLULU = getZoneId("Pacific/Honolulu");
     /**
-     * <b>阿联酋迪拜(+04:00)</b> Time Zone
+     * <b>夏威夷岛(-10:00)</b> Time Zone
      */
-    public static final ZoneId DUBAI = getZoneId("Asia/Dubai");
+    public static final ZoneId HAWAII = getZoneId("US/Hawaii");
     /**
-     * <b>澳大利亚首都堪培拉(+11:00，夏令时：+10:00)</b> Time Zone
+     * <b>加拿大➤多伦多(-05:00，夏令时：-04:00)</b> Time Zone
+     */
+    public static final ZoneId TORONTO = getZoneId("America/Toronto");
+    /**
+     * <b>巴哈马➤首都拿骚(-05:00，夏令时：-04:00)</b> Time Zone
+     */
+    public static final ZoneId NASSAU = getZoneId("America/Nassau");
+    /**
+     * <b>智利➤首都圣地亚哥(-03:00，夏令时：-04:00)</b> Time Zone
+     */
+    public static final ZoneId SANTIAGO = getZoneId("America/Santiago");
+    /**
+     * <b>智利➤复活节岛(-05:00，夏令时：-06:00)</b> Time Zone
+     */
+    public static final ZoneId EASTERISLAND = getZoneId("Chile/EasterIsland");
+    /**
+     * <b>智利➤复活节岛(-05:00，夏令时：-06:00)</b> Time Zone
+     */
+    public static final ZoneId EASTER = getZoneId("Pacific/Easter");
+    /**
+     * <b>智利➤大陆(-03:00，夏令时：-04:00)</b> Time Zone
+     */
+    public static final ZoneId CONTINENTAL = getZoneId("Chile/Continental");
+    /**
+     * <b>澳大利亚➤首都堪培拉(+11:00，夏令时：+10:00)</b> Time Zone
      */
     public static final ZoneId CANBERRA = getZoneId("Australia/Canberra");
     /**
-     * <b>澳大利亚悉尼(+11:00，夏令时：+10:00)</b> Time Zone
+     * <b>澳大利亚➤悉尼(+11:00，夏令时：+10:00)</b> Time Zone
      */
     public static final ZoneId SYDNEY = getZoneId("Australia/Sydney");
+    /**
+     * <b>阿联酋➤迪拜(+04:00)</b> Time Zone
+     */
+    public static final ZoneId DUBAI = getZoneId("Asia/Dubai");
+    /**
+     * <b>以色列(+02:00，夏令时：+03:00)</b> Time Zone
+     */
+    public static final ZoneId ISRAEL = getZoneId("Israel");
     /**
      * <b>耶路撒冷(+02:00，夏令时：+03:00)</b> Time Zone
      */
     public static final ZoneId JERUSALEM = getZoneId("Asia/Jerusalem");
     /**
-     * <b>意大利首都罗马(+01:00，夏令时：+02:00)</b> Time Zone
-     */
-    public static final ZoneId ROME = getZoneId("Europe/Rome");
-    /**
-     * <b>印度尼西亚首都雅加达(+07:00)</b> Time Zone
+     * <b>印度尼西亚➤首都雅加达(+07:00)</b> Time Zone
      */
     public static final ZoneId JAKARTA = getZoneId("Asia/Jakarta");
     /**
-     * <b>智利复活节岛(-05:00，夏令时：-06:00)</b> Time Zone
-     */
-    public static final ZoneId CHILE_EASTERISLAND = getZoneId("Chile/EasterIsland");
-    /**
-     * <b>智利大陆(-03:00，夏令时：-04:00)</b> Time Zone
-     */
-    public static final ZoneId CHILE_CONTINENTAL = getZoneId("Chile/Continental");
-    /**
-     * <b>智利首都圣地亚哥(-03:00，夏令时：-04:00)</b> Time Zone
-     */
-    public static final ZoneId SANTIAGO = getZoneId("America/Santiago");
-    /**
-     * <b>捷克首都布拉格(+01:00，夏令时：+02:00)</b> Time Zone
-     */
-    public static final ZoneId PRAGUE = getZoneId("Europe/Prague");
-    /**
-     * <b>荷兰首都阿姆斯特丹(+01:00，夏令时：+02:00)</b> Time Zone
-     */
-    public static final ZoneId AMSTERDAM = getZoneId("Europe/Amsterdam");
-    /**
-     * <b>泰国首都曼谷(+07:00)</b> Time Zone
+     * <b>泰国➤首都曼谷(+07:00)</b> Time Zone
      */
     public static final ZoneId BANGKOK = getZoneId("Asia/Bangkok");
+    /**
+     * <b>也门➤亚丁(+03:00)</b> Time Zone
+     */
+    public static final ZoneId ADEN = getZoneId("Asia/Aden");
     /**
      * <b>日本(+09:00)</b> Time Zone
      */
     public static final ZoneId JAPAN = getZoneId("Japan");
     /**
-     * <b>韩国首都首尔(+09:00)</b> Time Zone
+     * <b>日本➤东京(+09:00)</b> Time Zone
+     */
+    public static final ZoneId TOKYO = getZoneId("Asia/Tokyo");
+    /**
+     * <b>新加坡(+08:00)</b> Time Zone
+     */
+    public static final ZoneId SINGAPORE = getZoneId("Singapore");
+    /**
+     * <b>新加坡(+08:00)</b> Time Zone
+     */
+    public static final ZoneId SINGAPORE_ASIA = getZoneId("Asia/Singapore");
+    /**
+     * <b>马来西亚➤吉隆坡(+08:00)</b> Time Zone
+     */
+    public static final ZoneId KUALA_LUMPUR = getZoneId("Asia/Kuala_Lumpur");
+    /**
+     * <b>韩国➤首都首尔(+09:00)</b> Time Zone
      */
     public static final ZoneId SEOUL = getZoneId("Asia/Seoul");
     /**
-     * <b>印度加尔各答(+05:30)</b> Time Zone
+     * <b>朝鲜➤平壤(+09:00)</b> Time Zone
+     */
+    public static final ZoneId PYONGYANG = getZoneId("Asia/Pyongyang");
+    /**
+     * <b>印度➤加尔各答(+05:30)</b> Time Zone
      */
     public static final ZoneId KOLKATA = getZoneId("Asia/Kolkata");
     /**
-     * <b>GMT(+00:00)</b> Time Zone
+     * <b>印度➤加尔各答(+05:30)</b> Time Zone
+     */
+    public static final ZoneId CALCUTTA = getZoneId("Asia/Calcutta");
+    /**
+     * <b>越南➤胡志明市(+00:00)</b> Time Zone
+     */
+    public static final ZoneId HO_CHI_MINH = getZoneId("Asia/Ho_Chi_Minh");
+    /**
+     * <b>蒙古➤乌兰巴托(+00:00)</b> Time Zone
+     */
+    public static final ZoneId ULAN_BATOR = getZoneId("Asia/Ulan_Bator");
+    /**
+     * <b>蒙古➤乌兰巴托(+00:00)</b> Time Zone
+     */
+    public static final ZoneId ULAANBAATAR = getZoneId("Asia/Ulaanbaatar");
+    /**
+     * <b>缅甸➤仰光(+06:30)</b> Time Zone
+     */
+    public static final ZoneId YANGON = getZoneId("Asia/Yangon");
+    /**
+     * <b>柬埔寨➤金边(+07:00)</b> Time Zone
+     */
+    public static final ZoneId PHNOM_PENH = getZoneId("Asia/Phnom_Penh");
+    /**
+     * <b>巴基斯坦➤卡拉奇港(+05:00)</b> Time Zone
+     */
+    public static final ZoneId KARACHI = getZoneId("Asia/Karachi");
+    /**
+     * <b>菲律宾➤马尼拉(+08:00)</b> Time Zone
+     */
+    public static final ZoneId MANILA = getZoneId("Asia/Manila");
+    /**
+     * <b>东帝汶➤帝力(+09:00)</b> Time Zone
+     */
+    public static final ZoneId DILI = getZoneId("Asia/Dili");
+    /**
+     * <b>沙特阿拉伯➤利雅得(+03:00)</b> Time Zone
+     */
+    public static final ZoneId RIYADH = getZoneId("Asia/Riyadh");
+    /**
+     * <b>埃及(+02:00)</b> Time Zone
+     */
+    public static final ZoneId EGYPT = getZoneId("Egypt");
+    /**
+     * <b>埃及➤开罗(+02:00)</b> Time Zone
+     */
+    public static final ZoneId CAIRO = getZoneId("Africa/Cairo");
+    /**
+     * <b>巴布亚新几内亚➤莫尔兹比港(+10:00)</b> Time Zone
+     */
+    public static final ZoneId PORT_MORESBY = getZoneId("Pacific/Port_Moresby");
+    /**
+     * <b>格林威治标准时间(GMT)(+00:00)</b> Time Zone
      */
     public static final ZoneId GMT = getZoneId("GMT");
     /**
@@ -186,6 +330,14 @@ public class TZ {
      */
     public static final ZoneId ETC_UTC = getZoneId("Etc/UTC");
     /**
+     * <b>格林威治(Greenwich)(+00:00)</b> Time Zone
+     */
+    public static final ZoneId GREENWICH = getZoneId("Greenwich");
+    /**
+     * <b>格林威治(Etc/Greenwich)(+00:00)</b> Time Zone
+     */
+    public static final ZoneId ETC_GREENWICH = getZoneId("Etc/Greenwich");
+    /**
      * <b>UCT(+00:00)</b> Time Zone
      */
     public static final ZoneId UCT = getZoneId("UCT");
@@ -193,6 +345,10 @@ public class TZ {
      * <b>GMT0(+00:00)</b> Time Zone
      */
     public static final ZoneId GMT0 = getZoneId("GMT0");
+    /**
+     * <b>Etc/GMT0(+00:00)</b> Time Zone
+     */
+    public static final ZoneId ETC_GMT0 = getZoneId("Etc/GMT0");
     /**
      * <b>WET（西欧时间）(+00:00，夏令时：+01:00)</b> Time Zone
      */
@@ -209,6 +365,10 @@ public class TZ {
      * <b>GB（英国时间，等同于：Europe/London）(+00:00)</b> Time Zone
      */
     public static final ZoneId GB = getZoneId("GB");
+    /**
+     * <b>Eire（爱尔兰时间，等同于：Europe/London）(+00:00)</b> Time Zone
+     */
+    public static final ZoneId EIRE = getZoneId("Eire");
     /**
      * <b>GB-Eire（爱尔兰时间，等同于：Europe/London）(+00:00)</b> Time Zone
      */
@@ -238,9 +398,17 @@ public class TZ {
      */
     public static final ZoneId UNIVERSAL = getZoneId("Universal");
     /**
+     * <b>Etc/Universal(+00:00)</b> Time Zone
+     */
+    public static final ZoneId ETC_UNIVERSAL = getZoneId("Etc/Universal");
+    /**
      * <b>Zulu（等同于：Etc/UTC）(+00:00)</b> Time Zone
      */
     public static final ZoneId ZULU = getZoneId("Zulu");
+    /**
+     * <b>Etc/Zulu（等同于：Etc/UTC）(+00:00)</b> Time Zone
+     */
+    public static final ZoneId ETC_ZULU = getZoneId("Etc/Zulu");
 
 
     private static ZoneId getZoneId(final String zoneIdName) {

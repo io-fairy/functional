@@ -22,6 +22,8 @@ import com.iofairy.top.G;
 import com.iofairy.top.S;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
@@ -357,6 +359,11 @@ public class Range<T extends Comparable> implements Serializable {
             boundStr = "'" + ((LocalDate) bound).format(DateTimes.YMD_DTF) + "'";
         } else if (bound instanceof Temporal || bound instanceof Calendar || bound instanceof Date) {
             boundStr = formatDateBound(bound, sign, useTimestamp, formatter);
+        } else if (bound instanceof BigInteger) {
+            boundStr = bound.toString();
+        } else if (bound instanceof BigDecimal) {
+            boundStr = ((BigDecimal) bound).stripTrailingZeros().toPlainString();
+            boundStr = boundStr.contains(".") ? boundStr : boundStr + ".0";
         } else if (bound instanceof Number) {
             boundStr = G.toString((Number) bound, 10);
         } else if (bound instanceof Character) {

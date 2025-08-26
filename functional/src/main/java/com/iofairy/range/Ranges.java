@@ -47,6 +47,8 @@ public class Ranges {
     public static Pattern INFINITY_RANGE = Pattern.compile("^-∞\\s*,\\s+\\+∞$");
     public static Pattern LEFT_INFINITY_RANGE = Pattern.compile("^-∞\\s*,\\s+(.+)$");
     public static Pattern RIGHT_INFINITY_RANGE = Pattern.compile("^(.+)\\s*,\\s+\\+∞$");
+    public static Pattern LEFT_INFINITY_STRING_RANGE = Pattern.compile("^-∞\\s*,\\s+'(.+)'$");
+    public static Pattern RIGHT_INFINITY_STRING_RANGE = Pattern.compile("^'(.+)'\\s*,\\s+\\+∞$");
     public static Pattern INT_RANGE = Pattern.compile("^([+-]?\\d+)\\s*,\\s+([+-]?\\d+)$");
     public static Pattern DOUBLE_RANGE = Pattern.compile("^([+-]?\\d+(\\.\\d+)?)\\s*,\\s+([+-]?\\d+(\\.\\d+)?)$");
     public static Pattern CHAR_RANGE = Pattern.compile("^'(.)'\\s*,\\s+'(.)'$");
@@ -414,12 +416,12 @@ public class Ranges {
             if (matcher.matches()) {
                 return Tuple.of(null, null);
             } else {
-                matcher = LEFT_INFINITY_RANGE.matcher(centerSection);
+                matcher = LEFT_INFINITY_STRING_RANGE.matcher(centerSection);
                 if (matcher.matches()) {
                     String str = matcher.group(1).trim();
                     return Tuple.of(null, str);
                 } else {
-                    matcher = RIGHT_INFINITY_RANGE.matcher(centerSection);
+                    matcher = RIGHT_INFINITY_STRING_RANGE.matcher(centerSection);
                     if (matcher.matches()) {
                         String str = matcher.group(1).trim();
                         return Tuple.of(str, null);
@@ -448,12 +450,12 @@ public class Ranges {
             if (matcher.matches()) {
                 return Tuple.of(null, null);
             } else {
-                matcher = LEFT_INFINITY_RANGE.matcher(centerSection);
+                matcher = LEFT_INFINITY_STRING_RANGE.matcher(centerSection);
                 if (matcher.matches()) {
                     String str = matcher.group(1).trim();
                     return Tuple.of(null, str);
                 } else {
-                    matcher = RIGHT_INFINITY_RANGE.matcher(centerSection);
+                    matcher = RIGHT_INFINITY_STRING_RANGE.matcher(centerSection);
                     if (matcher.matches()) {
                         String str = matcher.group(1).trim();
                         return Tuple.of(str, null);
