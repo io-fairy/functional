@@ -236,51 +236,55 @@ public class DateTime implements Temporal, Comparable<DateTime>, Serializable {
     /**
      * Returns a copy of this date-time with a different time-zone, retaining the instant.
      *
-     * @param zoneId the time-zone to change to, not null
+     * @param zoneId the time-zone to change to. <b>if {@code null}, returns {@code this} without changing the time-zone</b>
      * @return a {@code DateTime} based on this date-time with the requested zone, not null
      * @see ZonedDateTime#withZoneSameInstant(ZoneId)
      */
     public DateTime withZoneSameInstant(ZoneId zoneId) {
+        if (zoneId == null) return this;
         return from(zonedDateTime.withZoneSameInstant(zoneId));
     }
 
     /**
      * Returns a copy of this date-time with a different time-zone, retaining the local date-time if possible.
      *
-     * @param zoneId the time-zone to change to, not null
+     * @param zoneId the time-zone to change to. <b>if {@code null}, returns {@code this} without changing the time-zone</b>
      * @return a {@code DateTime} based on this date-time with the requested zone, not null
      * @see ZonedDateTime#withZoneSameLocal(ZoneId)
      */
     public DateTime withZoneSameLocal(ZoneId zoneId) {
+        if (zoneId == null) return this;
         return from(zonedDateTime.withZoneSameLocal(zoneId));
     }
 
     /**
      * Returns a copy of this date-time with a different zone-offset, retaining the instant.
      *
-     * @param offset the zone-offset to change to, not null
+     * @param offset the zone-offset to change to. <b>if {@code null}, returns {@code this} without changing the zone-offset</b>
      * @return a {@code DateTime} based on this date-time with the requested zone, not null
      * @see OffsetDateTime#withOffsetSameInstant(ZoneOffset)
      */
     public DateTime withOffsetSameInstant(ZoneOffset offset) {
+        if (offset == null) return this;
         return from(offsetDateTime.withOffsetSameInstant(offset));
     }
 
     /**
      * Returns a copy of this date-time with a different zone-offset, retaining the local date-time if possible.
      *
-     * @param offset the zone-offset to change to, not null
+     * @param offset the zone-offset to change to. <b>if {@code null}, returns {@code this} without changing the zone-offset</b>
      * @return a {@code DateTime} based on this date-time with the requested zone, not null
      * @see OffsetDateTime#withOffsetSameLocal(ZoneOffset)
      */
     public DateTime withOffsetSameLocal(ZoneOffset offset) {
+        if (offset == null) return this;
         return from(offsetDateTime.withOffsetSameLocal(offset));
     }
 
     /*###################################################################################
      ************************************************************************************
      ------------------------------------------------------------------------------------
-     *********************   Convert DateTime to another date time   ********************
+     ******************   START: Convert DateTime to another date time   ****************
      ------------------------------------------------------------------------------------
      ************************************************************************************
      ###################################################################################*/
@@ -293,6 +297,8 @@ public class DateTime implements Temporal, Comparable<DateTime>, Serializable {
      * @return an object of the specified date time type
      */
     public <DT> DT toDT(Class<DT> clazz) {
+        checkNullNPE(clazz, args("clazz"));
+
         if (Date.class == clazz) {
             @SuppressWarnings("unchecked")
             DT dt = (DT) toDate();
@@ -480,7 +486,7 @@ public class DateTime implements Temporal, Comparable<DateTime>, Serializable {
     /*###################################################################################
      ************************************************************************************
      ------------------------------------------------------------------------------------
-     *********************   Convert DateTime to another date time   ********************
+     ******************   END: Convert DateTime to another date time   ******************
      ------------------------------------------------------------------------------------
      ************************************************************************************
      ###################################################################################*/
@@ -1346,7 +1352,7 @@ public class DateTime implements Temporal, Comparable<DateTime>, Serializable {
      * @return the formatted date-time string, not null
      */
     public String format(String dtPattern) {
-        return format(S.isBlank(dtPattern) ? DateTimes.SIMPLE_DTF : DateTimeFormatter.ofPattern(dtPattern));
+        return format(S.isBlank(dtPattern) ? DateTimes.DTF_MS_STD : DateTimeFormatter.ofPattern(dtPattern));
     }
 
     /**
@@ -1365,7 +1371,7 @@ public class DateTime implements Temporal, Comparable<DateTime>, Serializable {
      * @return the formatted date-time string, not null
      */
     public String formatYMDHMS() {
-        return format(DateTimes.STD_DTF);
+        return format(DateTimes.DTF_STD);
     }
 
     /**

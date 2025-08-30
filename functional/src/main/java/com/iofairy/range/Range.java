@@ -322,15 +322,15 @@ public class Range<T extends Comparable> implements Serializable {
 
     @Override
     public String toString() {
-        return toString(DateTimes.STD_DTF, false);
+        return toString(DateTimes.DTF_STD, false);
     }
 
     public String toString(String pattern) {
-        return toString(S.isBlank(pattern) ? DateTimes.STD_DTF : DateTimeFormatter.ofPattern(pattern));
+        return toString(S.isBlank(pattern) ? DateTimes.DTF_STD : DateTimeFormatter.ofPattern(pattern));
     }
 
     public String toString(String pattern, boolean useTimestamp) {
-        return toString(S.isBlank(pattern) ? DateTimes.STD_DTF : DateTimeFormatter.ofPattern(pattern), useTimestamp);
+        return toString(S.isBlank(pattern) ? DateTimes.DTF_STD : DateTimeFormatter.ofPattern(pattern), useTimestamp);
     }
 
     public String toString(DateTimeFormatter formatter) {
@@ -356,7 +356,7 @@ public class Range<T extends Comparable> implements Serializable {
         if (bound == null) {
             boundStr = sign + INFINITY;
         } else if (bound instanceof LocalDate) {
-            boundStr = "'" + ((LocalDate) bound).format(DateTimes.YMD_DTF) + "'";
+            boundStr = "'" + ((LocalDate) bound).format(DateTimes.DTF_YMD) + "'";
         } else if (bound instanceof Temporal || bound instanceof Calendar || bound instanceof Date) {
             boundStr = formatDateBound(bound, sign, useTimestamp, formatter);
         } else if (bound instanceof BigInteger) {

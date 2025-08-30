@@ -9,7 +9,7 @@ English | [简体中文](./README.zh-CN.md)
 + 🔥 Enhanced switch statement (simple pattern matching support)
 + 🔥 String interpolation (`SI`)
 + 🔥 `Tuple` type support
-+ 🕒 **Immutable and thread-safe** `DateTime` datetime utility class with unified temporal API
++ 🕒 <u>**Immutable and thread-safe**</u> `DateTime` utility class with unified temporal API
     - 🔺 Powerful datetime API
         - **Automatic parsing** of multiple datetime formats
         - Time unit-based **rounding** operations (round, ceil, floor)
@@ -409,16 +409,22 @@ While Java 8's 43 **functional interfaces** in `java.util.function` improve lamb
 3. **No exception handling**: Checked exceptions must be caught within lambdas or wrapped in unchecked exceptions, can't be propagated outside of lambda expressions
 
 
-#### This Functional provides 4 categories and 40 basic functional interfaces, covering all functions from the aforementioned 5 categories. It extends support from 2-parameter functions to up to 9-parameter functions and expanded handle exceptions.  
-**4 Interface Categories**
+#### 🔥This Functional provides 6 categories and 60 basic functional interfaces, covering all functions from the aforementioned 5 categories. It extends support from 2-parameter functions to up to 9-parameter functions and expanded handle exceptions.  
+**6 Interface Categories**
 
-+ **V** (**V**oid): a function without return value
-+ **R** (**R**eturn): a function with return value
-+ **VT** (**V**oid and **T**hrow exception): a function without return value + exception
-+ **RT** (**R**eturn and **T**hrow exception): a function with return value + exception  
+
+| 🔥New Interface Type | Description                                      |
+|:-------------------|:-------------------------------------------------|
+|  **V** (**V**oid)  | a function without return value                  |
+|  **R** (**R**eturn)  | a function with return value                     |
+|  **P** (**P**redicate)  | a function with return boolean value                  |
+|  **VT** (**V**oid and **T**hrow exception)  | a function without return value + exception      |
+|  **RT** (**R**eturn and **T**hrow exception)  | a function with return value + exception         |
+|  **PT** (**P**redicate and **T**hrow exception)  | a function with return boolean value + exception |
+
 
 They use **numeric suffixes**, where the number indicates the number of function parameters, providing functions with **0 ~ 9** parameters respectively for easier memorization.  
-Below are the interface specifications for the 4 categories:  
+Below are the interface specifications for the **6 categories**:  
 
 
 | Vn |                          Meaning                          |
@@ -435,6 +441,13 @@ Below are the interface specifications for the 4 categories:
 | **...** |                               ......                                | 
 | **R9** |      a function that accepts 9 arguments and produces a result      | 
 
+|   Pn    |                             Meaning                              |
+|:-------:|:----------------------------------------------------------------:|
+| **P0**  | a function that accepts 0 argument and produces a boolean result | 
+| **P1**  | a function that accepts 1 argument and produces a boolean result | 
+| **...** |                              ......                              | 
+| **P9**  |    a function that accepts 9 arguments and produces a boolean result    | 
+
 | VTn |                               Meaning                               |
 | :----:|:-------------------------------------------------------------------:|
 | **VT0** |  accepts 0 argument and returns no result, and will throw exception | 
@@ -448,6 +461,13 @@ Below are the interface specifications for the 4 categories:
 | **RT1** |        accepts 1 argument and produces a result, and will throw exception         | 
 | **...** |                                      ......                                       | 
 | **RT9** |        accepts 9 arguments and produces a result, and will throw exception        | 
+
+|   PTn   |                                      Meaning                                      |
+|:-------:|:---------------------------------------------------------------------------------:|
+| **PT0** |        accepts 0 argument and produces a boolean result, and will throw exception         | 
+| **PT1** |        accepts 1 argument and produces a boolean result, and will throw exception         | 
+| **...** |                                      ......                                       | 
+| **PT9** |        accepts 9 arguments and produces a boolean result, and will throw exception        | 
 
 
 ### Functional Interface Implementation

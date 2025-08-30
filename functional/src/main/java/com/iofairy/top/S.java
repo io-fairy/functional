@@ -17,6 +17,7 @@ package com.iofairy.top;
 
 import com.iofairy.except.UnexpectedParameterException;
 import com.iofairy.range.Range;
+import com.iofairy.tcf.Try;
 import com.iofairy.top.base.PaddingStrategy;
 import com.iofairy.tuple.Tuple;
 import com.iofairy.tuple.Tuple2;
@@ -1033,5 +1034,23 @@ public final class S {
         return String.join("", Collections.nCopies(repeatTimes, str));
     }
 
+    /**
+     * To check if a string can be converted to a {@code double} without losing precision<br>
+     * 判断一个字符串是否能转成{@code double}类型，且不失真
+     *
+     * @param str a string
+     * @return {@code true} if the string can be converted to a {@code double} without losing precision, otherwise {@code false}
+     * @since 0.6.0
+     */
+    public static boolean isDouble(String str) {
+        Double d = Try.tcfs(() -> Double.parseDouble(str));
+        if (d == null) return false;
+        int extraLength = str.startsWith("-") || str.startsWith("+") ? 1 : 0;
+        final String[] split = str.split("\\.");
+        // 字符串总长度 <= 17 且 整数部分 <= 15 且 小数部分 <= 9，这样能保证字符串转成 double 不失真。如果带符号，则判断的长度+1，符号不影响精度。
+        return str.length() <= (17 + extraLength)
+                && split[0].length() <= (15 + extraLength)
+                && Try.tcfs(() -> split[1].length(), 0) <= 9;
+    }
 
 }

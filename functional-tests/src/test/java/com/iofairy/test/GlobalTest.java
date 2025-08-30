@@ -2307,4 +2307,35 @@ public class GlobalTest {
         assertEquals(G.toString(divide11), "NaN");
     }
 
+    @Test
+    public void testIsValidDouble() {
+        String s1 = "94965465465165.5445646546";
+        String s2 = "9496546546516567.5445646546";
+        String s3 = "0.949654654";
+        String s4 = "9999991.999999998";
+        String s5 = "999999199999848";
+        String s6 = "9999991999998489";
+        String s7 = ".999999998";
+        String s8 = "a.999999998";
+        String s9 = "-9999991.999999998";
+
+
+        assertFalse(S.isDouble(s1));
+        assertFalse(S.isDouble(s2));
+        assertTrue(S.isDouble(s3));
+        assertTrue(S.isDouble(s4));
+        assertTrue(S.isDouble(s5));
+        assertFalse(S.isDouble(s6));
+        assertTrue(S.isDouble(s7));
+        assertFalse(S.isDouble(s8));
+        assertTrue(S.isDouble(s9));
+
+        assertEquals(s3, G.toString(Double.valueOf(s3), 10));
+        assertEquals(s4, G.toString(Double.valueOf(s4), 10));
+        assertEquals(s5 + ".0", G.toString(Double.valueOf(s5), 10));
+        assertEquals("0" + s7, G.toString(Double.valueOf(s7), 10));
+        assertEquals(s9, G.toString(Double.valueOf(s9), 10));
+
+    }
+
 }

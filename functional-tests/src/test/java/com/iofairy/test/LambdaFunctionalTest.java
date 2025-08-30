@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author GG
  */
-public class FunctionalTest {
+public class LambdaFunctionalTest {
 
     @Test
     public void testV2() {

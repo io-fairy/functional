@@ -153,8 +153,8 @@ public class RangesTest {
         assertEquals(dbRange.toString(), "[-9032565856500000000.69420144556655484565455, 1.4654654649494616165]");
         assertEquals(G.toString(dbRange.lowerBound, 30), "-9032565856500000000.69420144556655484565455");
         assertEquals(dtRange1.toString(), "('2025-07-06 18:50:00', '2025-07-07 10:02:00']");
-        assertEquals(dtRange2.toString(DateTimes.CONCISE_DTF), "('2025-07-06 18:50:00.000 [UTC +00:00]', '2025-07-07 10:02:00.000 [UTC +00:00]']");
-        assertEquals(dtRange3.toString(DateTimes.CONCISE_DTF), "('2025-07-06 18:50:20.000 [UTC +00:00]', '2025-07-07 10:02:16.000 [UTC +00:00]']");
+        assertEquals(dtRange2.toString(DateTimes.DTF_MS_ZONE_OFFSET), "('2025-07-06 18:50:00.000 [UTC +00:00]', '2025-07-07 10:02:00.000 [UTC +00:00]']");
+        assertEquals(dtRange3.toString(DateTimes.DTF_MS_ZONE_OFFSET), "('2025-07-06 18:50:20.000 [UTC +00:00]', '2025-07-07 10:02:16.000 [UTC +00:00]']");
         assertEquals(dtRange4.toString(), "('2025-01-01 00:00:00', '2025-08-19 10:50:19']");
         assertEquals(dtRange5.toString(), "('1970-01-01 08:00:00', '1970-01-01 08:00:00')");
     }
@@ -165,7 +165,7 @@ public class RangesTest {
         String s02 = "∅";
         String s03 = "[-∞ ,  -1]";
         String s04 = "[ '2025/01/01' ,   '2025/3/1')";
-        String s05 = "[-9032565856500000000.69420144556655484565455 ,  1.5]";
+        String s05 = "[-9032658.694256587 ,  1.5]";
         String s06 = "[-903256585 ,  1]";
         String s07 = "[-9032565856500000000.69420144556655484565455 ,  1.4654654649494616165]";
         String s08 = "(-∞ ,  +∞]";
@@ -233,7 +233,7 @@ public class RangesTest {
         assertSame(class02, Integer.class);
         assertSame(class03, Long.class);
         assertSame(class04, DateTime.class);
-        assertSame(class05, BigDecimal.class);
+        assertSame(class05, Double.class);
         assertSame(class06, Long.class);
         assertSame(class07, BigDecimal.class);
         assertSame(class08, Integer.class);

@@ -302,9 +302,17 @@ public class TZ {
      */
     public static final ZoneId DILI = getZoneId("Asia/Dili");
     /**
+     * <b>文莱(+08:00)</b> Time Zone
+     */
+    public static final ZoneId BRUNEI = getZoneId("Asia/Brunei");
+    /**
      * <b>沙特阿拉伯➤利雅得(+03:00)</b> Time Zone
      */
     public static final ZoneId RIYADH = getZoneId("Asia/Riyadh");
+    /**
+     * <b>马尔代夫(+05:00)</b> Time Zone
+     */
+    public static final ZoneId MALDIVES = getZoneId("Indian/Maldives");
     /**
      * <b>埃及(+02:00)</b> Time Zone
      */

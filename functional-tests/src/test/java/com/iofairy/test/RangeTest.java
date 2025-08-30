@@ -59,8 +59,8 @@ public class RangeTest {
         System.out.println("range09: " + range09 + " --- " + range09.toSimpleString());
         System.out.println("range10: " + range10 + " --- " + range10.toSimpleString());
         System.out.println("range11: " + range11 + " --- " + range11.toSimpleString());
-        System.out.println("range11: " + range11 + " --- " + range11.toString(DateTimes.DETAILED_ZONED_DTF.withZone(TZ.UTC)));
-        System.out.println("range11: " + range11 + " --- " + range11.toString(DateTimes.DETAILED_ZONED_DTF.withZone(TZ.UTC), true));
+        System.out.println("range11: " + range11 + " --- " + range11.toString(DateTimes.DTF_NS_ZONE_OFFSET.withZone(TZ.UTC)));
+        System.out.println("range11: " + range11 + " --- " + range11.toString(DateTimes.DTF_NS_ZONE_OFFSET.withZone(TZ.UTC), true));
 
 
         assertEquals(range01 + " --- " + range01.toSimpleString(), "(-∞, +∞) --- (-∞, +∞)");
@@ -74,8 +74,8 @@ public class RangeTest {
         assertEquals(range09 + " --- " + range09.toSimpleString(), "[''', 'A') --- [''', 'A')");
         assertEquals(range10 + " --- " + range10.toSimpleString(), "[\"hello\", \"world\") --- [\"hello\", \"world\")");
         assertEquals(range11 + " --- " + range11.toSimpleString(), "['2024-01-30 10:20:05', '2024-02-01 10:20:05') --- ['2024-01-30 10:20:05', '2024-02-01 10:20:05')");
-        assertEquals(range11 + " --- " + range11.toString(DateTimes.DETAILED_ZONED_DTF.withZone(TZ.UTC)), "['2024-01-30 10:20:05', '2024-02-01 10:20:05') --- ['2024-01-30 02:20:05.000000000 [UTC +00:00 GMT 周二]', '2024-02-01 02:20:05.000000000 [UTC +00:00 GMT 周四]')");
-        assertEquals(range11 + " --- " + range11.toString(DateTimes.DETAILED_ZONED_DTF.withZone(TZ.UTC), true), "['2024-01-30 10:20:05', '2024-02-01 10:20:05') --- [1706581205000, 1706754005000)");
+        assertEquals(range11 + " --- " + range11.toString(DateTimes.DTF_NS_ZONE_OFFSET.withZone(TZ.UTC)), "['2024-01-30 10:20:05', '2024-02-01 10:20:05') --- ['2024-01-30 02:20:05.000000000 [UTC +00:00 GMT 周二]', '2024-02-01 02:20:05.000000000 [UTC +00:00 GMT 周四]')");
+        assertEquals(range11 + " --- " + range11.toString(DateTimes.DTF_NS_ZONE_OFFSET.withZone(TZ.UTC), true), "['2024-01-30 10:20:05', '2024-02-01 10:20:05') --- [1706581205000, 1706754005000)");
         System.out.println("============================================================");
 
         boolean contains01 = range01.contains(new BigDecimal("-0.0"));

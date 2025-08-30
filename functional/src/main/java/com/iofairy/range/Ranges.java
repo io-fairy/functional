@@ -96,7 +96,7 @@ public class Ranges {
         Matcher matcher1 = LEFT_INFINITY_RANGE.matcher(centerSection);
         Matcher matcher2 = RIGHT_INFINITY_RANGE.matcher(centerSection);
         String str = matcher1.matches() ? matcher1.group(1).trim() : (matcher2.matches() ? matcher2.group(1).trim() : null);
-        if (str != null) {
+        if (str != null) {  /*存在一侧是无限值的情况*/
             checkArgument(S.isBlank(str), "The string '${?}' cannot be parsed to a `Range` instance. ", rangeStr);
 
             BigDecimal big = Try.tcf(() -> new BigDecimal(str), false);
@@ -108,10 +108,10 @@ public class Ranges {
                 if (intClass != null) {
                     return isMaybeTimestamp(str, maybeTimestamp) ? DateTime.class : intClass;
                 } else {
-                    return BigDecimal.class;
+                    return S.isDouble(str) ? Double.class : BigDecimal.class;
                 }
             }
-        } else {
+        } else {    /*不存在无限值*/
             if (centerSection.startsWith("'")) {
                 matcher1 = CHAR_RANGE.matcher(centerSection);
                 matcher2 = STRING_RANGE.matcher(centerSection);
@@ -132,7 +132,11 @@ public class Ranges {
                 }
 
                 matcher2 = DOUBLE_RANGE.matcher(centerSection);
-                if (matcher2.matches()) return BigDecimal.class;
+                if (matcher2.matches()) {
+                    String left = matcher2.group(1).trim();
+                    String right = matcher2.group(3).trim();
+                    return S.isDouble(left) && S.isDouble(right) ? Double.class : BigDecimal.class;
+                }
             }
         }
 

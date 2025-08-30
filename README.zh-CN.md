@@ -406,47 +406,64 @@ assertEquals("${NAME}--20--tom--${ID}--${height}--${_1}--${_2}", parse);
 2. 如果有仔细观察过这些函数式接口，会发现这些接口所表示的函数最多只有两个参数，如果要使用3个及以上的函数，就要自己构造
 3. 对于抛出异常的函数或Lambda表达式无法很好的支持，必须使用try catch才能正常使用，而不能继续向外抛出异常
 
-#### 而Functional提供了4种类别、40个基础的函数式接口，涵盖了以上5种类别所提供的所有函数，且将原本仅支持 2个参数 扩展到多达 9个参数 的函数，并扩展了支持抛出异常的函数式接口。
-**4种类别：**
+#### 🔥而Functional提供了6种类别、60个基础的函数式接口，涵盖了以上5种类别所提供的所有函数，且将原本仅支持 2个参数 扩展到多达 9个参数 的函数，并扩展了支持抛出异常的函数式接口。
 
-+ **V** (**V**oid)系：表示无返回值的函数
+**6种类别：**
 
-+ **R** (**R**eturn)系：表示有返回值的函数
+| 🔥新接口类型         | 含义                       |
+|:--------------|:-------------------------|
+| **V** (**V**oid)系 | 表示无返回值的函数  | 
+| **R** (**R**eturn)系 | 表示有返回值的函数  | 
+| **P** (**P**redicate)系 | 表示返回值为boolean的函数 | 
+| **VT** (**V**oid and **T**hrow exception)系 | 表示无返回值且可抛出异常的函数 | 
+| **RT** (**R**eturn and **T**hrow exception)系 | 表示有返回值且可抛出异常的函数  | 
+| **PT** (**P**redicate and **T**hrow exception)系 | 表示返回值为boolean且可抛出异常的函数 | 
 
-+ **VT** (**V**oid and **T**hrow exception)系：表示无返回值且抛出异常的函数
-
-+ **RT** (**R**eturn and **T**hrow exception)系：表示有返回值且抛出异常的函数
 
 采用数字结尾，数字表示的是函数的参数个数，分别提供 **0 ~ 9** 个参数的函数，方便记忆。
-以下是4种类别的接口说明：
+以下是**6种类别**的接口说明：
 
 | Vn | 含义 |
 | :----:| :----: |
-| **V0** | 无参数，无返回值 (a function that accepts 0 argument and returns no result) | 
-| **V1** | 1个参数，无返回值 (a function that accepts 1 argument and returns no result) | 
+| **V0** | 无参数，无返回值 | 
+| **V1** | 1个参数，无返回值 | 
 | **...** | ...... | 
-| **V9** | 9个参数，无返回值 (a function that accepts 9 arguments and returns no result) | 
+| **V9** | 9个参数，无返回值 | 
 
 | Rn | 含义 |
 | :----:| :----: |
-| **R0** | 无参数，但有返回值 (a function that accepts 0 argument and produces a result) | 
-| **R1** | 1个参数，且有返回值 (a function that accepts 1 argument and produces a result) | 
+| **R0** | 无参数，但有返回值 | 
+| **R1** | 1个参数，且有返回值 | 
 | **...** | ...... | 
-| **R9** | 9个参数，且有返回值 (a function that accepts 9 arguments and produces a result) | 
+| **R9** | 9个参数，且有返回值 | 
+
+|   Pn    | 含义 |
+|:-------:| :----: |
+| **P0**  | 无参数，返回值为boolean | 
+| **P1**  | 1个参数，返回值为boolean | 
+| **...** | ...... | 
+|  **P9**  | 9个参数，返回值为boolean | 
 
 | VTn | 含义 |
 | :----:| :----: |
-| **VT0** | 无参数，无返回值且抛出异常 (accepts 0 argument and returns no result, and will throw exception) | 
-| **VT1** | 1个参数，无返回值且抛出异常 (accepts 1 argument and returns no result, and will throw exception) | 
+| **VT0** | 无参数，无返回值且抛出异常 | 
+| **VT1** | 1个参数，无返回值且抛出异常 | 
 | **...** | ...... | 
-| **VT9** | 9个参数，无返回值且抛出异常 (accepts 9 arguments and returns no result, and will throw exception) | 
+| **VT9** | 9个参数，无返回值且抛出异常 | 
 
 | RTn | 含义 |
 | :----:| :----: |
-| **RT0** | 无参数，但有返回值且抛出异常 (accepts 0 argument and produces a result, and will throw exception) | 
-| **RT1** | 1个参数，有返回值且抛出异常 (accepts 1 argument and produces a result, and will throw exception) | 
+| **RT0** | 无参数，但有返回值且抛出异常 | 
+| **RT1** | 1个参数，有返回值且抛出异常 | 
 | **...** | ...... | 
-| **RT9** | 9个参数，有返回值且抛出异常 (accepts 9 arguments and produces a result, and will throw exception) | 
+| **RT9** | 9个参数，有返回值且抛出异常 | 
+
+|   PTn   | 含义 |
+|:-------:| :----: |
+| **PT0** | 无参数，返回值为boolean且抛出异常 | 
+| **PT1** | 1个参数，返回值为boolean且抛出异常 | 
+| **...** | ...... | 
+| **PT9**  | 9个参数，返回值为boolean且抛出异常 | 
 
 
 ### Functional函数式接口使用  
