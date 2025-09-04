@@ -51,6 +51,8 @@ English | [简体中文](./README.zh-CN.md)
     - [Time Offset Calculations](#time-offset-calculations)
     - [Time Interval Calculation](#time-interval-calculation)
 - [🕒Stopwatch](#stopwatch)
+- [📝**Swagger Configuration** for `DateTime` and `Range`](#swagger-configuration-for-datetime-and-range)
+
 
 
 # 🚀Quick Start
@@ -832,6 +834,31 @@ Stopwatch.Elapsed elapsed = stopwatch.elapsed(0, 3);
 System.out.println("Time elapsed from Business 1 start to Business 3 completion: " + elapsed + "---" + elapsed.toFullString()); // output: Time elapsed from Business 1 start to Business 3 completion: 3.034(秒)---3.034(秒) (index: 0 -> 3, mark: START -> MARK3)
 
 ```
+
+
+## 📝Swagger Configuration for `DateTime` and `Range`
+To enhance the readability of Swagger documentation for `DateTime` and `Range` classes, it is recommended to add the following configuration to your project:  
+```java
+import com.iofairy.range.Range;
+import com.iofairy.time.DateTime;
+import com.fasterxml.classmate.TypeResolver;
+import springfox.documentation.spring.web.plugins.Docket;
+
+@Bean
+public Docket api() {
+  TypeResolver typeResolver = new TypeResolver();
+
+  return new Docket(DocumentationType.OAS_30)
+          .apiInfo(apiInfo())
+          // ... 
+          .select()
+          .build()
+          .directModelSubstitute(DateTime.class, String.class)      // substitute DateTime with String
+          .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Range.class, WildcardType.class), String.class, 0));  // substitute Range with String
+}
+
+```
+
 
 
 

@@ -73,6 +73,7 @@ implementation 'com.iofairy:functional:0.6.0'
     - [时间偏移(时间加减)](#时间偏移时间加减)
     - [计算两个时间间隔](#计算两个时间间隔)
 - [🕒秒表`Stopwatch`](#秒表Stopwatch)
+- [📝`DateTime`与`Range`类的Swagger配置](#DateTime与Range类的Swagger配置)
 
 
 ## 📘增强版switch（简单的模式匹配）
@@ -821,6 +822,31 @@ Stopwatch.Elapsed elapsed = stopwatch.elapsed(0, 3);
 System.out.println("业务1开始到业务3完成所耗时间：" + elapsed + "---" + elapsed.toFullString()); // 输出：业务1开始到业务3完成所耗时间：3.034(秒)---3.034(秒) (index: 0 -> 3, mark: START -> MARK3)
 
 ```
+
+
+## 📝DateTime与Range类的Swagger配置
+为了更友好的查看包含`DateTime`与`Range`类的Swagger文档，建议在你的项目中添加如下配置：
+```java
+import com.iofairy.range.Range;
+import com.iofairy.time.DateTime;
+import com.fasterxml.classmate.TypeResolver;
+import springfox.documentation.spring.web.plugins.Docket;
+
+@Bean
+public Docket api() {
+  TypeResolver typeResolver = new TypeResolver();
+
+  return new Docket(DocumentationType.OAS_30)
+          .apiInfo(apiInfo())
+          // ... 
+          .select()
+          .build()
+          .directModelSubstitute(DateTime.class, String.class)      // DateTime 类替换为 String
+          .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Range.class, WildcardType.class), String.class, 0));  // Range 类替换为 String
+}
+
+```
+
 
 
 
