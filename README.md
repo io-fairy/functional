@@ -838,9 +838,12 @@ System.out.println("Time elapsed from Business 1 start to Business 3 completion:
 
 ## 📝Swagger Configuration for `DateTime` and `Range`
 To enhance the readability of Swagger documentation for `DateTime` and `Range` classes, it is recommended to add the following configuration to your project:  
+
+- **Use** `springfox-swagger-ui`
 ```java
 import com.iofairy.range.Range;
 import com.iofairy.time.DateTime;
+import java.util.Date;
 import com.fasterxml.classmate.TypeResolver;
 import springfox.documentation.spring.web.plugins.Docket;
 
@@ -853,11 +856,42 @@ public Docket api() {
           // ... 
           .select()
           .build()
-          .directModelSubstitute(DateTime.class, String.class)      // substitute DateTime with String
+          .directModelSubstitute(DateTime.class, Date.class)            // substitute DateTime with Date
+          // .directModelSubstitute(DateTime.class, String.class)       // substitute DateTime with String
           .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Range.class, WildcardType.class), String.class, 0));  // substitute Range with String
 }
 
 ```
+
+- **Use** `springdoc-openapi-starter-webmvc-ui`
+```java
+import com.iofairy.range.Range;
+import com.iofairy.time.DateTime;
+import java.util.Date;
+import io.swagger.v3.oas.models.OpenAPI;
+import org.springdoc.core.utils.SpringDocUtils;
+
+@Bean
+public OpenAPI springOpenAPI() {
+    Info info = new Info().title("spring API")
+            .description("Spring sample application")
+            .version("v0.0.1")
+            .license(new License().name("Apache 2.0").url("http://springdoc.org"));
+    ExternalDocumentation documentation = new ExternalDocumentation()
+            .description("spring Wiki Documentation")
+            .url("https://spring.wiki.github.org/docs");
+
+    SpringDocUtils.getConfig().replaceWithClass(DateTime.class, Date.class);    // substitute DateTime with Date
+    SpringDocUtils.getConfig().replaceWithClass(Range.class, String.class);     // substitute Range with String
+
+    return new OpenAPI()
+            .info(info)
+            .externalDocs(documentation);
+}
+
+```
+
+
 
 
 

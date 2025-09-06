@@ -826,9 +826,12 @@ System.out.println("业务1开始到业务3完成所耗时间：" + elapsed + "-
 
 ## 📝DateTime与Range类的Swagger配置
 为了更友好的查看包含`DateTime`与`Range`类的Swagger文档，建议在你的项目中添加如下配置：
+
+- **使用**`springfox-swagger-ui`
 ```java
 import com.iofairy.range.Range;
 import com.iofairy.time.DateTime;
+import java.util.Date;
 import com.fasterxml.classmate.TypeResolver;
 import springfox.documentation.spring.web.plugins.Docket;
 
@@ -841,12 +844,40 @@ public Docket api() {
           // ... 
           .select()
           .build()
-          .directModelSubstitute(DateTime.class, String.class)      // DateTime 类替换为 String
+          .directModelSubstitute(DateTime.class, Date.class)            // substitute DateTime with Date
+          // .directModelSubstitute(DateTime.class, String.class)       // substitute DateTime with String
           .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Range.class, WildcardType.class), String.class, 0));  // Range 类替换为 String
 }
 
 ```
 
+- **使用**`springdoc-openapi-starter-webmvc-ui`
+```java
+import com.iofairy.range.Range;
+import com.iofairy.time.DateTime;
+import java.util.Date;
+import io.swagger.v3.oas.models.OpenAPI;
+import org.springdoc.core.utils.SpringDocUtils;
+
+@Bean
+public OpenAPI springOpenAPI() {
+    Info info = new Info().title("spring API")
+            .description("Spring sample application")
+            .version("v0.0.1")
+            .license(new License().name("Apache 2.0").url("http://springdoc.org"));
+    ExternalDocumentation documentation = new ExternalDocumentation()
+            .description("spring Wiki Documentation")
+            .url("https://spring.wiki.github.org/docs");
+
+    SpringDocUtils.getConfig().replaceWithClass(DateTime.class, Date.class);    // substitute DateTime with Date
+    SpringDocUtils.getConfig().replaceWithClass(Range.class, String.class);     // substitute Range with String
+
+    return new OpenAPI()
+            .info(info)
+            .externalDocs(documentation);
+}
+
+```
 
 
 
