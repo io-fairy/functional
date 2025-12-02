@@ -26,7 +26,9 @@ public final class Top {
 
     /**
      * Nul <br>
-     * NOTE: Can't create {@code Nul.java} file on Windows systems.
+     * NOTE: The error occurs when attempting to create a file named {@code Nul.java} on <b>Windows 10</b>, which reports: "The specified device name is invalid. ".
+     * While the same operation succeeds on <b>Windows 11</b>. <br>
+     * 注意：在<b>Windows 10</b>上尝试创建名为 {@code Nul.java} 的文件时，会报错："指定的设备名无效。"。 而在<b>Windows 11</b>上操作成功。
      *
      * @since 0.3.6
      */

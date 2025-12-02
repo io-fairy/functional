@@ -15,7 +15,8 @@
  */
 
 module iofairy.functional {
-    requires java.logging;
+    requires transitive java.logging;
+    requires transitive java.sql;
 
     exports com.iofairy.annos;
     exports com.iofairy.base;

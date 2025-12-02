@@ -140,6 +140,10 @@ public final class DateTimes {
         return ZoneOffset.ofTotalSeconds(calendar.getTimeZone().getOffset(calendar.getTimeInMillis()) / 1000);
     }
 
+    public static Date nowDate() {
+        return new Date();
+    }
+
     /**
      * Convert local Date object to another timezone <br>
      * 将默认Date时间对象转成另一个时区的Date对象
@@ -708,8 +712,8 @@ public final class DateTimes {
      */
     public static String dtSimple(Date date) {
         if (date == null) return "null";
-        String className = date.getClass().getName();
-        if (Objects.equals(className, "java.sql.Date") || Objects.equals(className, "java.sql.Time")) return date.toString();
+        Class<? extends Date> dateClass = date.getClass();
+        if (java.sql.Date.class == dateClass || java.sql.Time.class == dateClass) return date.toString();
 
         return dtSimple(date.toInstant());
     }
@@ -764,8 +768,8 @@ public final class DateTimes {
      */
     public static String dtDetail(Date date) {
         if (date == null) return "null";
-        String className = date.getClass().getName();
-        if (Objects.equals(className, "java.sql.Date") || Objects.equals(className, "java.sql.Time")) return date.toString();
+        Class<? extends Date> dateClass = date.getClass();
+        if (java.sql.Date.class == dateClass || java.sql.Time.class == dateClass) return date.toString();
 
         return dtDetail(date.toInstant());
     }

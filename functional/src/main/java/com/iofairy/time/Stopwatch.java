@@ -219,8 +219,23 @@ public class Stopwatch {
      * @return 离上次标记点所经过的时间，如果 {@code isRunning == false}，则返回停止点到上次标记点的时间
      */
     public long elapsedLastAndMark(TimeUnit unit) {
+        return elapsedLastAndMark(unit, null);
+    }
+
+    /**
+     * 离上次标记点所经过的时间并<b>打个标记点{@link #mark(String)}</b>，如果 {@code isRunning == false}，则返回停止点到上次标记点的时间
+     *
+     * @param unit     时间单位
+     * @param markName 标记点名称
+     * @return 离上次标记点所经过的时间，如果 {@code isRunning == false}，则返回停止点到上次标记点的时间
+     */
+    public long elapsedLastAndMark(TimeUnit unit, String markName) {
         long elapsed = elapsedLast(unit);
-        mark();
+        if (markName == null) {
+            mark();
+        } else {
+            mark(markName);
+        }
         return elapsed;
     }
 
@@ -231,8 +246,23 @@ public class Stopwatch {
      * @return 离上次标记点所经过的时间（精确到小数点后4位），如果 {@code isRunning == false}，则返回停止点到上次标记点的时间
      */
     public double elapsedLastExactAndMark(TimeUnit unit) {
+        return elapsedLastExactAndMark(unit, null);
+    }
+
+    /**
+     * 离上次标记点所经过的时间（精确到小数点后4位）并<b>打个标记点{@link #mark(String)}</b>，如果 {@code isRunning == false}，则返回停止点到上次标记点的时间
+     *
+     * @param unit     时间单位
+     * @param markName 标记点名称
+     * @return 离上次标记点所经过的时间（精确到小数点后4位），如果 {@code isRunning == false}，则返回停止点到上次标记点的时间
+     */
+    public double elapsedLastExactAndMark(TimeUnit unit, String markName) {
         double elapsedLastExact = elapsedLastExact(unit);
-        mark();
+        if (markName == null) {
+            mark();
+        } else {
+            mark(markName);
+        }
         return elapsedLastExact;
     }
 
@@ -242,8 +272,22 @@ public class Stopwatch {
      * @return 离上次标记点所经过的时间，如果 {@code isRunning == false}，则返回停止点到上次标记点的时间
      */
     public Duration elapsedLastAndMark() {
+        return elapsedLastAndMark((String) null);
+    }
+
+    /**
+     * 离上次标记点所经过的时间并<b>打个标记点{@link #mark(String)}</b>，如果 {@code isRunning == false}，则返回停止点到上次标记点的时间
+     *
+     * @param markName 标记点名称
+     * @return 离上次标记点所经过的时间，如果 {@code isRunning == false}，则返回停止点到上次标记点的时间
+     */
+    public Duration elapsedLastAndMark(String markName) {
         Duration elapsedLast = elapsedLast();
-        mark();
+        if (markName == null) {
+            mark();
+        } else {
+            mark(markName);
+        }
         return elapsedLast;
     }
 
@@ -253,8 +297,22 @@ public class Stopwatch {
      * @return 离上次标记点所经过的时间格式化后的字符串，如果 {@code isRunning == false}，则返回停止点到上次标记点的时间格式化后的字符串
      */
     public String elapsedLastStringAndMark() {
+        return elapsedLastStringAndMark(null);
+    }
+
+    /**
+     * 离上次标记点所经过的时间格式化后的字符串并<b>打个标记点{@link #mark(String)}</b>，如果 {@code isRunning == false}，则返回停止点到上次标记点的时间格式化后的字符串
+     *
+     * @param markName 标记点名称
+     * @return 离上次标记点所经过的时间格式化后的字符串，如果 {@code isRunning == false}，则返回停止点到上次标记点的时间格式化后的字符串
+     */
+    public String elapsedLastStringAndMark(String markName) {
         String elapsedString = elapsedLastString();
-        mark();
+        if (markName == null) {
+            mark();
+        } else {
+            mark(markName);
+        }
         return elapsedString;
     }
 

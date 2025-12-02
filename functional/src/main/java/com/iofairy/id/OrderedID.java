@@ -69,33 +69,33 @@ public final class OrderedID {
     /**
      * Generate next ID for specified category
      *
-     * @param standbyIdGenerator When classification is not found in {@link #ID_GENERATORS}, the fallback ID generator will be utilized. <br>
-     *                           当{@link #ID_GENERATORS}不存在此classify时，会使用备用ID生成器
+     * @param standbyIdInitializer When classification is not found in {@link #ID_GENERATORS}, the fallback ID initializer will be used to initialize the ID. <br>
+     *                             当{@link #ID_GENERATORS}不存在此classify时，会使用备用的ID初始化器初始化ID
      * @return next id
-     * @throws IDGenerateException when {@code standbyIdGenerator} occur error <br>
+     * @throws IDGenerateException when {@code standbyIdInitializer} occur error <br>
      *                             当standbyIdGenerator生成器发生异常时，抛出此异常
      */
-    public static long nextId(RT1<String, Long, Throwable> standbyIdGenerator) {
-        return nextId("", standbyIdGenerator);
+    public static long nextId(RT1<String, Long, Throwable> standbyIdInitializer) {
+        return nextId("", standbyIdInitializer);
     }
 
     /**
      * Generate next ID for specified category
      *
-     * @param classify           ID category
-     * @param standbyIdGenerator When classification is not found in {@link #ID_GENERATORS}, the fallback ID generator will be utilized. <br>
-     *                           当{@link #ID_GENERATORS}不存在此classify时，会使用备用ID生成器
+     * @param classify             ID category
+     * @param standbyIdInitializer When classification is not found in {@link #ID_GENERATORS}, the fallback ID initializer will be used to initialize the ID. <br>
+     *                             当{@link #ID_GENERATORS}不存在此classify时，会使用备用的ID初始化器初始化ID
      * @return next id
-     * @throws IDGenerateException when {@code standbyIdGenerator} occur error <br>
+     * @throws IDGenerateException when {@code standbyIdInitializer} occur error <br>
      *                             当standbyIdGenerator生成器发生异常时，抛出此异常
      */
-    public static long nextId(final String classify, final RT1<String, Long, Throwable> standbyIdGenerator) {
+    public static long nextId(final String classify, final RT1<String, Long, Throwable> standbyIdInitializer) {
         checkNullNPE(classify, args("classify"));
         return ID_GENERATORS.computeIfAbsent(
                 classify,
                 key -> {
                     try {
-                        return new AtomicLong(standbyIdGenerator == null ? -1L : standbyIdGenerator.$(key));
+                        return new AtomicLong(standbyIdInitializer == null ? -1L : standbyIdInitializer.$(key));
                     } catch (Throwable e) {
                         throw new IDGenerateException(e, ERROR_MSG, key);
                     }

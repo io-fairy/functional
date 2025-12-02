@@ -20,11 +20,13 @@ import com.iofairy.os.OS;
 import com.iofairy.range.IntervalType;
 import com.iofairy.range.Range;
 import com.iofairy.si.SI;
+import com.iofairy.top.O;
 import com.iofairy.top.S;
 import com.iofairy.tuple.Tuple;
 import com.iofairy.tuple.Tuple2;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -89,28 +91,34 @@ public class DateTime implements Temporal, Comparable<DateTime>, Serializable {
     /**
      * excluded classes
      */
-    private static final List<String> EXCLUDED_CLASS_NAMES = Arrays.asList("java.sql.Date", "java.sql.Time");
+    private static final List<String> EXCLUDED_CLASS_NAMES = Collections.singletonList("java.sql.Time");
 
     /**
      * Date time parse error massage template
      */
     private static final String DT_PARSE_ERROR_MSG_TPL = "Text '${text}' could not be parsed, you can specify the DateTime `formatter` manually by calling ${method}. ";
 
+    private static final String ERROR_MSG_FOR_NUMBER_TYPE = "If `dateTime` is of the `Number` type, it must be a `long` type or a type compatible with `long`, " +
+            "and can be converted to `long` without loss of precision. ";
+
     public DateTime(Object dateTime) {
         this(dateTime, true);
     }
 
     private DateTime(Object dateTime, boolean checkValue) {
-        if (dateTime instanceof LocalDate) {
-            dateTime = ((LocalDate) dateTime).atStartOfDay();
-            checkValue = false;
-        }
-        if (dateTime instanceof Long) {
-            dateTime = Instant.ofEpochMilli((long) dateTime);
-            checkValue = false;
-        }
         if (dateTime instanceof CharSequence) {
             dateTime = parse(dateTime.toString());
+            checkValue = false;
+        } else if (dateTime instanceof Number) {
+            Number number = (Number) dateTime;
+            checkArgument(number instanceof BigInteger || !O.isInteger(number), ERROR_MSG_FOR_NUMBER_TYPE);
+            dateTime = Instant.ofEpochMilli(number.longValue());
+            checkValue = false;
+        } else if (dateTime instanceof LocalDate) {
+            dateTime = ((LocalDate) dateTime).atStartOfDay();
+            checkValue = false;
+        } else if (dateTime instanceof java.sql.Date) {
+            dateTime = ((java.sql.Date) dateTime).toLocalDate().atStartOfDay();
             checkValue = false;
         }
 
@@ -331,6 +339,18 @@ public class DateTime implements Temporal, Comparable<DateTime>, Serializable {
             @SuppressWarnings("unchecked")
             DT dt = (DT) this;
             return dt;
+        } else if (java.sql.Timestamp.class == clazz) {
+            @SuppressWarnings("unchecked")
+            DT dt = (DT) toTimestamp();
+            return dt;
+        } else if (java.sql.Date.class == clazz) {
+            @SuppressWarnings("unchecked")
+            DT dt = (DT) toSQLDate();
+            return dt;
+        } else if (java.sql.Time.class == clazz) {
+            @SuppressWarnings("unchecked")
+            DT dt = (DT) toTime();
+            return dt;
         } else {
             throw new UnsupportedTemporalTypeException("Unsupported type: [" + clazz + "]");
         }
@@ -380,6 +400,17 @@ public class DateTime implements Temporal, Comparable<DateTime>, Serializable {
         return instant.toEpochMilli();
     }
 
+    public java.sql.Timestamp toTimestamp() {
+        return new java.sql.Timestamp(toEpochMilli());
+    }
+
+    public java.sql.Date toSQLDate() {
+        return new java.sql.Date(toEpochMilli());
+    }
+
+    public java.sql.Time toTime() {
+        return new java.sql.Time(toEpochMilli());
+    }
 
     /**
      * 将 DateTime 转为 {@link TZ#UTC} 时区的 {@code ZonedDateTime}

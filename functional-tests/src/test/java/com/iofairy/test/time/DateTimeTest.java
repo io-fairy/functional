@@ -6,6 +6,7 @@ import com.iofairy.range.Range;
 import com.iofairy.top.G;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigInteger;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.*;
@@ -63,9 +64,21 @@ public class DateTimeTest {
         DateTime dateTime1 = DateTime.of(o1);
         DateTime dateTime2 = DateTime.of(o2);
         DateTime dateTime3 = DateTime.of(o3);
+
+        Object epochMillis = (short) -1;
+        DateTime dateTime4 = DateTime.of(epochMillis);
         assertEquals(dateTime1.dtDetail(), "2022-02-27 08:00:10.056000000 [Asia/Shanghai +08:00 GMT+8 周日]");
         assertEquals(dateTime2.dtDetail(), "2025-08-23 23:50:08.695000000 [Asia/Shanghai +08:00 GMT+8 周六]");
         assertEquals(dateTime3.dtDetail(), "2025-08-23 00:00:00.000000000 [Asia/Shanghai +08:00 GMT+8 周六]");
+        assertEquals(dateTime4.dtDetail(), "1970-01-01 07:59:59.999000000 [Asia/Shanghai +08:00 GMT+8 周四]");
+
+        try {
+            DateTime.of(new BigInteger("1"));
+            throwException();
+        } catch (Exception e) {
+            assertSame(IllegalArgumentException.class, e.getClass());
+            assertEquals("If `dateTime` is of the `Number` type, it must be a `long` type or a type compatible with `long`, and can be converted to `long` without loss of precision. ", e.getMessage());
+        }
 
     }
 
@@ -1869,26 +1882,45 @@ public class DateTimeTest {
         Timestamp timestamp = new Timestamp(timeMillis);
 
         DateTime timestampDT = DateTime.of(timestamp);
+        DateTime sqlDT = DateTime.of(date);
         DateTime timestampDT01 = timestampDT.plusDays(1);
         DateTime timestampDT02 = timestampDT.minusYears(1);
         DateTime timestampDT03 = timestampDT.minusDays(-10);
         DateTime timestampDTWithMax = timestampDT.withMax(ChronoUnit.HOURS);
         DateTime timestampDTFill0 = timestampDT.fill0(ChronoUnit.DAYS);
         System.out.println("timestampDT: " + timestampDT);
+        System.out.println("sqlDT: " + sqlDT);
         System.out.println("timestampDT01: " + timestampDT01);
         System.out.println("timestampDT02: " + timestampDT02);
         System.out.println("timestampDT03: " + timestampDT03);
         System.out.println("timestampDTWithMax: " + timestampDTWithMax);
         System.out.println("timestampDTFill0: " + timestampDTFill0);
 
+        java.sql.Date sqlDate = timestampDT.toSQLDate();
+        Time time0 = timestampDT.toDT(Time.class);
+        Timestamp timestamp1 = sqlDT.toTimestamp();
+        java.sql.Date dt = sqlDT.toDT(java.sql.Date.class);
+        Time time1 = sqlDT.toDT(Time.class);
+        System.out.println(sqlDate);
+        System.out.println(time0);
+        System.out.println(timestamp1);
+        System.out.println(dt);
+        System.out.println(time1);
+
         assertEquals("2023-03-05 12:53:10.098", timestampDT.toString());
+        assertEquals("2023-03-05 00:00:00.000", sqlDT.toString());
         assertEquals("2023-03-06 12:53:10.098", timestampDT01.toString());
         assertEquals("2022-03-05 12:53:10.098", timestampDT02.toString());
         assertEquals("2023-03-15 12:53:10.098", timestampDT03.toString());
         assertEquals("2023-03-05 12:59:59.999", timestampDTWithMax.toString());
         assertEquals("2023-03-05 00:00:00.000", timestampDTFill0.toString());
 
-        assertThrows(UnsupportedTemporalTypeException.class, () -> DateTime.of(date));
+        assertEquals("2023-03-05", sqlDate.toString());
+        assertEquals("12:53:10", time0.toString());
+        assertEquals("2023-03-05 00:00:00.0", timestamp1.toString());
+        assertEquals("2023-03-05", dt.toString());
+        assertEquals("00:00:00", time1.toString());
+
         assertThrows(UnsupportedTemporalTypeException.class, () -> DateTime.of(time));
 
     }
@@ -2086,11 +2118,11 @@ public class DateTimeTest {
             assertEquals(e.getMessage(), "Only [java.util.Date, Calendar, LocalDateTime, ZonedDateTime, OffsetDateTime, Instant] is supported for `dateTime` parameter! ");
         }
         try {
-            DateTime.of(java.sql.Date.valueOf(LocalDate.of(2023, 1, 1)));
+            DateTime.of(new Time(DateTime.now().toEpochMilli()));
             throwException();
         } catch (Exception e) {
             assertSame(e.getClass(), UnsupportedTemporalTypeException.class);
-            assertEquals(e.getMessage(), "[java.sql.Date, java.sql.Time] are unsupported here, you can convert it to the `java.util.Date` first! ");
+            assertEquals(e.getMessage(), "[java.sql.Time] are unsupported here, you can convert it to the `java.util.Date` first! ");
         }
     }
 
