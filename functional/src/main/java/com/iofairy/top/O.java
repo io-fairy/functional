@@ -171,7 +171,7 @@ public final class O {
      *
      * @param rs  list of elements to check
      * @param <R> return type
-     * @return first non {@code null} object
+     * @return first not {@code null} object
      * @since 0.0.7
      */
     @SafeVarargs
@@ -198,6 +198,80 @@ public final class O {
         for (int i = 0; i < rs.length; i++) {
             R r = rs[i];
             if (r != null) return Tuple.of(r, i);
+        }
+        return null;
+    }
+
+    /**
+     * Gets the first CharSequence that is not <b>empty</b>. <br>
+     * 获取第一个不为<b>空</b>的值
+     *
+     * @param rs  list of elements to check
+     * @param <R> return type
+     * @return first not <b>empty</b> CharSequence
+     * @since 0.6.1
+     */
+    @SafeVarargs
+    public static <R extends CharSequence> R firstNonEmpty(R... rs) {
+        if (G.isEmpty(rs)) return null;
+        for (R r : rs) {
+            if (S.isNotEmpty(r)) return r;
+        }
+        return null;
+    }
+
+    /**
+     * Gets the first not <b>empty</b> CharSequence and index {@code (CharSequence, index)}. <br>
+     * 获取第一个不为 <b>空</b> 的值及序号{@code (字符串, 序号)}
+     *
+     * @param rs  list of elements to check
+     * @param <R> return type
+     * @return first not <b>empty</b> CharSequence and index {@code (CharSequence, index)}
+     * @since 0.6.1
+     */
+    @SafeVarargs
+    public static <R extends CharSequence> Tuple2<R, Integer> firstNonEmptyWithIndex(R... rs) {
+        if (G.isEmpty(rs)) return null;
+        for (int i = 0; i < rs.length; i++) {
+            R r = rs[i];
+            if (S.isNotEmpty(r)) return Tuple.of(r, i);
+        }
+        return null;
+    }
+
+    /**
+     * Gets the first CharSequence that is not <b>blank</b>. <br>
+     * 获取第一个不为 <b>空白</b> 的值
+     *
+     * @param rs  list of elements to check
+     * @param <R> return type
+     * @return first not <b>blank</b> CharSequence
+     * @since 0.6.1
+     */
+    @SafeVarargs
+    public static <R extends CharSequence> R firstNonBlank(R... rs) {
+        if (G.isEmpty(rs)) return null;
+        for (R r : rs) {
+            if (S.isNotBlank(r)) return r;
+        }
+        return null;
+    }
+
+    /**
+     * Gets the first not <b>blank</b> CharSequence and index {@code (CharSequence, index)}. <br>
+     * 获取第一个不为 <b>空白</b> 的值及序号{@code (字符串, 序号)}
+     *
+     * @param rs  list of elements to check
+     * @param <R> return type
+     * @return first not <b>blank</b> CharSequence and index {@code (CharSequence, index)}
+     * @since 0.6.1
+     */
+    @SafeVarargs
+    public static <R extends CharSequence> Tuple2<R, Integer> firstNonBlankWithIndex(R... rs) {
+        if (G.isEmpty(rs)) return null;
+        for (int i = 0; i < rs.length; i++) {
+            R r = rs[i];
+            if (S.isNotBlank(r)) return Tuple.of(r, i);
         }
         return null;
     }

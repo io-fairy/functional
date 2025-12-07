@@ -255,6 +255,10 @@ public class GlobalTest {
         Tuple2<String, Integer> s17 = O.firstNotInValuesWithIndex(O.args(null), null, "abc", "a", null, "b");
         Tuple2<String, Integer> s18 = O.firstNotInValuesWithIndex(O.args(null, "abc"), "abc", "abc", null, "a", null, "b");
 
+        Tuple2<String, Integer> s19 = O.firstNonEmptyWithIndex(null, "", "a", null);
+        Tuple2<String, Integer> s20 = O.firstNonBlankWithIndex(null, "", "   ", "a", null);
+        Tuple2<String, Integer> s21 = O.firstNonEmptyWithIndex(null, "", "", null);
+        Tuple2<String, Integer> s22 = O.firstNonBlankWithIndex(null, "", "   ", " ", null);
 
         assertEquals("", s);
         assertNull(s1);
@@ -276,6 +280,10 @@ public class GlobalTest {
         assertEquals(s16, "a");
         assertEquals(s17.toString(), "(null, 0)");
         assertEquals(s18.toString(), "(\"a\", 3)");
+        assertEquals(s19.toString(), "(\"a\", 2)");
+        assertEquals(s20.toString(), "(\"a\", 3)");
+        assertNull(s21);
+        assertNull(s22);
 
     }
 
