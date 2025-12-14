@@ -1,6 +1,7 @@
 package com.iofairy.test;
 
 import com.iofairy.except.UnexpectedParameterException;
+import com.iofairy.lambda.P1;
 import com.iofairy.range.Range;
 import com.iofairy.tcf.Try;
 import com.iofairy.top.*;
@@ -260,6 +261,12 @@ public class GlobalTest {
         Tuple2<String, Integer> s21 = O.firstNonEmptyWithIndex(null, "", "", null);
         Tuple2<String, Integer> s22 = O.firstNonBlankWithIndex(null, "", "   ", " ", null);
 
+        P1<Object> condition = obj -> obj instanceof String && ((String) obj).startsWith("a");
+        Tuple2<String, Integer> s23 = O.firstMatchWithIndex(condition, null, "", "b", "abcd", null);
+        Tuple2<String, Integer> s24 = O.firstMatchWithIndex(condition, null, "", "", null);
+        String s25 = O.firstMatch(condition, null, "", "b", "abcd", null);
+
+
         assertEquals("", s);
         assertNull(s1);
         assertNull(s2);
@@ -284,6 +291,9 @@ public class GlobalTest {
         assertEquals(s20.toString(), "(\"a\", 3)");
         assertNull(s21);
         assertNull(s22);
+        assertEquals(s23.toString(), "(\"abcd\", 3)");
+        assertNull(s24);
+        assertEquals(s25.toString(), "abcd");
 
     }
 

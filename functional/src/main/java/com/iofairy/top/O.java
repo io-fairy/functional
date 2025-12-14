@@ -16,6 +16,7 @@
 package com.iofairy.top;
 
 import com.iofairy.except.UnexpectedTypeException;
+import com.iofairy.lambda.P1;
 import com.iofairy.tuple.Tuple;
 import com.iofairy.tuple.Tuple2;
 
@@ -272,6 +273,45 @@ public final class O {
         for (int i = 0; i < rs.length; i++) {
             R r = rs[i];
             if (S.isNotBlank(r)) return Tuple.of(r, i);
+        }
+        return null;
+    }
+
+    /**
+     * Finds the first element in an array that satisfies a given condition.<br>
+     * 获取第一个满足条件的值
+     *
+     * @param condition A predicate defining the matching condition
+     * @param rs        The array to search through
+     * @param <R>       The type of elements in the array
+     * @return The first matching element
+     * @since 0.6.1
+     */
+    @SafeVarargs
+    public static <R> R firstMatch(P1<? super R> condition, R... rs) {
+        if (G.isEmpty(rs) || condition == null) return null;
+        for (R r : rs) {
+            if (condition.$(r)) return r;
+        }
+        return null;
+    }
+
+    /**
+     * Finds the first element in an array that satisfies a given condition and its index {@code (element, index)}. <br>
+     * 获取第一个满足条件的值及序号{@code (元素, 序号)}
+     *
+     * @param condition A predicate defining the matching condition
+     * @param rs        The array to search through
+     * @param <R>       The type of elements in the array
+     * @return The first matching element and index {@code (element, index)}
+     * @since 0.6.1
+     */
+    @SafeVarargs
+    public static <R> Tuple2<R, Integer> firstMatchWithIndex(P1<? super R> condition, R... rs) {
+        if (G.isEmpty(rs) || condition == null) return null;
+        for (int i = 0; i < rs.length; i++) {
+            R r = rs[i];
+            if (condition.$(r)) return Tuple.of(r, i);
         }
         return null;
     }
