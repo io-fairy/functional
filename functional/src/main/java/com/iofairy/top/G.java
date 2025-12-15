@@ -20,6 +20,7 @@ import com.iofairy.time.DateTimes;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.*;
@@ -210,15 +211,7 @@ public final class G {
         if (o instanceof CharSequence)  return ((CharSequence) o).length() == 0;
         if (o instanceof Map)           return ((Map) o).isEmpty();
         if (o instanceof Collection)    return ((Collection) o).isEmpty();
-        if (o instanceof Object[])      return ((Object[]) o).length == 0;
-        if (o instanceof int[])         return ((int[]) o).length == 0;
-        if (o instanceof long[])        return ((long[]) o).length == 0;
-        if (o instanceof float[])       return ((float[]) o).length == 0;
-        if (o instanceof double[])      return ((double[]) o).length == 0;
-        if (o instanceof char[])        return ((char[]) o).length == 0;
-        if (o instanceof byte[])        return ((byte[]) o).length == 0;
-        if (o instanceof short[])       return ((short[]) o).length == 0;
-        if (o instanceof boolean[])     return ((boolean[]) o).length == 0;
+        if (o.getClass().isArray())     return Array.getLength(o) == 0;
 
         return false;
     }
